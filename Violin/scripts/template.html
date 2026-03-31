@@ -226,6 +226,54 @@ h3 {
   overflow-x: auto;
 }
 .sheet-render svg { width: 100%; height: auto; }
+.sheet-render .abcjs-note.abcjs-note-highlight path,
+.sheet-render .abcjs-note.abcjs-note-highlight circle { fill: var(--accent) !important; opacity: 1; }
+.sheet-render .abcjs-note.abcjs-note-wrong path,
+.sheet-render .abcjs-note.abcjs-note-wrong circle { fill: var(--red) !important; opacity: 1; }
+.sheet-render .abcjs-note.abcjs-note-played path,
+.sheet-render .abcjs-note.abcjs-note-played circle { fill: var(--green) !important; opacity: 0.6; }
+.sheet-note-indicator {
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--accent);
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+/* ── Fingerboard Diagram ── */
+.fingerboard-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+.fingerboard-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  margin-bottom: 12px;
+  font-family: Georgia, 'Times New Roman', serif;
+}
+.fingerboard-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+.fingerboard-note-name {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text);
+  font-family: Georgia, serif;
+  min-width: 50px;
+}
 
 /* ── Pitch Detector ── */
 .pitch-section {
@@ -1255,6 +1303,15 @@ h3 {
     <div class="sheet-render" id="sheetRender"></div>
   </div>
 
+  <!-- Fingerboard Diagram -->
+  <div class="fingerboard-section">
+    <div class="fingerboard-label">Posicao no Espelho</div>
+    <div class="fingerboard-container">
+      <svg id="fingerboardSvg" width="200" height="180" viewBox="0 0 200 180"></svg>
+      <div class="fingerboard-note-name" id="fbNoteName">--</div>
+    </div>
+  </div>
+
   <!-- Pitch Detector -->
   <div class="pitch-section">
     <div class="pitch-header">
@@ -1673,46 +1730,84 @@ const ReferencePlayer = {
 
     const ctx = this.ctx;
     const now = ctx.currentTime;
-    const attack = 0.05;
-    const release = 0.1;
+    const attack = 0.08;
+    const release = 0.15;
     const sustain = Math.max(0.05, durationSec - attack - release);
+    const endTime = now + attack + sustain + release;
 
-    // Sawtooth oscillator (violin-like timbre)
-    const osc = ctx.createOscillator();
-    osc.type = 'sawtooth';
-    osc.frequency.setValueAtTime(freq, now);
-
-    // Low-pass filter to soften harmonics
+    // Low-pass filter (slightly more open for warmth)
     const filter = ctx.createBiquadFilter();
     filter.type = 'lowpass';
-    filter.frequency.setValueAtTime(1500, now);
-    filter.Q.setValueAtTime(0.7, now);
+    filter.frequency.setValueAtTime(2000, now);
+    filter.Q.setValueAtTime(1, now);
 
-    // Gain envelope (attack-sustain-release)
+    // Main gain envelope (bow start - sustain - bow lift)
     const gain = ctx.createGain();
     gain.gain.setValueAtTime(0, now);
-    gain.gain.linearRampToValueAtTime(0.25, now + attack);
-    gain.gain.setValueAtTime(0.25, now + attack + sustain);
-    gain.gain.linearRampToValueAtTime(0, now + attack + sustain + release);
+    gain.gain.linearRampToValueAtTime(0.3, now + attack);
+    gain.gain.setValueAtTime(0.3, now + attack + sustain);
+    gain.gain.linearRampToValueAtTime(0, endTime);
 
-    // Vibrato for longer notes (>0.5s)
-    if (durationSec > 0.5) {
-      const vibrato = ctx.createOscillator();
-      const vibratoGain = ctx.createGain();
-      vibrato.type = 'sine';
-      vibrato.frequency.setValueAtTime(5, now);
-      vibratoGain.gain.setValueAtTime(3, now);
-      vibrato.connect(vibratoGain);
-      vibratoGain.connect(osc.frequency);
-      vibrato.start(now);
-      vibrato.stop(now + durationSec);
-    }
+    // Oscillator 1: sawtooth detuned -3 cents
+    const osc1 = ctx.createOscillator();
+    osc1.type = 'sawtooth';
+    osc1.frequency.setValueAtTime(freq, now);
+    osc1.detune.setValueAtTime(-3, now);
 
-    osc.connect(filter);
+    // Oscillator 2: sawtooth detuned +3 cents (thickness)
+    const osc2 = ctx.createOscillator();
+    osc2.type = 'sawtooth';
+    osc2.frequency.setValueAtTime(freq, now);
+    osc2.detune.setValueAtTime(3, now);
+
+    // Oscillator 3: triangle for warmth (lower volume)
+    const osc3 = ctx.createOscillator();
+    osc3.type = 'triangle';
+    osc3.frequency.setValueAtTime(freq, now);
+    const triGain = ctx.createGain();
+    triGain.gain.setValueAtTime(0.15, now);
+
+    // Vibrato: 5.5Hz LFO, +/-4Hz, starts after 0.2s delay
+    const vibrato = ctx.createOscillator();
+    const vibratoGain = ctx.createGain();
+    vibrato.type = 'sine';
+    vibrato.frequency.setValueAtTime(5.5, now);
+    vibratoGain.gain.setValueAtTime(0, now);
+    vibratoGain.gain.setValueAtTime(0, now + 0.2);
+    vibratoGain.gain.linearRampToValueAtTime(4, now + 0.4);
+    vibrato.connect(vibratoGain);
+    vibratoGain.connect(osc1.frequency);
+    vibratoGain.connect(osc2.frequency);
+    vibratoGain.connect(osc3.frequency);
+
+    // Subtle amplitude modulation: 4Hz at 5% depth (bow pressure variation)
+    const ampMod = ctx.createOscillator();
+    const ampModGain = ctx.createGain();
+    ampMod.type = 'sine';
+    ampMod.frequency.setValueAtTime(4, now);
+    ampModGain.gain.setValueAtTime(0.05 * 0.3, now);
+    ampMod.connect(ampModGain);
+    ampModGain.connect(gain.gain);
+
+    // Connect: oscs -> filter -> gain -> destination
+    osc1.connect(filter);
+    osc2.connect(filter);
+    osc3.connect(triGain);
+    triGain.connect(filter);
     filter.connect(gain);
     gain.connect(ctx.destination);
-    osc.start(now);
-    osc.stop(now + attack + sustain + release + 0.01);
+
+    // Start all oscillators
+    osc1.start(now); osc2.start(now); osc3.start(now);
+    vibrato.start(now); ampMod.start(now);
+
+    // Stop all
+    const stopTime = endTime + 0.01;
+    osc1.stop(stopTime); osc2.stop(stopTime); osc3.stop(stopTime);
+    vibrato.stop(stopTime); ampMod.stop(stopTime);
+
+    // Update fingerboard when reference plays
+    Fingerboard.showNote(noteName, null);
   },
 
   _updateUI(idx, noteName) {
@@ -2005,7 +2100,7 @@ function toggleMic() {
   else startMic();
 }
 
-// ══════════════════════════════════════════
+// ═════════��════════════════════════════════
 // METRONOME (Web Audio Oscillator)
 // ══════════════════════��═══════════════════
 let metroBpm = DATA.bpm;
@@ -2795,6 +2890,225 @@ function getOfflineResponse(text) {
 
   return 'Posso ajudar com varios temas de violino! Pergunte sobre:\n- Tecnica de arco\n- Afinacao e entonacao\n- Postura e posicionamento\n- Mao esquerda e posicoes\n- Uso do metronomo\n- Pratica de escalas\n- Dificuldades e motivacao';
 }
+
+// ══════════════════════════════════════════
+// FINGERBOARD DIAGRAM (SVG)
+// ══════════════════════════════════════════
+const NOTE_TO_POSITION = {
+  'G3':  { string: 0, finger: 0 },
+  'A3':  { string: 0, finger: 1 },
+  'B3':  { string: 0, finger: 2 },
+  'C4':  { string: 0, finger: 3 },
+  'D4':  { string: 1, finger: 0 },
+  'E4':  { string: 1, finger: 1 },
+  'F#4': { string: 1, finger: 2 },
+  'G4':  { string: 1, finger: 3 },
+  'A4':  { string: 2, finger: 0 },
+  'B4':  { string: 2, finger: 1 },
+  'C#5': { string: 2, finger: 2 },
+  'D5':  { string: 2, finger: 3 },
+  'E5':  { string: 3, finger: 0 },
+  'F#5': { string: 3, finger: 1 },
+  'G#5': { string: 3, finger: 2 },
+  'A5':  { string: 3, finger: 3 }
+};
+
+const Fingerboard = {
+  svg: null,
+  stringShort: ['G', 'D', 'A', 'E'],
+  fingerLabels: ['0', '1', '2', '3'],
+  padLeft: 30,
+  padTop: 28,
+  stringSpacing: 38,
+  fingerSpacing: 36,
+
+  init() {
+    this.svg = document.getElementById('fingerboardSvg');
+    if (!this.svg) return;
+    const ns = 'http://www.w3.org/2000/svg';
+    this.svg.innerHTML = '';
+    const sL = this.padLeft;
+    const sT = this.padTop;
+    const sSpacing = this.stringSpacing;
+    const fSpacing = this.fingerSpacing;
+
+    // Background
+    const bg = document.createElementNS(ns, 'rect');
+    bg.setAttribute('width', '200'); bg.setAttribute('height', '180');
+    bg.setAttribute('fill', 'var(--bg-elevated)'); bg.setAttribute('rx', '8');
+    this.svg.appendChild(bg);
+
+    // Nut (thick top line)
+    const nut = document.createElementNS(ns, 'line');
+    nut.setAttribute('x1', sL - 8); nut.setAttribute('y1', sT);
+    nut.setAttribute('x2', sL + sSpacing * 3 + 8); nut.setAttribute('y2', sT);
+    nut.setAttribute('stroke', 'var(--text-secondary)'); nut.setAttribute('stroke-width', '3');
+    this.svg.appendChild(nut);
+
+    // Position lines (horizontal, dashed)
+    for (let f = 1; f <= 3; f++) {
+      const y = sT + f * fSpacing;
+      const line = document.createElementNS(ns, 'line');
+      line.setAttribute('x1', sL - 8); line.setAttribute('y1', y);
+      line.setAttribute('x2', sL + sSpacing * 3 + 8); line.setAttribute('y2', y);
+      line.setAttribute('stroke', 'var(--border)'); line.setAttribute('stroke-width', '1');
+      line.setAttribute('stroke-dasharray', '3,3');
+      this.svg.appendChild(line);
+    }
+
+    // Strings (vertical lines, G thickest, E thinnest)
+    for (let s = 0; s < 4; s++) {
+      const x = sL + s * sSpacing;
+      const line = document.createElementNS(ns, 'line');
+      line.setAttribute('x1', x); line.setAttribute('y1', sT);
+      line.setAttribute('x2', x); line.setAttribute('y2', sT + fSpacing * 3 + 12);
+      line.setAttribute('stroke', 'var(--text-muted)');
+      line.setAttribute('stroke-width', [1.8, 1.4, 1.1, 0.8][s]);
+      this.svg.appendChild(line);
+
+      // String label at top
+      const label = document.createElementNS(ns, 'text');
+      label.setAttribute('x', x); label.setAttribute('y', sT - 10);
+      label.setAttribute('text-anchor', 'middle'); label.setAttribute('font-size', '10');
+      label.setAttribute('font-weight', '600'); label.setAttribute('fill', 'var(--text-secondary)');
+      label.textContent = this.stringShort[s];
+      this.svg.appendChild(label);
+    }
+
+    // Finger position labels on left
+    for (let f = 0; f <= 3; f++) {
+      const y = sT + f * fSpacing;
+      const label = document.createElementNS(ns, 'text');
+      label.setAttribute('x', sL - 18); label.setAttribute('y', y + 4);
+      label.setAttribute('text-anchor', 'middle'); label.setAttribute('font-size', '9');
+      label.setAttribute('fill', 'var(--text-muted)');
+      label.textContent = this.fingerLabels[f];
+      this.svg.appendChild(label);
+    }
+  },
+
+  showNote(noteName, isCorrect) {
+    if (!this.svg) return;
+    const ns = 'http://www.w3.org/2000/svg';
+    this.clear();
+    const pos = NOTE_TO_POSITION[noteName];
+    if (!pos) return;
+
+    const x = this.padLeft + pos.string * this.stringSpacing;
+    const y = this.padTop + pos.finger * this.fingerSpacing;
+
+    // Color: null=accent (reference play), true=green, false=red
+    let color = isCorrect === null ? 'var(--accent)' : isCorrect ? 'var(--green)' : 'var(--red)';
+
+    // Glow
+    const glow = document.createElementNS(ns, 'circle');
+    glow.setAttribute('cx', x); glow.setAttribute('cy', y); glow.setAttribute('r', '12');
+    glow.setAttribute('fill', color); glow.setAttribute('opacity', '0.2');
+    glow.id = 'fb-glow';
+    this.svg.appendChild(glow);
+
+    // Dot
+    const dot = document.createElementNS(ns, 'circle');
+    dot.setAttribute('cx', x); dot.setAttribute('cy', y); dot.setAttribute('r', '7');
+    dot.setAttribute('fill', color);
+    dot.id = 'fb-dot';
+    this.svg.appendChild(dot);
+
+    // Finger number inside dot
+    const txt = document.createElementNS(ns, 'text');
+    txt.setAttribute('x', x); txt.setAttribute('y', y + 3);
+    txt.setAttribute('text-anchor', 'middle'); txt.setAttribute('font-size', '8');
+    txt.setAttribute('font-weight', '700'); txt.setAttribute('fill', 'var(--bg)');
+    txt.textContent = pos.finger === 0 ? 'O' : pos.finger;
+    txt.id = 'fb-txt';
+    this.svg.appendChild(txt);
+
+    // Update side label
+    const nameEl = document.getElementById('fbNoteName');
+    if (nameEl) { nameEl.textContent = noteName; nameEl.style.color = color; }
+  },
+
+  clear() {
+    ['fb-glow', 'fb-dot', 'fb-txt'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.remove();
+    });
+    const nameEl = document.getElementById('fbNoteName');
+    if (nameEl) { nameEl.textContent = '--'; nameEl.style.color = 'var(--text)'; }
+  }
+};
+
+// Init fingerboard on load
+document.addEventListener('DOMContentLoaded', () => { Fingerboard.init(); });
+
+// ══════════════════════════════════════════
+// SHEET MUSIC NOTE HIGHLIGHTING
+// ══════════════════════════════════════════
+const SheetHighlighter = {
+  noteElements: [],
+  currentNoteIdx: 0,
+
+  collectNotes() {
+    const container = document.getElementById('sheetRender');
+    if (!container) return;
+    this.noteElements = Array.from(container.querySelectorAll('.abcjs-note'));
+    this.currentNoteIdx = 0;
+    this.noteElements.forEach(el => {
+      el.classList.remove('abcjs-note-highlight', 'abcjs-note-wrong', 'abcjs-note-played');
+    });
+    if (this.noteElements.length > 0) {
+      this.noteElements[0].classList.add('abcjs-note-highlight');
+    }
+  },
+
+  onNoteDetected(detectedName, isCorrect) {
+    if (this.noteElements.length === 0 || this.currentNoteIdx >= this.noteElements.length) return;
+    const currentEl = this.noteElements[this.currentNoteIdx];
+    if (isCorrect) {
+      currentEl.classList.remove('abcjs-note-highlight', 'abcjs-note-wrong');
+      currentEl.classList.add('abcjs-note-played');
+      this.currentNoteIdx++;
+      if (this.currentNoteIdx < this.noteElements.length) {
+        this.noteElements[this.currentNoteIdx].classList.add('abcjs-note-highlight');
+      }
+    } else {
+      currentEl.classList.add('abcjs-note-wrong');
+      setTimeout(() => { currentEl.classList.remove('abcjs-note-wrong'); }, 400);
+    }
+  },
+
+  reset() {
+    this.currentNoteIdx = 0;
+    this.noteElements.forEach(el => {
+      el.classList.remove('abcjs-note-highlight', 'abcjs-note-wrong', 'abcjs-note-played');
+    });
+    if (this.noteElements.length > 0) {
+      this.noteElements[0].classList.add('abcjs-note-highlight');
+    }
+  }
+};
+
+// Patch renderSheet to collect notes after ABCjs renders
+const _origRenderSheet = renderSheet;
+renderSheet = function(abc, label, desc) {
+  _origRenderSheet(abc, label, desc);
+  setTimeout(() => { SheetHighlighter.collectNotes(); }, 100);
+};
+// Collect on initial load
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(() => { SheetHighlighter.collectNotes(); }, 300);
+});
+
+// ══════════════════════════════════════════
+// INTEGRATION: Pitch -> Fingerboard + Sheet
+// ══════════════════════════════════════════
+const _origRecordNote2 = recordNote;
+recordNote = function(detectedName, detectedHz, centsDeviation) {
+  _origRecordNote2(detectedName, detectedHz, centsDeviation);
+  const isCorrect = Math.abs(centsDeviation) <= 30;
+  Fingerboard.showNote(detectedName, isCorrect);
+  SheetHighlighter.onNoteDetected(detectedName, isCorrect);
+};
 </script>
 
 </body>
