@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{{TITLE}} - Violino</title>
+<title>{{TITLE}} - Violin</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='0.9em' font-size='80' font-family='serif'%3E%F0%9D%84%9E%3C/text%3E%3C/svg%3E">
 <script src="https://cdn.jsdelivr.net/npm/abcjs@6/dist/abcjs-basic-min.js"></script>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -299,7 +300,7 @@ h3 {
 /* ── SVG Playhead Cursor ── */
 .abcjs-cursor {
   fill: var(--accent);
-  opacity: 0.6;
+  opacity: 0.5;
   transition: x 0.15s ease-out;
   pointer-events: none;
 }
@@ -3261,17 +3262,71 @@ const NoteTracker = {
       this.cursorEl.remove();
       this.cursorEl = null;
     }
+    this._notePositions = [];
+
     const container = document.getElementById('sheetRender');
     if (!container) return;
     const svg = container.querySelector('svg');
     if (!svg) return;
 
+    // ── Find note positions using fallback chain ──
+    let noteEls = [];
+    // Strategy 1: ABCjs v6 group class
+    noteEls = Array.from(svg.querySelectorAll('g.abcjs-note'));
+    // Strategy 2: any element with "note" in class
+    if (noteEls.length === 0) {
+      noteEls = Array.from(svg.querySelectorAll('[class*="note"]'));
+    }
+    // Strategy 3: noteheads are rendered as ellipses (or circles) in ABCjs
+    if (noteEls.length === 0) {
+      noteEls = Array.from(svg.querySelectorAll('ellipse, circle'));
+    }
+
+    // Build positions array from found elements
+    if (noteEls.length > 0) {
+      noteEls.forEach(el => {
+        try {
+          const bbox = el.getBBox();
+          if (bbox.width > 0 || bbox.height > 0) {
+            this._notePositions.push({ x: bbox.x + bbox.width / 2, y: bbox.y, width: bbox.width, height: bbox.height });
+          }
+        } catch (e) { /* getBBox fails if not rendered */ }
+      });
+    }
+
+    // Strategy 4 (fallback): distribute evenly across SVG width
+    if (this._notePositions.length === 0 && this.notes.length > 0) {
+      const vb = svg.viewBox.baseVal;
+      const svgW = (vb && vb.width) ? vb.width : (parseFloat(svg.getAttribute('width')) || 800);
+      const svgH = (vb && vb.height) ? vb.height : (parseFloat(svg.getAttribute('height')) || 120);
+      const padding = svgW * 0.05;
+      const usable = svgW - padding * 2;
+      const step = this.notes.length > 1 ? usable / (this.notes.length - 1) : 0;
+      for (let i = 0; i < this.notes.length; i++) {
+        this._notePositions.push({ x: padding + step * i, y: 0, width: 4, height: svgH });
+      }
+    }
+
+    // ── Determine staff height for cursor ──
+    let staffY = 0;
+    let staffH = 120;
+    try {
+      const svgBox = svg.getBBox();
+      staffY = svgBox.y;
+      staffH = svgBox.height;
+    } catch (e) {
+      const vb = svg.viewBox.baseVal;
+      if (vb && vb.height) { staffY = vb.y || 0; staffH = vb.height; }
+      else { staffH = parseFloat(svg.getAttribute('height')) || 120; }
+    }
+
+    // ── Create cursor rect ──
     const ns = 'http://www.w3.org/2000/svg';
     const cursor = document.createElementNS(ns, 'rect');
     cursor.setAttribute('class', 'abcjs-cursor');
-    cursor.setAttribute('width', '2');
-    cursor.setAttribute('y', '0');
-    cursor.setAttribute('height', svg.getAttribute('height') || svg.getBBox().height || 120);
+    cursor.setAttribute('width', '3');
+    cursor.setAttribute('y', staffY);
+    cursor.setAttribute('height', staffH);
     cursor.setAttribute('x', '-10'); // hidden initially
     this.cursorEl = cursor;
     svg.appendChild(cursor);
@@ -3328,38 +3383,22 @@ const NoteTracker = {
 
   moveCursor(noteIdx) {
     if (!this.cursorEl) return;
-    const container = document.getElementById('sheetRender');
-    if (!container) return;
-    const noteEls = Array.from(container.querySelectorAll('.abcjs-note'));
-    if (noteEls.length === 0) {
+    const positions = this._notePositions || [];
+    if (positions.length === 0) {
       this.cursorEl.setAttribute('x', '-10');
       return;
     }
 
     // Clamp index
-    const idx = Math.min(noteIdx, noteEls.length - 1);
+    const idx = Math.min(noteIdx, positions.length - 1);
     if (idx < 0) {
       this.cursorEl.setAttribute('x', '-10');
       return;
     }
 
-    const svg = container.querySelector('svg');
-    if (!svg) return;
-
-    try {
-      const noteEl = noteEls[idx];
-      const bbox = noteEl.getBBox();
-      // Position cursor at the center x of the note
-      const x = bbox.x + bbox.width / 2 - 1;
-      this.cursorEl.setAttribute('x', x);
-
-      // Update height to cover full SVG
-      const svgBox = svg.getBBox();
-      this.cursorEl.setAttribute('y', svgBox.y);
-      this.cursorEl.setAttribute('height', svgBox.height);
-    } catch (e) {
-      // getBBox can fail if element not rendered
-    }
+    // Position cursor at pre-computed x coordinate (CSS transition handles animation)
+    const pos = positions[idx];
+    this.cursorEl.setAttribute('x', pos.x - 1.5);
   },
 
   updateProgress() {
