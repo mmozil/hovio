@@ -1,0 +1,98 @@
+{
+  "levels": [
+    {
+      "id": 1,
+      "name": "Fundamentos",
+      "weeks": "1-4",
+      "default_bpm": 60,
+      "days": [
+        {
+          "day": 1,
+          "title": "Cordas soltas — Ré e Lá",
+          "warmup": {"abc": "X:1\nT:Cordas Soltas\nM:4/4\nL:1/2\nK:D\n|D2 D2|A2 A2|D2 A2|A2 D2|", "notes": ["D4","D4","A4","A4","D4","A4","A4","D4"], "desc": "Arco longo em cada corda. Foco: arco reto, pressão uniforme."},
+          "technique": {"abc": "X:1\nT:Arco Longo\nM:4/4\nL:1\nK:D\n|D|A|D|A|", "notes": ["D4","A4","D4","A4"], "desc": "Semibreve em cada corda. Conte até 4 por nota. Arco inteiro, do talão à ponta."},
+          "repertoire": {"abc": "X:1\nT:Cordas Soltas Simples\nM:4/4\nL:1/4\nK:D\n|D D A A|A A D D|", "notes": ["D4","D4","A4","A4","A4","A4","D4","D4"], "desc": "Alterne Ré e Lá em semínimas."},
+          "tips": ["Cotovelo direito relaxado", "Arco paralelo ao cavalete", "Peso do braço, não pressão"]
+        },
+        {
+          "day": 2,
+          "title": "Cordas soltas — Sol e Mi",
+          "warmup": {"abc": "X:1\nT:Sol e Mi\nM:4/4\nL:1/2\nK:D\n|G,2 G,2|E2 E2|G,2 E2|E2 G,2|", "notes": ["G3","G3","E5","E5","G3","E5","E5","G3"], "desc": "Mesmo exercício do dia 1, nas cordas Sol e Mi."},
+          "technique": {"abc": "X:1\nT:4 Cordas\nM:4/4\nL:1\nK:D\n|G,|D|A|E|", "notes": ["G3","D4","A4","E5"], "desc": "Uma semibreve por corda. Sol→Ré→Lá→Mi. Preste atenção ao ângulo do arco em cada corda."},
+          "repertoire": {"abc": "X:1\nT:Passeio pelas Cordas\nM:4/4\nL:1/4\nK:D\n|G, G, D D|A A E E|E E A A|D D G, G,|", "notes": ["G3","G3","D4","D4","A4","A4","E5","E5","E5","E5","A4","A4","D4","D4","G3","G3"], "desc": "Subindo e descendo por todas as cordas."},
+          "tips": ["Corda Sol: mais peso no arco", "Corda Mi: menos peso, mais velocidade", "Não incline o violino"]
+        },
+        {
+          "day": 3,
+          "title": "Primeiras notas — Corda Lá",
+          "warmup": {"abc": "X:1\nT:Aquecimento Cordas Soltas\nM:4/4\nL:1/2\nK:D\n|D2 A2|G,2 E2|D2 A2|G,2 E2|", "notes": ["D4","A4","G3","E5","D4","A4","G3","E5"], "desc": "4 cordas alternando."},
+          "technique": {"abc": "X:1\nT:Notas na Corda La\nM:4/4\nL:1/2\nK:D\n|A2 B2|c2 d2|d2 c2|B2 A2|", "notes": ["A4","B4","C#5","D5","D5","C#5","B4","A4"], "desc": "Lá (solta), Si (1° dedo), Dó# (2° dedo), Ré (3° dedo). Subindo e descendo."},
+          "repertoire": {"abc": "X:1\nT:Melodia Simples em La\nM:4/4\nL:1/4\nK:D\n|A B c d|d c B A|A A B B|c c d2|", "notes": ["A4","B4","C#5","D5","D5","C#5","B4","A4","A4","A4","B4","B4","C#5","C#5","D5","D5"], "desc": "Primeira melodia com dedos. Manter dedos curvados."},
+          "tips": ["Dedos curvados como garras", "Polegar oposto ao 2° dedo", "Pressão firme nas pontas dos dedos"]
+        },
+        {
+          "day": 4,
+          "title": "Primeiras notas — Corda Ré",
+          "warmup": {"abc": "X:1\nT:Aquecimento\nM:4/4\nL:1/2\nK:D\n|A2 B2|c2 d2|d2 c2|B2 A2|", "notes": ["A4","B4","C#5","D5","D5","C#5","B4","A4"], "desc": "Repetir corda Lá do dia 3."},
+          "technique": {"abc": "X:1\nT:Notas na Corda Re\nM:4/4\nL:1/2\nK:D\n|D2 E2|F2 G2|G2 F2|E2 D2|", "notes": ["D4","E4","F#4","G4","G4","F#4","E4","D4"], "desc": "Ré (solta), Mi (1°), Fá# (2°), Sol (3°). Mesma mão esquerda, corda diferente."},
+          "repertoire": {"abc": "X:1\nT:Melodia em Re\nM:4/4\nL:1/4\nK:D\n|D E F G|A B c d|d c B A|G F E D|", "notes": ["D4","E4","F#4","G4","A4","B4","C#5","D5","D5","C#5","B4","A4","G4","F#4","E4","D4"], "desc": "Escala de Ré Maior subindo e descendo! Sua primeira escala."},
+          "tips": ["Mesmo formato de mão nas 2 cordas", "Mudar de corda com o cotovelo, não o pulso", "Si na corda Lá = mesmo dedo que Mi na corda Ré"]
+        },
+        {
+          "day": 5,
+          "title": "Escala de Ré Maior completa",
+          "warmup": {"abc": "X:1\nT:Cordas Soltas Ritmo\nM:4/4\nL:1/4\nK:D\n|D D D D|A A A A|D A D A|A D A D|", "notes": ["D4","D4","D4","D4","A4","A4","A4","A4","D4","A4","D4","A4","A4","D4","A4","D4"], "desc": "Semínimas alternando cordas."},
+          "technique": {"abc": "X:1\nT:Escala Re Maior\nM:4/4\nL:1/4\nK:D\n|D E F G|A B c d|d c B A|G F E D|", "notes": ["D4","E4","F#4","G4","A4","B4","C#5","D5","D5","C#5","B4","A4","G4","F#4","E4","D4"], "desc": "Escala de Ré Maior 1 oitava. Semínimas. Foco na afinação de cada nota."},
+          "repertoire": {"abc": "X:1\nT:Twinkle Twinkle (simplificado)\nM:4/4\nL:1/4\nK:D\n|D D A A|B B A2|G G F F|E E D2|", "notes": ["D4","D4","A4","A4","B4","B4","A4","A4","G4","G4","F#4","F#4","E4","E4","D4","D4"], "desc": "Brilha Brilha Estrelinha em Ré Maior. Sua primeira peça!"},
+          "tips": ["Ouça se cada nota está afinada antes de ir para a próxima", "Dedos sempre perto das cordas", "Relaxe o ombro esquerdo"]
+        },
+        {
+          "day": 6,
+          "title": "Ligaduras — 2 notas por arco",
+          "warmup": {"abc": "X:1\nT:Escala Re Maior\nM:4/4\nL:1/4\nK:D\n|D E F G|A B c d|d c B A|G F E D|", "notes": ["D4","E4","F#4","G4","A4","B4","C#5","D5","D5","C#5","B4","A4","G4","F#4","E4","D4"], "desc": "Escala separada (détaché)."},
+          "technique": {"abc": "X:1\nT:Ligaduras\nM:4/4\nL:1/4\nK:D\n|(DE) (FG)|(AB) (cd)|(dc) (BA)|(GF) (ED)|", "notes": ["D4","E4","F#4","G4","A4","B4","C#5","D5","D5","C#5","B4","A4","G4","F#4","E4","D4"], "desc": "Escala com 2 notas por arco (ligadas). Arco contínuo, dedos mudam."},
+          "repertoire": {"abc": "X:1\nT:Twinkle com Ligaduras\nM:4/4\nL:1/4\nK:D\n|(DD) (AA)|(BB) A2|(GG) (FF)|(EE) D2|", "notes": ["D4","D4","A4","A4","B4","B4","A4","A4","G4","G4","F#4","F#4","E4","E4","D4","D4"], "desc": "Twinkle com ligaduras de 2. Meio arco por nota."},
+          "tips": ["Não pare o arco entre as notas ligadas", "Divida o arco ao meio mentalmente", "Mudança de dedo rápida e precisa"]
+        },
+        {
+          "day": 7,
+          "title": "Revisão da Semana 1",
+          "warmup": {"abc": "X:1\nT:4 Cordas\nM:4/4\nL:1\nK:D\n|G,|D|A|E|", "notes": ["G3","D4","A4","E5"], "desc": "Semibreves em todas as cordas."},
+          "technique": {"abc": "X:1\nT:Escala Re Maior Lenta\nM:4/4\nL:1/2\nK:D\n|D E|F G|A B|c d|d c|B A|G F|E D|", "notes": ["D4","E4","F#4","G4","A4","B4","C#5","D5","D5","C#5","B4","A4","G4","F#4","E4","D4"], "desc": "Escala em mínimas. Dobro do tempo por nota. Foco total na afinação."},
+          "repertoire": {"abc": "X:1\nT:Twinkle Completa\nM:4/4\nL:1/4\nK:D\n|D D A A|B B A2|G G F F|E E D2|A A G G|F F E2|A A G G|F F E2|D D A A|B B A2|G G F F|E E D2|", "notes": ["D4","D4","A4","A4","B4","B4","A4","A4","G4","G4","F#4","F#4","E4","E4","D4","D4","A4","A4","G4","G4","F#4","F#4","E4","E4","A4","A4","G4","G4","F#4","F#4","E4","E4","D4","D4","A4","A4","B4","B4","A4","A4","G4","G4","F#4","F#4","E4","E4","D4","D4"], "desc": "Twinkle Twinkle completa! Revisão de tudo que aprendeu na semana."},
+          "tips": ["Parabéns pela primeira semana!", "Grave-se tocando e compare com o dia 1", "Se algo está difícil, reduza o BPM"]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Primeira Posição",
+      "weeks": "5-10",
+      "default_bpm": 72,
+      "days": [
+        {
+          "day": 1,
+          "title": "Escala de Sol Maior",
+          "warmup": {"abc": "X:1\nT:Escala Re Maior\nM:4/4\nL:1/4\nK:D\n|D E F G|A B c d|d c B A|G F E D|", "notes": ["D4","E4","F#4","G4","A4","B4","C#5","D5","D5","C#5","B4","A4","G4","F#4","E4","D4"], "desc": "Escala de Ré como aquecimento."},
+          "technique": {"abc": "X:1\nT:Escala Sol Maior\nM:4/4\nL:1/4\nK:G\n|G, A, B, C|D E F G|G F E D|C B, A, G,|", "notes": ["G3","A3","B3","C4","D4","E4","F#4","G4","G4","F#4","E4","D4","C4","B3","A3","G3"], "desc": "Escala de Sol Maior 1 oitava. Começa na corda Sol, 3 notas por corda."},
+          "repertoire": {"abc": "X:1\nT:Ode a Alegria (Beethoven)\nM:4/4\nL:1/4\nK:G\n|E E F G|G F E D|C C D E|E D D2|", "notes": ["E4","E4","F#4","G4","G4","F#4","E4","D4","C4","C4","D4","E4","E4","D4","D4","D4"], "desc": "Ode à Alegria simplificada em Sol Maior. Peça icônica!"},
+          "tips": ["Corda Sol requer mais peso de arco", "Si na corda Sol: mesmo padrão que na corda Ré", "Ouça a relação entre as notas"]
+        },
+        {
+          "day": 2,
+          "title": "Escala de Lá Maior e détaché",
+          "warmup": {"abc": "X:1\nT:Escala Sol Maior\nM:4/4\nL:1/4\nK:G\n|G, A, B, C|D E F G|G F E D|C B, A, G,|", "notes": ["G3","A3","B3","C4","D4","E4","F#4","G4","G4","F#4","E4","D4","C4","B3","A3","G3"], "desc": "Sol Maior como aquecimento."},
+          "technique": {"abc": "X:1\nT:Escala La Maior\nM:4/4\nL:1/4\nK:A\n|A, B, C D|E F G A|A G F E|D C B, A,|", "notes": ["A3","B3","C#4","D4","E4","F#4","G#4","A4","A4","G#4","F#4","E4","D4","C#4","B3","A3"], "desc": "Escala de Lá Maior 1 oitava. Détaché: cada nota separada, arco uniforme."},
+          "repertoire": {"abc": "X:1\nT:Allegro (Suzuki)\nM:4/4\nL:1/4\nK:A\n|A A c c|d d c2|B B A A|G G A2|", "notes": ["A4","A4","C#5","C#5","D5","D5","C#5","C#5","B4","B4","A4","A4","G#4","G#4","A4","A4"], "desc": "Allegro simplificado do Suzuki. Détaché firme e regular."},
+          "tips": ["Détaché: golpe no meio do arco", "Cada nota com o mesmo comprimento de arco", "Não levante o arco entre as notas"]
+        }
+      ]
+    }
+  ],
+  "note_frequencies": {
+    "G3": 196.00, "A3": 220.00, "B3": 246.94, "C4": 261.63, "C#4": 277.18,
+    "D4": 293.66, "E4": 329.63, "F#4": 369.99, "G4": 392.00, "G#4": 415.30,
+    "A4": 440.00, "B4": 493.88, "C#5": 554.37, "D5": 587.33, "E5": 659.26,
+    "F5": 698.46, "F#5": 739.99, "G5": 783.99, "A5": 880.00
+  }
+}

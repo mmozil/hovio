@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+*.pyo
+*.db
+*.sqlite3
+data/progress.json
+data/student_memory.json
+data/practice.db
+.env
+*.log
+.DS_Store
+Thumbs.db

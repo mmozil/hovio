@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Violino - Entrar</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #3A3A37; border-radius: 6px; }
+::-webkit-scrollbar-thumb:hover { background: #6B6862; }
+html { scrollbar-width: thin; scrollbar-color: #3A3A37 transparent; }
+
+:root {
+  --bg: #262624;
+  --bg-card: #2E2E2B;
+  --bg-elevated: #363633;
+  --bg-input: #222220;
+  --accent: #9C7A5A;
+  --accent-dim: rgba(156,122,90,0.12);
+  --accent-hover: #B08E6E;
+  --accent-glow: rgba(156,122,90,0.25);
+  --secondary: #E8C8A0;
+  --text: #C2C0B6;
+  --text-secondary: #A8A59E;
+  --text-muted: #6B6862;
+  --green: #7AC47F;
+  --red: #D4605A;
+  --border: #3A3A37;
+  --radius: 12px;
+  --radius-sm: 8px;
+}
+
+body {
+  font-family: -apple-system, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Login Card ── */
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 36px 32px 32px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.35);
+}
+
+/* ── Brand ── */
+.brand {
+  text-align: center;
+  margin-bottom: 28px;
+}
+.brand-icon {
+  font-size: 40px;
+  margin-bottom: 8px;
+  display: block;
+  opacity: 0.9;
+}
+.brand-name {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: -0.5px;
+}
+.brand-subtitle {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 4px;
+  font-style: italic;
+}
+
+/* ── Tabs ── */
+.tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+.tab {
+  flex: 1;
+  padding: 10px 0;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer;
+  border: none;
+  background: none;
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
+}
+.tab:hover { color: var(--text-secondary); }
+.tab.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+/* ── Form ── */
+.form-group {
+  margin-bottom: 16px;
+}
+.form-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.form-input {
+  width: 100%;
+  padding: 11px 14px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.form-input::placeholder { color: var(--text-muted); }
+.form-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 12px;
+  background: var(--accent);
+  border: none;
+  border-radius: var(--radius-sm);
+  color: #1a1a1e;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+  margin-top: 4px;
+}
+.btn-primary:hover { background: var(--accent-hover); }
+.btn-primary:active { transform: scale(0.98); }
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.error-msg {
+  color: var(--red);
+  font-size: 13px;
+  margin-top: 10px;
+  text-align: center;
+  min-height: 20px;
+}
+
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* ── Onboarding Overlay ── */
+.onboarding-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(38,38,36,0.92);
+  backdrop-filter: blur(8px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 20px;
+}
+.onboarding-overlay.active { display: flex; }
+
+.onboarding-card {
+  width: 100%;
+  max-width: 500px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 36px 32px 28px;
+  box-shadow: 0 12px 48px rgba(0,0,0,0.5);
+  position: relative;
+}
+
+/* ── Step indicator ── */
+.step-dots {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 28px;
+}
+.step-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--border);
+  transition: background 0.3s, transform 0.3s;
+}
+.step-dot.active { background: var(--accent); transform: scale(1.3); }
+.step-dot.done { background: var(--accent); opacity: 0.5; }
+
+/* ── Step content ── */
+.step { display: none; }
+.step.active {
+  display: block;
+  animation: fadeSlide 0.35s ease;
+}
+@keyframes fadeSlide {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.step-title {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--secondary);
+  margin-bottom: 6px;
+  text-align: center;
+}
+.step-desc {
+  font-size: 14px;
+  color: var(--text-secondary);
+  text-align: center;
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+
+/* ── Radio/Checkbox cards ── */
+.option-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+.option-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--bg-input);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+  user-select: none;
+}
+.option-card:hover {
+  border-color: var(--text-muted);
+  background: var(--bg-elevated);
+}
+.option-card.selected {
+  border-color: var(--accent);
+  background: var(--accent-dim);
+  box-shadow: 0 0 0 2px var(--accent-glow);
+}
+.option-card input { display: none; }
+
+.option-indicator {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid var(--text-muted);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s, background 0.2s;
+}
+.option-card.selected .option-indicator {
+  border-color: var(--accent);
+  background: var(--accent);
+}
+.option-card.selected .option-indicator::after {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #1a1a1e;
+}
+/* Checkbox variant */
+.option-card[data-type="checkbox"] .option-indicator {
+  border-radius: 4px;
+}
+.option-card[data-type="checkbox"].selected .option-indicator {
+  border-radius: 4px;
+}
+.option-card[data-type="checkbox"].selected .option-indicator::after {
+  content: '';
+  width: 10px;
+  height: 6px;
+  border-radius: 0;
+  background: none;
+  border-left: 2px solid #1a1a1e;
+  border-bottom: 2px solid #1a1a1e;
+  transform: rotate(-45deg) translate(1px, -1px);
+}
+
+.option-text {
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.4;
+}
+
+/* ── Inline radio row ── */
+.option-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.option-row .option-card {
+  flex: 1;
+  min-width: 80px;
+  justify-content: center;
+  text-align: center;
+  padding: 10px 12px;
+}
+.option-row .option-card .option-indicator { display: none; }
+
+.section-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+}
+
+.btn-step {
+  width: 100%;
+  padding: 12px;
+  background: var(--accent);
+  border: none;
+  border-radius: var(--radius-sm);
+  color: #1a1a1e;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.15s;
+}
+.btn-step:hover { background: var(--accent-hover); }
+.btn-step:active { transform: scale(0.98); }
+.btn-step:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn-back {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 13px;
+  cursor: pointer;
+  padding: 8px 0;
+  display: block;
+  margin: 8px auto 0;
+  transition: color 0.2s;
+}
+.btn-back:hover { color: var(--text-secondary); }
+
+/* ── Welcome step special ── */
+.welcome-icon {
+  font-size: 56px;
+  text-align: center;
+  margin-bottom: 16px;
+  display: block;
+}
+
+/* ── Loading spinner ── */
+.spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid transparent;
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Mobile ── */
+@media (max-width: 480px) {
+  .login-card, .onboarding-card { padding: 28px 20px 24px; }
+  .brand-name { font-size: 22px; }
+  .option-row .option-card { min-width: 70px; padding: 8px 8px; }
+  .option-text { font-size: 13px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════ LOGIN/REGISTER CARD ════════════════ -->
+<div class="login-card" id="loginCard">
+  <div class="brand">
+    <span class="brand-icon">&#119070;</span>
+    <div class="brand-name">Violino</div>
+    <div class="brand-subtitle">Seu professor pessoal de violino</div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="login" onclick="switchTab('login')">Entrar</button>
+    <button class="tab" data-tab="register" onclick="switchTab('register')">Criar Conta</button>
+  </div>
+
+  <!-- Login -->
+  <div class="tab-content active" id="tab-login">
+    <form onsubmit="handleLogin(event)">
+      <div class="form-group">
+        <label class="form-label" for="login-email">Email</label>
+        <input class="form-input" type="email" id="login-email" placeholder="seu@email.com" required autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="login-password">Senha</label>
+        <input class="form-input" type="password" id="login-password" placeholder="Sua senha" required autocomplete="current-password">
+      </div>
+      <button class="btn-primary" type="submit" id="login-btn">Entrar</button>
+      <div class="error-msg" id="login-error"></div>
+    </form>
+  </div>
+
+  <!-- Register -->
+  <div class="tab-content" id="tab-register">
+    <form onsubmit="handleRegister(event)">
+      <div class="form-group">
+        <label class="form-label" for="reg-name">Nome</label>
+        <input class="form-input" type="text" id="reg-name" placeholder="Seu nome" required autocomplete="name">
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="reg-email">Email</label>
+        <input class="form-input" type="email" id="reg-email" placeholder="seu@email.com" required autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="reg-password">Senha</label>
+        <input class="form-input" type="password" id="reg-password" placeholder="Minimo 4 caracteres" required minlength="4" autocomplete="new-password">
+      </div>
+      <button class="btn-primary" type="submit" id="reg-btn">Criar Conta</button>
+      <div class="error-msg" id="reg-error"></div>
+    </form>
+  </div>
+</div>
+
+<!-- ════════════════ ONBOARDING OVERLAY ════════════════ -->
+<div class="onboarding-overlay" id="onboarding">
+  <div class="onboarding-card">
+    <div class="step-dots" id="stepDots">
+      <div class="step-dot active"></div>
+      <div class="step-dot"></div>
+      <div class="step-dot"></div>
+      <div class="step-dot"></div>
+      <div class="step-dot"></div>
+    </div>
+
+    <!-- Step 1: Welcome -->
+    <div class="step active" id="step-1">
+      <span class="welcome-icon">&#127931;</span>
+      <div class="step-title" id="welcomeTitle">Bem-vindo ao Violino!</div>
+      <div class="step-desc">Vou fazer algumas perguntas para personalizar sua experiencia de aprendizado.</div>
+      <button class="btn-step" onclick="goStep(2)">Comecar</button>
+    </div>
+
+    <!-- Step 2: Experience -->
+    <div class="step" id="step-2">
+      <div class="step-title">Qual sua experiencia com violino?</div>
+      <div class="step-desc">Isso ajuda a definir o nivel certo para voce.</div>
+      <div class="option-list" id="experience-options">
+        <label class="option-card" data-value="never" onclick="selectRadio(this, 'experience-options')">
+          <input type="radio" name="experience" value="never">
+          <div class="option-indicator"></div>
+          <span class="option-text">Nunca toquei — quero comecar do zero</span>
+        </label>
+        <label class="option-card" data-value="beginner" onclick="selectRadio(this, 'experience-options')">
+          <input type="radio" name="experience" value="beginner">
+          <div class="option-indicator"></div>
+          <span class="option-text">Iniciante — sei segurar e tocar cordas soltas</span>
+        </label>
+        <label class="option-card" data-value="basic" onclick="selectRadio(this, 'experience-options')">
+          <input type="radio" name="experience" value="basic">
+          <div class="option-indicator"></div>
+          <span class="option-text">Basico — conheco primeira posicao e leio partitura</span>
+        </label>
+        <label class="option-card" data-value="intermediate" onclick="selectRadio(this, 'experience-options')">
+          <input type="radio" name="experience" value="intermediate">
+          <div class="option-indicator"></div>
+          <span class="option-text">Intermediario — faco mudanca de posicao e vibrato</span>
+        </label>
+        <label class="option-card" data-value="advanced" onclick="selectRadio(this, 'experience-options')">
+          <input type="radio" name="experience" value="advanced">
+          <div class="option-indicator"></div>
+          <span class="option-text">Avancado — toco pecas classicas com expressao</span>
+        </label>
+      </div>
+      <button class="btn-step" onclick="goStep(3)" id="btn-step2" disabled>Proximo</button>
+      <button class="btn-back" onclick="goStep(1)">Voltar</button>
+    </div>
+
+    <!-- Step 3: What you know -->
+    <div class="step" id="step-3">
+      <div class="step-title">O que voce ja sabe fazer?</div>
+      <div class="step-desc">Selecione tudo que se aplica.</div>
+      <div class="option-list" id="knows-options">
+        <label class="option-card" data-type="checkbox" data-value="hold_violin" onclick="toggleCheckbox(this, event)">
+          <input type="checkbox" name="knows" value="hold_violin">
+          <div class="option-indicator"></div>
+          <span class="option-text">Segurar o violino e o arco</span>
+        </label>
+        <label class="option-card" data-type="checkbox" data-value="open_strings" onclick="toggleCheckbox(this, event)">
+          <input type="checkbox" name="knows" value="open_strings">
+          <div class="option-indicator"></div>
+          <span class="option-text">Tocar cordas soltas (Sol, Re, La, Mi)</span>
+        </label>
+        <label class="option-card" data-type="checkbox" data-value="first_position" onclick="toggleCheckbox(this, event)">
+          <input type="checkbox" name="knows" value="first_position">
+          <div class="option-indicator"></div>
+          <span class="option-text">Notas na primeira posicao</span>
+        </label>
+        <label class="option-card" data-type="checkbox" data-value="read_sheet" onclick="toggleCheckbox(this, event)">
+          <input type="checkbox" name="knows" value="read_sheet">
+          <div class="option-indicator"></div>
+          <span class="option-text">Ler partitura (clave de sol)</span>
+        </label>
+        <label class="option-card" data-type="checkbox" data-value="major_scales" onclick="toggleCheckbox(this, event)">
+          <input type="checkbox" name="knows" value="major_scales">
+          <div class="option-indicator"></div>
+          <span class="option-text">Escalas maiores</span>
+        </label>
+        <label class="option-card" data-type="checkbox" data-value="detache" onclick="toggleCheckbox(this, event)">
+          <input type="checkbox" name="knows" value="detache">
+          <div class="option-indicator"></div>
+          <span class="option-text">Detache e ligaduras</span>
+        </label>
+        <label class="option-card" data-type="checkbox" data-value="staccato" onclick="toggleCheckbox(this, event)">
+          <input type="checkbox" name="knows" value="staccato">
+          <div class="option-indicator"></div>
+          <span class="option-text">Staccato</span>
+        </label>
+        <label class="option-card" data-type="checkbox" data-value="position_changes" onclick="toggleCheckbox(this, event)">
+          <input type="checkbox" name="knows" value="position_changes">
+          <div class="option-indicator"></div>
+          <span class="option-text">Mudanca de posicao (1a &#8596; 3a)</span>
+        </label>
+        <label class="option-card" data-type="checkbox" data-value="vibrato" onclick="toggleCheckbox(this, event)">
+          <input type="checkbox" name="knows" value="vibrato">
+          <div class="option-indicator"></div>
+          <span class="option-text">Vibrato</span>
+        </label>
+        <label class="option-card" data-type="checkbox" data-value="2_octave_scales" onclick="toggleCheckbox(this, event)">
+          <input type="checkbox" name="knows" value="2_octave_scales">
+          <div class="option-indicator"></div>
+          <span class="option-text">Escalas de 2+ oitavas</span>
+        </label>
+      </div>
+      <button class="btn-step" onclick="goStep(4)">Proximo</button>
+      <button class="btn-back" onclick="goStep(2)">Voltar</button>
+    </div>
+
+    <!-- Step 4: Goals -->
+    <div class="step" id="step-4">
+      <div class="step-title">Quais seus objetivos?</div>
+      <div class="step-desc">Selecione tudo que voce quer alcancar.</div>
+      <div class="option-list" id="goals-options">
+        <label class="option-card" data-type="checkbox" data-value="hobby" onclick="toggleCheckbox(this, event)">
+          <input type="checkbox" name="goals" value="hobby">
+          <div class="option-indicator"></div>
+          <span class="option-text">Tocar para mim mesmo (hobby)</span>
+        </label>
+        <label class="option-card" data-type="checkbox" data-value="orchestra" onclick="toggleCheckbox(this, event)">
+          <input type="checkbox" name="goals" value="orchestra">
+          <div class="option-indicator"></div>
+          <span class="option-text">Tocar em uma orquestra</span>
+        </label>
+        <label class="option-card" data-type="checkbox" data-value="specific_songs" onclick="toggleCheckbox(this, event)">
+          <input type="checkbox" name="goals" value="specific_songs">
+          <div class="option-indicator"></div>
+          <span class="option-text">Tocar musicas especificas</span>
+        </label>
+        <label class="option-card" data-type="checkbox" data-value="technique" onclick="toggleCheckbox(this, event)">
+          <input type="checkbox" name="goals" value="technique">
+          <div class="option-indicator"></div>
+          <span class="option-text">Melhorar tecnica</span>
+        </label>
+        <label class="option-card" data-type="checkbox" data-value="theory" onclick="toggleCheckbox(this, event)">
+          <input type="checkbox" name="goals" value="theory">
+          <div class="option-indicator"></div>
+          <span class="option-text">Aprender teoria musical</span>
+        </label>
+        <label class="option-card" data-type="checkbox" data-value="folk" onclick="toggleCheckbox(this, event)">
+          <input type="checkbox" name="goals" value="folk">
+          <div class="option-indicator"></div>
+          <span class="option-text">Tocar musica popular/folk</span>
+        </label>
+      </div>
+      <button class="btn-step" onclick="goStep(5)">Proximo</button>
+      <button class="btn-back" onclick="goStep(3)">Voltar</button>
+    </div>
+
+    <!-- Step 5: Style & Time -->
+    <div class="step" id="step-5">
+      <div class="step-title">Ultimos detalhes</div>
+      <div class="step-desc">Personalize sua experiencia de pratica.</div>
+
+      <div class="section-label">Que estilo quer focar?</div>
+      <div class="option-row" id="style-options">
+        <label class="option-card" data-value="classical" onclick="selectRadio(this, 'style-options')">
+          <input type="radio" name="style" value="classical">
+          <span class="option-text">Classico</span>
+        </label>
+        <label class="option-card" data-value="popular" onclick="selectRadio(this, 'style-options')">
+          <input type="radio" name="style" value="popular">
+          <span class="option-text">Popular</span>
+        </label>
+        <label class="option-card" data-value="folk" onclick="selectRadio(this, 'style-options')">
+          <input type="radio" name="style" value="folk">
+          <span class="option-text">Folk</span>
+        </label>
+        <label class="option-card" data-value="all" onclick="selectRadio(this, 'style-options')">
+          <input type="radio" name="style" value="all">
+          <span class="option-text">Todos</span>
+        </label>
+      </div>
+
+      <div class="section-label">Quanto tempo por dia?</div>
+      <div class="option-row" id="time-options">
+        <label class="option-card" data-value="10" onclick="selectRadio(this, 'time-options')">
+          <input type="radio" name="time" value="10">
+          <span class="option-text">10 min</span>
+        </label>
+        <label class="option-card" data-value="15" onclick="selectRadio(this, 'time-options')">
+          <input type="radio" name="time" value="15">
+          <span class="option-text">15 min</span>
+        </label>
+        <label class="option-card selected" data-value="20" onclick="selectRadio(this, 'time-options')">
+          <input type="radio" name="time" value="20" checked>
+          <span class="option-text">20 min</span>
+        </label>
+        <label class="option-card" data-value="30" onclick="selectRadio(this, 'time-options')">
+          <input type="radio" name="time" value="30">
+          <span class="option-text">30 min</span>
+        </label>
+      </div>
+
+      <button class="btn-step" onclick="finishOnboarding()" id="btn-finish">Comecar minha jornada</button>
+      <button class="btn-back" onclick="goStep(4)">Voltar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════ STATE ═══════════════════
+let currentToken = null;
+let currentUserId = null;
+let currentUserName = '';
+let currentStep = 1;
+
+const onboardingAnswers = {
+  experience: null,
+  knows: [],
+  goals: [],
+  style: 'classical',
+  time: 20,
+};
+
+// ═══════════════════ TABS ═══════════════════
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  // Limpar erros
+  document.getElementById('login-error').textContent = '';
+  document.getElementById('reg-error').textContent = '';
+}
+
+// ═══════════════════ LOGIN ═══════════════════
+async function handleLogin(e) {
+  e.preventDefault();
+  const btn = document.getElementById('login-btn');
+  const errEl = document.getElementById('login-error');
+  errEl.textContent = '';
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Entrando...';
+
+  try {
+    const resp = await fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: document.getElementById('login-email').value,
+        password: document.getElementById('login-password').value,
+      }),
+    });
+    const data = await resp.json();
+
+    if (!resp.ok) {
+      errEl.textContent = data.error || 'Erro ao entrar';
+      btn.disabled = false;
+      btn.textContent = 'Entrar';
+      return;
+    }
+
+    if (!data.onboarding_complete) {
+      // Precisa completar onboarding
+      currentToken = data.token;
+      currentUserId = data.user_id;
+      currentUserName = data.user?.name || '';
+      startOnboarding();
+    } else {
+      // Redirecionar para dashboard
+      window.location.href = '/?token=' + data.token;
+    }
+  } catch (err) {
+    errEl.textContent = 'Erro de conexao com o servidor';
+    btn.disabled = false;
+    btn.textContent = 'Entrar';
+  }
+}
+
+// ═══════════════════ REGISTER ═══════════════════
+async function handleRegister(e) {
+  e.preventDefault();
+  const btn = document.getElementById('reg-btn');
+  const errEl = document.getElementById('reg-error');
+  errEl.textContent = '';
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Criando...';
+
+  try {
+    const resp = await fetch('/api/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: document.getElementById('reg-name').value,
+        email: document.getElementById('reg-email').value,
+        password: document.getElementById('reg-password').value,
+      }),
+    });
+    const data = await resp.json();
+
+    if (!resp.ok) {
+      errEl.textContent = data.error || 'Erro ao criar conta';
+      btn.disabled = false;
+      btn.textContent = 'Criar Conta';
+      return;
+    }
+
+    currentToken = data.token;
+    currentUserId = data.user_id;
+    currentUserName = data.name || '';
+    startOnboarding();
+  } catch (err) {
+    errEl.textContent = 'Erro de conexao com o servidor';
+    btn.disabled = false;
+    btn.textContent = 'Criar Conta';
+  }
+}
+
+// ═══════════════════ ONBOARDING ═══════════════════
+function startOnboarding() {
+  document.getElementById('loginCard').style.display = 'none';
+  document.getElementById('onboarding').classList.add('active');
+  // Personalizar boas-vindas
+  const title = document.getElementById('welcomeTitle');
+  if (currentUserName) {
+    title.textContent = 'Bem-vindo ao Violino, ' + currentUserName + '!';
+  }
+  currentStep = 1;
+  updateStepDots();
+}
+
+function goStep(n) {
+  // Validar antes de avancar
+  if (n > currentStep) {
+    if (currentStep === 2 && !onboardingAnswers.experience) return;
+  }
+
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step-' + n).classList.add('active');
+  currentStep = n;
+  updateStepDots();
+}
+
+function updateStepDots() {
+  const dots = document.querySelectorAll('.step-dot');
+  dots.forEach((dot, i) => {
+    dot.classList.remove('active', 'done');
+    if (i + 1 === currentStep) dot.classList.add('active');
+    else if (i + 1 < currentStep) dot.classList.add('done');
+  });
+}
+
+// ═══════════════════ OPTION SELECTION ═══════════════════
+function selectRadio(card, groupId) {
+  const group = document.getElementById(groupId);
+  group.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+  card.classList.add('selected');
+
+  const value = card.dataset.value;
+
+  if (groupId === 'experience-options') {
+    onboardingAnswers.experience = value;
+    document.getElementById('btn-step2').disabled = false;
+  } else if (groupId === 'style-options') {
+    onboardingAnswers.style = value;
+  } else if (groupId === 'time-options') {
+    onboardingAnswers.time = parseInt(value);
+  }
+}
+
+function toggleCheckbox(card, event) {
+  // Prevenir double-toggle do label+checkbox nativo
+  if (event) event.preventDefault();
+
+  card.classList.toggle('selected');
+
+  // Sync checkbox visual
+  const cb = card.querySelector('input[type="checkbox"]');
+  if (cb) cb.checked = card.classList.contains('selected');
+
+  const value = card.dataset.value;
+  const groupEl = card.closest('.option-list');
+  const groupId = groupEl ? groupEl.id : '';
+
+  let arr;
+  if (groupId === 'knows-options') arr = onboardingAnswers.knows;
+  else if (groupId === 'goals-options') arr = onboardingAnswers.goals;
+  else return;
+
+  if (card.classList.contains('selected')) {
+    if (!arr.includes(value)) arr.push(value);
+  } else {
+    const idx = arr.indexOf(value);
+    if (idx !== -1) arr.splice(idx, 1);
+  }
+}
+
+// ═══════════════════ FINISH ═══════════════════
+async function finishOnboarding() {
+  const btn = document.getElementById('btn-finish');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Preparando...';
+
+  try {
+    const resp = await fetch('/api/onboarding', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        token: currentToken,
+        answers: onboardingAnswers,
+      }),
+    });
+    const data = await resp.json();
+
+    if (!resp.ok) {
+      btn.disabled = false;
+      btn.textContent = 'Comecar minha jornada';
+      alert(data.error || 'Erro ao salvar');
+      return;
+    }
+
+    // Redirecionar para dashboard
+    window.location.href = '/?token=' + currentToken;
+  } catch (err) {
+    btn.disabled = false;
+    btn.textContent = 'Comecar minha jornada';
+    alert('Erro de conexao com o servidor');
+  }
+}
+
+// ═══════════════════ AUTO-START ONBOARDING ═══════════════════
+// Se o servidor injeta __ONBOARDING_USER__, vai direto pro onboarding
+if (window.__ONBOARDING_USER__) {
+  currentToken = window.__ONBOARDING_USER__.token;
+  currentUserId = window.__ONBOARDING_USER__.id;
+  currentUserName = window.__ONBOARDING_USER__.name;
+  window.addEventListener('DOMContentLoaded', () => startOnboarding());
+}
+</script>
+</body>
+</html>

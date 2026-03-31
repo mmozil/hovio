@@ -1,0 +1,2801 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{TITLE}} - Violino</title>
+<script src="https://cdn.jsdelivr.net/npm/abcjs@6/dist/abcjs-basic-min.js"></script>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* Scrollbar elegante global */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 6px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+html { scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+
+:root {
+  --bg: #262624;
+  --bg-card: #2E2E2B;
+  --bg-elevated: #363633;
+  --bg-input: #222220;
+  --accent: #9C7A5A;
+  --accent-dim: rgba(156,122,90,0.12);
+  --accent-hover: #B08E6E;
+  --secondary: #E8C8A0;
+  --text: #C2C0B6;
+  --text-secondary: #A8A59E;
+  --text-muted: #6B6862;
+  --green: #7AC47F;
+  --yellow: #E5C65C;
+  --red: #D4605A;
+  --border: #3A3A37;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow: 0 2px 16px rgba(0,0,0,0.25);
+}
+
+body {
+  font-family: -apple-system, 'Segoe UI', Roboto, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px 16px 40px;
+}
+
+h3, .header-title, .sheet-label, .ref-play-label {
+  font-family: Georgia, 'Times New Roman', serif;
+}
+h3 {
+  color: var(--text);
+}
+
+/* ── Header ── */
+.header {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 16px;
+}
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.header-title {
+  font-size: 23px;
+  font-weight: 600;
+  color: var(--accent);
+  letter-spacing: -0.3px;
+  font-family: Georgia, 'Times New Roman', serif;
+}
+.header-subtitle {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+.header-stats {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.stat {
+  text-align: center;
+}
+.stat-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+}
+.stat-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.progress-bar-container {
+  background: var(--bg-input);
+  border-radius: 6px;
+  height: 8px;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent-hover));
+  border-radius: 6px;
+  transition: width 0.5s ease;
+}
+.progress-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* ── Timer / Block ── */
+.timer-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+.blocks-bar {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 16px;
+  height: 36px;
+}
+.block-segment {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  padding: 0 10px;
+}
+.block-segment.active {
+  background: var(--accent-dim);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.block-segment.done {
+  background: rgba(107,203,119,0.12);
+  border-color: var(--green);
+  color: var(--green);
+}
+.timer-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+.timer-time {
+  font-size: 48px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 2px;
+  color: var(--text);
+}
+.timer-block-progress {
+  width: 100%;
+  height: 4px;
+  background: var(--bg-input);
+  border-radius: 2px;
+  margin-top: 12px;
+  overflow: hidden;
+}
+.timer-block-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+  transition: width 1s linear;
+}
+.timer-controls {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+/* ── Sheet Music ── */
+.sheet-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+.sheet-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+.sheet-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 12px;
+}
+.sheet-render {
+  background: #fff;
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  min-height: 90px;
+  overflow-x: auto;
+}
+.sheet-render svg { width: 100%; height: auto; }
+
+/* ── Pitch Detector ── */
+.pitch-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  margin-bottom: 16px;
+}
+.pitch-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.pitch-header h3 { font-size: 15px; font-weight: 600; }
+.pitch-main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+.pitch-note-big {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  font-weight: 800;
+  background: var(--bg-elevated);
+  border: 3px solid var(--border);
+  transition: border-color 0.2s, color 0.2s;
+}
+.pitch-note-big.in-tune { border-color: var(--green); color: var(--green); }
+.pitch-note-big.close { border-color: var(--yellow); color: var(--yellow); }
+.pitch-note-big.off { border-color: var(--red); color: var(--red); }
+.pitch-info {
+  text-align: center;
+}
+.pitch-freq {
+  font-size: 14px;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+.pitch-cents {
+  font-size: 18px;
+  font-weight: 700;
+  margin-top: 2px;
+}
+.pitch-expected {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+.tuner-bar-container {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  position: relative;
+  height: 32px;
+}
+.tuner-bar-bg {
+  position: absolute;
+  top: 12px;
+  left: 0; right: 0;
+  height: 8px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--red) 0%, var(--yellow) 25%, var(--green) 45%, var(--green) 55%, var(--yellow) 75%, var(--red) 100%);
+  opacity: 0.4;
+}
+.tuner-center-line {
+  position: absolute;
+  top: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 20px;
+  background: var(--text-muted);
+}
+.tuner-needle {
+  position: absolute;
+  top: 4px;
+  width: 12px;
+  height: 24px;
+  border-radius: 6px;
+  background: var(--accent);
+  transform: translateX(-50%);
+  left: 50%;
+  transition: left 0.1s ease-out;
+  box-shadow: 0 0 8px rgba(212,165,116,0.5);
+}
+.tuner-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* ── Tips ── */
+.tips-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+.tips-section h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 14px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  font-size: 11px;
+}
+.tip-item {
+  font-size: 13px;
+  color: var(--text-secondary);
+  padding: 10px 14px;
+  background: var(--bg-elevated);
+  border-radius: var(--radius-sm);
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  gap: 8px;
+}
+.tip-item:last-child { margin-bottom: 0; }
+.tip-bullet {
+  color: var(--accent);
+  flex-shrink: 0;
+  font-size: 8px;
+  margin-top: 3px;
+}
+
+/* ── Metronome ── */
+.metronome-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+.metronome-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.metro-bpm {
+  font-size: 36px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  width: 80px;
+  text-align: center;
+}
+.metro-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.metro-beat {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--bg-input);
+  border: 2px solid var(--border);
+  transition: all 0.08s ease;
+}
+.metro-beat.pulse {
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 16px rgba(212,165,116,0.6);
+}
+
+/* ── Checklist ── */
+.checklist-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin-bottom: 16px;
+}
+.checklist-section h3 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+.check-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+  cursor: pointer;
+  user-select: none;
+}
+.check-item:last-child { border-bottom: none; }
+.check-box {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  border: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+.check-item.checked .check-box {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.check-item.checked .check-box::after {
+  content: '';
+  width: 6px;
+  height: 10px;
+  border: solid var(--bg);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  margin-top: -2px;
+}
+.check-item.checked .check-label {
+  color: var(--text-muted);
+  text-decoration: line-through;
+}
+
+/* ── Buttons ── */
+.btn {
+  padding: 10px 20px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+.btn:hover { background: var(--bg-input); border-color: var(--text-muted); }
+.btn-accent {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
+}
+.btn-accent:hover { background: var(--accent-hover); border-color: var(--accent-hover); }
+.btn-sm {
+  padding: 6px 14px;
+  font-size: 13px;
+}
+.btn-icon {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  font-size: 18px;
+}
+.btn-complete {
+  width: 100%;
+  padding: 14px;
+  font-size: 16px;
+  background: linear-gradient(135deg, var(--accent), #c49060);
+  border: none;
+  color: var(--bg);
+  border-radius: var(--radius);
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.btn-complete:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(212,165,116,0.4);
+}
+.btn-complete:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ── Mic status ── */
+.mic-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: var(--bg-input);
+}
+.mic-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--text-muted);
+}
+.mic-dot.active { background: var(--green); animation: mic-pulse 1.5s infinite; }
+@keyframes mic-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* ── Feedback Overlay ── */
+.feedback-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  z-index: 1000;
+  display: none;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.feedback-overlay.visible { display: flex; justify-content: center; align-items: flex-start; padding: 24px 16px; }
+.feedback-panel {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  max-width: 640px;
+  width: 100%;
+  padding: 32px 28px;
+  margin: auto;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+}
+.fb-score-container { text-align: center; margin-bottom: 24px; }
+.fb-score-letter {
+  font-size: 96px;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -2px;
+}
+.fb-score-letter.grade-a { color: var(--green); }
+.fb-score-letter.grade-b { color: var(--accent); }
+.fb-score-letter.grade-c { color: var(--yellow); }
+.fb-score-letter.grade-d, .fb-score-letter.grade-f { color: var(--red); }
+.fb-accuracy {
+  font-size: 18px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+.fb-section {
+  margin-bottom: 20px;
+}
+.fb-section-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 10px;
+}
+.fb-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.fb-bar-label {
+  font-size: 13px;
+  color: var(--text-secondary);
+  width: 110px;
+  flex-shrink: 0;
+}
+.fb-bar-track {
+  flex: 1;
+  height: 10px;
+  background: var(--bg-input);
+  border-radius: 5px;
+  overflow: hidden;
+}
+.fb-bar-fill {
+  height: 100%;
+  border-radius: 5px;
+  transition: width 0.6s ease;
+}
+.fb-bar-value {
+  font-size: 13px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  width: 48px;
+  text-align: right;
+  flex-shrink: 0;
+}
+.fb-notes-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.fb-note-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.fb-note-name {
+  font-size: 16px;
+  font-weight: 700;
+}
+.fb-note-pct {
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+.fb-tendency {
+  font-size: 14px;
+  color: var(--text-secondary);
+  text-align: center;
+  padding: 12px;
+  background: var(--bg-elevated);
+  border-radius: var(--radius-sm);
+}
+.fb-rec-item {
+  font-size: 13px;
+  color: var(--text-secondary);
+  padding: 6px 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  gap: 8px;
+}
+.fb-rec-item:last-child { border-bottom: none; }
+.fb-evolution {
+  background: var(--bg-elevated);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  min-height: 80px;
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+}
+.fb-evo-bar-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.fb-evo-bar {
+  width: 100%;
+  max-width: 32px;
+  border-radius: 3px 3px 0 0;
+  background: var(--accent-dim);
+  transition: height 0.4s ease;
+}
+.fb-evo-bar.current { background: var(--accent); }
+.fb-evo-label {
+  font-size: 9px;
+  color: var(--text-muted);
+  writing-mode: horizontal-tb;
+}
+.fb-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 24px;
+}
+.fb-actions .btn { flex: 1; }
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .container { padding: 12px 10px 30px; }
+  .header { padding: 16px; }
+  .timer-time { font-size: 36px; }
+  .pitch-main { gap: 16px; }
+  .pitch-note-big { width: 80px; height: 80px; font-size: 26px; }
+  .blocks-bar { flex-wrap: wrap; height: auto; }
+  .block-segment { flex: 1 1 auto; height: 32px; font-size: 10px; }
+  .fb-score-letter { font-size: 64px; }
+  .fb-notes-grid { grid-template-columns: 1fr; }
+  .feedback-panel { padding: 20px 16px; }
+  .eval-cards { gap: 6px; }
+  .eval-card { padding: 6px 4px; }
+  .eval-card .eval-score { font-size: 14px; }
+  .chat-panel { width: calc(100vw - 24px); right: 12px; }
+}
+
+/* ── Evaluation Cards (4 levels) ── */
+.eval-bar {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 16px;
+  margin-bottom: 16px;
+}
+.eval-cards {
+  display: flex;
+  gap: 8px;
+}
+.eval-card {
+  flex: 1;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  text-align: center;
+  position: relative;
+}
+.eval-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  margin-bottom: 2px;
+}
+.eval-score {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  font-variant-numeric: tabular-nums;
+}
+.eval-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  margin-left: 4px;
+  vertical-align: middle;
+}
+.eval-dot.green { background: var(--green); }
+.eval-dot.yellow { background: var(--yellow); }
+.eval-dot.red { background: var(--red); }
+.eval-dot.muted { background: var(--text-muted); }
+
+/* ── Posture Check Modal ── */
+.posture-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  z-index: 1100;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  padding: 24px 16px;
+}
+.posture-overlay.visible { display: flex; }
+.posture-modal {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  max-width: 440px;
+  width: 100%;
+  padding: 28px 24px;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+}
+.posture-modal h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+.posture-modal .posture-desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+}
+.posture-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  user-select: none;
+}
+.posture-item:last-of-type { border-bottom: none; }
+.posture-checkbox {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  border: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+  transition: all 0.2s;
+}
+.posture-item.checked .posture-checkbox {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.posture-item.checked .posture-checkbox::after {
+  content: '';
+  width: 6px;
+  height: 10px;
+  border: solid var(--bg);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  margin-top: -2px;
+}
+.posture-text {
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.4;
+}
+
+/* ── Feedback 4-Level Bars ── */
+.fb-eval-section {
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+.fb-eval-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 14px;
+}
+.fb-eval-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.fb-eval-label {
+  font-size: 13px;
+  color: var(--text-secondary);
+  width: 110px;
+  flex-shrink: 0;
+}
+.fb-eval-track {
+  flex: 1;
+  height: 10px;
+  background: var(--bg-input);
+  border-radius: 5px;
+  overflow: hidden;
+}
+.fb-eval-fill {
+  height: 100%;
+  border-radius: 5px;
+  transition: width 0.8s ease;
+}
+.fb-eval-value {
+  font-size: 13px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  width: 48px;
+  text-align: right;
+  flex-shrink: 0;
+}
+.fb-overall-score {
+  text-align: center;
+  padding: 12px;
+  background: var(--bg-elevated);
+  border-radius: var(--radius-sm);
+  margin-top: 12px;
+}
+.fb-overall-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.fb-overall-grade {
+  font-size: 28px;
+  font-weight: 800;
+  margin-top: 2px;
+}
+
+/* ── Chat Panel ── */
+.chat-bubble {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+  font-size: 22px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(181,105,74,0.4);
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.chat-bubble:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 28px rgba(181,105,74,0.5);
+}
+.chat-panel {
+  position: fixed;
+  bottom: 82px;
+  right: 20px;
+  width: 360px;
+  max-height: 460px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 40px rgba(0,0,0,0.5);
+  z-index: 910;
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+}
+.chat-panel.visible { display: flex; }
+.chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.chat-header-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent);
+}
+.chat-close {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 18px;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: color 0.2s;
+}
+.chat-close:hover { color: var(--text); }
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-height: 200px;
+  max-height: 320px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+.chat-messages::-webkit-scrollbar { width: 4px; }
+.chat-messages::-webkit-scrollbar-track { background: transparent; }
+.chat-messages::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+.chat-messages::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+.chat-msg {
+  display: flex;
+  gap: 10px;
+  max-width: 100%;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.chat-msg .chat-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 600;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.chat-msg .chat-text {
+  flex: 1;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  padding: 10px 14px;
+  border-radius: 12px;
+}
+.chat-msg.assistant {
+  align-self: flex-start;
+}
+.chat-msg.assistant .chat-avatar {
+  background: var(--accent);
+  color: var(--bg);
+}
+.chat-msg.assistant .chat-text {
+  color: var(--text);
+  background: var(--bg-elevated);
+  border-top-left-radius: 4px;
+}
+.chat-msg.user {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+.chat-msg.user .chat-avatar {
+  background: var(--border);
+  color: var(--text-secondary);
+}
+.chat-msg.user .chat-text {
+  color: var(--text);
+  background: var(--accent-dim);
+  text-align: right;
+  border-top-right-radius: 4px;
+}
+.chat-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 14px;
+  background: var(--accent);
+  margin-left: 1px;
+  vertical-align: text-bottom;
+  animation: blink 0.6s infinite;
+}
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+.thinking-dots::after {
+  content: '';
+  animation: dots 1.5s infinite;
+}
+@keyframes dots {
+  0% { content: ''; }
+  25% { content: '.'; }
+  50% { content: '..'; }
+  75% { content: '...'; }
+}
+.chat-input-area {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  padding: 10px 12px;
+  border-top: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.chat-input {
+  flex: 1;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  color: var(--text);
+  font-size: 13px;
+  font-family: inherit;
+  resize: none;
+  line-height: 1.4;
+  min-height: 36px;
+  max-height: 100px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+.chat-input::-webkit-scrollbar { width: 3px; }
+.chat-input::-webkit-scrollbar-track { background: transparent; }
+.chat-input::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+.chat-input::placeholder { color: var(--text-muted); }
+.chat-input:focus { outline: none; border-color: var(--accent); }
+.chat-send {
+  background: var(--bg-elevated);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 7px 14px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+  flex-shrink: 0;
+  height: 36px;
+  align-self: flex-end;
+}
+.chat-send:hover { background: var(--border); border-color: var(--text-muted); }
+
+/* ── Reference Play ── */
+.reference-play {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: var(--bg-elevated);
+  border-radius: var(--radius-sm);
+  margin: 10px 0;
+}
+.ref-play-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: none;
+  color: var(--bg);
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+.ref-play-btn:hover { background: var(--accent-hover); }
+.ref-play-btn.playing { background: var(--red); }
+.ref-play-info {
+  flex: 1;
+}
+.ref-play-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+}
+.ref-play-detail {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+.ref-play-progress {
+  height: 3px;
+  background: var(--border);
+  border-radius: 2px;
+  margin-top: 6px;
+  overflow: hidden;
+}
+.ref-play-progress-bar {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+  width: 0%;
+  transition: width 0.1s linear;
+}
+.ref-notes-bar {
+  display: flex;
+  gap: 3px;
+  margin-top: 6px;
+}
+.ref-note-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--border);
+  transition: background 0.15s;
+}
+.ref-note-dot.active { background: var(--accent); }
+.ref-note-dot.played { background: var(--text-muted); }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Header -->
+  <div class="header">
+    <div class="header-top">
+      <div>
+        <div class="header-title">{{TITLE}}</div>
+        <div class="header-subtitle">{{LEVEL_NAME}} &middot; Dia {{DAY}}</div>
+      </div>
+      <div class="header-stats">
+        <div class="stat">
+          <div class="stat-value">{{STREAK}}</div>
+          <div class="stat-label">Seguidos</div>
+        </div>
+        <div class="stat">
+          <div class="stat-value">{{TOTAL_DAYS}}</div>
+          <div class="stat-label">Total</div>
+        </div>
+      </div>
+    </div>
+    <div class="progress-label">
+      <span>Progresso do nivel</span>
+      <span>{{LEVEL_PROGRESS}}%</span>
+    </div>
+    <div class="progress-bar-container">
+      <div class="progress-bar-fill" style="width: {{LEVEL_PROGRESS}}%"></div>
+    </div>
+  </div>
+
+  <!-- Evaluation Cards (4 levels - real-time) -->
+  <div class="eval-bar" id="evalBar">
+    <div class="eval-cards">
+      <div class="eval-card" id="evalPostura">
+        <div class="eval-label">Postura</div>
+        <div class="eval-score">--<span class="eval-dot muted"></span></div>
+      </div>
+      <div class="eval-card" id="evalSom">
+        <div class="eval-label">Som</div>
+        <div class="eval-score">--<span class="eval-dot muted"></span></div>
+      </div>
+      <div class="eval-card" id="evalAfinacao">
+        <div class="eval-label">Afinacao</div>
+        <div class="eval-score">--<span class="eval-dot muted"></span></div>
+      </div>
+      <div class="eval-card" id="evalMusicalidade">
+        <div class="eval-label">Musicalidade</div>
+        <div class="eval-score">--<span class="eval-dot muted"></span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Timer -->
+  <div class="timer-section">
+    <div class="blocks-bar" id="blocksBar">
+      <div class="block-segment active" data-block="0" style="flex-basis:25%">Aquecimento 5'</div>
+      <div class="block-segment" data-block="1" style="flex-basis:40%">Tecnica 8'</div>
+      <div class="block-segment" data-block="2" style="flex-basis:25%">Repertorio 5'</div>
+      <div class="block-segment" data-block="3" style="flex-basis:10%">Revisao 2'</div>
+    </div>
+    <div class="timer-display">
+      <div class="timer-time" id="timerDisplay">05:00</div>
+    </div>
+    <div class="timer-block-progress">
+      <div class="timer-block-fill" id="timerBlockFill" style="width:0%"></div>
+    </div>
+    <div class="timer-controls">
+      <button class="btn btn-accent" id="timerStartBtn" onclick="toggleTimer()">Iniciar</button>
+      <button class="btn btn-sm" onclick="resetTimer()">Reiniciar</button>
+    </div>
+  </div>
+
+  <!-- Sheet Music -->
+  <div class="sheet-section" id="sheetSection">
+    <div class="sheet-label" id="sheetLabel">Aquecimento</div>
+    <div class="sheet-desc" id="sheetDesc">{{WARMUP_DESC}}</div>
+    <div class="reference-play" id="refPlay">
+      <button class="ref-play-btn" id="refPlayBtn" onclick="toggleReferencePlay()">&#9654;</button>
+      <div class="ref-play-info">
+        <div class="ref-play-label">Ouvir referencia</div>
+        <div class="ref-play-detail" id="refPlayDetail">Como deve soar — toque junto!</div>
+        <div class="ref-play-progress"><div class="ref-play-progress-bar" id="refPlayProgress"></div></div>
+        <div class="ref-notes-bar" id="refNotesBar"></div>
+      </div>
+    </div>
+    <div class="sheet-render" id="sheetRender"></div>
+  </div>
+
+  <!-- Pitch Detector -->
+  <div class="pitch-section">
+    <div class="pitch-header">
+      <h3>Detector de Afinacao</h3>
+      <div class="mic-status" id="micStatus">
+        <div class="mic-dot" id="micDot"></div>
+        <span id="micLabel">Microfone desligado</span>
+      </div>
+    </div>
+    <div style="text-align:center;margin-bottom:12px;">
+      <button class="btn btn-sm" id="micBtn" onclick="toggleMic()">Ligar Microfone</button>
+    </div>
+    <div class="pitch-main">
+      <div class="pitch-note-big" id="pitchNote">--</div>
+      <div class="pitch-info">
+        <div class="pitch-freq" id="pitchFreq">-- Hz</div>
+        <div class="pitch-cents" id="pitchCents">-- cents</div>
+        <div class="pitch-expected" id="pitchExpected">Esperado: --</div>
+      </div>
+    </div>
+    <div class="tuner-bar-container">
+      <div class="tuner-bar-bg"></div>
+      <div class="tuner-center-line"></div>
+      <div class="tuner-needle" id="tunerNeedle"></div>
+      <div style="position:relative;top:28px;">
+        <div class="tuner-labels"><span>-50c</span><span>0</span><span>+50c</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tips -->
+  <div class="tips-section">
+    <h3>Dicas da Sessao</h3>
+    <div id="tipsContainer"></div>
+  </div>
+
+  <!-- Metronome -->
+  <div class="metronome-section">
+    <div style="text-align:center;margin-bottom:8px;">
+      <span style="font-size:14px;font-weight:600;">Metronomo</span>
+    </div>
+    <div class="metronome-row">
+      <button class="btn btn-icon" onclick="changeBpm(-5)">-</button>
+      <div>
+        <div class="metro-bpm" id="bpmDisplay">{{BPM}}</div>
+        <div class="metro-label" style="text-align:center">BPM</div>
+      </div>
+      <button class="btn btn-icon" onclick="changeBpm(5)">+</button>
+      <div class="metro-beat" id="metroBeat"></div>
+      <button class="btn btn-sm" id="metroBtn" onclick="toggleMetronome()">Iniciar</button>
+    </div>
+  </div>
+
+  <!-- Checklist -->
+  <div class="checklist-section">
+    <h3>Checklist da Sessao</h3>
+    <div id="checklistContainer">
+      <div class="check-item" onclick="toggleCheck(this)" data-key="warmup">
+        <div class="check-box"></div>
+        <span class="check-label">Aquecimento completo</span>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)" data-key="technique">
+        <div class="check-box"></div>
+        <span class="check-label">Tecnica praticada</span>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)" data-key="repertoire">
+        <div class="check-box"></div>
+        <span class="check-label">Repertorio estudado</span>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)" data-key="tuning">
+        <div class="check-box"></div>
+        <span class="check-label">Afinacao verificada</span>
+      </div>
+      <div class="check-item" onclick="toggleCheck(this)" data-key="review">
+        <div class="check-box"></div>
+        <span class="check-label">Revisao final</span>
+      </div>
+    </div>
+    <div style="margin-top:16px;">
+      <button class="btn-complete" id="completeBtn" disabled onclick="completeSession()">
+        Concluir Sessao
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Feedback Overlay -->
+<div class="feedback-overlay" id="feedbackOverlay">
+  <div class="feedback-panel">
+    <div class="fb-score-container">
+      <div class="fb-score-letter" id="fbScoreLetter">--</div>
+      <div class="fb-accuracy" id="fbAccuracy">-- notas corretas</div>
+    </div>
+
+    <!-- 4-Level Evaluation in Feedback -->
+    <div class="fb-eval-section" id="fbEvalSection">
+      <div class="fb-eval-title">Avaliacao da Sessao</div>
+      <div id="fbEvalBars"></div>
+      <div class="fb-overall-score" id="fbOverallScore">
+        <div class="fb-overall-label">Score Geral</div>
+        <div class="fb-overall-grade" id="fbOverallGrade">--</div>
+      </div>
+    </div>
+
+    <div class="fb-section">
+      <div class="fb-section-title">Precisao por Bloco</div>
+      <div id="fbBlockBars"></div>
+    </div>
+
+    <div class="fb-section">
+      <div class="fb-section-title">Notas</div>
+      <div class="fb-notes-grid">
+        <div>
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px;">Mais dificeis</div>
+          <div id="fbHardest"></div>
+        </div>
+        <div>
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px;">Melhores</div>
+          <div id="fbBest"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fb-section">
+      <div class="fb-section-title">Tendencia de Afinacao</div>
+      <div class="fb-tendency" id="fbTendency">--</div>
+    </div>
+
+    <div class="fb-section">
+      <div class="fb-section-title">Recomendacoes</div>
+      <div id="fbRecommendations"></div>
+    </div>
+
+    <div class="fb-section">
+      <div class="fb-section-title">Evolucao Recente</div>
+      <div class="fb-evolution" id="fbEvolution"></div>
+    </div>
+
+    <div class="fb-actions">
+      <button class="btn btn-accent" onclick="saveAndClose()">Salvar e Fechar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Posture Check Modal -->
+<div class="posture-overlay" id="postureOverlay">
+  <div class="posture-modal">
+    <h3>Verificacao de Postura</h3>
+    <p class="posture-desc">Antes de iniciar, confirme que sua postura esta correta:</p>
+    <div id="postureChecklist">
+      <div class="posture-item" onclick="togglePostureItem(this)" data-key="p1">
+        <div class="posture-checkbox"></div>
+        <span class="posture-text">Violino apoiado no ombro, queixo firme</span>
+      </div>
+      <div class="posture-item" onclick="togglePostureItem(this)" data-key="p2">
+        <div class="posture-checkbox"></div>
+        <span class="posture-text">Cotovelo direito relaxado</span>
+      </div>
+      <div class="posture-item" onclick="togglePostureItem(this)" data-key="p3">
+        <div class="posture-checkbox"></div>
+        <span class="posture-text">Mao esquerda curvada, polegar oposto ao 2° dedo</span>
+      </div>
+      <div class="posture-item" onclick="togglePostureItem(this)" data-key="p4">
+        <div class="posture-checkbox"></div>
+        <span class="posture-text">Costas retas, pes no chao</span>
+      </div>
+    </div>
+    <div style="margin-top:18px;">
+      <button class="btn btn-accent" style="width:100%;padding:12px;" id="postureConfirmBtn" onclick="confirmPosture()">Confirmar e Iniciar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Chat Panel -->
+<button class="chat-bubble" id="chatBubble" onclick="toggleChat()" title="Professor de Violino">&#9834;</button>
+<div class="chat-panel" id="chatPanel">
+  <div class="chat-header">
+    <span class="chat-header-title">Professor de Violino</span>
+    <button class="chat-close" onclick="toggleChat()">&times;</button>
+  </div>
+  <div class="chat-messages" id="chatMessages">
+    <div class="chat-msg assistant">
+      <div class="chat-avatar">P</div>
+      <div class="chat-text">Ola! Sou seu professor de violino. Pergunte sobre tecnica, afinacao, metronomo, ou qualquer duvida.</div>
+    </div>
+  </div>
+  <div class="chat-input-area">
+    <textarea class="chat-input" id="chatInput" placeholder="Digite sua duvida..." rows="1" onkeydown="chatKeyDown(event)"></textarea>
+    <button class="chat-send" onclick="sendChat()">Enviar</button>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════
+// DATA (Python-injected)
+// ══════════════════════════════════════════
+const DATA = {
+  warmupAbc: `{{WARMUP_ABC}}`,
+  warmupDesc: `{{WARMUP_DESC}}`,
+  warmupNotes: {{WARMUP_NOTES}},
+  techniqueAbc: `{{TECHNIQUE_ABC}}`,
+  techniqueDesc: `{{TECHNIQUE_DESC}}`,
+  techniqueNotes: {{TECHNIQUE_NOTES}},
+  repertoireAbc: `{{REPERTOIRE_ABC}}`,
+  repertoireDesc: `{{REPERTOIRE_DESC}}`,
+  repertoireNotes: {{REPERTOIRE_NOTES}},
+  tips: {{TIPS}},
+  bpm: {{BPM}},
+  recentSessions: {{RECENT_SESSIONS}}
+};
+
+// ══════════════════════════════════════════
+// NOTE RECORDING SYSTEM
+// ══════════════════════════════════════════
+const sessionNotes = [];
+let sessionStartTime = null;
+let lastRecordedTime = 0;
+const RECORD_DEBOUNCE_MS = 300; // Evita gravar a mesma nota repetidamente
+
+const BLOCKS = [
+  { name: 'Aquecimento', seconds: 300, abc: DATA.warmupAbc, desc: DATA.warmupDesc, notes: DATA.warmupNotes },
+  { name: 'Tecnica',     seconds: 480, abc: DATA.techniqueAbc, desc: DATA.techniqueDesc, notes: DATA.techniqueNotes },
+  { name: 'Repertorio',  seconds: 300, abc: DATA.repertoireAbc, desc: DATA.repertoireDesc, notes: DATA.repertoireNotes },
+  { name: 'Revisao',     seconds: 120, abc: DATA.warmupAbc, desc: 'Revise os trechos mais dificeis da sessao.', notes: DATA.warmupNotes }
+];
+
+// ══════════════════════════════════════════
+// NOTE FREQUENCIES (A4 = 440 Hz, equal temperament)
+// ══════════════════════════════════════════
+const NOTE_FREQS = [
+  { name: 'G3',  freq: 196.00 },
+  { name: 'G#3', freq: 207.65 },
+  { name: 'A3',  freq: 220.00 },
+  { name: 'A#3', freq: 233.08 },
+  { name: 'B3',  freq: 246.94 },
+  { name: 'C4',  freq: 261.63 },
+  { name: 'C#4', freq: 277.18 },
+  { name: 'D4',  freq: 293.66 },
+  { name: 'D#4', freq: 311.13 },
+  { name: 'E4',  freq: 329.63 },
+  { name: 'F4',  freq: 349.23 },
+  { name: 'F#4', freq: 369.99 },
+  { name: 'G4',  freq: 392.00 },
+  { name: 'G#4', freq: 415.30 },
+  { name: 'A4',  freq: 440.00 },
+  { name: 'A#4', freq: 466.16 },
+  { name: 'B4',  freq: 493.88 },
+  { name: 'C5',  freq: 523.25 },
+  { name: 'C#5', freq: 554.37 },
+  { name: 'D5',  freq: 587.33 },
+  { name: 'D#5', freq: 622.25 },
+  { name: 'E5',  freq: 659.26 },
+  { name: 'F5',  freq: 698.46 },
+  { name: 'F#5', freq: 739.99 },
+  { name: 'G5',  freq: 783.99 }
+];
+
+function freqToNote(freq) {
+  if (freq < 150 || freq > 900) return null;
+  let closest = null, minDist = Infinity;
+  for (const n of NOTE_FREQS) {
+    const cents = 1200 * Math.log2(freq / n.freq);
+    if (Math.abs(cents) < minDist) {
+      minDist = Math.abs(cents);
+      closest = { name: n.name, freq: n.freq, cents: cents };
+    }
+  }
+  return closest;
+}
+
+// ══════════════════════════════════════════
+// TIPS
+// ══════════════════════════════════════════
+(function renderTips() {
+  const c = document.getElementById('tipsContainer');
+  DATA.tips.forEach(t => {
+    const d = document.createElement('div');
+    d.className = 'tip-item';
+    d.innerHTML = `<span class="tip-bullet">&#9679;</span><span>${t}</span>`;
+    c.appendChild(d);
+  });
+})();
+
+// ══════════════════════════════════════════
+// SHEET MUSIC (ABCjs)
+// ══════════════════════════════════════════
+function renderSheet(abc, label, desc) {
+  document.getElementById('sheetLabel').textContent = label;
+  document.getElementById('sheetDesc').textContent = desc;
+  const el = document.getElementById('sheetRender');
+  el.innerHTML = '';
+  if (abc && abc.trim() && typeof ABCJS !== 'undefined') {
+    ABCJS.renderAbc(el, abc, {
+      responsive: 'resize',
+      staffwidth: 700,
+      paddingtop: 10,
+      paddingbottom: 10
+    });
+  } else {
+    el.innerHTML = '<div style="padding:20px;text-align:center;color:#999;font-size:13px;">Partitura nao disponivel</div>';
+  }
+}
+
+// Initial render
+document.addEventListener('DOMContentLoaded', () => {
+  renderSheet(BLOCKS[0].abc, BLOCKS[0].name, BLOCKS[0].desc);
+  ReferencePlayer.updateNotes(BLOCKS[0].notes);
+});
+
+// ══════════════════════════════════════════
+// TIMER
+// ══════════════════════════════════════════
+// ══════════════════════════════════════════
+// REFERENCE PLAYER (Web Audio violin-like synth)
+// ══════════════════════════════════════════
+const NOTE_FREQ = {
+  'G3': 196.00, 'G#3': 207.65, 'A3': 220.00, 'A#3': 233.08, 'B3': 246.94,
+  'C4': 261.63, 'C#4': 277.18, 'D4': 293.66, 'D#4': 311.13, 'E4': 329.63,
+  'F4': 349.23, 'F#4': 369.99, 'G4': 392.00, 'G#4': 415.30, 'A4': 440.00,
+  'A#4': 466.16, 'B4': 493.88, 'C5': 523.25, 'C#5': 554.37, 'D5': 587.33,
+  'D#5': 622.25, 'E5': 659.26, 'F5': 698.46, 'F#5': 739.99, 'G5': 783.99
+};
+
+const ReferencePlayer = {
+  ctx: null,
+  playing: false,
+  notes: [],
+  currentNoteIdx: 0,
+  timeouts: [],
+
+  updateNotes(notesArr) {
+    if (this.playing) this.stop();
+    this.notes = notesArr || [];
+    this._renderDots();
+    this._resetUI();
+  },
+
+  _renderDots() {
+    const bar = document.getElementById('refNotesBar');
+    if (!bar) return;
+    bar.innerHTML = '';
+    this.notes.forEach(() => {
+      const dot = document.createElement('div');
+      dot.className = 'ref-note-dot';
+      bar.appendChild(dot);
+    });
+  },
+
+  _resetUI() {
+    const btn = document.getElementById('refPlayBtn');
+    const detail = document.getElementById('refPlayDetail');
+    const progress = document.getElementById('refPlayProgress');
+    if (btn) { btn.innerHTML = '&#9654;'; btn.classList.remove('playing'); }
+    if (detail) detail.textContent = 'Como deve soar \u2014 toque junto!';
+    if (progress) { progress.style.transition = 'none'; progress.style.width = '0%'; }
+    const dots = document.querySelectorAll('#refNotesBar .ref-note-dot');
+    dots.forEach(d => { d.classList.remove('active', 'played'); });
+  },
+
+  stop() {
+    this.playing = false;
+    this.timeouts.forEach(t => clearTimeout(t));
+    this.timeouts = [];
+    if (this.ctx) {
+      try { this.ctx.close(); } catch {}
+      this.ctx = null;
+    }
+    this._resetUI();
+  },
+
+  play() {
+    if (this.notes.length === 0) return;
+    this.playing = true;
+    this.currentNoteIdx = 0;
+    this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+
+    const btn = document.getElementById('refPlayBtn');
+    if (btn) { btn.innerHTML = '&#9632;'; btn.classList.add('playing'); }
+
+    const msPerBeat = 60000 / metroBpm;
+    const totalDuration = this.notes.length * msPerBeat;
+
+    // Animate progress bar
+    const progress = document.getElementById('refPlayProgress');
+    if (progress) {
+      progress.style.transition = 'none';
+      progress.style.width = '0%';
+      requestAnimationFrame(() => {
+        progress.style.transition = 'width ' + totalDuration + 'ms linear';
+        progress.style.width = '100%';
+      });
+    }
+
+    // Schedule each note
+    this.notes.forEach((noteName, i) => {
+      const t = setTimeout(() => {
+        if (!this.playing) return;
+        this.currentNoteIdx = i;
+        this._playNote(noteName, msPerBeat / 1000);
+        this._updateUI(i, noteName);
+      }, i * msPerBeat);
+      this.timeouts.push(t);
+    });
+
+    // Schedule finish
+    const finishT = setTimeout(() => {
+      if (this.playing) this.stop();
+    }, totalDuration + 100);
+    this.timeouts.push(finishT);
+  },
+
+  _playNote(noteName, durationSec) {
+    if (!this.ctx || !this.playing) return;
+    const freq = NOTE_FREQ[noteName];
+    if (!freq) return;
+
+    const ctx = this.ctx;
+    const now = ctx.currentTime;
+    const attack = 0.05;
+    const release = 0.1;
+    const sustain = Math.max(0.05, durationSec - attack - release);
+
+    // Sawtooth oscillator (violin-like timbre)
+    const osc = ctx.createOscillator();
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(freq, now);
+
+    // Low-pass filter to soften harmonics
+    const filter = ctx.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime(1500, now);
+    filter.Q.setValueAtTime(0.7, now);
+
+    // Gain envelope (attack-sustain-release)
+    const gain = ctx.createGain();
+    gain.gain.setValueAtTime(0, now);
+    gain.gain.linearRampToValueAtTime(0.25, now + attack);
+    gain.gain.setValueAtTime(0.25, now + attack + sustain);
+    gain.gain.linearRampToValueAtTime(0, now + attack + sustain + release);
+
+    // Vibrato for longer notes (>0.5s)
+    if (durationSec > 0.5) {
+      const vibrato = ctx.createOscillator();
+      const vibratoGain = ctx.createGain();
+      vibrato.type = 'sine';
+      vibrato.frequency.setValueAtTime(5, now);
+      vibratoGain.gain.setValueAtTime(3, now);
+      vibrato.connect(vibratoGain);
+      vibratoGain.connect(osc.frequency);
+      vibrato.start(now);
+      vibrato.stop(now + durationSec);
+    }
+
+    osc.connect(filter);
+    filter.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start(now);
+    osc.stop(now + attack + sustain + release + 0.01);
+  },
+
+  _updateUI(idx, noteName) {
+    // Update detail text
+    const detail = document.getElementById('refPlayDetail');
+    const freq = NOTE_FREQ[noteName] || 0;
+    if (detail) detail.textContent = noteName + ' \u2014 ' + freq.toFixed(0) + ' Hz';
+
+    // Update note dots
+    const dots = document.querySelectorAll('#refNotesBar .ref-note-dot');
+    dots.forEach((d, i) => {
+      d.classList.remove('active', 'played');
+      if (i < idx) d.classList.add('played');
+      else if (i === idx) d.classList.add('active');
+    });
+  }
+};
+
+function toggleReferencePlay() {
+  if (ReferencePlayer.playing) {
+    ReferencePlayer.stop();
+  } else {
+    ReferencePlayer.play();
+  }
+}
+
+let timerRunning = false;
+let timerInterval = null;
+let currentBlock = 0;
+let blockRemaining = BLOCKS[0].seconds;
+
+function formatTime(s) {
+  const m = Math.floor(s / 60);
+  const sec = s % 60;
+  return `${String(m).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
+}
+
+function updateTimerUI() {
+  document.getElementById('timerDisplay').textContent = formatTime(blockRemaining);
+  const block = BLOCKS[currentBlock];
+  const pct = ((block.seconds - blockRemaining) / block.seconds) * 100;
+  document.getElementById('timerBlockFill').style.width = pct + '%';
+  // Update block segments
+  document.querySelectorAll('.block-segment').forEach((el, i) => {
+    el.classList.remove('active', 'done');
+    if (i < currentBlock) el.classList.add('done');
+    else if (i === currentBlock) el.classList.add('active');
+  });
+}
+
+function advanceBlock() {
+  if (currentBlock < BLOCKS.length - 1) {
+    currentBlock++;
+    blockRemaining = BLOCKS[currentBlock].seconds;
+    renderSheet(BLOCKS[currentBlock].abc, BLOCKS[currentBlock].name, BLOCKS[currentBlock].desc);
+    ReferencePlayer.updateNotes(BLOCKS[currentBlock].notes);
+    updateTimerUI();
+  } else {
+    // All done
+    stopTimer();
+    ReferencePlayer.stop();
+    document.querySelectorAll('.block-segment').forEach(el => {
+      el.classList.remove('active');
+      el.classList.add('done');
+    });
+    document.getElementById('timerDisplay').textContent = '00:00';
+    document.getElementById('timerBlockFill').style.width = '100%';
+    // Auto-show feedback when timer finishes
+    showFeedback();
+  }
+}
+
+function timerTick() {
+  if (blockRemaining > 0) {
+    blockRemaining--;
+    updateTimerUI();
+  } else {
+    advanceBlock();
+  }
+}
+
+function startTimer() {
+  timerRunning = true;
+  if (!sessionStartTime) sessionStartTime = Date.now();
+  document.getElementById('timerStartBtn').textContent = 'Pausar';
+  timerInterval = setInterval(timerTick, 1000);
+}
+
+function stopTimer() {
+  timerRunning = false;
+  document.getElementById('timerStartBtn').textContent = 'Continuar';
+  clearInterval(timerInterval);
+}
+
+let postureShown = false;
+function toggleTimer() {
+  if (timerRunning) {
+    stopTimer();
+  } else {
+    if (!postureShown) {
+      postureShown = true;
+      document.getElementById('postureOverlay').classList.add('visible');
+    } else {
+      startTimer();
+    }
+  }
+}
+
+function resetTimer() {
+  stopTimer();
+  currentBlock = 0;
+  blockRemaining = BLOCKS[0].seconds;
+  document.getElementById('timerStartBtn').textContent = 'Iniciar';
+  renderSheet(BLOCKS[0].abc, BLOCKS[0].name, BLOCKS[0].desc);
+  ReferencePlayer.updateNotes(BLOCKS[0].notes);
+  updateTimerUI();
+}
+
+// Click on block to jump
+document.querySelectorAll('.block-segment').forEach(el => {
+  el.addEventListener('click', () => {
+    const idx = parseInt(el.dataset.block);
+    currentBlock = idx;
+    blockRemaining = BLOCKS[idx].seconds;
+    renderSheet(BLOCKS[idx].abc, BLOCKS[idx].name, BLOCKS[idx].desc);
+    ReferencePlayer.updateNotes(BLOCKS[idx].notes);
+    updateTimerUI();
+  });
+});
+
+updateTimerUI();
+
+// ══════════════════════════════════════════
+// PITCH DETECTION (Web Audio + Autocorrelation)
+// ══════════════════════════════════════════
+let audioCtx = null;
+let analyser = null;
+let micStream = null;
+let pitchRunning = false;
+let pitchRAF = null;
+
+function autoCorrelate(buf, sampleRate) {
+  // Check if there's enough signal
+  let rms = 0;
+  for (let i = 0; i < buf.length; i++) rms += buf[i] * buf[i];
+  rms = Math.sqrt(rms / buf.length);
+  if (rms < 0.01) return -1; // too quiet
+
+  // Trim edges
+  let r1 = 0, r2 = buf.length - 1;
+  const thresh = 0.2;
+  for (let i = 0; i < buf.length / 2; i++) {
+    if (Math.abs(buf[i]) < thresh) { r1 = i; break; }
+  }
+  for (let i = buf.length - 1; i >= buf.length / 2; i--) {
+    if (Math.abs(buf[i]) < thresh) { r2 = i; break; }
+  }
+  const trimBuf = buf.slice(r1, r2);
+  const size = trimBuf.length;
+
+  // Autocorrelation
+  const c = new Float32Array(size);
+  for (let i = 0; i < size; i++) {
+    for (let j = 0; j < size - i; j++) {
+      c[i] += trimBuf[j] * trimBuf[j + i];
+    }
+  }
+
+  // Find first dip then peak
+  let d = 0;
+  while (c[d] > c[d + 1] && d < size) d++;
+  let maxVal = -1, maxPos = -1;
+  for (let i = d; i < size; i++) {
+    if (c[i] > maxVal) {
+      maxVal = c[i];
+      maxPos = i;
+    }
+  }
+
+  // Parabolic interpolation
+  let T0 = maxPos;
+  if (T0 > 0 && T0 < size - 1) {
+    const x1 = c[T0 - 1], x2 = c[T0], x3 = c[T0 + 1];
+    const a = (x1 + x3 - 2 * x2) / 2;
+    const b = (x3 - x1) / 2;
+    if (a) T0 = T0 - b / (2 * a);
+  }
+
+  return sampleRate / T0;
+}
+
+function pitchLoop() {
+  if (!pitchRunning) return;
+  const buf = new Float32Array(analyser.fftSize);
+  analyser.getFloatTimeDomainData(buf);
+  const freq = autoCorrelate(buf, audioCtx.sampleRate);
+
+  const noteEl = document.getElementById('pitchNote');
+  const freqEl = document.getElementById('pitchFreq');
+  const centsEl = document.getElementById('pitchCents');
+  const expectedEl = document.getElementById('pitchExpected');
+  const needle = document.getElementById('tunerNeedle');
+
+  // Expected notes for current block
+  const expected = BLOCKS[currentBlock] ? BLOCKS[currentBlock].notes : [];
+  expectedEl.textContent = 'Esperado: ' + (expected.length ? expected.join(', ') : '--');
+
+  if (freq > 0 && freq < 1200) {
+    const result = freqToNote(freq);
+    if (result) {
+      noteEl.textContent = result.name;
+      freqEl.textContent = freq.toFixed(1) + ' Hz';
+      const cents = Math.round(result.cents);
+      centsEl.textContent = (cents >= 0 ? '+' : '') + cents + ' cents';
+
+      // Record note for session feedback
+      recordNote(result.name, freq, cents);
+
+      // Color class
+      noteEl.classList.remove('in-tune', 'close', 'off');
+      if (Math.abs(cents) <= 10) {
+        noteEl.classList.add('in-tune');
+        centsEl.style.color = 'var(--green)';
+      } else if (Math.abs(cents) <= 25) {
+        noteEl.classList.add('close');
+        centsEl.style.color = 'var(--yellow)';
+      } else {
+        noteEl.classList.add('off');
+        centsEl.style.color = 'var(--red)';
+      }
+
+      // Tuner needle: cents mapped to 0-100% (±50 cents)
+      const pct = 50 + (Math.max(-50, Math.min(50, result.cents)) / 50) * 50;
+      needle.style.left = pct + '%';
+    }
+  } else {
+    noteEl.textContent = '--';
+    noteEl.classList.remove('in-tune', 'close', 'off');
+    freqEl.textContent = '-- Hz';
+    centsEl.textContent = '-- cents';
+    centsEl.style.color = 'var(--text-secondary)';
+    needle.style.left = '50%';
+  }
+
+  pitchRAF = requestAnimationFrame(pitchLoop);
+}
+
+async function startMic() {
+  try {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    const source = audioCtx.createMediaStreamSource(micStream);
+    analyser = audioCtx.createAnalyser();
+    analyser.fftSize = 4096;
+    source.connect(analyser);
+    pitchRunning = true;
+    document.getElementById('micDot').classList.add('active');
+    document.getElementById('micLabel').textContent = 'Ouvindo...';
+    document.getElementById('micBtn').textContent = 'Desligar Microfone';
+    pitchLoop();
+  } catch (e) {
+    alert('Nao foi possivel acessar o microfone. Verifique as permissoes.');
+    console.error(e);
+  }
+}
+
+function stopMic() {
+  pitchRunning = false;
+  if (pitchRAF) cancelAnimationFrame(pitchRAF);
+  if (micStream) {
+    micStream.getTracks().forEach(t => t.stop());
+    micStream = null;
+  }
+  if (audioCtx) {
+    audioCtx.close();
+    audioCtx = null;
+  }
+  document.getElementById('micDot').classList.remove('active');
+  document.getElementById('micLabel').textContent = 'Microfone desligado';
+  document.getElementById('micBtn').textContent = 'Ligar Microfone';
+  document.getElementById('pitchNote').textContent = '--';
+  document.getElementById('pitchNote').classList.remove('in-tune', 'close', 'off');
+  document.getElementById('pitchFreq').textContent = '-- Hz';
+  document.getElementById('pitchCents').textContent = '-- cents';
+  document.getElementById('tunerNeedle').style.left = '50%';
+}
+
+function toggleMic() {
+  if (pitchRunning) stopMic();
+  else startMic();
+}
+
+// ══════════════════════════════════════════
+// METRONOME (Web Audio Oscillator)
+// ══════════════════════��═══════════════════
+let metroBpm = DATA.bpm;
+let metroRunning = false;
+let metroTimeout = null;
+let metroAudioCtx = null;
+
+function playClick() {
+  if (!metroAudioCtx) metroAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  const osc = metroAudioCtx.createOscillator();
+  const gain = metroAudioCtx.createGain();
+  osc.connect(gain);
+  gain.connect(metroAudioCtx.destination);
+  osc.frequency.value = 880;
+  osc.type = 'sine';
+  gain.gain.setValueAtTime(0.5, metroAudioCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, metroAudioCtx.currentTime + 0.06);
+  osc.start(metroAudioCtx.currentTime);
+  osc.stop(metroAudioCtx.currentTime + 0.06);
+
+  // Visual pulse
+  const beat = document.getElementById('metroBeat');
+  beat.classList.add('pulse');
+  setTimeout(() => beat.classList.remove('pulse'), 120);
+}
+
+function metroLoop() {
+  if (!metroRunning) return;
+  playClick();
+  metroTimeout = setTimeout(metroLoop, 60000 / metroBpm);
+}
+
+function startMetronome() {
+  metroRunning = true;
+  document.getElementById('metroBtn').textContent = 'Parar';
+  metroLoop();
+}
+
+function stopMetronome() {
+  metroRunning = false;
+  clearTimeout(metroTimeout);
+  document.getElementById('metroBtn').textContent = 'Iniciar';
+}
+
+function toggleMetronome() {
+  if (metroRunning) stopMetronome();
+  else startMetronome();
+}
+
+function changeBpm(delta) {
+  metroBpm = Math.max(40, Math.min(220, metroBpm + delta));
+  document.getElementById('bpmDisplay').textContent = metroBpm;
+  if (metroRunning) {
+    stopMetronome();
+    startMetronome();
+  }
+}
+
+// ═════════════════════���════════════════════
+// CHECKLIST
+// ══════════════════════════════════════════
+function toggleCheck(el) {
+  el.classList.toggle('checked');
+  updateCompleteBtn();
+}
+
+function updateCompleteBtn() {
+  const total = document.querySelectorAll('.check-item').length;
+  const checked = document.querySelectorAll('.check-item.checked').length;
+  document.getElementById('completeBtn').disabled = checked < total;
+}
+
+function completeSession() {
+  stopTimer();
+  stopMetronome();
+  stopMic();
+  ReferencePlayer.stop();
+  document.getElementById('completeBtn').textContent = 'Sessao Concluida!';
+  document.getElementById('completeBtn').disabled = true;
+  document.getElementById('completeBtn').style.background = 'var(--green)';
+  showFeedback();
+}
+
+// ══════════════════════════════════════════
+// NOTE RECORDING
+// ══════════════════════════════════════════
+function recordNote(detectedName, detectedHz, centsDeviation) {
+  const now = Date.now();
+  if (now - lastRecordedTime < RECORD_DEBOUNCE_MS) return;
+  lastRecordedTime = now;
+
+  const blockName = BLOCKS[currentBlock] ? BLOCKS[currentBlock].name : 'Desconhecido';
+  const expectedNotes = BLOCKS[currentBlock] ? BLOCKS[currentBlock].notes : [];
+  // Determinar nota esperada mais proxima
+  let expectedNote = expectedNotes.length ? expectedNotes[0] : null;
+  if (expectedNotes.length > 1) {
+    // Encontrar a nota esperada que melhor corresponde a detectada (pelo nome sem oitava)
+    const detBase = detectedName.replace(/[0-9]/g, '');
+    for (const en of expectedNotes) {
+      const enBase = en.replace(/[0-9]/g, '');
+      if (enBase === detBase) { expectedNote = en; break; }
+    }
+  }
+
+  const absCents = Math.abs(centsDeviation);
+  let quality;
+  if (absCents <= 15) quality = 'perfect';
+  else if (absCents <= 30) quality = 'close';
+  else quality = 'miss';
+
+  const isCorrect = quality === 'perfect' || quality === 'close';
+
+  sessionNotes.push({
+    timestamp_ms: now - (sessionStartTime || now),
+    block: blockName,
+    expected_note: expectedNote,
+    detected_note: detectedName,
+    detected_hz: Math.round(detectedHz * 10) / 10,
+    cents_deviation: centsDeviation,
+    is_correct: isCorrect,
+    quality: quality
+  });
+}
+
+// ══════════════════════════════════════════
+// FEEDBACK PANEL
+// ══════════════════════════════════════════
+function showFeedback() {
+  const overlay = document.getElementById('feedbackOverlay');
+  const stats = computeSessionStats();
+
+  // Score letter
+  const scoreLetter = document.getElementById('fbScoreLetter');
+  scoreLetter.textContent = stats.score;
+  scoreLetter.className = 'fb-score-letter grade-' + stats.score.toLowerCase();
+
+  // Accuracy
+  document.getElementById('fbAccuracy').textContent =
+    stats.correct + '/' + stats.total + ' notas corretas (' + stats.accuracy.toFixed(1) + '%)';
+
+  // Per-block bars
+  const blockBars = document.getElementById('fbBlockBars');
+  blockBars.innerHTML = '';
+  const blockColors = { 'Aquecimento': 'var(--accent)', 'Tecnica': 'var(--green)', 'Repertorio': '#8B5CF6' };
+  for (const [name, acc] of Object.entries(stats.blockAccuracy)) {
+    const color = blockColors[name] || 'var(--accent)';
+    blockBars.innerHTML += `
+      <div class="fb-bar-row">
+        <div class="fb-bar-label">${name}</div>
+        <div class="fb-bar-track">
+          <div class="fb-bar-fill" style="width:${acc.toFixed(0)}%;background:${color}"></div>
+        </div>
+        <div class="fb-bar-value" style="color:${color}">${acc.toFixed(1)}%</div>
+      </div>`;
+  }
+
+  // Hardest notes
+  const hardestEl = document.getElementById('fbHardest');
+  hardestEl.innerHTML = '';
+  stats.hardest.forEach(n => {
+    hardestEl.innerHTML += `
+      <div class="fb-note-card">
+        <span class="fb-note-name" style="color:var(--red)">${n.name}</span>
+        <span class="fb-note-pct">${n.accuracy.toFixed(0)}%</span>
+      </div>`;
+  });
+  if (!stats.hardest.length) hardestEl.innerHTML = '<div style="font-size:13px;color:var(--text-muted);padding:8px;">Sem dados</div>';
+
+  // Best notes
+  const bestEl = document.getElementById('fbBest');
+  bestEl.innerHTML = '';
+  stats.best.forEach(n => {
+    bestEl.innerHTML += `
+      <div class="fb-note-card">
+        <span class="fb-note-name" style="color:var(--green)">${n.name}</span>
+        <span class="fb-note-pct">${n.accuracy.toFixed(0)}%</span>
+      </div>`;
+  });
+  if (!stats.best.length) bestEl.innerHTML = '<div style="font-size:13px;color:var(--text-muted);padding:8px;">Sem dados</div>';
+
+  // Tendency
+  const tendEl = document.getElementById('fbTendency');
+  if (stats.total === 0) {
+    tendEl.textContent = 'Sem notas gravadas. Ligue o microfone durante a pratica!';
+  } else if (Math.abs(stats.avgCents) < 3) {
+    tendEl.textContent = 'Sua afinacao esta bem centralizada! Desvio medio: ' + stats.avgCents.toFixed(1) + ' cents.';
+  } else if (stats.avgCents > 0) {
+    tendEl.textContent = 'Voce tende a tocar +' + stats.avgCents.toFixed(1) + ' cents sustenido. Tente posicionar os dedos um pouco mais para tras.';
+  } else {
+    tendEl.textContent = 'Voce tende a tocar ' + stats.avgCents.toFixed(1) + ' cents bemol. Pressione a corda com mais firmeza.';
+  }
+
+  // Recommendations
+  const recEl = document.getElementById('fbRecommendations');
+  recEl.innerHTML = '';
+  const recs = generateRecommendations(stats);
+  if (recs.length === 0) recs.push('Continue praticando regularmente para melhores resultados!');
+  recs.forEach(r => {
+    recEl.innerHTML += `<div class="fb-rec-item"><span class="tip-bullet" style="color:var(--accent);">&#9654;</span><span>${r}</span></div>`;
+  });
+
+  // Evolution mini-chart
+  renderEvolutionChart(stats);
+
+  overlay.classList.add('visible');
+}
+
+function computeSessionStats() {
+  const total = sessionNotes.length;
+  const correct = sessionNotes.filter(n => n.is_correct).length;
+  const accuracy = total > 0 ? (correct / total) * 100 : 0;
+
+  // Score
+  let score;
+  if (accuracy >= 90) score = 'A';
+  else if (accuracy >= 75) score = 'B';
+  else if (accuracy >= 60) score = 'C';
+  else if (accuracy >= 40) score = 'D';
+  else score = 'F';
+
+  // Per-block accuracy
+  const blockAccuracy = {};
+  const blockNames = ['Aquecimento', 'Tecnica', 'Repertorio'];
+  for (const bn of blockNames) {
+    const blockNotes = sessionNotes.filter(n => n.block === bn);
+    const blockCorrect = blockNotes.filter(n => n.is_correct).length;
+    blockAccuracy[bn] = blockNotes.length > 0 ? (blockCorrect / blockNotes.length) * 100 : 0;
+  }
+
+  // Note stats (aggregate by detected_note base name)
+  const noteMap = {};
+  for (const n of sessionNotes) {
+    const base = n.detected_note.replace(/[0-9]/g, '');
+    if (!noteMap[base]) noteMap[base] = { total: 0, correct: 0 };
+    noteMap[base].total++;
+    if (n.is_correct) noteMap[base].correct++;
+  }
+  const noteStats = Object.entries(noteMap)
+    .filter(([_, v]) => v.total >= 2)
+    .map(([name, v]) => ({ name, accuracy: (v.correct / v.total) * 100, total: v.total }));
+  noteStats.sort((a, b) => a.accuracy - b.accuracy);
+
+  const hardest = noteStats.slice(0, 3);
+  const best = noteStats.slice(-3).reverse();
+
+  // Average cents deviation
+  const avgCents = total > 0
+    ? sessionNotes.reduce((s, n) => s + n.cents_deviation, 0) / total
+    : 0;
+
+  // Sharp/flat percentages
+  const sharpCount = sessionNotes.filter(n => n.cents_deviation > 5).length;
+  const flatCount = sessionNotes.filter(n => n.cents_deviation < -5).length;
+  const sharpPct = total > 0 ? (sharpCount / total) * 100 : 0;
+  const flatPct = total > 0 ? (flatCount / total) * 100 : 0;
+
+  return { total, correct, accuracy, score, blockAccuracy, hardest, best, avgCents, sharpPct, flatPct, noteStats };
+}
+
+function generateRecommendations(stats) {
+  const recs = [];
+
+  if (stats.avgCents > 10) {
+    recs.push('Sua afinacao tende a sustenido (+' + stats.avgCents.toFixed(0) + ' cents). Posicione os dedos um pouco mais para tras.');
+  } else if (stats.avgCents < -10) {
+    recs.push('Sua afinacao tende a bemol (' + stats.avgCents.toFixed(0) + ' cents). Pressione a corda com mais firmeza.');
+  }
+
+  if (stats.accuracy < 60) {
+    recs.push('Precisao abaixo de 60%. Pratique escalas lentas com afinador ligado para corrigir a entonacao.');
+  } else if (stats.accuracy < 80) {
+    recs.push('Precisao razoavel. Foque nas notas mais dificeis com repeticao isolada.');
+  }
+
+  if (stats.hardest.length > 0 && stats.hardest[0].accuracy < 50) {
+    recs.push('A nota ' + stats.hardest[0].name + ' esta com ' + stats.hardest[0].accuracy.toFixed(0) + '% de acerto. Pratique essa posicao isoladamente.');
+  }
+
+  const warmup = stats.blockAccuracy['Aquecimento'] || 0;
+  const tech = stats.blockAccuracy['Tecnica'] || 0;
+  const rep = stats.blockAccuracy['Repertorio'] || 0;
+  if (tech < warmup - 15) {
+    recs.push('Precisao cai no bloco Tecnica. Reduza o andamento e aumente gradualmente.');
+  }
+  if (rep < warmup - 20) {
+    recs.push('Repertorio abaixo do aquecimento. Divida o trecho em compassos menores.');
+  }
+
+  if (stats.sharpPct > 60) {
+    recs.push('Mais de 60% das notas estao sustenidas. Verifique a afinacao do violino e relaxe a mao esquerda.');
+  } else if (stats.flatPct > 60) {
+    recs.push('Mais de 60% das notas estao bemois. Verifique se os dedos pressionam a corda com firmeza.');
+  }
+
+  if (stats.total < 10) {
+    recs.push('Poucas notas gravadas. Mantenha o microfone ligado durante toda a sessao para melhor feedback.');
+  }
+
+  return recs.slice(0, 5);
+}
+
+function renderEvolutionChart(currentStats) {
+  const evoEl = document.getElementById('fbEvolution');
+  evoEl.innerHTML = '';
+
+  const recent = DATA.recentSessions || [];
+  // Adicionar sessao atual ao final
+  const sessions = [...recent, { date: new Date().toISOString().slice(0, 10), accuracy: currentStats.accuracy, score: currentStats.score }];
+  const last = sessions.slice(-10); // Ultimas 10
+
+  if (last.length === 0) {
+    evoEl.innerHTML = '<div style="font-size:13px;color:var(--text-muted);width:100%;text-align:center;">Sem sessoes anteriores</div>';
+    return;
+  }
+
+  const maxAcc = 100;
+  const barHeight = 60;
+
+  last.forEach((s, i) => {
+    const h = Math.max(4, (s.accuracy / maxAcc) * barHeight);
+    const isCurrent = i === last.length - 1;
+    const label = s.date ? s.date.slice(5) : '';
+    evoEl.innerHTML += `
+      <div class="fb-evo-bar-wrap">
+        <div class="fb-evo-bar ${isCurrent ? 'current' : ''}" style="height:${h}px;" title="${s.accuracy.toFixed(1)}% - ${s.score || ''}"></div>
+        <div class="fb-evo-label">${label}</div>
+      </div>`;
+  });
+}
+
+function saveAndClose() {
+  // Export sessionNotes as downloadable JSON
+  const evalScores = computeEvalScores();
+  const exportData = {
+    date: new Date().toISOString(),
+    level: parseInt('{{LEVEL}}') || 1,
+    day: parseInt('{{DAY}}') || 1,
+    duration_seconds: sessionStartTime ? Math.round((Date.now() - sessionStartTime) / 1000) : 0,
+    notes: sessionNotes,
+    evaluation: evalScores
+  };
+
+  const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'session_' + new Date().toISOString().slice(0, 10) + '.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+
+  // Fechar overlay
+  document.getElementById('feedbackOverlay').classList.remove('visible');
+}
+
+// ══════════════════════════════════════════
+// POSTURE CHECK MODAL
+// ══════════════════════════════════════════
+let postureScore = 0;
+
+function togglePostureItem(el) {
+  el.classList.toggle('checked');
+}
+
+function confirmPosture() {
+  const total = document.querySelectorAll('.posture-item').length;
+  const checked = document.querySelectorAll('.posture-item.checked').length;
+  postureScore = Math.round((checked / total) * 100);
+  document.getElementById('postureOverlay').classList.remove('visible');
+  updateEvalCard('evalPostura', postureScore + '%', postureScore);
+  startTimer();
+}
+
+// ══════════════════════════════════════════
+// 4-LEVEL EVALUATION SYSTEM
+// ══════════════════════════════════════════
+function getEvalDotClass(score) {
+  if (score >= 80) return 'green';
+  if (score >= 60) return 'yellow';
+  return 'red';
+}
+
+function updateEvalCard(id, text, numericScore) {
+  const card = document.getElementById(id);
+  if (!card) return;
+  const dotClass = typeof numericScore === 'number' ? getEvalDotClass(numericScore) : 'muted';
+  card.querySelector('.eval-score').innerHTML = text + '<span class="eval-dot ' + dotClass + '"></span>';
+}
+
+// Compute all 4 evaluation scores
+function computeEvalScores() {
+  const total = sessionNotes.length;
+  const correct = sessionNotes.filter(n => n.is_correct).length;
+
+  // Level 1 - Postura (set via modal)
+  const postura = postureScore;
+
+  // Level 2 - Som (note accuracy)
+  const som = total > 0 ? Math.round((correct / total) * 100) : 0;
+
+  // Level 3 - Afinacao (intonation quality for correct notes)
+  const correctNotes = sessionNotes.filter(n => n.is_correct);
+  let afinacao = 0;
+  if (correctNotes.length > 0) {
+    const avgAbsCents = correctNotes.reduce((s, n) => s + Math.abs(n.cents_deviation), 0) / correctNotes.length;
+    if (avgAbsCents < 10) afinacao = 100;
+    else if (avgAbsCents < 20) afinacao = 80;
+    else if (avgAbsCents < 30) afinacao = 60;
+    else afinacao = 40;
+  }
+
+  // Level 4 - Musicalidade (rhythm consistency + completeness)
+  let musicalidade = 0;
+  if (total >= 2) {
+    const intervals = [];
+    for (let i = 1; i < sessionNotes.length; i++) {
+      intervals.push(sessionNotes[i].timestamp_ms - sessionNotes[i - 1].timestamp_ms);
+    }
+    const mean = intervals.reduce((s, v) => s + v, 0) / intervals.length;
+    const variance = intervals.reduce((s, v) => s + (v - mean) ** 2, 0) / intervals.length;
+    const stddev = Math.sqrt(variance);
+
+    let rhythmScore;
+    if (stddev < 200) rhythmScore = 100;
+    else if (stddev < 400) rhythmScore = 80;
+    else if (stddev < 600) rhythmScore = 60;
+    else rhythmScore = 40;
+
+    const playedUnique = new Set(sessionNotes.map(n => n.detected_note.replace(/[0-9]/g, '')));
+    const expectedUnique = new Set(BLOCKS.flatMap(b => (b.notes || []).map(n => n.replace(/[0-9]/g, ''))));
+    const completeness = expectedUnique.size > 0 ? (([...playedUnique].filter(n => expectedUnique.has(n)).length / expectedUnique.size) * 100) : 100;
+
+    musicalidade = Math.round(rhythmScore * 0.7 + completeness * 0.3);
+  }
+
+  // Overall weighted: Postura 15%, Som 30%, Afinacao 35%, Musicalidade 20%
+  const overall = Math.round(postura * 0.15 + som * 0.30 + afinacao * 0.35 + musicalidade * 0.20);
+
+  let grade;
+  if (overall >= 90) grade = 'A';
+  else if (overall >= 75) grade = 'B';
+  else if (overall >= 60) grade = 'C';
+  else if (overall >= 40) grade = 'D';
+  else grade = 'F';
+
+  return { postura, som, afinacao, musicalidade, overall, grade };
+}
+
+// Update real-time eval cards (called after each recorded note)
+let evalUpdateThrottle = 0;
+function updateRealTimeEvals() {
+  const now = Date.now();
+  if (now - evalUpdateThrottle < 1000) return;
+  evalUpdateThrottle = now;
+
+  const total = sessionNotes.length;
+  if (total === 0) return;
+
+  const correct = sessionNotes.filter(n => n.is_correct).length;
+
+  // Som
+  const somPct = Math.round((correct / total) * 100);
+  updateEvalCard('evalSom', somPct + '%', somPct);
+
+  // Afinacao
+  const correctNotes = sessionNotes.filter(n => n.is_correct);
+  if (correctNotes.length > 0) {
+    const avgCents = Math.round(correctNotes.reduce((s, n) => s + Math.abs(n.cents_deviation), 0) / correctNotes.length);
+    let afScore;
+    if (avgCents < 10) afScore = 100;
+    else if (avgCents < 20) afScore = 80;
+    else if (avgCents < 30) afScore = 60;
+    else afScore = 40;
+    updateEvalCard('evalAfinacao', avgCents + 'c', afScore);
+  }
+
+  // Musicalidade
+  if (total >= 3) {
+    const intervals = [];
+    for (let i = 1; i < sessionNotes.length; i++) {
+      intervals.push(sessionNotes[i].timestamp_ms - sessionNotes[i - 1].timestamp_ms);
+    }
+    const mean = intervals.reduce((s, v) => s + v, 0) / intervals.length;
+    const variance = intervals.reduce((s, v) => s + (v - mean) ** 2, 0) / intervals.length;
+    const stddev = Math.sqrt(variance);
+    let rScore;
+    if (stddev < 200) rScore = 100;
+    else if (stddev < 400) rScore = 80;
+    else if (stddev < 600) rScore = 60;
+    else rScore = 40;
+    updateEvalCard('evalMusicalidade', rScore + '%', rScore);
+  }
+}
+
+// Patch recordNote to update real-time evals
+const _origRecordNote = recordNote;
+recordNote = function(detectedName, detectedHz, centsDeviation) {
+  _origRecordNote(detectedName, detectedHz, centsDeviation);
+  updateRealTimeEvals();
+};
+
+// Render 4-level bars in feedback panel
+function renderFeedbackEvals() {
+  const scores = computeEvalScores();
+  const barsEl = document.getElementById('fbEvalBars');
+  barsEl.innerHTML = '';
+
+  const levels = [
+    { label: 'Postura', score: scores.postura, color: 'var(--accent)' },
+    { label: 'Som', score: scores.som, color: 'var(--green)' },
+    { label: 'Afinacao', score: scores.afinacao, color: 'var(--yellow)' },
+    { label: 'Musicalidade', score: scores.musicalidade, color: '#8B5CF6' }
+  ];
+
+  for (const lv of levels) {
+    barsEl.innerHTML += `
+      <div class="fb-eval-row">
+        <div class="fb-eval-label">${lv.label}</div>
+        <div class="fb-eval-track">
+          <div class="fb-eval-fill" style="width:${lv.score}%;background:${lv.color}"></div>
+        </div>
+        <div class="fb-eval-value" style="color:${lv.color}">${lv.score}%</div>
+      </div>`;
+  }
+
+  const gradeEl = document.getElementById('fbOverallGrade');
+  gradeEl.textContent = scores.grade + ' (' + scores.overall + '%)';
+  const gradeColors = { A: 'var(--green)', B: 'var(--accent)', C: 'var(--yellow)', D: 'var(--red)', F: 'var(--red)' };
+  gradeEl.style.color = gradeColors[scores.grade] || 'var(--text)';
+}
+
+// Patch showFeedback to render eval bars first
+const _origShowFeedback = showFeedback;
+showFeedback = function() {
+  renderFeedbackEvals();
+  _origShowFeedback();
+};
+
+// ══════════════════════════════════════════
+// CHAT PANEL
+// ══════════════════════════════════════════
+let chatOnline = false;
+
+// Auto-detect server mode
+(async function detectChatMode() {
+  try {
+    const resp = await fetch('/api/stats', { method: 'GET' });
+    chatOnline = resp.ok;
+  } catch {
+    chatOnline = false;
+  }
+})();
+
+let chatHistoryLoaded = false;
+
+function toggleChat() {
+  const panel = document.getElementById('chatPanel');
+  panel.classList.toggle('visible');
+  if (panel.classList.contains('visible') && !chatHistoryLoaded) {
+    loadChatHistory();
+    chatHistoryLoaded = true;
+    document.getElementById('chatInput').focus();
+  }
+}
+
+function chatKeyDown(e) {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendChat();
+  }
+  // Auto-resize textarea
+  setTimeout(() => {
+    const el = e.target;
+    el.style.height = 'auto';
+    el.style.height = Math.min(el.scrollHeight, 100) + 'px';
+  }, 0);
+}
+
+function addChatMsg(text, role, save, animate) {
+  const container = document.getElementById('chatMessages');
+  const msg = document.createElement('div');
+  msg.className = 'chat-msg ' + role;
+
+  const avatar = document.createElement('div');
+  avatar.className = 'chat-avatar';
+  avatar.textContent = role === 'assistant' ? 'P' : 'V';
+
+  const textEl = document.createElement('div');
+  textEl.className = 'chat-text';
+
+  msg.appendChild(avatar);
+  msg.appendChild(textEl);
+
+  textEl.textContent = text;
+  container.appendChild(msg);
+  container.scrollTop = container.scrollHeight;
+  if (save !== false) saveChatLocal(role, text);
+}
+
+function saveChatLocal(role, text) {
+  try {
+    const history = JSON.parse(localStorage.getItem('violin_chat') || '[]');
+    history.push({ role, content: text, ts: Date.now() });
+    if (history.length > 100) history.splice(0, history.length - 100);
+    localStorage.setItem('violin_chat', JSON.stringify(history));
+  } catch {}
+}
+
+async function loadChatHistory() {
+  const container = document.getElementById('chatMessages');
+  // Limpar mensagem de boas-vindas padrão, carregar histórico real
+  if (chatOnline) {
+    try {
+      const resp = await fetch('/api/chat-history');
+      if (resp.ok) {
+        const data = await resp.json();
+        if (data.messages && data.messages.length > 0) {
+          container.innerHTML = '';
+          data.messages.forEach(m => addChatMsg(m.content, m.role, false, false));
+          return;
+        }
+      }
+    } catch {}
+  }
+  // Fallback: localStorage
+  try {
+    const history = JSON.parse(localStorage.getItem('violin_chat') || '[]');
+    if (history.length > 0) {
+      container.innerHTML = '';
+      history.forEach(m => addChatMsg(m.content, m.role, false));
+    }
+  } catch {}
+}
+
+const GEMINI_KEY = 'AIzaSyCWdraUIIuf2yXJ-7vb_AOUqH4WdQsGcZg';
+const GEMINI_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
+const chatMemory = [];
+
+function buildSystemInstruction() {
+  const level = DATA.levelName || 'Nivel 1';
+  const day = DATA.day || 1;
+  let ctx = `Voce e um professor de violino pessoal, paciente, encorajador e experiente.
+Responda SEMPRE em portugues (pt-BR), de forma curta e direta (2-3 paragrafos max).
+IMPORTANTE: voce esta em uma CONVERSA continua com o aluno. Leia TODAS as mensagens anteriores para entender o contexto. Se o aluno pedir um resumo, resuma o que VOCE disse antes. Se ele fizer uma pergunta de acompanhamento, responda com base no que ja foi discutido.
+
+Contexto do aluno: ${level}, dia ${day}.`;
+
+  if (typeof sessionNotes !== 'undefined' && sessionNotes.length > 0) {
+    const total = sessionNotes.length;
+    const correct = sessionNotes.filter(n => n.is_correct).length;
+    ctx += `\nSessao atual: ${total} notas, ${correct} corretas (${(correct/total*100).toFixed(0)}%).`;
+  }
+  return ctx;
+}
+
+async function callGeminiDirect(userMsg) {
+  chatMemory.push({ role: 'user', text: userMsg });
+
+  // Montar conversa multi-turn no formato da API Gemini
+  const contents = [];
+
+  // Primeira mensagem: system instruction como user + resposta modelo
+  contents.push({
+    role: 'user',
+    parts: [{ text: buildSystemInstruction() + '\n\nResponda como professor de violino a partir de agora.' }]
+  });
+  contents.push({
+    role: 'model',
+    parts: [{ text: 'Entendido! Sou seu professor de violino. Estou aqui para ajudar com qualquer duvida sobre tecnica, afinacao, postura ou pratica. Como posso ajudar?' }]
+  });
+
+  // Historico real da conversa (ultimas 10 mensagens)
+  const recent = chatMemory.slice(-10);
+  for (const m of recent) {
+    contents.push({
+      role: m.role === 'user' ? 'user' : 'model',
+      parts: [{ text: m.text }]
+    });
+  }
+
+  const resp = await fetch(GEMINI_URL + '?key=' + GEMINI_KEY, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      contents: contents,
+      generationConfig: { temperature: 0.7, maxOutputTokens: 500 }
+    })
+  });
+
+  if (!resp.ok) throw new Error('API error');
+  const data = await resp.json();
+  const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || 'Sem resposta.';
+  chatMemory.push({ role: 'model', text: reply });
+  return reply;
+}
+
+function showThinking() {
+  const container = document.getElementById('chatMessages');
+  const msg = document.createElement('div');
+  msg.className = 'chat-msg assistant';
+  msg.id = 'chat-thinking';
+
+  const avatar = document.createElement('div');
+  avatar.className = 'chat-avatar';
+  avatar.textContent = 'P';
+
+  const textEl = document.createElement('div');
+  textEl.className = 'chat-text';
+  textEl.style.color = 'var(--text-muted)';
+  textEl.style.fontStyle = 'italic';
+  textEl.innerHTML = 'Pensando<span class="thinking-dots"></span>';
+
+  msg.appendChild(avatar);
+  msg.appendChild(textEl);
+  container.appendChild(msg);
+  container.scrollTop = container.scrollHeight;
+}
+
+function removeThinking() {
+  const el = document.getElementById('chat-thinking');
+  if (el) el.remove();
+}
+
+async function sendChat() {
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  input.style.height = 'auto';
+  addChatMsg(text, 'user');
+  showThinking();
+
+  // 1. Tentar servidor (server.py rodando)
+  if (chatOnline) {
+    try {
+      const resp = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: text, session_notes: typeof sessionNotes !== 'undefined' ? sessionNotes : [] })
+      });
+      if (resp.ok) {
+        const data = await resp.json();
+        removeThinking();
+        addChatMsg(data.reply || 'Sem resposta.', 'assistant');
+        return;
+      }
+    } catch {}
+  }
+
+  // 2. Chamar Gemini direto do browser
+  try {
+    const reply = await callGeminiDirect(text);
+    removeThinking();
+    addChatMsg(reply, 'assistant');
+  } catch {
+    // 3. Fallback offline (sem internet)
+    removeThinking();
+    addChatMsg(getOfflineResponse(text), 'assistant');
+  }
+}
+
+function getOfflineResponse(text) {
+  const t = text.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+  if (/metronom|bpm/.test(t)) {
+    return 'O metronomo e essencial para desenvolver ritmo preciso. Comece com um BPM lento (60-70) e aumente gradualmente conforme domina o trecho. Pratique com subdivisoes: primeiro seminimas, depois colcheias. Nunca aumente o BPM ate tocar o trecho inteiro sem erros 3 vezes seguidas.';
+  }
+  if (/arco|braco|mao direita|golpe/.test(t)) {
+    return 'Tecnica de arco: mantenha o cotovelo relaxado e o pulso flexivel. O arco deve deslizar paralelo ao cavalete, a meio caminho entre o cavalete e o espelho. Pratique longas arcadas (detache) antes de golpes curtos (staccato, spiccato). O peso do braco gera o som, nao a pressao.';
+  }
+  if (/afinac|afinado|desafinado|afinar/.test(t)) {
+    return 'Para melhorar afinacao: 1) Use sempre um afinador visual. 2) Pratique escalas lentamente, ouvindo cada intervalo. 3) Treine com drone (nota pedal) da tonica. 4) Memorize a sensacao fisica de cada posicao dos dedos. 5) Confie primeiro no ouvido, depois confirme com afinador.';
+  }
+  if (/dedo|mao esquerda|posicao|posic/.test(t)) {
+    return 'Mao esquerda: dedos curvados como se segurasse uma bola. Polegar oposto ao 2o dedo, sem apertar o braco do violino. Cada dedo cai de cima, perpendicular a corda. Pratique escalas em 1a posicao ate os dedos "aprenderem" as distancias. Relaxe entre as notas.';
+  }
+  if (/dificil|nao consigo|frustrad|erro/.test(t)) {
+    return 'E completamente normal sentir dificuldade! Todo violinista passa por isso. Dicas: 1) Divida o trecho dificil em partes menores. 2) Pratique BEM devagar. 3) Repita 5x correto antes de acelerar. 4) Descanse a cada 20 min. 5) Compare seu progresso com semanas atras, nao com profissionais. Voce esta evoluindo!';
+  }
+  if (/postura|segurar|como seguro|apoio/.test(t)) {
+    return 'Postura correta: pes na largura dos ombros, costas retas. Violino apoiado entre o ombro e queixo (espaleira ajuda). Braco esquerdo embaixo do violino, cotovelo para dentro. Braco direito relaxado, cotovelo na altura media. Nao levante o ombro! Verifique num espelho.';
+  }
+  if (/escala|scale|tonalidade/.test(t)) {
+    return 'Pratica de escalas: comece com Sol Maior (1a posicao), depois Re, La e Mi Maior. Toque cada nota com arcada inteira, ouvindo a afinacao. Depois: 2 notas por arcada, 4, 8. Inclua arpejos. Escalas sao a base da tecnica — 5 minutos por dia fazem enorme diferenca em semanas.';
+  }
+
+  return 'Posso ajudar com varios temas de violino! Pergunte sobre:\n- Tecnica de arco\n- Afinacao e entonacao\n- Postura e posicionamento\n- Mao esquerda e posicoes\n- Uso do metronomo\n- Pratica de escalas\n- Dificuldades e motivacao';
+}
+</script>
+
+</body>
+</html>
