@@ -5,14 +5,14 @@
 Venture Builder que cria, incuba e escala produtos digitais proprios. Cada produto e uma venture independente com stack, dominio e infraestrutura proprios.
 
 **Dominio:** hovio.com.br
-**Repo:** github.com/mmozil/hovio
+**Repo:** github.com/mmozil/hovio (venture builder hub — cada venture tem seu proprio repo)
 **Servidor:** Hetzner VPS 46.224.220.223 (Coolify)
 
 ## Ventures
 
 | Venture | Diretorio | Dominio | Stack | Status |
 |---------|-----------|---------|-------|--------|
-| Violin | `Violin/` | violin.hovio.com.br | Python, ABCjs, Web Audio, Gemini, SQLite | Production |
+| Violin | `Violin/` (repo standalone: github.com/mmozil/violin) | violin.hovio.com.br | Python, ABCjs, Web Audio, Gemini, SQLite | Production |
 
 ## Estrutura do Repo
 
@@ -45,11 +45,13 @@ docker run -p 8090:8090 -e GEMINI_API_KEY=... -v violin-data:/app/data hovio-vio
 ```
 
 ### Coolify Config por Venture
-- **Base Directory:** `/{Venture}` (ex: `/Violin`)
-- **Dockerfile:** `Dockerfile` (dentro da venture)
+- **Base Directory:** `/` (cada venture e um repo standalone no GitHub)
+- **Source:** GitHub App (source_id=12, app_id=3230910, installation_id=120280513)
+- **Dockerfile:** `Dockerfile` (raiz do repo)
 - **Volume:** `/app/data` (persistir SQLite)
 - **Env vars:** `GEMINI_API_KEY` por venture
 - **Dominio:** `{venture}.hovio.com.br`
+- **Deploy:** Push to main → GitHub App webhook → Coolify auto-build
 
 ### Violin (Producao)
 - **URL:** https://violin.hovio.com.br
@@ -63,4 +65,4 @@ docker run -p 8090:8090 -e GEMINI_API_KEY=... -v violin-data:/app/data hovio-vio
 - **Linguagem:** Portugues (pt-BR) em docs e UI
 - **Commits:** Conventional commits em portugues
 - **Deploy:** Push to main → Coolify webhook → auto-build
-- **Design:** Dark theme (#262624 bg, #9C7A5A accent)
+- **Design:** Light theme (#FDFCFC bg, #2B7FFF accent, subtle shadows, ElevenLabs-inspired)
