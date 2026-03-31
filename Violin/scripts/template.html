@@ -296,6 +296,85 @@ h3 {
   white-space: nowrap;
 }
 
+/* ── SVG Playhead Cursor ── */
+.abcjs-cursor {
+  fill: var(--accent);
+  opacity: 0.6;
+  transition: x 0.15s ease-out;
+  pointer-events: none;
+}
+
+/* ── Note Timeline ── */
+.note-timeline-section {
+  padding: 10px 0 4px;
+}
+.note-timeline-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+.note-timeline-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  font-family: Georgia, 'Times New Roman', serif;
+}
+.note-timeline-count {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+.note-timeline {
+  display: flex;
+  gap: 2px;
+  padding: 4px 0;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+.note-timeline::-webkit-scrollbar { height: 4px; }
+.note-timeline::-webkit-scrollbar-track { background: transparent; }
+.note-timeline::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+.note-block {
+  min-width: 36px;
+  padding: 4px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  text-align: center;
+  background: var(--bg-elevated);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.note-block.played {
+  background: var(--green);
+  color: var(--bg);
+  border-color: var(--green);
+  opacity: 0.7;
+}
+.note-block.current {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
+  animation: notePulse 1s infinite;
+  transform: scale(1.1);
+}
+.note-block.wrong {
+  background: var(--red);
+  color: var(--bg);
+  border-color: var(--red);
+}
+@keyframes notePulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(156,122,90,0.4); }
+  50% { box-shadow: 0 0 0 6px rgba(156,122,90,0); }
+}
+
 /* ── Fingerboard Diagram ── */
 .fingerboard-section {
   background: var(--bg-card);
@@ -1361,6 +1440,13 @@ h3 {
       </div>
     </div>
     <div class="sheet-render" id="sheetRender"></div>
+    <div class="note-timeline-section">
+      <div class="note-timeline-header">
+        <span class="note-timeline-label">Progresso</span>
+        <span class="note-timeline-count" id="noteProgress">0 / 0</span>
+      </div>
+      <div class="note-timeline" id="noteTimeline"></div>
+    </div>
   </div>
 
   <!-- Fingerboard Diagram -->
@@ -1729,6 +1815,10 @@ const ReferencePlayer = {
     if (progress) { progress.style.transition = 'none'; progress.style.width = '0%'; }
     const dots = document.querySelectorAll('#refNotesBar .ref-note-dot');
     dots.forEach(d => { d.classList.remove('active', 'played'); });
+    // Reset NoteTracker after reference play stops
+    if (typeof NoteTracker !== 'undefined' && NoteTracker.notes.length > 0) {
+      NoteTracker.reset();
+    }
   },
 
   stop() {
@@ -1883,6 +1973,20 @@ const ReferencePlayer = {
       if (i < idx) d.classList.add('played');
       else if (i === idx) d.classList.add('active');
     });
+
+    // Sync NoteTracker cursor with reference play (move cursor without marking played/wrong)
+    if (NoteTracker.notes.length > 0) {
+      NoteTracker.moveCursor(idx);
+      // Update timeline blocks to show current position during reference
+      const blocks = NoteTracker.timelineEl ? NoteTracker.timelineEl.querySelectorAll('.note-block') : [];
+      blocks.forEach((b, i) => {
+        b.classList.remove('current', 'played');
+        if (i < idx) b.classList.add('played');
+        else if (i === idx) b.classList.add('current');
+      });
+      NoteTracker.currentIdx = idx;
+      NoteTracker.updateProgress();
+    }
   }
 };
 
@@ -3112,6 +3216,166 @@ const Fingerboard = {
 document.addEventListener('DOMContentLoaded', () => { Fingerboard.init(); });
 
 // ══════════════════════════════════════════
+// NOTE TRACKER (SVG cursor + timeline bar)
+// ══════════════════════════════════════════
+const NOTE_DISPLAY = {
+  'G3': 'Sol', 'G#3': 'Sol#', 'A3': 'La', 'A#3': 'La#', 'B3': 'Si',
+  'C4': 'Do', 'C#4': 'Do#', 'D4': 'Re', 'D#4': 'Re#', 'E4': 'Mi',
+  'F4': 'Fa', 'F#4': 'Fa#', 'G4': 'Sol', 'G#4': 'Sol#', 'A4': 'La',
+  'A#4': 'La#', 'B4': 'Si', 'C5': 'Do', 'C#5': 'Do#', 'D5': 'Re',
+  'D#5': 'Re#', 'E5': 'Mi', 'F5': 'Fa', 'F#5': 'Fa#', 'G5': 'Sol'
+};
+
+const NoteTracker = {
+  notes: [],
+  currentIdx: 0,
+  timelineEl: null,
+  cursorEl: null,
+  progressEl: null,
+
+  init(notes) {
+    this.notes = notes || [];
+    this.currentIdx = 0;
+    this.timelineEl = document.getElementById('noteTimeline');
+    this.progressEl = document.getElementById('noteProgress');
+    this.renderTimeline();
+    this.createCursor();
+    this.updateProgress();
+  },
+
+  renderTimeline() {
+    if (!this.timelineEl) return;
+    this.timelineEl.innerHTML = '';
+    this.notes.forEach((note, i) => {
+      const block = document.createElement('div');
+      block.className = 'note-block' + (i === 0 ? ' current' : '');
+      block.textContent = NOTE_DISPLAY[note] || note;
+      block.dataset.idx = i;
+      this.timelineEl.appendChild(block);
+    });
+  },
+
+  createCursor() {
+    // Remove old cursor
+    if (this.cursorEl) {
+      this.cursorEl.remove();
+      this.cursorEl = null;
+    }
+    const container = document.getElementById('sheetRender');
+    if (!container) return;
+    const svg = container.querySelector('svg');
+    if (!svg) return;
+
+    const ns = 'http://www.w3.org/2000/svg';
+    const cursor = document.createElementNS(ns, 'rect');
+    cursor.setAttribute('class', 'abcjs-cursor');
+    cursor.setAttribute('width', '2');
+    cursor.setAttribute('y', '0');
+    cursor.setAttribute('height', svg.getAttribute('height') || svg.getBBox().height || 120);
+    cursor.setAttribute('x', '-10'); // hidden initially
+    this.cursorEl = cursor;
+    svg.appendChild(cursor);
+
+    // Position at first note
+    this.moveCursor(0);
+  },
+
+  advance(wasCorrect) {
+    if (this.currentIdx >= this.notes.length) return;
+    const blocks = this.timelineEl ? this.timelineEl.querySelectorAll('.note-block') : [];
+
+    // Mark current block
+    if (blocks[this.currentIdx]) {
+      blocks[this.currentIdx].classList.remove('current');
+      blocks[this.currentIdx].classList.add(wasCorrect ? 'played' : 'wrong');
+      // If wrong, revert to played after brief flash
+      if (!wasCorrect) {
+        const wrongBlock = blocks[this.currentIdx];
+        setTimeout(() => {
+          wrongBlock.classList.remove('wrong');
+          wrongBlock.classList.add('played');
+        }, 500);
+      }
+    }
+
+    this.currentIdx++;
+    this.updateProgress();
+
+    // Mark next block as current
+    if (this.currentIdx < this.notes.length && blocks[this.currentIdx]) {
+      blocks[this.currentIdx].classList.add('current');
+      // Auto-scroll to keep current note visible
+      blocks[this.currentIdx].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+    }
+
+    // Move SVG cursor
+    this.moveCursor(this.currentIdx);
+  },
+
+  flashWrong() {
+    // Flash current note block red without advancing
+    if (this.currentIdx >= this.notes.length) return;
+    const blocks = this.timelineEl ? this.timelineEl.querySelectorAll('.note-block') : [];
+    const block = blocks[this.currentIdx];
+    if (!block) return;
+    block.classList.add('wrong');
+    block.classList.remove('current');
+    setTimeout(() => {
+      block.classList.remove('wrong');
+      block.classList.add('current');
+    }, 400);
+  },
+
+  moveCursor(noteIdx) {
+    if (!this.cursorEl) return;
+    const container = document.getElementById('sheetRender');
+    if (!container) return;
+    const noteEls = Array.from(container.querySelectorAll('.abcjs-note'));
+    if (noteEls.length === 0) {
+      this.cursorEl.setAttribute('x', '-10');
+      return;
+    }
+
+    // Clamp index
+    const idx = Math.min(noteIdx, noteEls.length - 1);
+    if (idx < 0) {
+      this.cursorEl.setAttribute('x', '-10');
+      return;
+    }
+
+    const svg = container.querySelector('svg');
+    if (!svg) return;
+
+    try {
+      const noteEl = noteEls[idx];
+      const bbox = noteEl.getBBox();
+      // Position cursor at the center x of the note
+      const x = bbox.x + bbox.width / 2 - 1;
+      this.cursorEl.setAttribute('x', x);
+
+      // Update height to cover full SVG
+      const svgBox = svg.getBBox();
+      this.cursorEl.setAttribute('y', svgBox.y);
+      this.cursorEl.setAttribute('height', svgBox.height);
+    } catch (e) {
+      // getBBox can fail if element not rendered
+    }
+  },
+
+  updateProgress() {
+    if (!this.progressEl) return;
+    this.progressEl.textContent = Math.min(this.currentIdx, this.notes.length) + ' / ' + this.notes.length;
+  },
+
+  reset() {
+    this.currentIdx = 0;
+    this.renderTimeline();
+    this.moveCursor(0);
+    this.updateProgress();
+  }
+};
+
+// ══════════════════════════════════════════
 // SHEET MUSIC NOTE HIGHLIGHTING
 // ══════════════════════════════════════════
 const SheetHighlighter = {
@@ -3158,26 +3422,46 @@ const SheetHighlighter = {
   }
 };
 
-// Patch renderSheet to collect notes after ABCjs renders
+// Patch renderSheet to collect notes + init tracker after ABCjs renders
 const _origRenderSheet = renderSheet;
 renderSheet = function(abc, label, desc) {
   _origRenderSheet(abc, label, desc);
-  setTimeout(() => { SheetHighlighter.collectNotes(); }, 100);
+  // Get the notes for the current block to pass to NoteTracker
+  const blockNotes = BLOCKS[currentBlock] ? BLOCKS[currentBlock].notes : [];
+  setTimeout(() => {
+    SheetHighlighter.collectNotes();
+    NoteTracker.init(blockNotes);
+  }, 100);
 };
 // Collect on initial load
 document.addEventListener('DOMContentLoaded', () => {
-  setTimeout(() => { SheetHighlighter.collectNotes(); }, 300);
+  setTimeout(() => {
+    SheetHighlighter.collectNotes();
+    NoteTracker.init(BLOCKS[0].notes);
+  }, 300);
 });
 
 // ══════════════════════════════════════════
-// INTEGRATION: Pitch -> Fingerboard + Sheet
-// ══════════════════════════════════════════
+// INTEGRATION: Pitch -> Fingerboard + Sheet + NoteTracker
+// ═══════════════════��══════════════════════
 const _origRecordNote2 = recordNote;
 recordNote = function(detectedName, detectedHz, centsDeviation) {
   _origRecordNote2(detectedName, detectedHz, centsDeviation);
   const isCorrect = Math.abs(centsDeviation) <= 30;
   Fingerboard.showNote(detectedName, isCorrect);
   SheetHighlighter.onNoteDetected(detectedName, isCorrect);
+
+  // NoteTracker: check if detected note matches expected note at current position
+  if (NoteTracker.notes.length > 0 && NoteTracker.currentIdx < NoteTracker.notes.length) {
+    const expectedNote = NoteTracker.notes[NoteTracker.currentIdx];
+    const detBase = detectedName.replace(/[0-9]/g, '');
+    const expBase = expectedNote.replace(/[0-9]/g, '');
+    if (detBase === expBase && isCorrect) {
+      NoteTracker.advance(true);
+    } else if (detBase !== expBase) {
+      NoteTracker.flashWrong();
+    }
+  }
 };
 </script>
 
