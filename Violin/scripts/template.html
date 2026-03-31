@@ -86,10 +86,62 @@ h3 {
   color: var(--text-secondary);
   margin-top: 4px;
 }
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
 .header-stats {
   display: flex;
   gap: 20px;
   flex-wrap: wrap;
+}
+.header-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-left: 16px;
+  border-left: 1px solid var(--border);
+}
+.user-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: Georgia, serif;
+  cursor: pointer;
+}
+.user-name {
+  font-size: 12px;
+  color: var(--text-secondary);
+  max-width: 80px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.settings-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: border-color 0.2s, color 0.2s;
+}
+.settings-btn:hover {
+  border-color: var(--text-secondary);
+  color: var(--text);
 }
 .stat {
   text-align: center;
@@ -1225,14 +1277,22 @@ h3 {
         <div class="header-title">{{TITLE}}</div>
         <div class="header-subtitle">{{LEVEL_NAME}} &middot; Dia {{DAY}}</div>
       </div>
-      <div class="header-stats">
-        <div class="stat">
-          <div class="stat-value">{{STREAK}}</div>
-          <div class="stat-label">Seguidos</div>
+      <div class="header-right">
+        <div class="header-stats">
+          <div class="stat">
+            <div class="stat-value">{{STREAK}}</div>
+            <div class="stat-label">Seguidos</div>
+          </div>
+          <div class="stat">
+            <div class="stat-value">{{TOTAL_DAYS}}</div>
+            <div class="stat-label">Total</div>
+          </div>
         </div>
-        <div class="stat">
-          <div class="stat-value">{{TOTAL_DAYS}}</div>
-          <div class="stat-label">Total</div>
+        <div class="header-user">
+          <button class="settings-btn" onclick="openSettings()" title="Configuracoes">&#9881;</button>
+          <div>
+            <div class="user-avatar" id="userAvatar">{{USER_INITIAL}}</div>
+          </div>
         </div>
       </div>
     </div>
@@ -1486,7 +1546,7 @@ h3 {
 </div>
 
 <!-- Chat Panel -->
-<button class="chat-bubble" id="chatBubble" onclick="toggleChat()" title="Professor de Violino">&#9834;</button>
+<button class="chat-bubble" id="chatBubble" onclick="toggleChat()" title="Professor de Violino">?</button>
 <div class="chat-panel" id="chatPanel">
   <div class="chat-header">
     <span class="chat-header-title">Professor de Violino</span>
@@ -1595,7 +1655,7 @@ function freqToNote(freq) {
   });
 })();
 
-// ══════════════════════════════════════════
+// ═════���════════════════════════════════════
 // SHEET MUSIC (ABCjs)
 // ══════════════════════════════════════════
 function renderSheet(abc, label, desc) {
@@ -2641,6 +2701,16 @@ showFeedback = function() {
 };
 
 // ══════════════════════════════════════════
+// SETTINGS
+function openSettings() {
+  // Redireciona para login (logout) por enquanto
+  // TODO: modal de settings (BPM, nivel, tempo, perfil)
+  if (confirm('Deseja sair da conta?')) {
+    localStorage.removeItem('violin_chat');
+    window.location.href = '/';
+  }
+}
+
 // CHAT PANEL
 // ══════════════════════════════════════════
 let chatOnline = false;

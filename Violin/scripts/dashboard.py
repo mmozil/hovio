@@ -115,6 +115,7 @@ def generate_dashboard(progress: dict, curriculum: dict, level: int = None, day:
         "{{LEVEL_PROGRESS}}": str(level_progress),
         "{{LEVEL}}": str(lvl_num),
         "{{RECENT_SESSIONS}}": json.dumps(_get_recent_sessions(), ensure_ascii=False),
+        "{{USER_INITIAL}}": progress.get("student", {}).get("name", "A")[0].upper(),
     }
 
     for key, value in replacements.items():
