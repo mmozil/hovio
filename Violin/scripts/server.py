@@ -484,7 +484,7 @@ def _fallback_response(message: str) -> str:
             correct = sum(1 for n in notes if n.get("is_correct"))
             acc = correct / total * 100 if total > 0 else 0
             if acc >= 80:
-                return "✅ Sua acurácia está boa! Tente aumentar o BPM em 5-10 ou avance para o próximo exercício."
+                return "Sua acurácia está boa! Tente aumentar o BPM em 5-10 ou avance para o próximo exercício."
             else:
                 return "Repita o exercício atual com BPM mais lento. Foque nas notas que estão vermelhas no afinador."
         return "Comece com o exercício do dia e vamos avaliar juntos!"
@@ -572,7 +572,7 @@ def _get_chat_panel_html() -> str:
 @keyframes typing { 0%, 60%, 100% { transform: translateY(0); } 30% { transform: translateY(-6px); } }
 </style>
 
-<button id="chat-toggle" onclick="toggleChat()">🎻</button>
+<button id="chat-toggle" onclick="toggleChat()">?</button>
 
 <div id="chat-panel">
   <div id="chat-header">
@@ -582,7 +582,7 @@ def _get_chat_panel_html() -> str:
   <div id="chat-messages">
     <div class="chat-msg assistant">
       <div class="label">Professor</div>
-      <div class="bubble">Olá! Sou seu professor de violino. Pode me perguntar sobre técnica, afinação, o que praticar, ou pedir uma avaliação da sua sessão. 🎵</div>
+      <div class="bubble">Ola! Sou seu professor de violino. Pode me perguntar sobre tecnica, afinacao, o que praticar, ou pedir uma avaliacao da sua sessao.</div>
     </div>
   </div>
   <div id="chat-input-area">

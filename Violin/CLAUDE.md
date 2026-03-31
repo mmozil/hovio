@@ -6,7 +6,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Tier Violino é um dashboard interativo de prática de violino com professor AI integrado. Sessões de 20 min/dia com partitura visual (ABCjs), detecção de afinação em tempo real via microfone (Web Audio API), metrônomo, timer e chat com Gemini Flash. Tracking de evolução via SQLite.
 
-**Domínio:** `https://violino.tier.finance/` (planejado)
+**Domínio:** `https://violin.hovio.com.br/` (produção)
+**GitHub:** github.com/mmozil/hovio (público)
 
 ## Development Commands
 
@@ -42,10 +43,12 @@ docker run -p 8090:8090 -e GEMINI_API_KEY=... -v violino-data:/app/data tier-vio
 ```
 Violin/
 ├── scripts/
-│   ├── server.py          # Servidor HTTP local (dashboard + /api/chat com Gemini)
+│   ├── server.py          # Servidor HTTP (dashboard + login + /api/* com Gemini)
 │   ├── dashboard.py       # Gerador de HTML standalone + import JSON → SQLite
 │   ├── template.html      # Dashboard (ABCjs + pitch detection + metrônomo + feedback + chat)
-│   └── db.py              # SQLite (sessions, notes_played, weekly_trends)
+│   ├── login.html         # Login + onboarding 5 steps
+│   ├── db.py              # SQLite (users, sessions, notes_played, chat_history, weekly_trends)
+│   └── memory.py          # Memória do professor (9 dimensões do aluno)
 ├── references/
 │   └── curriculum.json    # Exercícios por nível em notação ABC (2 níveis, 9 dias)
 ├── data/
@@ -72,9 +75,11 @@ Violin/
 | Detecção de afinação | Web Audio API + autocorrelação (A4=440Hz) |
 | Metrônomo | Web Audio oscillator, BPM ajustável |
 | Timer | 20 min em 4 blocos (5+8+5+2) |
-| Chat professor | Gemini Flash via /api/chat (fallback offline) |
-| Feedback pós-sessão | Score A-F, acurácia, recomendações, evolução |
-| Tracking | SQLite (sessions, notes_played, weekly_trends) |
+| Login/Onboarding | Login por nome + onboarding 5 steps (experiência, objetivos, disponibilidade) |
+| Chat professor | Gemini Flash via /api/chat (memória 9 dimensões, fallback offline) |
+| Reference play | Reprodução de referência (synth) para cada exercício |
+| Feedback pós-sessão | Score A-F, 4 barras, notas difíceis, recomendações, evolução |
+| Tracking | SQLite (users, sessions, notes_played, chat_history, weekly_trends) |
 
 ### Currículo (6 Níveis)
 
@@ -125,9 +130,21 @@ GOOGLE_API_KEY=...        # Alternativa ao GEMINI_API_KEY
 
 ## Deploy (Coolify)
 
-- **Dockerfile** na raiz
+- **URL:** https://violin.hovio.com.br
+- **Coolify Project UUID:** `s88c48s0kg884ck8s0gow440`
+- **Coolify App UUID:** `skkgco40www8gg08wo4soscc`
+- **Dockerfile** na raiz, **Base Directory:** `/Violin`
 - **Volume:** `/app/data` (persistir SQLite + progress.json)
 - **Porta:** 8090
 - **Env:** `GEMINI_API_KEY`
-- **Domínio:** `violino.tier.finance` (Traefik SSL)
-- **Nota:** Microfone requer HTTPS (Traefik fornece via Let's Encrypt)
+- **Servidor:** Hetzner 46.224.220.223
+- **SSL:** Cloudflare (Full, Always HTTPS, TLS 1.2, Brotli)
+- **Cloudflare Zone ID:** `67deb0bbcb2c9e4d9121eb3b71b39dec`
+- **DNS:** @, www, violino, * → 46.224.220.223 (proxied)
+- **Nota:** Microfone requer HTTPS (Cloudflare fornece)
+
+```bash
+# Deploy manual
+curl -s "https://apps.cloudesneper.com.br/api/v1/deploy?uuid=skkgco40www8gg08wo4soscc&force=false" \
+  -H "Authorization: Bearer 5|claude-deploy-token-2026"
+```

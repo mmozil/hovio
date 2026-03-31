@@ -12,7 +12,7 @@ Venture Builder que cria, incuba e escala produtos digitais proprios. Cada produ
 
 | Venture | Diretorio | Dominio | Stack | Status |
 |---------|-----------|---------|-------|--------|
-| Violin | `Violin/` | violino.hovio.com.br | Python, ABCjs, Web Audio, Gemini, SQLite | Dev |
+| Violin | `Violin/` | violin.hovio.com.br | Python, ABCjs, Web Audio, Gemini, SQLite | Production |
 
 ## Estrutura do Repo
 
@@ -50,6 +50,13 @@ docker run -p 8090:8090 -e GEMINI_API_KEY=... -v violin-data:/app/data hovio-vio
 - **Volume:** `/app/data` (persistir SQLite)
 - **Env vars:** `GEMINI_API_KEY` por venture
 - **Dominio:** `{venture}.hovio.com.br`
+
+### Violin (Producao)
+- **URL:** https://violin.hovio.com.br
+- **Coolify Project UUID:** `s88c48s0kg884ck8s0gow440`
+- **Coolify App UUID:** `skkgco40www8gg08wo4soscc`
+- **Cloudflare Zone ID:** `67deb0bbcb2c9e4d9121eb3b71b39dec`
+- **Deploy:** `curl -s "https://apps.cloudesneper.com.br/api/v1/deploy?uuid=skkgco40www8gg08wo4soscc&force=false" -H "Authorization: Bearer 5|claude-deploy-token-2026"`
 
 ## Convencoes
 
