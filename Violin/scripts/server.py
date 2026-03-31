@@ -229,9 +229,7 @@ class ViolinHandler(BaseHTTPRequestHandler):
             progress, curriculum,
             server_state["level"], server_state["day"], server_state["bpm"]
         )
-        # Injetar chat panel e websocket URL
-        chat_injection = _get_chat_panel_html()
-        html = html.replace("</body>", f"{chat_injection}</body>")
+        # Chat panel ja esta embutido no template.html
 
         self.send_response(200)
         self.send_header("Content-Type", "text/html; charset=utf-8")
