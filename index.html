@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hovio - House Of Ventures, Innovation & Operations</title>
+<meta name="description" content="Hovio e um venture builder que cria, incuba e escala produtos digitais proprios.">
+<style>
+  :root {
+    --bg: #0b0b0d;
+    --bg-elev: #131318;
+    --border: #22232a;
+    --text: #ececf1;
+    --text-muted: #8d8f99;
+    --accent: #2B7FFF;
+    --accent-soft: rgba(43, 127, 255, 0.12);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+  body { min-height: 100vh; display: flex; flex-direction: column; }
+  a { color: inherit; text-decoration: none; }
+
+  .container { max-width: 1080px; margin: 0 auto; padding: 0 24px; width: 100%; }
+
+  header {
+    padding: 28px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .nav {
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .logo {
+    display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 17px; letter-spacing: -0.01em;
+  }
+  .logo-mark {
+    width: 22px; height: 22px; border-radius: 6px;
+    background: linear-gradient(135deg, #2B7FFF 0%, #6c47ff 100%);
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.06) inset;
+  }
+  .logo-dot { color: var(--accent); }
+
+  .nav-links { display: flex; gap: 22px; font-size: 14px; color: var(--text-muted); }
+  .nav-links a:hover { color: var(--text); }
+
+  main { flex: 1; padding: 80px 0 60px; }
+  .hero { max-width: 720px; }
+  .eyebrow {
+    display: inline-block; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--accent); background: var(--accent-soft); padding: 6px 12px; border-radius: 999px;
+    margin-bottom: 22px;
+  }
+  h1 {
+    font-size: clamp(36px, 5vw, 56px); line-height: 1.05; letter-spacing: -0.02em;
+    margin-bottom: 20px; font-weight: 600;
+  }
+  .lede { font-size: 18px; line-height: 1.55; color: var(--text-muted); max-width: 580px; }
+
+  section.ventures { margin-top: 72px; }
+  .section-title {
+    display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 24px;
+  }
+  .section-title h2 { font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); font-weight: 500; }
+
+  .grid {
+    display: grid; gap: 16px;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+  .card {
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px 22px 20px;
+    transition: border-color .15s ease, transform .15s ease;
+    display: flex; flex-direction: column; gap: 10px;
+    min-height: 168px;
+  }
+  .card:hover { border-color: #353740; transform: translateY(-1px); }
+  .card-head { display: flex; align-items: center; justify-content: space-between; }
+  .card h3 { font-size: 17px; font-weight: 600; letter-spacing: -0.01em; }
+  .badge { font-size: 11px; padding: 3px 8px; border-radius: 999px; background: rgba(255,255,255,0.04); color: var(--text-muted); border: 1px solid var(--border); }
+  .badge.live { background: rgba(60, 196, 122, 0.10); color: #6ee7a3; border-color: rgba(60, 196, 122, 0.25); }
+  .card p { font-size: 14px; color: var(--text-muted); line-height: 1.5; }
+  .card-foot { margin-top: auto; display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--accent); }
+  .card-foot .arrow { transition: transform .15s ease; }
+  .card:hover .card-foot .arrow { transform: translateX(3px); }
+
+  footer {
+    padding: 28px 0; border-top: 1px solid var(--border); color: var(--text-muted); font-size: 13px;
+  }
+  .foot { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
+
+  @media (max-width: 640px) {
+    main { padding: 56px 0 40px; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container nav">
+    <div class="logo">
+      <span class="logo-mark"></span>
+      hovio<span class="logo-dot">.</span>
+    </div>
+    <div class="nav-links">
+      <a href="#ventures">Ventures</a>
+      <a href="mailto:contato@hovio.com.br">Contato</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="container">
+    <div class="hero">
+      <span class="eyebrow">Venture Builder</span>
+      <h1>House Of Ventures, Innovation &amp; Operations.</h1>
+      <p class="lede">Hovio cria, incuba e escala produtos digitais proprios. Cada venture e independente, com stack, dominio e infraestrutura proprios.</p>
+    </div>
+
+    <section class="ventures" id="ventures">
+      <div class="section-title">
+        <h2>Ventures ativas</h2>
+      </div>
+      <div class="grid">
+
+        <a class="card" href="https://violin.hovio.com.br" target="_blank" rel="noopener">
+          <div class="card-head">
+            <h3>Violin</h3>
+            <span class="badge live">Em producao</span>
+          </div>
+          <p>Professor de violino com IA: pratica de 20 min/dia, partitura visual, deteccao de afinacao em tempo real e chat com tutor pedagogico.</p>
+          <div class="card-foot">violin.hovio.com.br <span class="arrow">&rarr;</span></div>
+        </a>
+
+        <a class="card" href="https://echo.hovio.com.br" target="_blank" rel="noopener">
+          <div class="card-head">
+            <h3>Echo</h3>
+            <span class="badge live">Em producao</span>
+          </div>
+          <p>Leitor de documentos com voz AI. Upload de PDFs, biblioteca pessoal e narracao com vozes naturais (Edge TTS).</p>
+          <div class="card-foot">echo.hovio.com.br <span class="arrow">&rarr;</span></div>
+        </a>
+
+        <a class="card" href="https://murdock.hovio.com.br" target="_blank" rel="noopener">
+          <div class="card-head">
+            <h3>Murdock</h3>
+            <span class="badge live">Em producao</span>
+          </div>
+          <p>Agente IA tributarista. Consultor automatizado para regimes, retencoes e enquadramento fiscal brasileiro.</p>
+          <div class="card-foot">murdock.hovio.com.br <span class="arrow">&rarr;</span></div>
+        </a>
+
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="container foot">
+    <span>&copy; 2026 Hovio &middot; House Of Ventures, Innovation &amp; Operations</span>
+    <span>hosp em Hetzner &middot; Coolify</span>
+  </div>
+</footer>
+
+</body>
+</html>
