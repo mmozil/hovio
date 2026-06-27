@@ -144,7 +144,7 @@ em{font-style:italic;color:var(--accent-ink);}
   }
   addEventListener('scroll', ()=>{ if(!ticking){requestAnimationFrame(update); ticking=true;} }, {passive:true});
   addEventListener('resize', update);
-  addEventListener('load', ()=>{ window.scrollTo(0,0); update(); });
+  addEventListener('load', update);   // só recalcula quando imagens carregam (NÃO mexe no scroll)
   update();
 })();
 </script>
