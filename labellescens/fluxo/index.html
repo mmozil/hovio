@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>La Belle Scens — Jornada · 3 direções</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Hanken+Grotesk:wght@300;400;500;600&display=swap');
+@font-face{font-family:'Atacama';src:url('/fonts/Atacama-VF.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap}
+@font-face{font-family:'Atacama';src:url('/fonts/Atacama-Italic-VF.woff2') format('woff2');font-weight:100 900;font-style:italic;font-display:swap}
+@font-face{font-family:'Hellix';src:url('/fonts/HellixVAR.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap}
+:root{
+  --bg:#f8f8f8;--surface:#fff;--ink:#33383c;--ink-strong:#1f2326;--soft:#7b8487;--soft-2:#9aa1a3;
+  --line:rgba(51,56,60,.12);--line-strong:#cdc8bf;--accent:#9c8458;--accent-ink:#6f5c37;
+  --serif:'Atacama','Cormorant Garamond',Georgia,serif;--sans:'Hellix','Hanken Grotesk',-apple-system,'Segoe UI',sans-serif;
+  --axes:"wght" 320,"wdth" 100,"CNTR" 20,"XHGT" 0;--ease:cubic-bezier(.22,1,.36,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;min-height:100vh}
+.wrap{max-width:1120px;margin:0 auto;padding:48px 48px 70px}
+.head{display:flex;align-items:baseline;justify-content:space-between}
+.brand{display:flex;align-items:baseline;gap:7px}
+.brand .lb{font-family:var(--serif);font-size:21px;font-variation-settings:"wght" 400,"wdth" 100,"CNTR" 20,"XHGT" 0;color:var(--ink-strong)}
+.brand .bdot{width:5px;height:5px;border-radius:50%;background:var(--accent);transform:translateY(-3px)}
+.head .r{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--soft)}
+.intro{margin-top:54px;max-width:680px}
+.intro .eye{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--soft);margin-bottom:18px}
+.intro h1{font-family:var(--serif);font-weight:320;font-variation-settings:var(--axes);font-size:clamp(34px,4.6vw,56px);line-height:1.02;letter-spacing:-.02em;color:var(--ink-strong)}
+.intro h1 em{font-style:italic;color:var(--accent-ink)}
+.intro p{margin-top:16px;font-size:15px;line-height:1.6;color:var(--soft)}
+.cards{margin-top:54px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.card{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:14px;
+  padding:26px 26px 24px;text-decoration:none;color:inherit;position:relative;overflow:hidden;
+  transition:transform .45s var(--ease),box-shadow .45s var(--ease),border-color .45s var(--ease)}
+.card:hover{transform:translateY(-5px);box-shadow:0 24px 56px -22px rgba(31,35,38,.26);border-color:var(--accent)}
+.card .ltr{font-family:var(--serif);font-weight:300;font-variation-settings:"wght" 240,"wdth" 100,"CNTR" 20,"XHGT" 0;font-size:48px;color:var(--accent);line-height:1}
+.card .mini{height:54px;margin:18px 0 16px;color:var(--line-strong)}
+.card:hover .mini{color:var(--accent)}
+.card .mini svg{width:100%;height:100%;overflow:visible}
+.card h2{font-family:var(--serif);font-variation-settings:"wght" 400,"wdth" 100,"CNTR" 20,"XHGT" 0;font-size:21px;color:var(--ink-strong)}
+.card p{font-size:13px;line-height:1.55;color:var(--soft);margin-top:8px;flex:1}
+.card .go{margin-top:18px;display:inline-flex;align-items:center;gap:8px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-ink)}
+.card .go svg{width:14px;height:14px;stroke:currentColor;stroke-width:1.5;fill:none;transition:transform .4s var(--ease)}
+.card:hover .go svg{transform:translateX(5px)}
+.foot{margin-top:46px;font-size:11px;color:var(--soft-2)}
+.mini .pt{fill:currentColor} .mini .ln{stroke:currentColor;stroke-width:1.4;fill:none;stroke-linecap:round}
+@media(max-width:820px){.cards{grid-template-columns:1fr}.wrap{padding:30px 22px 50px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <div class="brand"><span class="lb">La Belle Scens</span><span class="bdot"></span></div>
+    <div class="r">A jornada do cliente · 3 direções</div>
+  </div>
+
+  <div class="intro">
+    <div class="eye">Escolha a direção visual</div>
+    <h1>Três jeitos de contar a <em>jornada</em></h1>
+    <p>Mesmo conteúdo (as 11 etapas, do lead à recorrência), três linguagens de visualização — todas no design Dior, com cursor e o detalhe revelado ao interagir. Abra cada uma e escolha a que ficar melhor.</p>
+  </div>
+
+  <div class="cards">
+    <a class="card" href="a.html">
+      <div class="ltr">A</div>
+      <div class="mini"><svg viewBox="0 0 200 54" preserveAspectRatio="none">
+        <line class="ln" x1="6" y1="32" x2="194" y2="32"/>
+        <circle class="pt" cx="20" cy="32" r="3.4"/><circle class="pt" cx="62" cy="32" r="3.4"/><circle class="pt" cx="104" cy="32" r="3.4"/><circle class="pt" cx="146" cy="32" r="3.4"/><circle class="pt" cx="188" cy="32" r="3.4"/>
+      </svg></div>
+      <h2>Linha do tempo</h2>
+      <p>Uma linha que se desenha; as etapas como marcadores finos. O cursor segue com um rótulo e, ao passar o mouse, um cartão revela "o que fazer".</p>
+      <span class="go">Abrir <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+    </a>
+
+    <a class="card" href="b.html">
+      <div class="ltr">B</div>
+      <div class="mini"><svg viewBox="0 0 200 54" preserveAspectRatio="none">
+        <path class="ln" d="M16 16 C56 16 64 16 96 16 S150 40 184 40"/>
+        <rect x="8" y="9" width="26" height="14" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+        <rect x="86" y="9" width="26" height="14" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+        <rect x="166" y="33" width="26" height="14" rx="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+      </svg></div>
+      <h2>Fluxograma</h2>
+      <p>Nós-cartão num fluxo serpenteante com conectores curvos que se desenham. Ao passar o mouse num nó, ele se eleva e um balão mostra o detalhe.</p>
+      <span class="go">Abrir <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+    </a>
+
+    <a class="card" href="c.html">
+      <div class="ltr">C</div>
+      <div class="mini"><svg viewBox="0 0 200 54" preserveAspectRatio="none">
+        <line class="ln" x1="20" y1="6" x2="20" y2="48"/>
+        <circle class="pt" cx="20" cy="12" r="3.4"/><circle class="pt" cx="20" cy="30" r="3.4"/><circle class="pt" cx="20" cy="48" r="3.4"/>
+        <line class="ln" x1="40" y1="14" x2="150" y2="14" opacity=".5"/>
+        <line class="ln" x1="40" y1="32" x2="120" y2="32" opacity=".5"/>
+      </svg></div>
+      <h2>Scroll-cinema</h2>
+      <p>Uma jornada vertical: a espinha preenche conforme você rola e cada etapa surge com seu texto. Editorial, cinematográfico.</p>
+      <span class="go">Abrir <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+    </a>
+  </div>
+
+  <div class="foot">Protótipo · La Belle Scens · fontes Dior (Atacama + Hellix) em teste</div>
+</div>
+</body>
+</html>

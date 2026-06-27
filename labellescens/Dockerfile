@@ -6,6 +6,8 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY index.html hero.html /usr/share/nginx/html/
 # Painel demo (overview/cenário + 9 módulos) — labellescens.hovio.com.br/painel/
 COPY painel/ /usr/share/nginx/html/painel/
+# Jornada — 3 direções visuais (a/b/c + índice) — labellescens.hovio.com.br/fluxo/
+COPY fluxo/ /usr/share/nginx/html/fluxo/
 # fonts/ contém .keep sempre; os .woff2 reais da Dior são gitignorados
 # (proprietários — não distribuir). Sem eles o catálogo usa o fallback livre.
 COPY fonts/ /usr/share/nginx/html/fonts/

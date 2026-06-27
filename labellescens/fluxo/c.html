@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>La Belle Scens — Jornada · Scroll</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Hanken+Grotesk:wght@300;400;500;600&display=swap');
+@font-face{font-family:'Atacama';src:url('/fonts/Atacama-VF.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap}
+@font-face{font-family:'Atacama';src:url('/fonts/Atacama-Italic-VF.woff2') format('woff2');font-weight:100 900;font-style:italic;font-display:swap}
+@font-face{font-family:'Hellix';src:url('/fonts/HellixVAR.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap}
+:root{
+  --bg:#f8f8f8; --surface:#fff; --ink:#33383c; --ink-strong:#1f2326; --soft:#7b8487; --soft-2:#9aa1a3;
+  --line:rgba(51,56,60,.12); --line-strong:#cdc8bf; --accent:#9c8458; --accent-ink:#6f5c37; --accent-soft:#efe9dd;
+  --manual:#9a5a5a; --parcial:#9a7d3c; --bloqueado:#5a6f8a; --pronto:#5a7d63;
+  --serif:'Atacama','Cormorant Garamond',Georgia,serif;
+  --sans:'Hellix','Hanken Grotesk',-apple-system,'Segoe UI',sans-serif;
+  --axes:"wght" 320,"wdth" 100,"CNTR" 20,"XHGT" 0;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+.brandbar{position:fixed;top:0;left:0;right:0;height:62px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 48px;z-index:40;background:linear-gradient(180deg,var(--bg),rgba(248,248,248,0));mix-blend-mode:normal}
+.brand{display:flex;align-items:baseline;gap:7px}
+.brand .lb{font-family:var(--serif);font-size:20px;font-variation-settings:"wght" 400,"wdth" 100,"CNTR" 20,"XHGT" 0;color:var(--ink-strong)}
+.brand .bdot{width:5px;height:5px;border-radius:50%;background:var(--accent);transform:translateY(-3px)}
+.bp{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--soft)}
+
+/* hero */
+.hero{height:100vh;display:flex;flex-direction:column;justify-content:center;padding:0 48px;max-width:1100px;margin:0 auto}
+.hero .eye{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:var(--soft);margin-bottom:22px}
+.hero h1{font-family:var(--serif);font-weight:300;font-variation-settings:"wght" 300,"wdth" 100,"CNTR" 20,"XHGT" 0;
+  font-size:clamp(44px,7vw,92px);line-height:.98;letter-spacing:-.025em;color:var(--ink-strong)}
+.hero h1 em{font-style:italic;color:var(--accent-ink)}
+.hero p{margin-top:26px;max-width:540px;font-size:16px;line-height:1.6;color:var(--soft)}
+.scrollhint{margin-top:46px;display:inline-flex;align-items:center;gap:11px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--soft-2)}
+.scrollhint .ln{width:1px;height:34px;background:var(--line-strong);position:relative;overflow:hidden}
+.scrollhint .ln::after{content:'';position:absolute;inset:0;background:var(--accent);transform:translateY(-100%);animation:drop 1.9s var(--ease) infinite}
+@keyframes drop{0%{transform:translateY(-100%)}60%,100%{transform:translateY(100%)}}
+
+/* journey */
+.journey{position:relative;max-width:1100px;margin:0 auto;padding:40px 48px 18vh}
+.spine{position:absolute;left:84px;top:0;bottom:0;width:1px;background:var(--line)}
+.spine .fill{position:absolute;top:0;left:0;width:1px;height:0;background:var(--accent)}
+.phase{margin:7vh 0 4vh 132px;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--soft-2)}
+.phase:first-of-type{margin-top:2vh} .phase b{color:var(--accent-ink);font-weight:600}
+
+.stage{position:relative;padding:4.2vh 0 4.2vh 132px;min-height:20vh}
+.stage .node{position:absolute;left:84px;top:calc(4.2vh + 14px);width:13px;height:13px;border-radius:50%;background:var(--bg);
+  border:1.5px solid var(--line-strong);transform:translate(-50%,0) scale(1);transition:all .5s var(--ease);z-index:2}
+.stage .node .sd{position:absolute;inset:3px;border-radius:50%;opacity:0;transition:opacity .5s var(--ease)}
+.s-manual .node .sd{background:var(--manual)} .s-parcial .node .sd{background:var(--parcial)} .s-bloqueado .node .sd{background:var(--bloqueado)} .s-pronto .node .sd{background:var(--pronto)}
+.stage .num{font-family:var(--serif);font-weight:260;font-variation-settings:"wght" 260,"wdth" 100,"CNTR" 20,"XHGT" 0;
+  font-size:13px;letter-spacing:.16em;color:var(--soft-2)}
+.stage h2{font-family:var(--serif);font-weight:330;font-variation-settings:var(--axes);font-size:clamp(26px,3.2vw,40px);
+  line-height:1.05;letter-spacing:-.02em;color:var(--ink-strong);margin:6px 0 0}
+.stage .status{display:inline-flex;align-items:center;gap:7px;margin-top:12px;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--soft)}
+.stage .status i{width:6px;height:6px;border-radius:50%}
+.stage .rows{display:grid;grid-template-columns:1fr 1fr;gap:40px;max-width:760px;margin-top:22px}
+.stage .k{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--soft-2);margin-bottom:9px}
+.stage .hoje .v{font-size:15px;line-height:1.6;color:var(--soft)}
+.stage .fazer{position:relative;border-left:1px solid var(--line);padding-left:24px;transition:border-color .45s var(--ease)}
+.stage .fazer .k{color:var(--accent-ink)}
+.stage .fazer .v{font-size:16px;line-height:1.5;color:var(--ink)}
+.stage .fazer .v b{color:var(--ink-strong);font-weight:600}
+.stage:hover .fazer{border-color:var(--accent)}
+
+/* reveal */
+.stage .num,.stage h2,.stage .status,.stage .rows{opacity:0;transform:translateY(18px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.stage.in .num{transition-delay:.02s} .stage.in h2{transition-delay:.08s} .stage.in .status{transition-delay:.14s} .stage.in .rows{transition-delay:.2s}
+.stage.in .num,.stage.in h2,.stage.in .status,.stage.in .rows{opacity:1;transform:none}
+.stage.in .node{border-color:var(--accent);transform:translate(-50%,0) scale(1.25)}
+.stage.in .node .sd{opacity:1}
+
+.end{max-width:1100px;margin:0 auto;padding:6vh 48px 16vh 180px}
+.end .k{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent-ink);margin-bottom:14px}
+.end h3{font-family:var(--serif);font-weight:330;font-variation-settings:var(--axes);font-size:clamp(24px,3vw,34px);line-height:1.15;color:var(--ink-strong);max-width:680px}
+.end h3 b{color:var(--accent-ink);font-weight:330;font-style:italic}
+
+.cur{position:fixed;top:0;left:0;width:9px;height:9px;border-radius:50%;background:var(--accent);transform:translate(-50%,-50%);pointer-events:none;z-index:90;opacity:0;transition:opacity .3s,width .25s,height .25s}
+.cur.on{opacity:.55}
+@media(max-width:820px){.spine,.stage .node{display:none}.stage,.phase,.end{padding-left:0;margin-left:0}.stage .rows{grid-template-columns:1fr;gap:18px}.stage .fazer{border-left:0;padding-left:0}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.stage .num,.stage h2,.stage .status,.stage .rows{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="brandbar">
+  <div class="brand"><span class="lb">La Belle Scens</span><span class="bdot"></span></div>
+  <div class="bp">A jornada do cliente</div>
+</div>
+
+<section class="hero">
+  <div class="eye">Aromatização · cenário hoje</div>
+  <h1>Do primeiro contato<br>à <em>recorrência</em>.</h1>
+  <p>Onze etapas, do lead à troca de refil e ao relacionamento. Role para ver cada uma — e o que dá pra automatizar.</p>
+  <div class="scrollhint"><span class="ln"></span> Role para começar</div>
+</section>
+
+<div class="journey" id="journey">
+  <div class="spine"><div class="fill" id="fill"></div></div>
+  <div id="stages"></div>
+</div>
+
+<div class="end">
+  <div class="k">→ Próximo passo</div>
+  <h3>O motor é a <b>recorrência</b> (05→09). A telemetria dispara a agenda no Auvo e a baixa em estoque, financeiro e CRM — é o que destrava tudo.</h3>
+</div>
+
+<div class="cur" id="cur"></div>
+
+<script>
+const STEPS=[
+ {n:'01',t:'Nasce (Lead)',ph:'aquisicao',s:'manual',hoje:'Prospecção e indicação chegam pelo WhatsApp e por planilha.',fazer:'Captura de leads centralizada com <b>entrada automática no funil</b>.'},
+ {n:'02',t:'Venda & Proposta',ph:'aquisicao',s:'manual',hoje:'Pricing e proposta na cabeça, por WhatsApp/e-mail.',fazer:'Proposta de comodato com <b>pricing-padrão em 1 clique</b>.'},
+ {n:'03',t:'Contrato & Assinatura',ph:'aquisicao',s:'parcial',hoje:'Cessão no Bling e assinatura no Clicksign, separados.',fazer:'<b>Contrato → Clicksign → cliente recorrente</b>, num fluxo só.'},
+ {n:'04',t:'Instalação & Calibragem',ph:'aquisicao',s:'parcial',hoje:'Máquina instalada e calibrada no campo, manual.',fazer:'<b>Calibragem remota</b> (Arduino+Wi-Fi) registrada na ativação.'},
+ {n:'05',t:'Operação & Telemetria',ph:'recorrencia',s:'bloqueado',hoje:'Não há telemetria confiável do nível do refil.',fazer:'<b>Telemetria de nível em tempo real</b> por máquina — a base de tudo.'},
+ {n:'06',t:'Previsão da “perda”',ph:'recorrencia',s:'manual',hoje:'A data em que o refil zera é estimada no olho ou em planilha.',fazer:'<b>Previsão automática da “perda”</b> a partir da telemetria.'},
+ {n:'07',t:'Troca assistida',ph:'recorrencia',s:'parcial',hoje:'Lembrete no braço; o Auvo já cobre o campo (API v2).',fazer:'A telemetria <b>dispara a agenda no Auvo</b> + lembrete proativo.'},
+ {n:'08',t:'Estoque & Produção',ph:'recorrencia',s:'manual',hoje:'Baixa e “em separação” no braço, entre Bling e planilha.',fazer:'<b>Baixa automática</b> + alertas de compra e validade.'},
+ {n:'09',t:'Faturamento & Cobrança',ph:'recorrencia',s:'manual',hoje:'Boleto/assinatura dispersos; cobrança por WhatsApp.',fazer:'<b>Cobrança recorrente automática</b> com régua de cobrança.'},
+ {n:'10',t:'Atendimento & Helpdesk',ph:'relacionamento',s:'manual',hoje:'Suporte no WhatsApp, sem registro de chamados.',fazer:'<b>Tickets + base de conhecimento + SLA</b> ligados ao agente.'},
+ {n:'11',t:'CRM / Ciclo de vida',ph:'relacionamento',s:'manual',hoje:'Churn sem monitoramento — o cliente some sem aviso.',fazer:'Estado do cliente (<b>nasce / morre / ressuscita</b>) com alertas.'},
+];
+const PH={aquisicao:['Aquisição','uma vez por cliente'],recorrencia:['↻ Recorrência','repete a cada refil'],relacionamento:['Relacionamento','contínuo']};
+const SLABEL={manual:'Manual hoje',parcial:'Parcial',bloqueado:'Bloqueado',pronto:'Pronto'};
+const SCOLOR={manual:'var(--manual)',parcial:'var(--parcial)',bloqueado:'var(--bloqueado)',pronto:'var(--pronto)'};
+
+const stagesEl=document.getElementById('stages');let lastPh='';
+STEPS.forEach(s=>{
+  if(s.ph!==lastPh){lastPh=s.ph;const ph=document.createElement('div');ph.className='phase';
+    ph.innerHTML='<b>'+PH[s.ph][0]+'</b> · '+PH[s.ph][1];stagesEl.appendChild(ph);}
+  const el=document.createElement('section');el.className='stage s-'+s.s;
+  el.innerHTML='<span class="node"><span class="sd"></span></span>'+
+    '<div class="num">'+s.n+'</div><h2>'+s.t+'</h2>'+
+    '<span class="status"><i style="background:'+SCOLOR[s.s]+'"></i>'+SLABEL[s.s]+'</span>'+
+    '<div class="rows"><div class="hoje"><div class="k">Hoje</div><div class="v">'+s.hoje+'</div></div>'+
+    '<div class="fazer"><div class="k">O que fazer</div><div class="v">'+s.fazer+'</div></div></div>';
+  stagesEl.appendChild(el);
+});
+
+// reveal por scroll
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');}),{threshold:.28,rootMargin:'0px 0px -12% 0px'});
+document.querySelectorAll('.stage').forEach(s=>io.observe(s));
+
+// preenchimento da espinha
+const journey=document.getElementById('journey'),fill=document.getElementById('fill');
+function onScroll(){const r=journey.getBoundingClientRect();const total=journey.offsetHeight-innerHeight*.5;
+  const p=Math.min(Math.max((innerHeight*.5 - r.top)/total,0),1);fill.style.height=(p*100)+'%';}
+addEventListener('scroll',onScroll,{passive:true});addEventListener('resize',onScroll);onScroll();
+
+// cursor pontinho
+const cur=document.getElementById('cur');let mx=0,my=0,cx=0,cy=0,on=false;
+if(matchMedia('(hover:hover) and (pointer:fine)').matches){
+  addEventListener('pointermove',e=>{mx=e.clientX;my=e.clientY;if(!on){on=true;cur.classList.add('on');}});
+  (function l(){cx+=(mx-cx)*.22;cy+=(my-cy)*.22;cur.style.transform='translate('+cx+'px,'+cy+'px) translate(-50%,-50%)';requestAnimationFrame(l);})();
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>La Belle Scens — Jornada · Fluxograma</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Hanken+Grotesk:wght@300;400;500;600&display=swap');
+@font-face{font-family:'Atacama';src:url('/fonts/Atacama-VF.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap}
+@font-face{font-family:'Atacama';src:url('/fonts/Atacama-Italic-VF.woff2') format('woff2');font-weight:100 900;font-style:italic;font-display:swap}
+@font-face{font-family:'Hellix';src:url('/fonts/HellixVAR.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap}
+:root{
+  --bg:#f8f8f8; --surface:#fff; --ink:#33383c; --ink-strong:#1f2326; --soft:#7b8487; --soft-2:#9aa1a3;
+  --line:rgba(51,56,60,.12); --line-strong:#cdc8bf; --accent:#9c8458; --accent-ink:#6f5c37; --accent-soft:#efe9dd;
+  --manual:#9a5a5a; --parcial:#9a7d3c; --bloqueado:#5a6f8a; --pronto:#5a7d63;
+  --serif:'Atacama','Cormorant Garamond',Georgia,serif;
+  --sans:'Hellix','Hanken Grotesk',-apple-system,'Segoe UI',sans-serif;
+  --axes:"wght" 320,"wdth" 100,"CNTR" 20,"XHGT" 0;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;overflow:hidden}
+@media(hover:hover){.stage{cursor:none}}
+.frame{height:100vh;display:flex;flex-direction:column;padding:34px 56px 30px}
+.head{display:flex;align-items:flex-start;justify-content:space-between;flex:none}
+.brand{display:flex;align-items:baseline;gap:7px}
+.brand .lb{font-family:var(--serif);font-size:22px;font-variation-settings:"wght" 400,"wdth" 100,"CNTR" 20,"XHGT" 0;color:var(--ink-strong)}
+.brand .bdot{width:5px;height:5px;border-radius:50%;background:var(--accent);transform:translateY(-3px)}
+.brand .sub{font-size:9.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--soft);margin-top:6px}
+.eyebrow{font-size:10.5px;letter-spacing:.28em;text-transform:uppercase;color:var(--soft);text-align:right}
+.eyebrow b{color:var(--accent-ink);font-weight:500}
+.intro{flex:none;margin-top:16px}
+.intro h1{font-family:var(--serif);font-weight:320;font-variation-settings:var(--axes);font-size:clamp(28px,3.4vw,42px);line-height:1.02;letter-spacing:-.02em;color:var(--ink-strong)}
+.intro h1 em{font-style:italic;color:var(--accent-ink)}
+
+/* stage */
+.stage{flex:1;position:relative;margin-top:8px}
+svg.flow{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.seg{fill:none;stroke:var(--line-strong);stroke-width:1.4;stroke-linecap:round;transition:stroke .45s var(--ease),stroke-width .45s var(--ease)}
+.seg.draw{transition:stroke-dashoffset 1.05s var(--ease)}
+.seg.hot{stroke:var(--accent);stroke-width:2.1}
+.band{position:absolute;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--soft-2)}
+.band b{color:var(--accent-ink);font-weight:600}
+
+.node{position:absolute;transform:translate(-50%,-50%);z-index:2;opacity:0;transition:opacity .55s var(--ease)}
+.stage.in .node{opacity:1}
+.chip{position:relative;display:flex;align-items:center;gap:11px;background:var(--surface);border:1px solid var(--line);
+  border-radius:11px;padding:11px 15px 11px 13px;box-shadow:0 1px 2px rgba(31,35,38,.04);min-width:150px;
+  transition:transform .4s var(--ease),box-shadow .4s var(--ease),border-color .4s var(--ease)}
+.chip .sd{width:8px;height:8px;border-radius:50%;flex:none}
+.chip .nx{font-size:10px;font-variant-numeric:tabular-nums;color:var(--soft-2);position:absolute;top:-9px;left:13px;background:var(--bg);padding:0 4px}
+.chip .tt{font-family:var(--serif);font-variation-settings:"wght" 400,"wdth" 100,"CNTR" 20,"XHGT" 0;font-size:15px;color:var(--ink-strong);white-space:nowrap}
+.node:hover .chip{transform:translateY(-4px);box-shadow:0 16px 40px -16px rgba(31,35,38,.28);border-color:var(--accent)}
+.s-manual .sd{background:var(--manual)} .s-parcial .sd{background:var(--parcial)} .s-bloqueado .sd{background:var(--bloqueado)} .s-pronto .sd{background:var(--pronto)}
+
+/* popover */
+.pop{position:absolute;left:50%;transform:translateX(-50%) translateY(8px);width:300px;background:var(--ink-strong);color:#ece7dd;
+  border-radius:10px;padding:16px 18px;box-shadow:0 24px 60px -20px rgba(31,35,38,.5);opacity:0;pointer-events:none;z-index:9;
+  transition:opacity .35s var(--ease),transform .35s var(--ease)}
+.node.up-pop .pop{bottom:calc(100% + 14px)} .node.down-pop .pop{top:calc(100% + 14px)}
+.node:hover .pop{opacity:1;transform:translateX(-50%) translateY(0)}
+.pop .pk{font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:#a59c86;margin-bottom:6px}
+.pop .ph{font-size:13.5px;line-height:1.5;color:#d8d2c6}
+.pop .pf{font-size:14px;line-height:1.45;color:#fff;margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.13)}
+.pop .pf b{color:#e7cf9b;font-weight:600}
+.pop::after{content:'';position:absolute;left:50%;width:10px;height:10px;background:var(--ink-strong);transform:translateX(-50%) rotate(45deg)}
+.node.up-pop .pop::after{bottom:-5px} .node.down-pop .pop::after{top:-5px}
+
+.foot{flex:none;display:flex;align-items:center;justify-content:space-between;font-size:11px;color:var(--soft-2);margin-top:6px}
+.legend{display:flex;gap:20px} .legend span{display:inline-flex;align-items:center;gap:7px} .legend i{width:6px;height:6px;border-radius:50%}
+
+.cur{position:fixed;top:0;left:0;width:30px;height:30px;border:1px solid var(--accent);border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:90;opacity:0;transition:opacity .3s,width .3s var(--ease),height .3s var(--ease),background .3s}
+.cur.on{opacity:1} .cur.hot{width:14px;height:14px;background:var(--accent)}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="frame">
+  <div class="head">
+    <div>
+      <div class="brand"><span class="lb">La Belle Scens</span><span class="bdot"></span></div>
+      <div class="sub">Gestão de Aromatização</div>
+    </div>
+    <div class="eyebrow">A jornada do cliente · hoje<br><b>passe o mouse nos nós</b></div>
+  </div>
+  <div class="intro"><h1>O fluxo, do cliente à <em>recorrência</em></h1></div>
+
+  <div class="stage" id="stage">
+    <svg class="flow" id="flow"></svg>
+    <div class="band" id="b-aq" style="left:1%;top:2%"><b>Aquisição</b> · uma vez</div>
+    <div class="band" id="b-re" style="left:1%;top:40%"><b>↻ Recorrência</b> · repete a cada refil</div>
+    <div class="band" id="b-rl" style="left:1%;top:88%"><b>Relacionamento</b> · contínuo</div>
+  </div>
+
+  <div class="foot">
+    <div class="legend">
+      <span><i style="background:var(--manual)"></i> Manual</span>
+      <span><i style="background:var(--parcial)"></i> Parcial</span>
+      <span><i style="background:var(--bloqueado)"></i> Bloqueado</span>
+      <span><i style="background:var(--pronto)"></i> Pronto</span>
+    </div>
+    <div>Protótipo · La Belle Scens</div>
+  </div>
+</div>
+<div class="cur" id="cur"></div>
+
+<script>
+const STEPS=[
+ {n:'01',t:'Nasce',ph:'aq',s:'manual',x:9,y:20,hoje:'Prospecção e indicação chegam por WhatsApp e planilha.',fazer:'Captura de leads com <b>entrada automática no funil</b>.'},
+ {n:'02',t:'Venda',ph:'aq',s:'manual',x:27,y:20,hoje:'Pricing e proposta na cabeça, por WhatsApp/e-mail.',fazer:'Proposta de comodato <b>gerada em 1 clique</b>.'},
+ {n:'03',t:'Contrato',ph:'aq',s:'parcial',x:45,y:20,hoje:'Cessão no Bling + assinatura Clicksign, separados.',fazer:'<b>Contrato → Clicksign → ativo recorrente</b>, num fluxo só.'},
+ {n:'04',t:'Instalação',ph:'aq',s:'parcial',x:63,y:20,hoje:'Máquina instalada e calibrada no campo, manual.',fazer:'<b>Calibragem remota</b> registrada na ativação.'},
+ {n:'05',t:'Operação',ph:'re',s:'bloqueado',x:80,y:50,hoje:'Sem telemetria confiável do nível do refil.',fazer:'<b>Telemetria de nível em tempo real</b> — a base de tudo.'},
+ {n:'06',t:'Previsão da “perda”',ph:'re',s:'manual',x:62,y:50,hoje:'A data em que o refil zera é estimada no olho.',fazer:'<b>Previsão automática</b> a partir da telemetria.'},
+ {n:'07',t:'Troca assistida',ph:'re',s:'parcial',x:44,y:50,hoje:'Lembrete manual; Auvo já cobre o campo (API v2).',fazer:'Telemetria <b>dispara a agenda no Auvo</b> + lembrete.'},
+ {n:'08',t:'Estoque',ph:'re',s:'manual',x:26,y:50,hoje:'Baixa e “em separação” no braço (Bling + planilha).',fazer:'<b>Baixa automática</b> + alertas de compra/validade.'},
+ {n:'09',t:'Cobrança',ph:'re',s:'manual',x:8,y:50,hoje:'Boleto/assinatura dispersos; cobrança no WhatsApp.',fazer:'<b>Cobrança recorrente automática</b> + régua.'},
+ {n:'10',t:'Atendimento',ph:'rl',s:'manual',x:30,y:80,hoje:'Suporte no WhatsApp, sem registro de chamados.',fazer:'<b>Tickets + base + SLA</b> ligados ao agente.'},
+ {n:'11',t:'CRM / Ciclo de vida',ph:'rl',s:'manual',x:50,y:80,hoje:'Churn sem monitoramento — o cliente some sem aviso.',fazer:'Estado do cliente (<b>nasce/morre/ressuscita</b>) + alertas.'},
+];
+const stage=document.getElementById('stage'),flow=document.getElementById('flow');
+
+function render(){
+  flow.innerHTML=''; [...stage.querySelectorAll('.node')].forEach(n=>n.remove());
+  const W=stage.clientWidth,H=stage.clientHeight;
+  const P=STEPS.map(s=>({x:s.x/100*W,y:s.y/100*H}));
+  // segmentos curvos entre nós consecutivos
+  STEPS.forEach((s,i)=>{
+    if(i===STEPS.length-1)return;
+    const a=P[i],b=P[i+1];
+    const dx=(b.x-a.x),dy=(b.y-a.y);
+    // controlo: sai horizontal de a, entra horizontal em b se mesma faixa; senão suaviza vertical
+    const sameRow=Math.abs(dy)<4;
+    let c1,c2;
+    if(sameRow){c1={x:a.x+dx*.4,y:a.y};c2={x:b.x-dx*.4,y:b.y};}
+    else{c1={x:a.x+dx*.5,y:a.y+dy*.15};c2={x:a.x+dx*.5,y:b.y-dy*.15};}
+    const p=document.createElementNS('http://www.w3.org/2000/svg','path');
+    p.setAttribute('d',`M${a.x},${a.y} C${c1.x},${c1.y} ${c2.x},${c2.y} ${b.x},${b.y}`);
+    p.setAttribute('class','seg'); p.dataset.seg=i;
+    flow.appendChild(p);
+    const len=p.getTotalLength();
+    p.style.strokeDasharray=len; p.style.strokeDashoffset=len;
+    requestAnimationFrame(()=>{p.classList.add('draw');p.style.transitionDelay=(0.3+i*0.09)+'s';
+      requestAnimationFrame(()=>p.style.strokeDashoffset='0');});
+  });
+  // nós
+  STEPS.forEach((s,i)=>{
+    const up = s.y>55; // se faixa baixa, popover em cima
+    const node=document.createElement('div');
+    node.className='node s-'+s.s+(up?' up-pop':' down-pop');
+    node.style.left=s.x+'%'; node.style.top=s.y+'%';
+    node.style.transitionDelay=(0.35+i*0.07)+'s'; node.dataset.i=i;
+    node.innerHTML='<div class="chip"><span class="nx">'+s.n+'</span><span class="sd"></span><span class="tt">'+s.t+'</span></div>'+
+      '<div class="pop"><div class="pk">Hoje</div><div class="ph">'+s.hoje+'</div><div class="pf">'+s.fazer+'</div></div>';
+    node.addEventListener('pointerenter',()=>{
+      flow.querySelectorAll('.seg').forEach(g=>g.classList.toggle('hot',+g.dataset.seg===i||+g.dataset.seg===i-1));
+    });
+    node.addEventListener('pointerleave',()=>flow.querySelectorAll('.seg').forEach(g=>g.classList.remove('hot')));
+    stage.appendChild(node);
+  });
+}
+render(); requestAnimationFrame(()=>requestAnimationFrame(()=>stage.classList.add('in')));
+let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{stage.classList.remove('in');render();requestAnimationFrame(()=>stage.classList.add('in'));},200);});
+
+// cursor
+const cur=document.getElementById('cur');let mx=innerWidth/2,my=innerHeight/2,cx=mx,cy=my,on=false;
+if(matchMedia('(hover:hover) and (pointer:fine)').matches){
+  addEventListener('pointermove',e=>{mx=e.clientX;my=e.clientY;if(!on){on=true;cur.classList.add('on');}});
+  addEventListener('pointerover',e=>cur.classList.toggle('hot',!!e.target.closest('.chip')));
+  (function l(){cx+=(mx-cx)*.2;cy+=(my-cy)*.2;cur.style.transform='translate('+cx+'px,'+cy+'px) translate(-50%,-50%)';requestAnimationFrame(l);})();
+}
+</script>
+</body>
+</html>
