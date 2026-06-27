@@ -3,199 +3,189 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>La Belle Scens — Hero (parallax · header sticky)</title>
+<title>La Belle Scens — Hero (morph para 3 retratos · parallax)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Hanken+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet" />
 <style>
-/* Fontes reais Dior (Atacama+Hellix) — TESTE; fallback livre Cormorant Garamond + Hanken Grotesk */
 @font-face{font-family:'Atacama';src:url('./fonts/Atacama-VF.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap;}
 @font-face{font-family:'Atacama';src:url('./fonts/Atacama-Italic-VF.woff2') format('woff2');font-weight:100 900;font-style:italic;font-display:swap;}
 @font-face{font-family:'Hellix';src:url('./fonts/HellixVAR.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap;}
-
 :root{
-  --bg:#f8f8f8; --surface:#fff; --ink:#33383c; --ink-strong:#1f2326; --soft:#7b8487;
-  --line:rgba(51,56,60,.14); --accent:#9c8458; --accent-ink:#6f5c37; --on-dark:#f6f4ef;
+  --bg:#f8f8f8; --ink:#33383c; --ink-strong:#1f2326; --soft:#7b8487; --line:rgba(51,56,60,.14);
+  --accent:#9c8458; --accent-ink:#6f5c37; --on-dark:#f6f4ef;
   --serif:'Atacama','Cormorant Garamond',Georgia,serif;
   --sans:'Hellix','Hanken Grotesk',-apple-system,'Segoe UI',sans-serif;
   --ease:cubic-bezier(.23,1,.32,1);
   --serif-axes:"wght" 300,"wdth" 100,"CNTR" 20,"XHGT" 0;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;}
 body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;}
-h1,h2,h3{font-family:var(--serif);font-weight:300;font-variation-settings:var(--serif-axes);color:var(--ink-strong);letter-spacing:-.015em;}
+h1{font-family:var(--serif);font-weight:300;font-variation-settings:var(--serif-axes);letter-spacing:-.02em;}
 em{font-style:italic;color:var(--accent-ink);}
-.eyebrow{font-family:var(--sans);font-size:11px;letter-spacing:.24em;text-transform:uppercase;}
 
-/* ============ HEADER STICKY (transparente → frosted) ============ */
-.hdr{
-  position:sticky;top:0;z-index:300;height:78px;
-  display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
-  padding:0 40px;color:var(--on-dark);
-  transition:background .5s var(--ease), color .5s var(--ease), border-color .5s var(--ease), height .5s var(--ease);
-  border-bottom:1px solid transparent;
-}
-.hdr.scrolled{
-  background:rgba(248,248,248,.82);
-  -webkit-backdrop-filter:saturate(140%) blur(16px);backdrop-filter:saturate(140%) blur(16px);
-  color:var(--ink);height:64px;border-bottom-color:var(--line);
-}
+/* ---------- HEADER STICKY (transparente -> frosted) ---------- */
+.hdr{position:sticky;top:0;z-index:300;height:78px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
+  padding:0 40px;color:var(--on-dark);border-bottom:1px solid transparent;
+  transition:background .5s var(--ease),color .5s var(--ease),height .5s var(--ease),border-color .5s var(--ease);}
+.hdr.scrolled{background:rgba(248,248,248,.82);-webkit-backdrop-filter:saturate(140%) blur(16px);backdrop-filter:saturate(140%) blur(16px);
+  color:var(--ink);height:64px;border-bottom-color:var(--line);}
 .hdr-nav{display:flex;gap:30px;font-size:12.5px;}
-.hdr-nav a{color:inherit;text-decoration:none;opacity:.92;position:relative;padding-bottom:3px;}
-.hdr-nav a::after{content:'';position:absolute;left:0;bottom:0;width:100%;height:1px;background:currentColor;transform:scaleX(0);transform-origin:right;transition:transform .4s var(--ease);}
-.hdr-nav a:hover::after{transform:scaleX(1);transform-origin:left;}
+.hdr-nav a{color:inherit;text-decoration:none;opacity:.92;}
 .hdr-brand{display:inline-flex;align-items:baseline;gap:7px;justify-self:center;}
-.hdr-brand .lb{font-family:var(--serif);font-size:22px;font-weight:400;font-variation-settings:"wght" 400,"wdth" 100,"CNTR" 20,"XHGT" 0;letter-spacing:.01em;color:inherit;white-space:nowrap;}
+.hdr-brand .lb{font-family:var(--serif);font-size:22px;font-weight:400;font-variation-settings:"wght" 400,"wdth" 100,"CNTR" 20,"XHGT" 0;color:inherit;white-space:nowrap;}
 .hdr-brand .dot{width:5px;height:5px;border-radius:50%;background:var(--accent);transform:translateY(-2px);}
-.hdr-right{justify-self:end;display:flex;gap:18px;align-items:center;font-size:12.5px;}
-.hdr-right .ic{width:18px;height:18px;stroke:currentColor;stroke-width:1.3;fill:none;cursor:pointer;opacity:.92;}
-@media(max-width:760px){.hdr-nav,.hdr-right span{display:none;}}
+.hdr-right{justify-self:end;font-size:12.5px;}
+@media(max-width:760px){.hdr-nav,.hdr-right{display:none;}}
 
-/* ============ HERO 1 (pin + parallax + scroll-under) ============ */
-.pin{height:155vh;position:relative;}            /* range de pin do hero */
-.hero{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;align-items:center;justify-content:center;}
-.hero-media{position:absolute;inset:-6% -2%;will-change:transform;}
-.hero-media img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.02);}
-.hero-media::after{content:'';position:absolute;inset:0;background:
-  linear-gradient(180deg, rgba(31,35,38,.34) 0%, rgba(31,35,38,.20) 40%, rgba(31,35,38,.52) 100%),
-  radial-gradient(120% 80% at 50% 30%, rgba(156,132,88,.10), transparent 60%);}
-.hero-content{position:relative;z-index:2;text-align:center;color:var(--on-dark);max-width:760px;padding:0 24px;will-change:transform,opacity;}
-.hero-content .eyebrow{color:rgba(246,244,239,.82);margin-bottom:26px;}
-.hero h1{color:#fff;font-size:clamp(40px,6.4vw,82px);line-height:1.02;letter-spacing:-.025em;}
-.hero h1 em{color:#e7d9b8;}
-.hero-sub{margin:26px auto 0;max-width:440px;font-size:16px;line-height:1.6;color:rgba(246,244,239,.86);}
-.hero-cta{display:inline-flex;align-items:center;gap:10px;margin-top:36px;color:#fff;font-size:12px;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.6);padding-bottom:6px;transition:border-color .4s var(--ease),gap .4s var(--ease);}
-.hero-cta:hover{border-color:#fff;gap:16px;}
-.hero-cta svg{width:13px;height:13px;stroke:currentColor;stroke-width:1.5;fill:none;}
-.scrollcue{position:absolute;left:50%;bottom:30px;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:10px;color:rgba(246,244,239,.7);}
-.scrollcue .line{width:1px;height:46px;background:linear-gradient(rgba(246,244,239,.7),transparent);animation:cue 2.4s var(--ease) infinite;transform-origin:top;}
-.scrollcue span{font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;}
-@keyframes cue{0%{transform:scaleY(0);opacity:0;}40%{transform:scaleY(1);opacity:1;}100%{transform:scaleY(1) translateY(20px);opacity:0;}}
+/* ---------- STAGE: hero pin + morph ---------- */
+.stage-wrap{height:240vh;position:relative;}        /* range de scroll do morph */
+.stage{position:sticky;top:0;height:100vh;overflow:hidden;background:var(--bg);}
 
-/* ============ SEÇÃO EDITORIAL — texto + 3 cards verticais (parallax) ============ */
-.editorial{position:relative;z-index:5;background:var(--bg);padding:130px 40px 120px;}
-.ed-inner{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:300px 1fr;gap:64px;align-items:center;}
-.ed-text .kick{color:var(--accent-ink);margin-bottom:18px;}
-.ed-text h2{font-size:clamp(30px,3.4vw,44px);line-height:1.06;}
-.ed-text p{margin-top:22px;color:var(--soft);font-size:15px;line-height:1.65;max-width:300px;}
-.ed-text .lnk{display:inline-flex;align-items:center;gap:9px;margin-top:30px;color:var(--ink-strong);font-size:13px;}
-.ed-text .lnk svg{width:14px;height:14px;stroke:currentColor;stroke-width:1.5;fill:none;transition:transform .4s var(--ease);}
-.ed-text .lnk:hover svg{transform:translateX(5px);}
-.ed-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
-.vcard{position:relative;}
-.vcard .frame{position:relative;aspect-ratio:2/3;overflow:hidden;border-radius:2px;background:#e7e6e2;}
-.vcard .frame img{position:absolute;left:0;top:-14%;width:100%;height:128%;object-fit:cover;filter:grayscale(1) contrast(1.03);will-change:transform;}
-.vcard .frame::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(31,35,38,.42));}
-.vcard .cap{position:absolute;left:18px;bottom:16px;z-index:2;color:#fff;}
-.vcard .cap .t{font-family:var(--serif);font-size:21px;font-weight:400;font-variation-settings:"wght" 400,"wdth" 100,"CNTR" 20,"XHGT" 0;}
-.vcard .cap .s{font-size:11px;letter-spacing:.12em;text-transform:uppercase;opacity:.85;margin-top:3px;}
-.vcard:nth-child(2){margin-top:48px;}      /* escalonamento editorial */
-.vcard:nth-child(3){margin-top:16px;}
-@media(max-width:860px){.ed-inner{grid-template-columns:1fr;gap:40px;}.ed-cards{gap:14px;}.vcard:nth-child(n){margin-top:0;}}
+/* trio de slots (o retrato do meio é o destino do morph) */
+.trio{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:24px;}
+.slot{position:relative;width:clamp(180px,21vw,300px);aspect-ratio:2/3;border-radius:2px;overflow:hidden;background:#e7e6e2;will-change:transform,opacity;}
+.slot.center{visibility:hidden;}                    /* placeholder: o morph aterrissa aqui */
+.slot img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.03);}
+.slot::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(31,35,38,.42));}
+.slot .cap{position:absolute;left:16px;bottom:14px;z-index:2;color:#fff;opacity:0;will-change:opacity;}
+.slot .cap .t{font-family:var(--serif);font-size:19px;font-weight:400;font-variation-settings:"wght" 400,"wdth" 100,"CNTR" 20,"XHGT" 0;}
+.slot .cap .s{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;opacity:.85;margin-top:2px;}
 
-/* ============ FECHAMENTO ============ */
-.closing{position:relative;z-index:5;background:var(--ink-strong);color:var(--on-dark);text-align:center;padding:130px 24px;}
-.closing .eyebrow{color:rgba(246,244,239,.6);margin-bottom:22px;}
-.closing h2{color:#fff;font-size:clamp(30px,4vw,54px);line-height:1.05;}
-.closing h2 em{color:#e7d9b8;}
-.closing .btn{display:inline-flex;align-items:center;justify-content:center;height:50px;padding:0 30px;margin-top:38px;background:#fff;color:var(--ink-strong);font-size:13px;font-weight:500;border-radius:6px;text-decoration:none;transition:transform .4s var(--ease),background .4s var(--ease);}
-.closing .btn:hover{background:#e7d9b8;transform:translateY(-2px);}
-.footnote{position:relative;z-index:5;background:var(--bg);color:var(--soft);text-align:center;font-size:11px;padding:26px;letter-spacing:.04em;}
+/* a imagem-hero que faz o morph (full-bleed -> retrato central) */
+.morph{position:fixed;left:0;top:0;width:100vw;height:100vh;overflow:hidden;z-index:5;will-change:left,top,width,height;border-radius:0;}
+.morph img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.02);}
+.morph::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(31,35,38,.30),rgba(31,35,38,.16) 45%,rgba(31,35,38,.5));}
+.morph .cap{position:absolute;left:16px;bottom:14px;z-index:3;color:#fff;opacity:0;will-change:opacity;}
+.morph .cap .t{font-family:var(--serif);font-size:19px;font-weight:400;font-variation-settings:"wght" 400,"wdth" 100,"CNTR" 20,"XHGT" 0;}
+.morph .cap .s{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;opacity:.85;margin-top:2px;}
 
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}.hero-media,.vcard .frame img,.hero-content{transform:none!important;}}
+/* conteúdo do hero (some durante o morph) */
+.hero-c{position:fixed;left:0;top:0;width:100vw;height:100vh;z-index:6;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;color:#fff;padding:0 24px;pointer-events:none;will-change:opacity,transform;}
+.hero-c .eyebrow{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:rgba(246,244,239,.82);margin-bottom:24px;}
+.hero-c h1{font-size:clamp(40px,6.2vw,80px);line-height:1.02;color:#fff;}
+.hero-c h1 em{color:#e7d9b8;}
+.hero-c .sub{margin-top:24px;max-width:420px;font-size:15px;line-height:1.6;color:rgba(246,244,239,.85);}
+.scrollcue{position:fixed;left:50%;bottom:30px;transform:translateX(-50%);z-index:6;display:flex;flex-direction:column;align-items:center;gap:9px;color:rgba(246,244,239,.7);will-change:opacity;}
+.scrollcue .l{width:1px;height:44px;background:linear-gradient(rgba(246,244,239,.7),transparent);animation:cue 2.4s var(--ease) infinite;transform-origin:top;}
+.scrollcue span{font-size:9px;letter-spacing:.22em;text-transform:uppercase;}
+@keyframes cue{0%{transform:scaleY(0);opacity:0;}40%{transform:scaleY(1);opacity:1;}100%{transform:scaleY(1) translateY(18px);opacity:0;}}
+
+/* legenda do conjunto, aparece quando o trio se forma */
+.trio-label{position:absolute;left:0;right:0;top:calc(50% + clamp(180px,21vw,300px)*0.5 + 36px);text-align:center;z-index:4;opacity:0;will-change:opacity;}
+.trio-label .k{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent-ink);}
+.trio-label h2{font-family:var(--serif);font-weight:300;font-variation-settings:var(--serif-axes);font-size:clamp(24px,2.6vw,34px);color:var(--ink-strong);margin-top:8px;letter-spacing:-.015em;}
+
+@media(prefers-reduced-motion:reduce){
+  .morph,.hero-c,.scrollcue{position:absolute;}
+  .hero-c,.scrollcue{display:none;}
+  .slot.center{visibility:visible;}
+  .morph{display:none;}
+  .slot .cap,.trio-label{opacity:1!important;}
+}
 </style>
 </head>
 <body>
 
-<!-- HEADER (sticky: transparente → frosted) -->
 <header class="hdr" id="hdr">
-  <nav class="hdr-nav">
-    <a href="#">Coleções</a>
-    <a href="#">A Maison</a>
-    <a href="#">Difusores</a>
-  </nav>
+  <nav class="hdr-nav"><a href="#">Coleções</a><a href="#">A Maison</a><a href="#">Difusores</a></nav>
   <a class="hdr-brand" href="#"><span class="lb">La&nbsp;Belle&nbsp;Scens</span><span class="dot"></span></a>
-  <div class="hdr-right">
-    <span>Contato</span>
-    <svg class="ic" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-  </div>
+  <div class="hdr-right">Contato</div>
 </header>
 
-<!-- HERO 1 — pin + parallax -->
-<div class="pin">
-  <section class="hero">
-    <div class="hero-media" id="heroMedia">
-      <img src="https://picsum.photos/seed/lbs-hero-9/1920/1200?grayscale" alt="" />
+<div class="stage-wrap" id="wrap">
+  <section class="stage">
+    <!-- trio (centro é placeholder do morph) -->
+    <div class="trio">
+      <div class="slot left" id="slotL"><img src="https://picsum.photos/seed/lbs-l5/700/1050?grayscale" alt="" /><div class="cap"><div class="t">Lobby</div><div class="s">Bois de Lumière</div></div></div>
+      <div class="slot center" id="slotC"><img src="https://picsum.photos/seed/lbs-hero-12/900/1300?grayscale" alt="" /><div class="cap"><div class="t">Spa</div><div class="s">Fleur d'Aube</div></div></div>
+      <div class="slot right" id="slotR"><img src="https://picsum.photos/seed/lbs-r5/700/1050?grayscale" alt="" /><div class="cap"><div class="t">Boutique</div><div class="s">Ambre Privé</div></div></div>
     </div>
-    <div class="hero-content" id="heroContent">
+
+    <!-- legenda do conjunto -->
+    <div class="trio-label" id="trioLabel">
+      <div class="k">A assinatura</div>
+      <h2>Três ambiences, uma <em>mesma</em> alma.</h2>
+    </div>
+
+    <!-- a imagem-hero que faz o morph (= retrato do meio) -->
+    <div class="morph" id="morph">
+      <img src="https://picsum.photos/seed/lbs-hero-12/900/1300?grayscale" alt="" />
+      <div class="cap"><div class="t">Spa</div><div class="s">Fleur d'Aube</div></div>
+    </div>
+
+    <!-- conteúdo do hero (fade out no morph) -->
+    <div class="hero-c" id="heroC">
       <div class="eyebrow">Marketing Olfativo · Maison de Parfum</div>
       <h1>A arte da <em>fragrância</em><br>em cada ambiente.</h1>
-      <p class="hero-sub">Difusão calibrada, presença discreta. Vestimos hotéis, clínicas e flagship stores com uma assinatura olfativa própria.</p>
-      <a class="hero-cta" href="#editorial">Descobrir a coleção
-        <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <p class="sub">Difusão calibrada, presença discreta — uma assinatura olfativa para cada espaço.</p>
     </div>
-    <div class="scrollcue"><span class="line"></span><span>scroll</span></div>
+    <div class="scrollcue" id="cue"><span class="l"></span><span>scroll</span></div>
   </section>
 </div>
 
-<!-- SEÇÃO EDITORIAL — texto + 3 cards verticais (parallax) -->
-<section class="editorial" id="editorial">
-  <div class="ed-inner">
-    <div class="ed-text">
-      <div class="eyebrow kick">A assinatura</div>
-      <h2>Três ambiences, uma <em>mesma</em> alma.</h2>
-      <p>Cada zona recebe uma curva de difusão própria — intensidade, horário e presença. O detalhe que ninguém vê, mas todos sentem.</p>
-      <a class="lnk" href="#">Ver as essências
-        <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-    </div>
-    <div class="ed-cards">
-      <div class="vcard"><div class="frame"><img data-parallax="0.10" src="https://picsum.photos/seed/lbs-a3/700/1050?grayscale" alt="" /></div><div class="cap"><div class="t">Lobby</div><div class="s">Bois de Lumière</div></div></div>
-      <div class="vcard"><div class="frame"><img data-parallax="0.18" src="https://picsum.photos/seed/lbs-b3/700/1050?grayscale" alt="" /></div><div class="cap"><div class="t">Spa</div><div class="s">Fleur d'Aube</div></div></div>
-      <div class="vcard"><div class="frame"><img data-parallax="0.13" src="https://picsum.photos/seed/lbs-c3/700/1050?grayscale" alt="" /></div><div class="cap"><div class="t">Boutique</div><div class="s">Ambre Privé</div></div></div>
-    </div>
-  </div>
-</section>
-
-<!-- FECHAMENTO -->
-<section class="closing">
-  <div class="eyebrow">La Belle Scens</div>
-  <h2>Uma marca também se <em>respira</em>.</h2>
-  <a class="btn" href="#">Solicitar uma proposta</a>
-</section>
-<div class="footnote">Hero de demonstração · La Belle Scens Design System · efeito parallax + header sticky (técnica) · imagens placeholder</div>
+<div style="height:40vh;background:var(--bg)"></div>
 
 <script>
 (() => {
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const hdr = document.getElementById('hdr');
-  const media = document.getElementById('heroMedia');
-  const content = document.getElementById('heroContent');
-  const items = [...document.querySelectorAll('[data-parallax]')];
+  const wrap = document.getElementById('wrap');
+  const morph = document.getElementById('morph');
+  const heroC = document.getElementById('heroC');
+  const cue = document.getElementById('cue');
+  const slotC = document.getElementById('slotC');
+  const slotL = document.getElementById('slotL');
+  const slotR = document.getElementById('slotR');
+  const morphCap = morph.querySelector('.cap');
+  const trioLabel = document.getElementById('trioLabel');
   let ticking = false;
 
-  function update(){
-    const y = window.scrollY, vh = innerHeight;
+  const clamp = (v,a,b)=>Math.max(a,Math.min(b,v));
+  const lerp = (a,b,t)=>a+(b-a)*t;
+  const easeInOut = t => t<.5 ? 4*t*t*t : 1-Math.pow(-2*t+2,3)/2;
 
-    // header: transparente -> frosted
+  function update(){
+    const y = window.scrollY, vh = innerHeight, vw = innerWidth;
     hdr.classList.toggle('scrolled', y > 60);
 
-    if(!reduce){
-      // hero pin: zoom lento + conteúdo sobe e some conforme cobre
-      const p = Math.min(y / vh, 1);              // 0..1 no 1º viewport
-      media.style.transform = `translate3d(0, ${y * 0.12}px, 0) scale(${1 + p * 0.12})`;
-      content.style.transform = `translate3d(0, ${y * -0.18}px, 0)`;
-      content.style.opacity = String(Math.max(1 - p * 1.25, 0));
+    if(reduce){ ticking=false; return; }
 
-      // cards verticais: parallax interno por velocidade
-      items.forEach(img => {
-        const sp = parseFloat(img.dataset.parallax) || 0;
-        const r = img.parentElement.getBoundingClientRect();
-        const center = r.top + r.height / 2;
-        const off = center - vh / 2;             // distância do centro do viewport
-        img.style.transform = `translate3d(0, ${ -off * sp }px, 0)`;
-      });
-    }
+    const range = wrap.offsetHeight - vh;                 // distância de pin
+    const raw = clamp((y - wrap.offsetTop) / range, 0, 1);
+    const p = easeInOut(raw);                             // progresso suavizado do morph
+
+    // destino = retângulo do slot central (placeholder)
+    const t = slotC.getBoundingClientRect();
+
+    // morph: full-bleed (0,0,vw,vh) -> slot central
+    morph.style.left   = lerp(0, t.left, p) + 'px';
+    morph.style.top    = lerp(0, t.top,  p) + 'px';
+    morph.style.width  = lerp(vw, t.width,  p) + 'px';
+    morph.style.height = lerp(vh, t.height, p) + 'px';
+    morph.style.borderRadius = lerp(0, 2, p) + 'px';
+
+    // conteúdo do hero some no começo do morph
+    const fade = clamp(1 - raw/0.38, 0, 1);
+    heroC.style.opacity = String(fade);
+    heroC.style.transform = `translate3d(0, ${ -raw*60 }px, 0)`;
+    cue.style.opacity = String(fade);
+
+    // laterais entram (com leve parallax) na 2ª metade
+    const sp = easeInOut(clamp((raw-0.32)/0.5, 0, 1));
+    slotL.style.opacity = String(sp);
+    slotR.style.opacity = String(sp);
+    slotL.style.transform = `translate3d(${ lerp(-60,0,sp) }px,0,0) scale(${ lerp(.92,1,sp) })`;
+    slotR.style.transform = `translate3d(${ lerp(60,0,sp) }px,0,0) scale(${ lerp(.92,1,sp) })`;
+
+    // legendas + label do conjunto no fim
+    const fin = clamp((raw-0.72)/0.28, 0, 1);
+    morphCap.style.opacity = String(fin);
+    slotL.querySelector('.cap').style.opacity = String(fin);
+    slotR.querySelector('.cap').style.opacity = String(fin);
+    trioLabel.style.opacity = String(fin);
+
     ticking = false;
   }
   function onScroll(){ if(!ticking){ requestAnimationFrame(update); ticking = true; } }
