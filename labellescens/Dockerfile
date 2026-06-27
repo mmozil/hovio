@@ -7,6 +7,8 @@ COPY index.html hero.html /usr/share/nginx/html/
 # fonts/ contém .keep sempre; os .woff2 reais da Dior são gitignorados
 # (proprietários — não distribuir). Sem eles o catálogo usa o fallback livre.
 COPY fonts/ /usr/share/nginx/html/fonts/
+# Imagens do hero — self-hosted (sem picsum/CDN externo, não bloqueável)
+COPY img/ /usr/share/nginx/html/img/
 
 EXPOSE 80
 # Healthcheck rápido (wget existe no nginx:alpine via busybox) — fica saudável em ~3-8s,
