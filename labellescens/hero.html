@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>La Belle Scens — Hero morph (hero → coluna do meio)</title>
+<title>La Belle Scens — layout fiel /beauty (hero + carrossel)</title>
 <!-- ZERO dependências externas: fontes e imagens self-hosted -->
 <style>
 @font-face{font-family:'Atacama';src:url('./fonts/Atacama-VF.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap;}
@@ -14,153 +14,125 @@
   --accent:#9c8458; --accent-ink:#6f5c37; --on-dark:#f6f4ef;
   --serif:'Atacama',Georgia,serif; --sans:'Hellix',-apple-system,'Segoe UI',sans-serif;
   --ease:cubic-bezier(.23,1,.32,1); --serif-axes:"wght" 300,"wdth" 100,"CNTR" 20,"XHGT" 0;
-  --card-w:clamp(200px,24.2vw,348px); --gap:16px;        /* dimensões REAIS Dior */
+  /* dimensões REAIS Dior /beauty (1440): hero aspect 1.319, header 80, card 348×522, gap 16, promo 44 */
+  --card-w:348px; --card-h:522px; --gap:16px;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;}
-h1{font-family:var(--serif);font-weight:300;font-variation-settings:var(--serif-axes);letter-spacing:-.02em;}
+h1,h2{font-family:var(--serif);font-weight:300;font-variation-settings:var(--serif-axes);letter-spacing:-.02em;}
 em{font-style:italic;color:var(--accent-ink);}
 
-/* HEADER */
-.hdr{position:fixed;top:0;left:0;right:0;z-index:300;height:78px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
-  padding:0 40px;color:var(--on-dark);border-bottom:1px solid transparent;
-  transition:background .5s var(--ease),color .5s var(--ease),height .5s var(--ease),border-color .5s var(--ease);}
-.hdr.scrolled{background:rgba(248,248,248,.85);-webkit-backdrop-filter:saturate(140%) blur(16px);backdrop-filter:saturate(140%) blur(16px);color:var(--ink);height:64px;border-bottom-color:var(--line);}
-.hdr-nav{display:flex;gap:30px;font-size:12.5px;}.hdr-nav a{color:inherit;text-decoration:none;opacity:.92;}
-.hdr-brand{display:inline-flex;align-items:baseline;gap:7px;justify-self:center;}
-.hdr-brand .lb{font-family:var(--serif);font-size:22px;font-weight:400;font-variation-settings:"wght" 400,"wdth" 100,"CNTR" 20,"XHGT" 0;color:inherit;white-space:nowrap;}
-.hdr-brand .dot{width:5px;height:5px;border-radius:50%;background:var(--accent);transform:translateY(-2px);}
-.hdr-right{justify-self:end;font-size:12.5px;}
-@media(max-width:760px){.hdr-nav,.hdr-right{display:none;}}
+/* ===== BARRA PROMO (44px) ===== */
+.promo{height:44px;background:var(--ink-strong);color:var(--on-dark);display:flex;align-items:center;justify-content:center;gap:12px;font-size:12px;letter-spacing:.02em;position:relative;}
+.promo a{color:inherit;text-decoration:underline;text-underline-offset:3px;}
+.promo .x{position:absolute;right:18px;cursor:pointer;width:14px;height:14px;stroke:currentColor;stroke-width:1.4;fill:none;opacity:.8;}
 
-/* STAGE: hero (pin) -> morph para a coluna do meio */
-.stage-wrap{height:230vh;position:relative;}
-.stage{position:sticky;top:0;height:100vh;overflow:hidden;background:var(--bg);}
+/* ===== HEADER (80px, transparente sobre o hero -> frosted) ===== */
+.hdr{position:sticky;top:0;z-index:300;height:80px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 28px;color:var(--on-dark);
+  transition:background .5s var(--ease),color .5s var(--ease),height .5s var(--ease),border-color .5s var(--ease);border-bottom:1px solid transparent;}
+.hdr.scrolled{background:rgba(248,248,248,.88);-webkit-backdrop-filter:saturate(140%) blur(16px);backdrop-filter:saturate(140%) blur(16px);color:var(--ink);height:64px;border-bottom-color:var(--line);}
+.hdr-l{display:flex;gap:22px;align-items:center;}
+.hdr-l svg,.hdr-r svg{width:18px;height:18px;stroke:currentColor;stroke-width:1.3;fill:none;cursor:pointer;opacity:.92;}
+.hdr-brand{justify-self:center;font-family:var(--serif);font-size:26px;font-weight:400;font-variation-settings:"wght" 400,"wdth" 100,"CNTR" 20,"XHGT" 0;letter-spacing:.08em;color:inherit;display:inline-flex;align-items:baseline;gap:7px;white-space:nowrap;}
+.hdr-brand .dot{width:5px;height:5px;border-radius:50%;background:var(--accent);transform:translateY(-3px);}
+.hdr-r{justify-self:end;display:flex;gap:20px;align-items:center;}
+@media(max-width:760px){.hdr-l span,.hdr-r span{display:none;}}
 
-.trio{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:var(--gap);z-index:1;}
-.slot{position:relative;width:var(--card-w);aspect-ratio:2/3;border-radius:2px;overflow:hidden;background:#e7e6e2;will-change:transform,opacity;opacity:0;}
-.slot.center{visibility:hidden;opacity:1;}
-.slot img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.03);animation:kenburns 28s ease-in-out infinite alternate;}
-.slot.center img{animation-duration:22s;}
-.slot::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(31,35,38,.5));}
-.slot .cap{position:absolute;left:16px;bottom:14px;z-index:2;color:#fff;opacity:0;}
-.slot .cap .t{font-family:var(--serif);font-size:19px;font-weight:400;font-variation-settings:"wght" 400,"wdth" 100,"CNTR" 20,"XHGT" 0;}
-.slot .cap .s{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;opacity:.85;margin-top:2px;}
-
-/* MORPH = a imagem-hero. Por CSS já é full-screen (banner aparece SEMPRE, mesmo sem JS) */
-.morph{position:absolute;left:0;top:0;width:100%;height:100%;overflow:hidden;z-index:5;will-change:left,top,width,height;}
-.morph img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.02);animation:kenburns 22s ease-in-out infinite alternate;}
-/* movimento contínuo (estilo vídeo do Dior) — o hero "respira" mesmo parado */
-@keyframes kenburns{from{transform:scale(1.05) translate(0,0);}to{transform:scale(1.16) translate(-1.6%,-1.2%);}}
-.morph::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(31,35,38,.4),rgba(31,35,38,.22) 45%,rgba(31,35,38,.58));}
-.morph .cap{position:absolute;left:16px;bottom:14px;z-index:3;color:#fff;opacity:0;}
-.morph .cap .t{font-family:var(--serif);font-size:19px;font-weight:400;font-variation-settings:"wght" 400,"wdth" 100,"CNTR" 20,"XHGT" 0;}
-.morph .cap .s{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;opacity:.85;margin-top:2px;}
-
-/* conteúdo do hero (some no morph) */
-.hero-c{position:absolute;left:0;top:0;width:100%;height:100%;z-index:6;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#fff;padding:0 24px;pointer-events:none;}
-.hero-c .eyebrow{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:rgba(246,244,239,.85);margin-bottom:24px;}
-.hero-c h1{font-size:clamp(42px,6.6vw,86px);line-height:1.0;color:#fff;}
+/* ===== HERO full-width, aspect 1.319 (alto, como o Dior) ===== */
+.hero{position:relative;width:100%;aspect-ratio:1.319;min-height:520px;overflow:hidden;margin-top:-80px;display:flex;align-items:center;justify-content:center;}
+.hero-bg{position:absolute;inset:0;z-index:0;}
+.hero-bg img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.04);}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(31,35,38,.34),rgba(31,35,38,.18) 45%,rgba(31,35,38,.5));}
+.hero-c{position:relative;z-index:2;text-align:center;color:#fff;padding:0 24px;}
+.hero-c .eyebrow{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:rgba(246,244,239,.85);margin-bottom:20px;}
+.hero-c h1{font-size:clamp(34px,3.6vw,52px);line-height:1.1;color:#fff;}
 .hero-c h1 em{color:#e7d9b8;}
-.hero-c .sub{margin-top:24px;max-width:430px;font-size:16px;line-height:1.6;color:rgba(246,244,239,.88);}
-.scrollcue{position:absolute;left:50%;bottom:28px;transform:translateX(-50%);z-index:6;display:flex;flex-direction:column;align-items:center;gap:9px;color:rgba(246,244,239,.7);}
-.scrollcue .l{width:1px;height:46px;background:linear-gradient(rgba(246,244,239,.7),transparent);animation:cue 2.4s var(--ease) infinite;transform-origin:top;}
-.scrollcue span{font-size:9px;letter-spacing:.22em;text-transform:uppercase;}
-@keyframes cue{0%{transform:scaleY(0);opacity:0;}40%{transform:scaleY(1);opacity:1;}100%{transform:scaleY(1) translateY(18px);opacity:0;}}
+.hero-c .cta{display:inline-block;margin-top:26px;color:#fff;font-size:12px;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;border-bottom:1px solid rgba(255,255,255,.6);padding-bottom:5px;transition:border-color .3s var(--ease);}
+.hero-c .cta:hover{border-color:#fff;}
 
-.trio-label{position:absolute;left:0;right:0;top:calc(50% + clamp(200px,24.2vw,348px)*0.75 + 30px);text-align:center;z-index:4;opacity:0;}
-.trio-label .k{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent-ink);}
-.trio-label h2{font-family:var(--serif);font-weight:300;font-variation-settings:var(--serif-axes);font-size:clamp(22px,2.4vw,32px);color:var(--ink-strong);margin-top:8px;letter-spacing:-.015em;}
+/* ===== SEÇÃO EDITORIAL: texto à esquerda + carrossel de retratos à direita (igual Dior) ===== */
+.editorial{display:flex;align-items:center;gap:40px;padding:96px 0 96px 60px;}
+.ed-left{flex:0 0 380px;padding-right:30px;}
+.ed-left .k{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent-ink);margin-bottom:16px;}
+.ed-left h2{font-size:clamp(30px,3vw,42px);line-height:1.05;}
+.ed-left p{margin-top:20px;color:var(--soft);font-size:15px;line-height:1.65;max-width:320px;}
+.ed-left .lnk{display:inline-flex;align-items:center;gap:9px;margin-top:28px;color:var(--ink-strong);font-size:12px;letter-spacing:.14em;text-transform:uppercase;border-bottom:1px solid var(--ink);padding-bottom:5px;}
+.ed-cards{flex:1;display:flex;gap:var(--gap);overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px;scrollbar-width:thin;}
+.ed-cards::-webkit-scrollbar{height:5px;}.ed-cards::-webkit-scrollbar-thumb{background:var(--line);border-radius:99px;}
+.ecard{flex:0 0 var(--card-w);width:var(--card-w);height:var(--card-h);position:relative;overflow:hidden;border-radius:2px;background:#e7e6e2;scroll-snap-align:start;}
+.ecard img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.03);transition:transform .9s var(--ease);}
+.ecard:hover img{transform:scale(1.05);}
+.ecard::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 52%,rgba(31,35,38,.5));}
+.ecard .cap{position:absolute;left:18px;right:18px;bottom:18px;z-index:2;color:#fff;}
+.ecard .cap .s{font-size:10px;letter-spacing:.18em;text-transform:uppercase;opacity:.9;}
+.ecard .cap .t{font-family:var(--serif);font-size:19px;font-weight:400;font-variation-settings:"wght" 400,"wdth" 100,"CNTR" 20,"XHGT" 0;margin-top:4px;}
+.ecard .cap .go{display:inline-block;margin-top:10px;font-size:10px;letter-spacing:.14em;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,.55);padding-bottom:3px;}
+@media(max-width:760px){.editorial{flex-direction:column;align-items:stretch;padding:60px 24px;}.ed-left{flex:none;}}
 
-.below{position:relative;z-index:5;background:var(--ink-strong);color:var(--on-dark);text-align:center;padding:120px 24px;}
-.below .k{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(246,244,239,.6);margin-bottom:18px;}
-.below h2{font-family:var(--serif);font-weight:300;font-variation-settings:var(--serif-axes);color:#fff;font-size:clamp(30px,4vw,52px);line-height:1.06;}
-.below h2 em{color:#e7d9b8;font-style:italic;}
-.foot{position:relative;z-index:5;background:var(--bg);color:var(--soft);text-align:center;font-size:11px;padding:24px;}
-
-/* O movimento (morph + parallax) roda SEMPRE — mesmo com "reduzir movimento"
-   ligado no sistema — porque o dono quer ver o efeito no preview.
-   (Pra produção acessível, dá pra reduzir a intensidade depois.) */
+.below{background:var(--ink-strong);color:var(--on-dark);text-align:center;padding:110px 24px;}
+.below h2{color:#fff;font-size:clamp(28px,3.6vw,46px);}.below h2 em{color:#e7d9b8;font-style:italic;}
+.foot{background:var(--bg);color:var(--soft);text-align:center;font-size:11px;padding:24px;}
 </style>
 </head>
 <body>
 
+<div class="promo">Coleção 2026 — descubra as novas criações da Maison. <a href="#">Descobrir</a>
+  <svg class="x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></div>
+
 <header class="hdr" id="hdr">
-  <nav class="hdr-nav"><a href="#">Coleções</a><a href="#">A Maison</a><a href="#">Difusores</a></nav>
-  <a class="hdr-brand" href="#"><span class="lb">La&nbsp;Belle&nbsp;Scens</span><span class="dot"></span></a>
-  <div class="hdr-right">Contato</div>
+  <div class="hdr-l">
+    <svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+    <span style="font-size:12.5px;">Buscar</span>
+  </div>
+  <a class="hdr-brand" href="#">La&nbsp;Belle&nbsp;Scens<span class="dot"></span></a>
+  <div class="hdr-r">
+    <span style="font-size:12.5px;">Conta</span>
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>
+    <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 01-8 0"/></svg>
+  </div>
 </header>
 
-<div class="stage-wrap" id="wrap">
-  <section class="stage">
-    <div class="trio">
-      <article class="slot left" id="slotL"><img src="img/p1.jpg" alt="" /><div class="cap"><div class="s">La Belle Scens</div><div class="t">Bois de Lumière</div></div></article>
-      <article class="slot center" id="slotC"><img src="img/p2.jpg" alt="" /></article>
-      <article class="slot right" id="slotR"><img src="img/p3.jpg" alt="" /><div class="cap"><div class="s">La Belle Scens</div><div class="t">Ambre Privé</div></div></article>
-    </div>
-    <div class="trio-label" id="trioLabel"><div class="k">A assinatura</div><h2>Três ambiences, uma <em>mesma</em> alma.</h2></div>
+<!-- HERO full-width aspect 1.319 -->
+<section class="hero">
+  <div class="hero-bg"><img src="img/p4.jpg" alt="" /></div>
+  <div class="hero-c">
+    <div class="eyebrow">A Coleção · Maison de Parfum</div>
+    <h1>Fleur d'Aube,<br>a nova <em>fragrância</em>.</h1>
+    <a class="cta" href="#colecao">Descobrir</a>
+  </div>
+</section>
 
-    <!-- MORPH: hero full-screen que vira a coluna do meio -->
-    <div class="morph" id="morph"><img src="img/p2.jpg" alt="" /><div class="cap"><div class="s">La Belle Scens</div><div class="t">Fleur d'Aube</div></div></div>
-    <div class="hero-c" id="heroC">
-      <div class="eyebrow">Marketing Olfativo · Maison de Parfum</div>
-      <h1>A arte da <em>fragrância</em><br>em cada ambiente.</h1>
-      <p class="sub">Difusão calibrada, presença discreta — uma assinatura olfativa para cada espaço.</p>
-    </div>
-    <div class="scrollcue" id="cue"><span class="l"></span><span>scroll</span></div>
-  </section>
-</div>
+<!-- EDITORIAL: texto esquerda + carrossel de retratos -->
+<section class="editorial" id="colecao">
+  <div class="ed-left">
+    <div class="k">A assinatura</div>
+    <h2>Três ambiences, uma <em>mesma</em> alma.</h2>
+    <p>Difusão calibrada, presença discreta — uma identidade olfativa própria para cada espaço.</p>
+    <a class="lnk" href="#">Ver a coleção</a>
+  </div>
+  <div class="ed-cards">
+    <article class="ecard"><img src="img/p1.jpg" alt="" /><div class="cap"><div class="s">La Belle Scens</div><div class="t">Bois de Lumière</div><span class="go">Descobrir</span></div></article>
+    <article class="ecard"><img src="img/p2.jpg" alt="" /><div class="cap"><div class="s">La Belle Scens</div><div class="t">Fleur d'Aube</div><span class="go">Descobrir</span></div></article>
+    <article class="ecard"><img src="img/p3.jpg" alt="" /><div class="cap"><div class="s">La Belle Scens</div><div class="t">Ambre Privé</div><span class="go">Descobrir</span></div></article>
+    <article class="ecard"><img src="img/p4.jpg" alt="" /><div class="cap"><div class="s">La Belle Scens</div><div class="t">Nuit Boisée</div><span class="go">Descobrir</span></div></article>
+    <article class="ecard"><img src="img/p1.jpg" alt="" /><div class="cap"><div class="s">La Belle Scens</div><div class="t">Rose Solaire</div><span class="go">Descobrir</span></div></article>
+  </div>
+</section>
 
-<section class="below"><div class="k">La Belle Scens</div><h2>Uma marca também se <em>respira</em>.</h2></section>
-<div class="foot">Hero → morph → coluna do meio (Dior 348×522 · gap 16) · imagens self-hosted</div>
+<section class="below"><h2>Uma marca também se <em>respira</em>.</h2></section>
+<div class="foot">Layout fiel à Dior /beauty (hero aspect 1.319 · card 348×522 · gap 16 · texto-esquerda + carrossel) · imagens self-hosted</div>
 
 <script>
 (() => {
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-  window.scrollTo(0, 0);
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const hdr=document.getElementById('hdr'), wrap=document.getElementById('wrap'),
-        morph=document.getElementById('morph'), heroC=document.getElementById('heroC'),
-        cue=document.getElementById('cue'), slotC=document.getElementById('slotC'),
-        slotL=document.getElementById('slotL'), slotR=document.getElementById('slotR'),
-        trioLabel=document.getElementById('trioLabel'), morphCap=morph.querySelector('.cap');
+  window.scrollTo(0,0);
+  const hdr=document.getElementById('hdr');
   let ticking=false;
-  const clamp=(v,a,b)=>Math.max(a,Math.min(b,v)), lerp=(a,b,t)=>a+(b-a)*t,
-        easeInOut=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
-
-  function update(){
-    const y=window.scrollY, vh=innerHeight, vw=innerWidth;
-    const range=wrap.offsetHeight-vh;
-    const raw=clamp((y-wrap.offsetTop)/range,0,1);
-    const p=easeInOut(raw);
-    hdr.classList.toggle('scrolled', raw>0.5);
-
-    const t=slotC.getBoundingClientRect();
-    morph.style.left=lerp(0,t.left,p)+'px';
-    morph.style.top=lerp(0,t.top,p)+'px';
-    morph.style.width=lerp(vw,t.width,p)+'px';
-    morph.style.height=lerp(vh,t.height,p)+'px';
-    morph.style.borderRadius=lerp(0,2,p)+'px';
-
-    const fade=clamp(1-raw/0.40,0,1);
-    heroC.style.opacity=String(fade); heroC.style.transform=`translate3d(0,${-raw*55}px,0)`; cue.style.opacity=String(fade);
-
-    const sp=easeInOut(clamp((raw-0.30)/0.5,0,1));
-    slotL.style.opacity=String(sp); slotR.style.opacity=String(sp);
-    slotL.style.transform=`translate3d(${lerp(-55,0,sp)}px,0,0) scale(${lerp(.93,1,sp)})`;
-    slotR.style.transform=`translate3d(${lerp(55,0,sp)}px,0,0) scale(${lerp(.93,1,sp)})`;
-
-    const fin=clamp((raw-0.72)/0.28,0,1);
-    morphCap.style.opacity=String(fin);
-    slotL.querySelector('.cap').style.opacity=String(fin);
-    slotR.querySelector('.cap').style.opacity=String(fin);
-    trioLabel.style.opacity=String(fin);
-    ticking=false;
-  }
+  function update(){ hdr.classList.toggle('scrolled', window.scrollY > 60); ticking=false; }
   addEventListener('scroll',()=>{ if(!ticking){requestAnimationFrame(update); ticking=true;} },{passive:true});
-  addEventListener('resize',update);
-  addEventListener('load',update);
   update();
+  document.querySelector('.promo .x').addEventListener('click',e=>e.target.closest('.promo').style.display='none');
 })();
 </script>
 </body>
