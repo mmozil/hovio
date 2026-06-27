@@ -127,6 +127,11 @@ em{font-style:italic;color:var(--accent-ink);}
 
 <script>
 (() => {
+  // Começar SEMPRE no topo (hero principal) — evita o browser restaurar o scroll
+  // no fim (trio) ao recarregar, o que fazia parecer "sem hero/sem efeito".
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  window.scrollTo(0, 0);
+  addEventListener('load', () => window.scrollTo(0, 0));
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const hdr=document.getElementById('hdr'), wrap=document.getElementById('wrap'),
         morph=document.getElementById('morph'), heroC=document.getElementById('heroC'),
