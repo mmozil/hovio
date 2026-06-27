@@ -4,6 +4,8 @@ FROM nginx:1.27-alpine
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY index.html hero.html /usr/share/nginx/html/
+# Painel demo (overview/cenário + 9 módulos) — labellescens.hovio.com.br/painel/
+COPY painel/ /usr/share/nginx/html/painel/
 # fonts/ contém .keep sempre; os .woff2 reais da Dior são gitignorados
 # (proprietários — não distribuir). Sem eles o catálogo usa o fallback livre.
 COPY fonts/ /usr/share/nginx/html/fonts/
