@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>La Belle Scens — Squad de Agentes (estilo n8n/AIOS)</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Hanken+Grotesk:wght@300;400;500;600&display=swap');
+@font-face{font-family:'Atacama';src:url('/fonts/Atacama-VF.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap}
+@font-face{font-family:'Atacama';src:url('/fonts/Atacama-Italic-VF.woff2') format('woff2');font-weight:100 900;font-style:italic;font-display:swap}
+@font-face{font-family:'Hellix';src:url('/fonts/HellixVAR.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap}
+:root{
+  --bg:#f8f8f8;--surface:#fff;--ink:#33383c;--ink-strong:#1f2326;--soft:#7b8487;--soft-2:#9aa1a3;
+  --line:rgba(51,56,60,.12);--line-strong:#cdc8bf;--grid:rgba(51,56,60,.07);
+  --accent:#9c8458;--accent-ink:#6f5c37;--accent-soft:#efe9dd;
+  --manual:#9a5a5a;--parcial:#9a7d3c;--bloqueado:#5a6f8a;--pronto:#5a7d63;
+  --serif:'Atacama','Cormorant Garamond',Georgia,serif;--sans:'Hellix','Hanken Grotesk',-apple-system,'Segoe UI',sans-serif;
+  --axes:"wght" 320,"wdth" 100,"CNTR" 20,"XHGT" 0;--ease:cubic-bezier(.22,1,.36,1);--spring:cubic-bezier(.34,1.4,.5,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}html,body{height:100%}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;overflow:hidden}
+@media(hover:hover){.stage{cursor:none}}
+.frame{height:100vh;display:flex;flex-direction:column;padding:26px 44px 20px;position:relative;z-index:1}
+.head{display:flex;align-items:flex-start;justify-content:space-between;flex:none}
+.brand{display:flex;align-items:baseline;gap:7px}
+.brand .lb{font-family:var(--serif);font-size:21px;font-variation-settings:"wght" 400,"wdth" 100,"CNTR" 20,"XHGT" 0;color:var(--ink-strong)}
+.brand .bdot{width:5px;height:5px;border-radius:50%;background:var(--accent);transform:translateY(-3px)}
+.brand .sub{font-size:9.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--soft);margin-top:6px}
+.eyebrow{font-size:10.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--soft);text-align:right}
+.eyebrow b{color:var(--accent-ink);font-weight:500}
+.intro{flex:none;margin-top:8px;display:flex;align-items:baseline;gap:16px}
+.intro h1{font-family:var(--serif);font-weight:320;font-variation-settings:var(--axes);font-size:clamp(24px,3vw,36px);line-height:1.04;letter-spacing:-.02em;color:var(--ink-strong)}
+.intro h1 em{font-style:italic;color:var(--accent-ink)}
+.intro .cols{display:flex;gap:20px;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--soft-2);padding-bottom:4px}
+.intro .cols b{color:var(--accent-ink);font-weight:600}
+
+.stage{flex:1;position:relative;margin-top:10px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--surface)}
+.stage::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,var(--grid) 1.1px,transparent 1.1px);background-size:22px 22px;pointer-events:none}
+svg.wires{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
+.wire{fill:none;stroke:var(--line-strong);stroke-width:1.4;opacity:0;transition:opacity .8s var(--ease),stroke .35s,stroke-width .35s}
+.stage.in .wire{opacity:.85}
+.wire.sub{stroke-dasharray:3 4;opacity:0}.stage.in .wire.sub{opacity:.5}
+.wire.hot{stroke:var(--accent);stroke-width:2;opacity:1}
+.sig{fill:var(--accent);opacity:0}.stage.in .sig{opacity:.95}
+
+.node{position:absolute;transform:translate(-50%,-50%);z-index:3;opacity:0;transition:opacity .55s var(--spring),transform .55s var(--spring)}
+.stage.in .node{opacity:1}
+.card{position:relative;display:flex;align-items:center;gap:11px;background:var(--surface);border:1px solid var(--line);
+  border-radius:11px;padding:11px 14px 11px 13px;box-shadow:0 2px 6px -2px rgba(31,35,38,.08);
+  border-left:3px solid var(--bar,var(--line-strong));transition:transform .35s var(--spring),box-shadow .35s,border-color .35s}
+.card::before,.card::after{content:'';position:absolute;top:50%;width:7px;height:7px;border-radius:50%;background:var(--surface);border:1.5px solid var(--line-strong);transform:translateY(-50%);z-index:2}
+.card::before{left:-4.5px}.card::after{right:-4.5px}
+.node:hover .card{transform:translateY(-2px);box-shadow:0 16px 38px -16px rgba(31,35,38,.3)}
+.ico{width:26px;height:26px;border-radius:7px;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;flex:none}
+.ico svg{width:15px;height:15px;stroke:var(--accent-ink);stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+.tx .tt{font-size:13px;font-weight:500;color:var(--ink-strong);white-space:nowrap;display:flex;align-items:center;gap:7px}
+.tx .tt .sd{width:6px;height:6px;border-radius:50%;flex:none}
+.tx .mt{font-size:10.5px;color:var(--soft);margin-top:2px;white-space:nowrap}
+.s-manual .sd{background:var(--manual)}.s-parcial .sd{background:var(--parcial)}.s-bloqueado .sd{background:var(--bloqueado)}.s-pronto .sd{background:var(--pronto)}
+
+.node.trigger .card{--bar:var(--accent)} .node.trigger .ico{background:var(--accent-soft)}
+.node.agent .card{--bar:var(--ink-strong)} .node.agent .ico{background:#edece9} .node.agent .ico svg{stroke:var(--ink-strong)}
+.node.tool .card{--bar:var(--line-strong);padding:9px 12px} .node.tool .ico{width:22px;height:22px;background:#f1efeb} .node.tool .ico svg{stroke:var(--soft);width:13px;height:13px}
+.node.sub .card{--bar:var(--accent);padding:8px 11px;background:#fcfbf9} .node.sub .ico{width:20px;height:20px} .node.sub .tx .tt{font-size:11.5px}
+
+/* orquestrador */
+.node.orch .card{--bar:var(--accent);flex-direction:column;align-items:flex-start;gap:0;padding:16px 18px;min-width:188px;
+  border-color:var(--accent);box-shadow:0 0 0 1px var(--accent-soft),0 22px 54px -22px rgba(156,132,88,.4)}
+.node.orch .ohead{display:flex;align-items:center;gap:10px}
+.node.orch .glyph{width:30px;height:30px;flex:none}
+.node.orch .glyph circle,.node.orch .glyph line{stroke:var(--accent);stroke-width:1.3;fill:none}.node.orch .glyph .core{fill:var(--accent)}
+.node.orch .otag{font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-ink);background:var(--accent-soft);border-radius:20px;padding:2px 8px}
+.node.orch .ot{font-family:var(--serif);font-variation-settings:var(--axes);font-size:19px;color:var(--ink-strong);margin-top:11px;line-height:1}
+.node.orch .os{font-size:11px;color:var(--soft);margin-top:5px}
+.node.orch .ports{display:flex;gap:6px;margin-top:12px;padding-top:11px;border-top:1px solid var(--line);width:100%}
+.node.orch .ports span{font-size:9px;letter-spacing:.04em;color:var(--soft);display:inline-flex;align-items:center;gap:4px}
+.node.orch .ports i{width:5px;height:5px;border-radius:50%;background:var(--accent)}
+.node.orch .pulse{position:absolute;inset:-1px;border-radius:12px;border:1px solid var(--accent);opacity:0;animation:halo 3.6s var(--ease) infinite}
+@keyframes halo{0%{opacity:.45;transform:scale(1)}70%,100%{opacity:0;transform:scale(1.05)}}
+
+/* popover */
+.pop{position:absolute;left:50%;bottom:calc(100% + 12px);transform:translateX(-50%) translateY(8px);width:256px;
+  background:var(--ink-strong);color:#e9e3d8;border-radius:11px;padding:14px 16px;box-shadow:0 24px 60px -22px rgba(31,35,38,.55);
+  opacity:0;pointer-events:none;z-index:30;transition:opacity .32s var(--ease),transform .32s var(--ease)}
+.node.low .pop{bottom:auto;top:calc(100% + 12px)}
+.node:hover .pop{opacity:1;transform:translateX(-50%) translateY(0)}
+.pop .pk{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#b7a98a;margin-bottom:4px}
+.pop .gap{font-size:12.5px;line-height:1.45;color:#e9c9b0}
+.pop .usr{font-size:12px;line-height:1.45;color:#cfc9bd;margin-top:9px}
+.pop .act{font-size:12.5px;line-height:1.45;color:#fff;margin-top:9px;padding-top:9px;border-top:1px solid rgba(255,255,255,.13)}
+.pop .act b{color:#e7cf9b;font-weight:600}
+.pop::after{content:'';position:absolute;left:50%;bottom:-5px;width:10px;height:10px;background:var(--ink-strong);transform:translateX(-50%) rotate(45deg)}
+.node.low .pop::after{bottom:auto;top:-5px}
+
+.foot{flex:none;display:flex;align-items:center;justify-content:space-between;font-size:10.5px;color:var(--soft-2);margin-top:8px}
+.legend{display:flex;gap:16px}.legend span{display:inline-flex;align-items:center;gap:6px}.legend i{width:6px;height:6px;border-radius:50%}
+.cur{position:fixed;top:0;left:0;width:28px;height:28px;border:1px solid var(--accent);border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:90;opacity:0;transition:opacity .3s,width .3s var(--ease),height .3s var(--ease),background .3s}
+.cur.on{opacity:1}.cur.hot{width:13px;height:13px;background:var(--accent)}
+@media(prefers-reduced-motion:reduce){.sig,.pulse{display:none}*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="frame">
+  <div class="head">
+    <div><div class="brand"><span class="lb">La Belle Scens</span><span class="bdot"></span></div><div class="sub">Gestão de Aromatização</div></div>
+    <div class="eyebrow">Squad de agentes · estilo n8n / AIOS<br><b>passe o mouse nos agentes</b></div>
+  </div>
+  <div class="intro">
+    <h1>Um <em>squad</em> de agentes opera a recorrência</h1>
+    <div class="cols"><span><b>Gatilho</b></span><span><b>Orquestrador</b></span><span><b>Squad</b></span><span><b>Ferramentas</b></span></div>
+  </div>
+
+  <div class="stage" id="stage">
+    <svg class="wires" id="wires"></svg>
+  </div>
+
+  <div class="foot">
+    <div class="legend">
+      <span><i style="background:var(--manual)"></i> Gap (manual)</span>
+      <span><i style="background:var(--parcial)"></i> Parcial</span>
+      <span><i style="background:var(--bloqueado)"></i> Bloqueado</span>
+      <span><i style="background:var(--pronto)"></i> Pronto</span>
+    </div>
+    <div>Protótipo · La Belle Scens · ref. AIOS / n8n</div>
+  </div>
+</div>
+<div class="cur" id="cur"></div>
+
+<script>
+const IC={ // ícones SVG simples
+ bolt:'<path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/>',
+ plug:'<path d="M9 3v6M15 3v6M7 9h10v3a5 5 0 0 1-10 0V9zM12 17v4"/>',
+ cpu:'<rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 3v3M15 3v3M9 18v3M15 18v3M3 9h3M3 15h3M18 9h3M18 15h3"/>',
+ mem:'<rect x="4" y="6" width="16" height="12" rx="2"/><path d="M8 6v12M16 6v12"/>',
+ rule:'<path d="M5 4h14v16H5zM9 8h6M9 12h6M9 16h3"/>',
+ wave:'<path d="M3 12c2-5 4-5 6 0s4 5 6 0 4-5 6 0"/>',
+ pin:'<path d="M12 21s-6-5-6-10a6 6 0 0 1 12 0c0 5-6 10-6 10z"/><circle cx="12" cy="11" r="2"/>',
+ box:'<path d="M3 7l9-4 9 4-9 4-9-4zM3 7v10l9 4 9-4V7"/>',
+ card:'<rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/>',
+ chat:'<path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/>',
+};
+function svg(p){return '<svg viewBox="0 0 24 24">'+p+'</svg>';}
+
+const TRIGGER={id:'trg',col:'trigger',x:9,y:48,ico:IC.bolt,tt:'Gatilhos',mt:'telemetria · vencimento · mensagem'};
+const ORCH={id:'orch',x:31,y:40};
+const SUBS=[
+ {id:'s1',x:20,y:84,ico:IC.cpu,tt:'Modelo (Claude)'},
+ {id:'s2',x:33,y:90,ico:IC.mem,tt:'Memória'},
+ {id:'s3',x:46,y:84,ico:IC.rule,tt:'Regras'},
+];
+const AGENTS=[
+ {id:'a1',x:62,y:10,ico:IC.wave,tt:'Agente de Previsão',mt:'prevê a “perda”',s:'bloqueado',
+   gap:'Sem telemetria confiável do nível do refil.',usr:'O usuário estima a data no olho / planilha.',act:'prevê a “perda” pela <b>telemetria em tempo real</b>.',tool:{ico:IC.wave,tt:'Telemetria',mt:'IoT · Arduino',s:'bloqueado'}},
+ {id:'a2',x:62,y:30,ico:IC.pin,tt:'Agente de Logística',mt:'agenda a troca',s:'parcial',
+   gap:'Lembrete no braço; o Auvo já cobre o campo.',usr:'O usuário avisa o cliente e marca a rota.',act:'<b>dispara a agenda no Auvo</b> + lembrete proativo.',tool:{ico:IC.pin,tt:'Auvo',mt:'API v2 · pronto',s:'pronto'}},
+ {id:'a3',x:62,y:50,ico:IC.box,tt:'Agente de Estoque',mt:'baixa e repõe',s:'manual',
+   gap:'Baixa e “em separação” no braço (Bling + planilha).',usr:'O usuário dá baixa e controla compra/validade.',act:'<b>baixa o estoque</b> e alerta compra e validade.',tool:{ico:IC.box,tt:'Bling',mt:'ERP',s:'parcial'}},
+ {id:'a4',x:62,y:70,ico:IC.card,tt:'Agente Financeiro',mt:'cobra a recorrência',s:'manual',
+   gap:'Boleto/assinatura dispersos; cobrança no WhatsApp.',usr:'O usuário cobra cliente a cliente.',act:'<b>emite a cobrança recorrente</b> + régua.',tool:{ico:IC.card,tt:'Cobrança',mt:'boleto · assinatura',s:'manual'}},
+ {id:'a5',x:62,y:90,ico:IC.chat,tt:'Agente de Atendimento',mt:'atende e registra (CRM)',s:'manual',
+   gap:'Suporte solto no WhatsApp; churn sem monitoramento.',usr:'O usuário responde sem registro nem estado.',act:'<b>atende, registra e monitora o churn</b>.',tool:{ico:IC.chat,tt:'WhatsApp · CRM',mt:'canal',s:'manual'}},
+];
+const TOOLX=88;
+const stage=document.getElementById('stage'),wires=document.getElementById('wires'),NS='http://www.w3.org/2000/svg';
+function el(h){const d=document.createElement('div');d.innerHTML=h.trim();return d.firstChild;}
+
+function build(){
+  [...stage.querySelectorAll('.node')].forEach(n=>n.remove());wires.innerHTML='';
+  // trigger
+  let n=el('<div class="node trigger" id="n-trg" style="left:'+TRIGGER.x+'%;top:'+TRIGGER.y+'%"><div class="card"><span class="ico">'+svg(TRIGGER.ico)+'</span><div class="tx"><div class="tt">'+TRIGGER.tt+'</div><div class="mt">'+TRIGGER.mt+'</div></div></div></div>');
+  n.style.transitionDelay='.1s';stage.appendChild(n);
+  // orquestrador
+  const o=el('<div class="node orch" id="n-orch" style="left:'+ORCH.x+'%;top:'+ORCH.y+'%"><div class="card"><span class="pulse"></span>'+
+    '<div class="ohead"><svg class="glyph" viewBox="0 0 40 40"><circle class="core" cx="20" cy="20" r="3.6"/><circle cx="20" cy="20" r="12"/><circle cx="20" cy="8" r="2.2"/><circle cx="32" cy="20" r="2.2"/><circle cx="20" cy="32" r="2.2"/><circle cx="8" cy="20" r="2.2"/><line x1="20" y1="11.6" x2="20" y2="16.4"/><line x1="28.4" y1="20" x2="23.6" y2="20"/><line x1="20" y1="28.4" x2="20" y2="23.6"/><line x1="11.6" y1="20" x2="16.4" y2="20"/></svg><span class="otag">Orquestrador</span></div>'+
+    '<div class="ot">Agente La Belle</div><div class="os">Lê o gatilho, decide e delega ao squad.</div>'+
+    '<div class="ports"><span><i></i>Modelo</span><span><i></i>Memória</span><span><i></i>Regras</span></div></div></div>');
+  o.style.transitionDelay='.22s';stage.appendChild(o);
+  // sub-ports
+  SUBS.forEach((s,i)=>{const sn=el('<div class="node sub" id="n-'+s.id+'" style="left:'+s.x+'%;top:'+s.y+'%"><div class="card"><span class="ico">'+svg(s.ico)+'</span><div class="tx"><div class="tt">'+s.tt+'</div></div></div></div>');
+    sn.style.transitionDelay=(0.3+i*0.05)+'s';stage.appendChild(sn);});
+  // agentes + ferramentas
+  AGENTS.forEach((a,i)=>{
+    const low=a.y<22?' low':'';
+    const an=el('<div class="node agent s-'+a.s+low+'" id="n-'+a.id+'" style="left:'+a.x+'%;top:'+a.y+'%"><div class="card"><span class="ico">'+svg(a.ico)+'</span><div class="tx"><div class="tt"><span class="sd"></span>'+a.tt+'</div><div class="mt">'+a.mt+'</div></div></div>'+
+      '<div class="pop"><div class="pk">Gap hoje</div><div class="gap">'+a.gap+'</div><div class="usr">'+a.usr+'</div><div class="act">O agente '+a.act+'</div></div></div>');
+    an.style.transitionDelay=(0.4+i*0.06)+'s';stage.appendChild(an);
+    const t=a.tool;const tn=el('<div class="node tool s-'+t.s+'" id="n-t'+a.id+'" style="left:'+TOOLX+'%;top:'+a.y+'%"><div class="card"><span class="ico">'+svg(t.ico)+'</span><div class="tx"><div class="tt"><span class="sd"></span>'+t.tt+'</div><div class="mt">'+t.mt+'</div></div></div></div>');
+    tn.style.transitionDelay=(0.5+i*0.06)+'s';stage.appendChild(tn);
+  });
+  drawWires();
+}
+function box(id){const c=document.getElementById('n-'+id).querySelector('.card');const s=stage.getBoundingClientRect();const r=c.getBoundingClientRect();
+  return {l:r.left-s.left,r:r.right-s.left,t:r.top-s.top,b:r.bottom-s.top,cx:r.left-s.left+r.width/2,my:r.top-s.top+r.height/2};}
+function hPath(a,b){const x1=a.r,y1=a.my,x2=b.l,y2=b.my,dx=Math.max(36,(x2-x1)*.5);return `M${x1},${y1} C${x1+dx},${y1} ${x2-dx},${y2} ${x2},${y2}`;}
+function vPath(a,b){const x1=a.cx,y1=a.b,x2=b.cx,y2=b.t,dy=Math.max(20,(y2-y1)*.5);return `M${x1},${y1} C${x1},${y1+dy} ${x2},${y2-dy} ${x2},${y2}`;}
+function drawWires(){
+  const W=stage.clientWidth,H=stage.clientHeight;wires.setAttribute('viewBox','0 0 '+W+' '+H);
+  const addWire=(d,cls,a,b,sig)=>{const p=document.createElementNS(NS,'path');p.setAttribute('d',d);p.setAttribute('class','wire'+(cls||''));p.id='w-'+a+'-'+b;p.dataset.a=a;p.dataset.b=b;wires.appendChild(p);
+    if(sig){for(let k=0;k<2;k++){const c=document.createElementNS(NS,'circle');c.setAttribute('r','2.6');c.setAttribute('class','sig');
+      const m=document.createElementNS(NS,'animateMotion');m.setAttribute('dur','2.5s');m.setAttribute('repeatCount','indefinite');m.setAttribute('begin',(k*1.25)+'s');
+      const mp=document.createElementNS(NS,'mpath');mp.setAttributeNS('http://www.w3.org/1999/xlink','href','#'+p.id);mp.setAttribute('href','#'+p.id);
+      m.appendChild(mp);c.appendChild(m);wires.appendChild(c);}}};
+  addWire(hPath(box('trg'),box('orch')),'','trg','orch',true);
+  SUBS.forEach(s=>addWire(vPath(box('orch'),box(s.id)),' sub','orch',s.id,false));
+  AGENTS.forEach(a=>{addWire(hPath(box('orch'),box(a.id)),'','orch',a.id,true);
+    addWire(hPath(box(a.id),box('t'+a.id)),'','t'+a.id,a.id,true);});
+}
+build();
+requestAnimationFrame(()=>requestAnimationFrame(()=>stage.classList.add('in')));
+let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{stage.classList.remove('in');build();requestAnimationFrame(()=>stage.classList.add('in'));},220);});
+
+stage.addEventListener('pointerover',e=>{const node=e.target.closest('.node');const id=node?node.id.slice(2):null;
+  wires.querySelectorAll('.wire').forEach(w=>w.classList.toggle('hot',!!id&&(w.dataset.a===id||w.dataset.b===id||w.dataset.b==='t'+id||w.dataset.a==='t'+id)));});
+stage.addEventListener('pointerleave',()=>wires.querySelectorAll('.wire').forEach(w=>w.classList.remove('hot')));
+
+const cur=document.getElementById('cur');let mx=innerWidth/2,my=innerHeight/2,cx=mx,cy=my,on=false;
+if(matchMedia('(hover:hover) and (pointer:fine)').matches){
+  addEventListener('pointermove',e=>{mx=e.clientX;my=e.clientY;if(!on){on=true;cur.classList.add('on');}});
+  addEventListener('pointerover',e=>cur.classList.toggle('hot',!!e.target.closest('.card')));
+  (function l(){cx+=(mx-cx)*.2;cy+=(my-cy)*.2;cur.style.transform='translate('+cx+'px,'+cy+'px) translate(-50%,-50%)';requestAnimationFrame(l);})();
+}
+</script>
+</body>
+</html>
