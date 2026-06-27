@@ -40,7 +40,8 @@ em{font-style:italic;color:var(--accent-ink);}
 .trio{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:var(--gap);z-index:1;}
 .slot{position:relative;width:var(--card-w);aspect-ratio:2/3;border-radius:2px;overflow:hidden;background:#e7e6e2;will-change:transform,opacity;opacity:0;}
 .slot.center{visibility:hidden;opacity:1;}
-.slot img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.03);}
+.slot img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.03);animation:kenburns 28s ease-in-out infinite alternate;}
+.slot.center img{animation-duration:22s;}
 .slot::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(31,35,38,.5));}
 .slot .cap{position:absolute;left:16px;bottom:14px;z-index:2;color:#fff;opacity:0;}
 .slot .cap .t{font-family:var(--serif);font-size:19px;font-weight:400;font-variation-settings:"wght" 400,"wdth" 100,"CNTR" 20,"XHGT" 0;}
@@ -48,7 +49,9 @@ em{font-style:italic;color:var(--accent-ink);}
 
 /* MORPH = a imagem-hero. Por CSS já é full-screen (banner aparece SEMPRE, mesmo sem JS) */
 .morph{position:absolute;left:0;top:0;width:100%;height:100%;overflow:hidden;z-index:5;will-change:left,top,width,height;}
-.morph img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.02);}
+.morph img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.02);animation:kenburns 22s ease-in-out infinite alternate;}
+/* movimento contínuo (estilo vídeo do Dior) — o hero "respira" mesmo parado */
+@keyframes kenburns{from{transform:scale(1.05) translate(0,0);}to{transform:scale(1.16) translate(-1.6%,-1.2%);}}
 .morph::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(31,35,38,.4),rgba(31,35,38,.22) 45%,rgba(31,35,38,.58));}
 .morph .cap{position:absolute;left:16px;bottom:14px;z-index:3;color:#fff;opacity:0;}
 .morph .cap .t{font-family:var(--serif);font-size:19px;font-weight:400;font-variation-settings:"wght" 400,"wdth" 100,"CNTR" 20,"XHGT" 0;}
