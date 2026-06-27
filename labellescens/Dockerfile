@@ -9,4 +9,7 @@ COPY index.html /usr/share/nginx/html/index.html
 COPY fonts/ /usr/share/nginx/html/fonts/
 
 EXPOSE 80
-HEALTHCHECK CMD wget -qO- http://localhost/ >/dev/null 2>&1 || exit 1
+# Healthcheck rápido (wget existe no nginx:alpine via busybox) — fica saudável em ~3-8s,
+# antes do gate de deploy do Coolify desistir. Intervalo padrão (30s) faz rollback.
+HEALTHCHECK --interval=5s --timeout=3s --start-period=3s --retries=5 \
+  CMD wget -qO /dev/null http://127.0.0.1:80/ || exit 1
