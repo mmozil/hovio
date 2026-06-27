@@ -75,21 +75,9 @@ em{font-style:italic;color:var(--accent-ink);}
 .below h2 em{color:#e7d9b8;font-style:italic;}
 .foot{position:relative;z-index:5;background:var(--bg);color:var(--soft);text-align:center;font-size:11px;padding:24px;}
 
-/* "Reduzir movimento" ligado: sem animação (proibido), mas mostra TUDO estático:
-   hero banner full-screen + os 3 retratos abaixo. NUNCA esconder o hero. */
-@media(prefers-reduced-motion:reduce){
-  html{scroll-behavior:auto;}
-  .stage-wrap{height:auto;}
-  .stage{position:static;height:auto;overflow:visible;display:flex;flex-direction:column;}
-  .morph{position:relative;order:1;width:100%;height:100vh;left:0!important;top:0!important;border-radius:0!important;}
-  .hero-c{position:absolute;top:0;left:0;width:100%;height:100vh;opacity:1!important;transform:none!important;}
-  .scrollcue{display:none;}
-  .trio{position:relative;inset:auto;order:2;padding:96px 40px;}
-  .slot{opacity:1!important;transform:none!important;}
-  .slot.center{visibility:visible;}
-  .slot .cap{opacity:1!important;}
-  .trio-label{position:relative;inset:auto;top:auto;order:3;opacity:1!important;padding-bottom:60px;}
-}
+/* O movimento (morph + parallax) roda SEMPRE — mesmo com "reduzir movimento"
+   ligado no sistema — porque o dono quer ver o efeito no preview.
+   (Pra produção acessível, dá pra reduzir a intensidade depois.) */
 </style>
 </head>
 <body>
@@ -143,7 +131,6 @@ em{font-style:italic;color:var(--accent-ink);}
     const raw=clamp((y-wrap.offsetTop)/range,0,1);
     const p=easeInOut(raw);
     hdr.classList.toggle('scrolled', raw>0.5);
-    if(reduce){ ticking=false; return; }
 
     const t=slotC.getBoundingClientRect();
     morph.style.left=lerp(0,t.left,p)+'px';
