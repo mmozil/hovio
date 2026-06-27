@@ -18,6 +18,9 @@
   --sans:'Hellix','Hanken Grotesk',-apple-system,'Segoe UI',sans-serif;
   --ease:cubic-bezier(.23,1,.32,1);
   --serif-axes:"wght" 300,"wdth" 100,"CNTR" 20,"XHGT" 0;
+  /* Dimensões EXATAS medidas na Dior /beauty (desktop 1440): card 348x522, gap 16 */
+  --card-w:clamp(200px, 24.2vw, 348px);
+  --gap:16px;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;}
@@ -39,12 +42,12 @@ em{font-style:italic;color:var(--accent-ink);}
 @media(max-width:760px){.hdr-nav,.hdr-right{display:none;}}
 
 /* ---------- STAGE: hero pin + morph ---------- */
-.stage-wrap{height:240vh;position:relative;}        /* range de scroll do morph */
+.stage-wrap{height:380vh;position:relative;}        /* curso LONGO do morph (scroll preciso) */
 .stage{position:sticky;top:0;height:100vh;overflow:hidden;background:var(--bg);}
 
-/* trio de slots (o retrato do meio é o destino do morph) */
-.trio{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:24px;}
-.slot{position:relative;width:clamp(180px,21vw,300px);aspect-ratio:2/3;border-radius:2px;overflow:hidden;background:#e7e6e2;will-change:transform,opacity;}
+/* trio de slots (o retrato do meio é o destino do morph) — dimensões Dior */
+.trio{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:var(--gap);}
+.slot{position:relative;width:var(--card-w);aspect-ratio:2/3;border-radius:2px;overflow:hidden;background:#e7e6e2;will-change:transform,opacity;}
 .slot.center{visibility:hidden;}                    /* placeholder: o morph aterrissa aqui */
 .slot img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.03);}
 .slot::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,rgba(31,35,38,.42));}
@@ -127,6 +130,7 @@ em{font-style:italic;color:var(--accent-ink);}
 
 <div style="height:40vh;background:var(--bg)"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
 <script>
 (() => {
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -188,8 +192,16 @@ em{font-style:italic;color:var(--accent-ink);}
 
     ticking = false;
   }
-  function onScroll(){ if(!ticking){ requestAnimationFrame(update); ticking = true; } }
-  addEventListener('scroll', onScroll, {passive:true});
+  // Smooth scroll (Lenis) — scrub preciso e suave na descida/subida, como a Dior.
+  const lenis = (window.Lenis && !reduce)
+    ? new window.Lenis({ duration: 1.35, easing: t => 1 - Math.pow(1 - t, 3), smoothWheel: true, wheelMultiplier: 0.85, touchMultiplier: 1.4 })
+    : null;
+  if (lenis){
+    const raf = time => { lenis.raf(time); update(); requestAnimationFrame(raf); };
+    requestAnimationFrame(raf);
+  } else {
+    addEventListener('scroll', () => { if(!ticking){ requestAnimationFrame(update); ticking = true; } }, {passive:true});
+  }
   addEventListener('resize', update);
   update();
 })();
