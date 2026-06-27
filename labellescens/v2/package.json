@@ -1,0 +1,8 @@
+{
+  "name": "maison-elan-luxury-editorial",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "python -m http.server 8080"
+  }
+}

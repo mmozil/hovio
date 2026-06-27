@@ -1,0 +1,323 @@
+<!doctype html>
+<html lang="pt-BR" class="no-js">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="description" content="Maison Élan — uma experiência editorial de perfumaria e beleza de luxo." />
+  <meta name="theme-color" content="#11100e" />
+  <title>Maison Élan — Beauty Editorial</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <script>document.documentElement.classList.remove('no-js');</script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Ir para o conteúdo</a>
+
+  <div class="preloader" aria-hidden="true">
+    <div class="preloader__inner">
+      <span class="preloader__brand">MAISON ÉLAN</span>
+      <span class="preloader__line"><i></i></span>
+      <span class="preloader__count">00</span>
+    </div>
+  </div>
+
+  <div class="announcement" role="region" aria-label="Avisos da marca">
+    <button class="announcement__nav announcement__nav--prev" aria-label="Aviso anterior">‹</button>
+    <div class="announcement__viewport">
+      <p class="announcement__item is-active">Frete cortesia em todo o Brasil <a href="#services">Descobrir</a></p>
+      <p class="announcement__item">Gravação personalizada em peças selecionadas <a href="#services">Conhecer</a></p>
+      <p class="announcement__item">Nova coleção L'Éclat Solaire <a href="#collection">Explorar</a></p>
+    </div>
+    <button class="announcement__nav announcement__nav--next" aria-label="Próximo aviso">›</button>
+  </div>
+
+  <header class="site-header" data-header-theme="light">
+    <div class="site-header__inner">
+      <button class="icon-button menu-toggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="mega-menu">
+        <span></span><span></span>
+      </button>
+
+      <a class="brand" href="#top" aria-label="Maison Élan, início">MAISON <em>ÉLAN</em></a>
+
+      <nav class="header-actions" aria-label="Ações rápidas">
+        <button class="header-action" aria-label="Pesquisar">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.8"></circle><path d="m16 16 4 4"></path></svg>
+          <span>Busca</span>
+        </button>
+        <button class="header-action header-action--desktop" aria-label="Minha conta">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.4"></circle><path d="M5.5 20c.5-4 2.8-6.1 6.5-6.1S18 16 18.5 20"></path></svg>
+          <span>Conta</span>
+        </button>
+        <button class="header-action" aria-label="Sacola">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8.5h14l-1 11H6l-1-11Z"></path><path d="M9 9V6.8C9 5.2 10.2 4 12 4s3 1.2 3 2.8V9"></path></svg>
+          <span>Sacola</span><b>0</b>
+        </button>
+      </nav>
+    </div>
+
+    <nav class="editorial-nav" aria-label="Navegação de coleções">
+      <a href="#collection">Novidades</a>
+      <a href="#fragrance">Perfumes</a>
+      <a href="#makeup">Maquiagem</a>
+      <a href="#skincare">Cuidados</a>
+      <a href="#services">Serviços</a>
+    </nav>
+  </header>
+
+  <aside class="mega-menu" id="mega-menu" aria-hidden="true">
+    <div class="mega-menu__top">
+      <span class="mega-menu__caption">Maison Élan</span>
+      <button class="mega-menu__close" aria-label="Fechar menu">Fechar</button>
+    </div>
+    <div class="mega-menu__grid">
+      <div class="mega-menu__primary">
+        <p>Descobrir</p>
+        <a href="#collection">Novidades</a>
+        <a href="#fragrance">A arte do perfume</a>
+        <a href="#makeup">Cor e gesto</a>
+        <a href="#skincare">Rituais de luz</a>
+        <a href="#services">Presentes e serviços</a>
+      </div>
+      <div class="mega-menu__column">
+        <p>Perfumes</p>
+        <a href="#fragrance">L'Éclat Solaire</a>
+        <a href="#fragrance">Essence No. 08</a>
+        <a href="#fragrance">Le Jardin Secret</a>
+        <a href="#fragrance">Collection Minérale</a>
+      </div>
+      <div class="mega-menu__column">
+        <p>Beleza</p>
+        <a href="#makeup">Lábios</a>
+        <a href="#makeup">Olhos</a>
+        <a href="#skincare">Séruns</a>
+        <a href="#skincare">Cremes</a>
+      </div>
+      <a class="mega-menu__feature" href="#collection">
+        <img src="assets/campaign-rose.svg" alt="Frasco abstrato em tons rosados" />
+        <span>Campanha</span>
+        <strong>Le Jardin Secret</strong>
+      </a>
+    </div>
+    <div class="mega-menu__footer">
+      <a href="#newsletter">Newsletter</a>
+      <a href="#footer">Atendimento</a>
+      <span>Brasil · Português</span>
+    </div>
+  </aside>
+  <div class="menu-backdrop" aria-hidden="true"></div>
+
+  <main id="main">
+    <section class="hero" id="top" data-header="light">
+      <div class="hero__media media-parallax" data-speed="0.16">
+        <img src="assets/hero-sun.svg" alt="Frasco de perfume abstrato iluminado por luz dourada" />
+      </div>
+      <div class="hero__shade"></div>
+      <div class="hero__content">
+        <span class="eyebrow hero__eyebrow">Nova coleção</span>
+        <h1 class="display display--hero reveal-title"><span>Uma luz</span><span>que permanece</span></h1>
+        <p class="hero__copy reveal-up">Uma composição solar de madeiras claras, flores brancas e pele aquecida pelo verão.</p>
+        <a class="text-link text-link--light reveal-up" href="#collection">Descobrir a coleção <i>→</i></a>
+      </div>
+      <a class="scroll-cue" href="#collection"><span>Rolar</span><i></i></a>
+    </section>
+
+    <section class="intro section-pad" id="collection" data-header="dark">
+      <div class="intro__index">01</div>
+      <div class="intro__content reveal-up">
+        <span class="eyebrow">Maison Élan · Verão 2026</span>
+        <h2 class="display">A beleza como uma sequência de sensações.</h2>
+        <p>Texturas, matéria e luz se encontram em uma coleção criada como um capítulo editorial. Cada gesto foi pensado para revelar o essencial.</p>
+      </div>
+    </section>
+
+    <section class="split-campaign" id="fragrance" data-header="dark">
+      <article class="split-campaign__item split-campaign__item--rose">
+        <div class="split-campaign__media media-parallax" data-speed="0.09">
+          <img src="assets/campaign-rose.svg" alt="Perfume em cenário abstrato de pétalas rosadas" />
+        </div>
+        <div class="split-campaign__caption reveal-up">
+          <span class="eyebrow">Le Jardin Secret</span>
+          <h3>Uma flor em silêncio</h3>
+          <a class="text-link" href="#story">Explorar <i>→</i></a>
+        </div>
+      </article>
+      <article class="split-campaign__item split-campaign__item--milk">
+        <div class="split-campaign__media media-parallax" data-speed="-0.06">
+          <img src="assets/campaign-milk.svg" alt="Pote de cuidado em composição mineral clara" />
+        </div>
+        <div class="split-campaign__caption reveal-up">
+          <span class="eyebrow">Rituel de Lumière</span>
+          <h3>A pele encontra a luz</h3>
+          <a class="text-link" href="#skincare">Descobrir <i>→</i></a>
+        </div>
+      </article>
+    </section>
+
+    <section class="full-campaign" data-header="light">
+      <div class="full-campaign__media media-parallax" data-speed="0.12">
+        <img src="assets/mineral.svg" alt="Frasco escultórico em composição mineral cinza" />
+      </div>
+      <div class="full-campaign__overlay"></div>
+      <div class="full-campaign__content reveal-up">
+        <span class="eyebrow">Collection Minérale</span>
+        <h2 class="display">A força calma da matéria.</h2>
+        <p>Notas minerais, íris fria e madeiras úmidas em uma assinatura precisa.</p>
+        <a class="text-link text-link--light" href="#story">Conhecer a criação <i>→</i></a>
+      </div>
+    </section>
+
+    <section class="story" id="story" data-header="dark">
+      <div class="story__visual-wrap">
+        <div class="story__visual" aria-hidden="true">
+          <div class="story-scene story-scene--1 is-active"><img src="assets/hero-sun.svg" alt="" /></div>
+          <div class="story-scene story-scene--2"><img src="assets/campaign-rose.svg" alt="" /></div>
+          <div class="story-scene story-scene--3"><img src="assets/dark-essence.svg" alt="" /></div>
+          <div class="story__counter"><span>01</span><i></i><b>03</b></div>
+        </div>
+      </div>
+      <div class="story__steps">
+        <article class="story-step is-active" data-scene="1">
+          <span class="eyebrow">Capítulo I</span>
+          <h2>Primeiro, a luz.</h2>
+          <p>A abertura nasce luminosa: bergamota, flor de laranjeira e um acorde de pele aquecida.</p>
+        </article>
+        <article class="story-step" data-scene="2">
+          <span class="eyebrow">Capítulo II</span>
+          <h2>Depois, a flor.</h2>
+          <p>No coração, pétalas veladas e especiarias macias criam uma presença íntima e envolvente.</p>
+        </article>
+        <article class="story-step" data-scene="3">
+          <span class="eyebrow">Capítulo III</span>
+          <h2>Por fim, o rastro.</h2>
+          <p>Âmbar, cedro e resinas escuras permanecem na pele como uma memória quente.</p>
+          <a class="text-link" href="#dark-feature">Descobrir Essence No. 08 <i>→</i></a>
+        </article>
+      </div>
+    </section>
+
+    <section class="editorial-grid section-pad" id="makeup" data-header="dark">
+      <div class="section-heading reveal-up">
+        <span class="eyebrow">Novos gestos</span>
+        <h2 class="display">Cor, textura e movimento.</h2>
+      </div>
+
+      <article class="editorial-card editorial-card--large">
+        <a href="#" class="editorial-card__media media-hover">
+          <img src="assets/liquid.svg" alt="Textura cosmética abstrata em tons dourados" />
+          <span class="media-hover__label">Ver detalhe</span>
+        </a>
+        <div class="editorial-card__text reveal-up"><span class="eyebrow">Teint Lumière</span><h3>Um acabamento que respira</h3><a class="text-link" href="#">Explorar <i>→</i></a></div>
+      </article>
+
+      <article class="editorial-card editorial-card--small editorial-card--offset">
+        <a href="#" class="editorial-card__media media-hover">
+          <img src="assets/red.svg" alt="Batom em composição abstrata vermelho profundo" />
+          <span class="media-hover__label">Ver detalhe</span>
+        </a>
+        <div class="editorial-card__text reveal-up"><span class="eyebrow">Rouge 08</span><h3>A intensidade em um gesto</h3><a class="text-link" href="#">Descobrir <i>→</i></a></div>
+      </article>
+    </section>
+
+    <section class="dark-feature" id="dark-feature" data-header="light">
+      <div class="dark-feature__halo"></div>
+      <div class="dark-feature__copy reveal-up">
+        <span class="eyebrow">Essence No. 08</span>
+        <h2 class="display">A noite em estado puro.</h2>
+        <p>Uma assinatura ambarada de presença silenciosa, intensa e precisa.</p>
+        <a class="text-link text-link--light" href="#">Descobrir <i>→</i></a>
+      </div>
+      <div class="dark-feature__media media-parallax" data-speed="0.08">
+        <img src="assets/dark-essence.svg" alt="Frasco âmbar em cenário escuro" />
+      </div>
+    </section>
+
+    <section class="skincare section-pad" id="skincare" data-header="dark">
+      <div class="skincare__copy reveal-up">
+        <span class="eyebrow">Rituel de Lumière</span>
+        <h2 class="display">O cuidado como arquitetura da pele.</h2>
+        <p>Uma sequência essencial de texturas que hidrata, conforta e devolve luminosidade.</p>
+        <a class="text-link" href="#">Conhecer o ritual <i>→</i></a>
+      </div>
+      <div class="skincare__visual media-parallax" data-speed="0.07">
+        <img src="assets/campaign-milk.svg" alt="Pote de cuidado em tons de marfim e pérola" />
+      </div>
+      <div class="skincare__note reveal-up">
+        <b>93%</b>
+        <span>ingredientes de origem natural na fórmula principal.</span>
+      </div>
+    </section>
+
+    <section class="services section-pad" id="services" data-header="dark">
+      <div class="services__head reveal-up">
+        <div>
+          <span class="eyebrow">Serviços exclusivos</span>
+          <h2 class="display">O toque final.</h2>
+        </div>
+        <p>A experiência continua nos detalhes: apresentação, personalização e atenção dedicada.</p>
+      </div>
+
+      <div class="services__controls" aria-label="Controles do carrossel">
+        <button class="carousel-btn carousel-btn--prev" aria-label="Serviço anterior">←</button>
+        <span><b class="carousel-current">1</b> / 3</span>
+        <button class="carousel-btn carousel-btn--next" aria-label="Próximo serviço">→</button>
+      </div>
+
+      <div class="services__track" tabindex="0">
+        <article class="service-card">
+          <img src="assets/service-gift.svg" alt="Caixa de presente com fita" />
+          <div><span class="eyebrow">01</span><h3>Embalagem especial</h3><p>Uma apresentação assinada, preparada com cuidado para cada ocasião.</p><a class="text-link" href="#">Descobrir <i>→</i></a></div>
+        </article>
+        <article class="service-card">
+          <img src="assets/service-engrave.svg" alt="Frasco com personalização gravada" />
+          <div><span class="eyebrow">02</span><h3>Personalização</h3><p>Iniciais, nomes e mensagens gravados para transformar cada peça em algo único.</p><a class="text-link" href="#">Personalizar <i>→</i></a></div>
+        </article>
+        <article class="service-card">
+          <img src="assets/service-samples.svg" alt="Conjunto de miniaturas de fragrâncias" />
+          <div><span class="eyebrow">03</span><h3>Amostras e miniaturas</h3><p>Uma seleção complementar para prolongar a descoberta de novas criações.</p><a class="text-link" href="#">Conhecer <i>→</i></a></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="quote" data-header="light">
+      <div class="quote__media media-parallax" data-speed="0.12"><img src="assets/hero-sun.svg" alt="Composição dourada abstrata" /></div>
+      <div class="quote__overlay"></div>
+      <blockquote class="reveal-up">“O luxo começa quando cada detalhe parece inevitável.”</blockquote>
+      <span>Maison Élan</span>
+    </section>
+
+    <section class="newsletter section-pad" id="newsletter" data-header="dark">
+      <div class="newsletter__copy reveal-up">
+        <span class="eyebrow">Correspondência privada</span>
+        <h2 class="display">Entre antes.</h2>
+        <p>Receba lançamentos, histórias de criação e convites para experiências exclusivas.</p>
+      </div>
+      <form class="newsletter__form" novalidate>
+        <label for="email">Seu e-mail</label>
+        <div class="newsletter__field">
+          <input id="email" type="email" name="email" placeholder="nome@email.com" autocomplete="email" required />
+          <button type="submit">Inscrever-se <span>→</span></button>
+        </div>
+        <label class="checkbox"><input type="checkbox" required /><span></span>Li e concordo com a política de privacidade.</label>
+        <p class="newsletter__status" role="status"></p>
+      </form>
+    </section>
+  </main>
+
+  <footer class="site-footer" id="footer">
+    <div class="site-footer__brand">MAISON <em>ÉLAN</em></div>
+    <div class="site-footer__grid">
+      <details open><summary>Atendimento</summary><a href="#">Fale conosco</a><a href="#">Entrega e devoluções</a><a href="#">Perguntas frequentes</a><a href="#">Encontrar uma boutique</a></details>
+      <details><summary>A Maison</summary><a href="#">Nossa história</a><a href="#">Ateliê de criação</a><a href="#">Compromissos</a><a href="#">Carreiras</a></details>
+      <details><summary>Legal</summary><a href="#">Privacidade</a><a href="#">Termos de uso</a><a href="#">Cookies</a><a href="#">Acessibilidade</a></details>
+      <details><summary>Siga-nos</summary><a href="#">Instagram</a><a href="#">Pinterest</a><a href="#">YouTube</a><a href="#">TikTok</a></details>
+    </div>
+    <div class="site-footer__bottom"><span>Brasil · Português</span><span>© 2026 Maison Élan</span><span>Conceito independente</span></div>
+  </footer>
+
+  <div class="cursor" aria-hidden="true"><span>Ver</span></div>
+  <script src="script.js" defer></script>
+</body>
+</html>

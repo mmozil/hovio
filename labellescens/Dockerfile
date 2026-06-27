@@ -9,6 +9,8 @@ COPY index.html hero.html /usr/share/nginx/html/
 COPY fonts/ /usr/share/nginx/html/fonts/
 # Imagens do hero — self-hosted (sem picsum/CDN externo, não bloqueável)
 COPY img/ /usr/share/nginx/html/img/
+# v2 — projeto de referência "Maison Élan" (comparação de movimento)
+COPY v2/ /usr/share/nginx/html/v2/
 
 EXPOSE 80
 # Healthcheck rápido (wget existe no nginx:alpine via busybox) — fica saudável em ~3-8s,
