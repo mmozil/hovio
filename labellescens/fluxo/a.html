@@ -40,17 +40,16 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
 .intro p{margin-top:13px;font-size:13.5px;line-height:1.6;color:var(--soft);max-width:560px}
 
 /* timeline com 3 bandas (fases distintas) */
-.tl{flex:1;display:flex;flex-direction:column;justify-content:center;position:relative;margin-top:8px;min-height:210px}
-.bands{position:absolute;inset:0;z-index:0}
-.band{position:absolute;top:0;bottom:0;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
-.band.tint{background:linear-gradient(180deg,color-mix(in srgb,var(--accent-soft) 70%,var(--surface)),var(--surface) 70%);border-color:color-mix(in srgb,var(--accent) 26%,var(--line))}
-.bhead{position:absolute;top:15px;left:20px;right:14px}
-.bhead .bn{display:inline-flex;align-items:center;gap:8px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:600;color:var(--ink-strong)}
-.band.tint .bhead .bn{color:var(--accent-ink)}
-.bhead .banc{width:2px;height:12px;background:var(--accent);display:inline-block}
-.bhead .bs{font-size:10px;letter-spacing:.04em;color:var(--soft);margin-top:5px}
+.tl{flex:1;display:flex;flex-direction:column;position:relative;margin-top:10px;min-height:210px}
+.phaserow{position:relative;height:44px;flex:none}
+.phase{position:absolute;bottom:8px;padding-left:12px}
+.phase::before{content:'';position:absolute;left:0;bottom:2px;width:2px;height:14px;background:var(--accent)}
+.phase .pn{font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:600;color:var(--ink-strong);white-space:nowrap}
+.phase.eng .pn{color:var(--accent-ink)}
+.phase .ps{font-size:9.5px;letter-spacing:.03em;color:var(--soft);margin-top:5px;white-space:nowrap}
+.pdiv{position:absolute;top:30px;bottom:8px;border-left:1px dashed var(--line-strong);opacity:.8;z-index:0}
 
-.track{position:absolute;inset:0;z-index:1}
+.track{position:relative;flex:1;z-index:1}
 .track svg.lineart{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
 .track .lineart .base{stroke:var(--line-strong);stroke-width:1;fill:none}
 .track .lineart .prog{stroke:var(--accent);stroke-width:1.2;fill:none;transition:stroke-dashoffset 1.5s var(--ease)}
@@ -158,8 +157,8 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
     <p>Três etapas — <b>Aquisição</b>, <b>Recorrência</b> e <b>Relacionamento</b>. Passe o mouse em cada ponto para ver o que acontece, a ferramenta de hoje, onde dói e o que automatizar.</p>
   </div>
 
-  <div class="tl">
-    <div class="bands" id="bands"></div>
+  <div class="tl" id="tl">
+    <div class="phaserow" id="phaserow"></div>
     <div class="track" id="track">
       <svg class="lineart" preserveAspectRatio="none" id="lineart"></svg>
     </div>
@@ -243,13 +242,14 @@ const NS='http://www.w3.org/2000/svg', PAD=3.4, N=STEPS.length;
 const xOf=i=>PAD+(100-2*PAD)*(i/(N-1));
 function el(h){const d=document.createElement('div');d.innerHTML=h.trim();return d.firstChild;}
 
-// bandas (3 fases)
-const bands=document.getElementById('bands');
-PHASES.forEach(ph=>{
-  const b=el('<div class="band'+(ph.tint?' tint':'')+'" style="left:'+ph.band[0]+'%;width:'+(ph.band[1]-ph.band[0])+'%">'+
-    '<div class="bhead"><span class="bn"><i class="banc"></i>'+ph.label+'</span><div class="bs">'+ph.hint+'</div></div></div>');
-  bands.appendChild(b);
+// fases (rótulos + divisores tracejados)
+const tl=document.getElementById('tl'),phaserow=document.getElementById('phaserow');
+const b1=(xOf(3)+xOf(4))/2, b2=(xOf(8)+xOf(9))/2;
+const LL=[1.5,b1+1.2,b2+1.4];
+PHASES.forEach((ph,k)=>{
+  phaserow.appendChild(el('<div class="phase'+(ph.tint?' eng':'')+'" style="left:'+LL[k]+'%"><div class="pn">'+ph.label+'</div><div class="ps">'+ph.hint+'</div></div>'));
 });
+[b1,b2].forEach(x=>{const d=document.createElement('span');d.className='pdiv';d.style.left=x+'%';tl.appendChild(d);});
 
 // linha em 3 segmentos
 const lineart=document.getElementById('lineart'),track=document.getElementById('track');
