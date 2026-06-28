@@ -156,17 +156,9 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
       <span><i style="background:var(--bloqueado)"></i>Bloqueado</span>
       <span><i style="background:var(--pronto)"></i>Pronto</span>
     </div>
-    <a class="scrollcue" href="#dores">Dores &amp; gargalos <svg viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6"/></svg></a>
+    <span style="font-size:10px;letter-spacing:.06em;color:var(--soft-2)">Protótipo · La Belle Scens</span>
   </div>
 </div>
-
-<section class="dores" id="dores">
-  <div class="kick">Onde a operação trava hoje</div>
-  <h2>Dores &amp; <em>gargalos</em></h2>
-  <p class="dlead">Os seis pontos que mais consomem tempo e fazem dinheiro escapar — cada um amarrado a uma etapa da jornada.</p>
-  <div class="dgrid" id="dgrid"></div>
-  <div class="dfoot"><span>Protótipo · La Belle Scens</span><span>6 gargalos mapeados</span></div>
-</section>
 
 <div class="cur" id="cur"></div>
 
@@ -188,14 +180,6 @@ const PHASES=[
  {k:'aq',label:'Aquisição',hint:'Uma vez por cliente — do primeiro contato à máquina operando.'},
  {k:'re',label:'Recorrência',hint:'Repete a cada troca de refil. É o motor da receita.',eng:true},
  {k:'rl',label:'Relacionamento',hint:'Contínuo, em paralelo — retém ou perde o cliente.'},
-];
-const DORES=[
- {t:'Previsão no olho',d:'A troca depende de adivinhar quando o refil acaba — não há telemetria do nível.',e:'Etapas 05–06'},
- {t:'Estoque na planilha',d:'O estoque vive na planilha do Will, sem alerta de mínimo nem de validade.',e:'Etapa 08'},
- {t:'“Em separação” manual',d:'O status do pedido é digitado à mão no Bling, peça por peça.',e:'Etapa 08'},
- {t:'Cobrança dispersa',d:'Boleto, assinatura e contrato espalhados por três sistemas e pelo WhatsApp.',e:'Etapas 03 · 09'},
- {t:'Roteirização manual',d:'A rota das trocas é montada à mão a partir da planilha, sem otimização.',e:'Etapa 07'},
- {t:'Churn sem radar',d:'O cliente some sem ninguém perceber — não há monitoramento do ciclo de vida.',e:'Etapa 11'},
 ];
 const SLABEL={manual:'Manual hoje',parcial:'Parcial',bloqueado:'Bloqueado',pronto:'Pronto'};
 const SCOLOR={manual:'var(--manual)',parcial:'var(--parcial)',bloqueado:'var(--bloqueado)',pronto:'var(--pronto)'};
@@ -219,9 +203,6 @@ PHASES.forEach(ph=>{
 });
 const rows=[...document.querySelectorAll('.step')];
 
-// dores
-const dgrid=document.getElementById('dgrid');
-DORES.forEach(d=>dgrid.appendChild(el('<div class="dcard"><div class="dt"><i></i>'+d.t+'</div><div class="dd">'+d.d+'</div><span class="de">'+d.e+'</span></div>')));
 
 // leitor
 const rcard=document.getElementById('rcard');
