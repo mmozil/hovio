@@ -3,94 +3,72 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>La Belle Scens — Jornada · Linha do tempo</title>
+<title>La Belle Scens — Jornada do cliente</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Hanken+Grotesk:wght@300;400;500;600&display=swap');
 @font-face{font-family:'Atacama';src:url('/fonts/Atacama-VF.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap}
 @font-face{font-family:'Atacama';src:url('/fonts/Atacama-Italic-VF.woff2') format('woff2');font-weight:100 900;font-style:italic;font-display:swap}
 @font-face{font-family:'Hellix';src:url('/fonts/HellixVAR.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap}
 :root{
-  --bg:#f8f8f8; --surface:#fff; --ink:#33383c; --ink-strong:#1f2326; --soft:#7b8487; --soft-2:#9aa1a3;
-  --line:rgba(51,56,60,.11); --line-strong:#d3cdc2; --accent:#9c8458; --accent-ink:#6f5c37; --accent-soft:#efe9dd;
-  --manual:#b25a4f; --parcial:#b78a2e; --bloqueado:#5a6f8a; --pronto:#5a8061;
-  --serif:'Atacama','Cormorant Garamond',Georgia,serif;
-  --sans:'Hellix','Hanken Grotesk',-apple-system,'Segoe UI',sans-serif;
-  --disp:"wght" 300,"wdth" 100,"CNTR" 20,"XHGT" 0;
-  --nm:"wght" 400,"wdth" 100,"CNTR" 20,"XHGT" 0;
-  --ease:cubic-bezier(.22,1,.36,1);
+  --bg:#f8f8f8;--surface:#fff;--ink:#33383c;--ink-strong:#1f2326;--soft:#7b8487;--soft-2:#9aa1a3;
+  --line:rgba(51,56,60,.11);--line-strong:#d3cdc2;--accent:#9c8458;--accent-ink:#6f5c37;--accent-soft:#efe9dd;
+  --manual:#9a5a5a;--parcial:#9a7d3c;--bloqueado:#5a6f8a;--pronto:#5a7d63;
+  --serif:'Atacama','Cormorant Garamond',Georgia,serif;--sans:'Hellix','Hanken Grotesk',-apple-system,'Segoe UI',sans-serif;
+  --disp:"wght" 300,"wdth" 100,"CNTR" 20,"XHGT" 0;--nm:"wght" 400,"wdth" 100,"CNTR" 20,"XHGT" 0;--ease:cubic-bezier(.22,1,.36,1);
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden;position:relative}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden}
 @media(hover:hover){body{cursor:none}}
 
-/* masthead / logo */
-.masthead{text-align:center;padding:26px 0 18px;border-bottom:1px solid var(--line);position:relative}
+.masthead{text-align:center;padding:26px 0 18px;border-bottom:1px solid var(--line)}
 .logo{display:inline-flex;align-items:baseline;gap:8px}
 .logo .lb{font-family:var(--serif);font-size:30px;font-variation-settings:var(--nm);color:var(--ink-strong);letter-spacing:.02em}
 .logo .bdot{width:6px;height:6px;border-radius:50%;background:var(--accent);transform:translateY(-4px)}
 .logo-sub{font-size:9.5px;letter-spacing:.34em;text-transform:uppercase;color:var(--soft);margin-top:9px}
 
-.hero{min-height:calc(100vh - 84px);display:flex;flex-direction:column;padding:30px 64px 24px;position:relative}
-.intro{flex:none}
-.intro .kick{font-size:10px;letter-spacing:.34em;text-transform:uppercase;color:var(--accent-ink);margin-bottom:14px}
-.intro h1{font-family:var(--serif);font-weight:300;font-variation-settings:var(--disp);font-size:clamp(30px,4vw,50px);
-  line-height:1;letter-spacing:-.022em;color:var(--ink-strong)}
+.hero{padding:30px 64px 26px}
+.intro .kick{font-size:10px;letter-spacing:.34em;text-transform:uppercase;color:var(--accent-ink);margin-bottom:13px}
+.intro h1{font-family:var(--serif);font-weight:300;font-variation-settings:var(--disp);font-size:clamp(30px,4vw,50px);line-height:1;letter-spacing:-.022em;color:var(--ink-strong)}
 .intro h1 em{font-style:italic;color:var(--accent-ink)}
 .intro p{margin-top:13px;font-size:13.5px;line-height:1.6;color:var(--soft);max-width:560px}
 
-/* timeline com 3 bandas (fases distintas) */
-.tl{flex:1;display:flex;flex-direction:column;position:relative;margin-top:10px;min-height:210px}
-.phaserow{position:relative;height:44px;flex:none}
-.phase{position:absolute;bottom:8px;padding-left:12px}
-.phase::before{content:'';position:absolute;left:0;bottom:2px;width:2px;height:14px;background:var(--accent)}
-.phase .pn{font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:600;color:var(--ink-strong);white-space:nowrap}
-.phase.eng .pn{color:var(--accent-ink)}
-.phase .ps{font-size:9.5px;letter-spacing:.03em;color:var(--soft);margin-top:5px;white-space:nowrap}
-.pdiv{position:absolute;top:30px;bottom:8px;border-left:1px dashed var(--line-strong);opacity:.8;z-index:0}
+/* módulo Dior — 3 colunas, divisores finos */
+.module{background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:0 1px 2px rgba(31,35,38,.05);
+  display:grid;grid-template-columns:1fr 1.18fr 0.82fr;overflow:hidden;margin-top:24px}
+.col{padding:26px 30px 24px;position:relative}
+.col + .col{box-shadow:-1px 0 0 var(--line)}
+.chead{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;padding-bottom:17px;border-bottom:1px solid var(--line)}
+.chead .ctt .ct{font-size:15px;font-weight:500;color:var(--ink-strong);letter-spacing:.01em}
+.col.eng .chead .ctt .ct{color:var(--accent-ink)}
+.chead .ctt .cs{font-size:11.5px;color:var(--soft);margin-top:5px;line-height:1.45;max-width:200px}
+.chead .chev{flex:none;margin-top:2px;color:var(--soft-2);transition:color .3s var(--ease),transform .3s var(--ease)}
+.chead .chev svg{width:17px;height:17px;stroke:currentColor;stroke-width:1.4;fill:none;stroke-linecap:round;stroke-linejoin:round;display:block}
+.col:hover .chead .chev{color:var(--accent);transform:translateX(2px)}
 
-.track{position:relative;flex:1;z-index:1}
-.track svg.lineart{position:absolute;inset:0;width:100%;height:100%;overflow:visible;pointer-events:none}
-.track .lineart .base{stroke:var(--line-strong);stroke-width:1;fill:none}
-.track .lineart .prog{stroke:var(--accent);stroke-width:1.2;fill:none;transition:stroke-dashoffset 1.5s var(--ease)}
-
-.node{position:absolute;top:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;
-  opacity:0;transition:opacity .55s var(--ease),transform .55s var(--ease)}
-.track.drawn .node{opacity:1}
-.node .hit{position:absolute;left:50%;top:50%;width:56px;height:118px;transform:translate(-50%,-50%);border-radius:30px}
-.node .dot{width:13px;height:13px;border-radius:50%;background:var(--sc,var(--line-strong));border:2.5px solid var(--surface);
-  position:relative;z-index:2;box-shadow:0 0 0 1px color-mix(in srgb,var(--sc,var(--line-strong)) 55%,transparent);
-  transition:transform .5s var(--ease),background .5s var(--ease)}
-.node.s-manual{--sc:var(--manual)} .node.s-parcial{--sc:var(--parcial)} .node.s-bloqueado{--sc:var(--bloqueado)} .node.s-pronto{--sc:var(--pronto)}
-.node .ring{position:absolute;top:50%;left:50%;width:13px;height:13px;border-radius:50%;transform:translate(-50%,-50%) scale(1);
-  border:1px solid var(--accent);opacity:0;transition:transform .6s var(--ease),opacity .6s var(--ease)}
-.node .tick{position:absolute;left:50%;width:1px;transform:translateX(-50%);background:var(--line-strong);opacity:0;transition:opacity .5s var(--ease) .08s,background .4s}
-.track.drawn .node .tick{opacity:1}
-.node.up .tick{bottom:calc(50% + 8px);height:9px} .node.down .tick{top:calc(50% + 8px);height:9px}
-.node .num{font-size:9.5px;font-variant-numeric:tabular-nums;letter-spacing:.14em;color:var(--soft-2);position:absolute;transition:color .4s var(--ease)}
-.node .cap{font-family:var(--serif);font-variation-settings:var(--nm);font-size:12.5px;color:var(--soft);white-space:nowrap;position:absolute;transition:color .4s var(--ease)}
-.node.up .num{bottom:calc(50% + 36px)} .node.up .cap{bottom:calc(50% + 20px)}
-.node.down .num{top:calc(50% + 36px)} .node.down .cap{top:calc(50% + 20px)}
-.node.active .dot{transform:scale(1.3);background:var(--accent)}
-.node.active .ring{opacity:1;transform:translate(-50%,-50%) scale(3.4)}
-.node.active .tick{background:var(--accent)}
-.node.active .num{color:var(--accent-ink)}
-.node.active .cap{color:var(--ink-strong)}
+.steps{position:relative;padding:16px 0 0}
+.steps::before{content:'';position:absolute;left:6px;top:24px;bottom:16px;width:1px;background:var(--line)}
+.step{display:flex;align-items:center;gap:14px;padding:9px 8px 9px 0;position:relative;border-radius:7px;transition:background .3s var(--ease)}
+.step:hover,.step.active{background:var(--accent-soft)}
+.step .sd{width:12px;height:12px;border-radius:50%;background:var(--sc,var(--line-strong));border:2.5px solid var(--surface);
+  box-shadow:0 0 0 1px color-mix(in srgb,var(--sc,var(--line-strong)) 52%,transparent);flex:none;z-index:1;transition:transform .3s var(--ease),background .3s var(--ease)}
+.step.s-manual{--sc:var(--manual)}.step.s-parcial{--sc:var(--parcial)}.step.s-bloqueado{--sc:var(--bloqueado)}.step.s-pronto{--sc:var(--pronto)}
+.step.active .sd{background:var(--accent);transform:scale(1.12)}
+.step .sn{font-size:9px;font-variant-numeric:tabular-nums;letter-spacing:.1em;color:var(--soft-2);flex:none;width:15px}
+.step .snm{font-family:var(--serif);font-variation-settings:var(--nm);font-size:15.5px;color:var(--ink);white-space:nowrap;transition:color .3s var(--ease)}
+.step:hover .snm,.step.active .snm{color:var(--ink-strong)}
 
 /* leitor */
-.reader{flex:none;margin-top:14px;border-top:1px solid var(--line);padding-top:20px;position:relative;min-height:230px}
-.rcard{position:absolute;inset:20px 0 0;opacity:0;transition:opacity .55s var(--ease);
-  display:grid;grid-template-columns:auto 1.05fr .92fr 1.5fr;gap:38px;align-items:start}
+.reader{margin-top:24px;border-top:1px solid var(--line);padding-top:22px;position:relative;min-height:170px}
+.rcard{display:grid;grid-template-columns:auto 1.05fr .92fr 1.5fr;gap:38px;align-items:start;opacity:0;transition:opacity .45s var(--ease)}
 .rcard.show{opacity:1}
-.rnum{font-family:var(--serif);font-weight:200;font-variation-settings:"wght" 220,"wdth" 100,"CNTR" 20,"XHGT" 0;
-  font-size:80px;line-height:.82;color:var(--accent);letter-spacing:-.03em}
+.rnum{font-family:var(--serif);font-weight:200;font-variation-settings:"wght" 220,"wdth" 100,"CNTR" 20,"XHGT" 0;font-size:74px;line-height:.82;color:var(--accent);letter-spacing:-.03em}
 .rmid .rstatus{display:inline-flex;align-items:center;gap:7px;font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--soft);margin-bottom:10px}
 .rmid .rstatus i{width:7px;height:7px;border-radius:50%}
-.rmid h2{font-family:var(--serif);font-weight:340;font-variation-settings:"wght" 350,"wdth" 100,"CNTR" 20,"XHGT" 0;
-  font-size:27px;color:var(--ink-strong);line-height:1.06;letter-spacing:-.01em}
-.rmid .roque{font-size:13.5px;line-height:1.55;color:var(--soft);margin-top:12px;max-width:300px}
+.rmid h2{font-family:var(--serif);font-weight:340;font-variation-settings:"wght" 350,"wdth" 100,"CNTR" 20,"XHGT" 0;font-size:26px;color:var(--ink-strong);line-height:1.06}
+.rmid .roque{font-size:13.5px;line-height:1.55;color:var(--soft);margin-top:11px;max-width:300px}
 .rcol .k{font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--soft-2);margin-bottom:10px}
-.rcol .tool{display:inline-block;font-size:11px;letter-spacing:.02em;color:var(--ink);border:1px solid var(--line-strong);border-radius:2px;padding:4px 9px;margin-bottom:11px}
+.rcol .tool{display:inline-block;font-size:11px;color:var(--ink);border:1px solid var(--line-strong);border-radius:2px;padding:4px 9px;margin-bottom:11px}
 .rcol .v{font-size:13px;line-height:1.55;color:var(--soft)}
 .rcol.auto{border-left:1px solid var(--line);padding-left:34px;margin-left:-10px}
 .rcol.auto .k{color:var(--accent-ink)}
@@ -100,27 +78,23 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
 .comorow .lab{font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-ink);padding-top:3px;flex:none}
 .comorow .v2{font-size:12.5px;line-height:1.5;color:var(--soft)}
 .ferr{display:flex;flex-wrap:wrap;gap:6px}
-.ferr span{font-size:10px;letter-spacing:.02em;color:var(--accent-ink);background:var(--accent-soft);border-radius:20px;padding:3px 10px}
-.rhint{display:flex;align-items:center;gap:13px;color:var(--soft-2);font-size:13px;opacity:0;transition:opacity .4s var(--ease)}
-.rhint.show{opacity:1}
-.rhint .pulse{width:7px;height:7px;border-radius:50%;background:var(--accent);animation:pulse 2s var(--ease) infinite}
-@keyframes pulse{0%,100%{opacity:.3;transform:scale(1)}50%{opacity:1;transform:scale(1.5)}}
+.ferr span{font-size:10px;color:var(--accent-ink);background:var(--accent-soft);border-radius:20px;padding:3px 10px}
 
-.herofoot{flex:none;margin-top:14px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--line);padding-top:13px}
+.herofoot{margin-top:18px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--line);padding-top:13px}
 .legend{display:flex;gap:20px}
-.legend span{display:inline-flex;align-items:center;gap:8px;font-size:10.5px;letter-spacing:.06em;color:var(--soft)}
-.legend i{width:9px;height:9px;border-radius:50%;border:1.5px solid var(--surface);box-shadow:0 0 0 1px color-mix(in srgb,currentColor 0%,transparent)}
+.legend span{display:inline-flex;align-items:center;gap:8px;font-size:10.5px;color:var(--soft)}
+.legend i{width:9px;height:9px;border-radius:50%}
 .scrollcue{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--soft-2);display:inline-flex;align-items:center;gap:9px}
 .scrollcue svg{width:13px;height:13px;stroke:var(--accent);stroke-width:1.4;fill:none;animation:bob 2s var(--ease) infinite}
 @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
 
-/* dores & gargalos */
-.dores{padding:64px 64px 80px;border-top:1px solid var(--line);background:var(--surface)}
+/* dores */
+.dores{padding:60px 64px 80px;border-top:1px solid var(--line);background:var(--surface)}
 .dores .kick{font-size:10px;letter-spacing:.34em;text-transform:uppercase;color:var(--accent-ink);margin-bottom:14px}
 .dores h2{font-family:var(--serif);font-weight:320;font-variation-settings:var(--disp);font-size:clamp(28px,3.6vw,42px);color:var(--ink-strong);letter-spacing:-.02em;line-height:1}
 .dores h2 em{font-style:italic;color:var(--accent-ink)}
 .dores .dlead{margin-top:13px;font-size:14px;color:var(--soft);max-width:560px;line-height:1.6}
-.dgrid{margin-top:40px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.dgrid{margin-top:38px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 .dcard{border:1px solid var(--line);border-radius:12px;padding:24px;background:var(--bg);transition:box-shadow .4s var(--ease),transform .4s var(--ease),border-color .4s var(--ease)}
 .dcard:hover{box-shadow:0 18px 44px -20px rgba(31,35,38,.22);transform:translateY(-3px);border-color:var(--line-strong)}
 .dcard .dt{display:flex;align-items:center;gap:10px;font-family:var(--serif);font-variation-settings:"wght" 420,"wdth" 100,"CNTR" 20,"XHGT" 0;font-size:18px;color:var(--ink-strong)}
@@ -129,18 +103,12 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
 .dcard .de{display:inline-block;margin-top:14px;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--soft-2);border:1px solid var(--line);border-radius:20px;padding:3px 10px}
 .dfoot{margin-top:46px;display:flex;align-items:center;justify-content:space-between;font-size:10px;color:var(--soft-2);border-top:1px solid var(--line);padding-top:16px}
 
-/* cursor */
-.cur{position:fixed;top:0;left:0;width:30px;height:30px;border:1px solid var(--accent);border-radius:50%;
-  transform:translate(-50%,-50%);pointer-events:none;z-index:90;opacity:0;transition:opacity .3s,width .3s var(--ease),height .3s var(--ease),background .3s}
+.cur{position:fixed;top:0;left:0;width:30px;height:30px;border:1px solid var(--accent);border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:90;opacity:0;transition:opacity .3s,width .3s var(--ease),height .3s var(--ease),background .3s}
 .cur.on{opacity:1}
 .cur.hot{width:13px;height:13px;background:var(--accent);border-color:var(--accent)}
-.curlab{position:fixed;top:0;left:0;pointer-events:none;z-index:90;background:var(--ink-strong);color:#f4f1ea;
-  font-size:10.5px;letter-spacing:.04em;padding:5px 10px;border-radius:4px;white-space:nowrap;opacity:0;transform:translate(15px,15px) scale(.96);
-  transform-origin:left top;transition:opacity .25s var(--ease),transform .25s var(--ease)}
-.curlab.on{opacity:1;transform:translate(15px,15px) scale(1)}
 
-@media(max-width:1080px){.hero{padding:22px 26px}.dores{padding:44px 26px 60px}.dgrid{grid-template-columns:1fr}.rcard{grid-template-columns:1fr;gap:16px}.rnum{font-size:54px}.rcol.auto{border-left:0;padding-left:0;margin-left:0}}
-@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.track .lineart .prog{stroke-dashoffset:0!important}}
+@media(max-width:1080px){.hero{padding:22px 24px}.dores{padding:44px 24px 60px}.module{grid-template-columns:1fr}.col+.col{box-shadow:0 -1px 0 var(--line)}.rcard{grid-template-columns:1fr;gap:16px}.rnum{font-size:50px}.rcol.auto{border-left:0;padding-left:0;margin-left:0}.dgrid{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
@@ -154,18 +122,12 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
   <div class="intro">
     <div class="kick">A jornada do cliente · cenário hoje</div>
     <h1>Da chegada do cliente à <em>recorrência</em></h1>
-    <p>Três etapas — <b>Aquisição</b>, <b>Recorrência</b> e <b>Relacionamento</b>. Passe o mouse em cada ponto para ver o que acontece, a ferramenta de hoje, onde dói e o que automatizar.</p>
+    <p>A jornada em três tempos. Passe o mouse em cada etapa para ver o que acontece, a ferramenta de hoje, onde dói e o que automatizar.</p>
   </div>
 
-  <div class="tl" id="tl">
-    <div class="phaserow" id="phaserow"></div>
-    <div class="track" id="track">
-      <svg class="lineart" preserveAspectRatio="none" id="lineart"></svg>
-    </div>
-  </div>
+  <div class="module" id="module"></div>
 
   <div class="reader" id="reader">
-    <div class="rhint show" id="hint"><span class="pulse"></span> Passe o mouse sobre uma etapa para abrir o detalhe.</div>
     <div class="rcard" id="rcard">
       <div class="rnum" id="rnum">01</div>
       <div class="rmid">
@@ -189,10 +151,10 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
 
   <div class="herofoot">
     <div class="legend">
-      <span style="color:var(--manual)"><i style="background:var(--manual)"></i><span style="color:var(--soft)">Manual</span></span>
-      <span style="color:var(--parcial)"><i style="background:var(--parcial)"></i><span style="color:var(--soft)">Parcial</span></span>
-      <span style="color:var(--bloqueado)"><i style="background:var(--bloqueado)"></i><span style="color:var(--soft)">Bloqueado</span></span>
-      <span style="color:var(--pronto)"><i style="background:var(--pronto)"></i><span style="color:var(--soft)">Pronto</span></span>
+      <span><i style="background:var(--manual)"></i>Manual</span>
+      <span><i style="background:var(--parcial)"></i>Parcial</span>
+      <span><i style="background:var(--bloqueado)"></i>Bloqueado</span>
+      <span><i style="background:var(--pronto)"></i>Pronto</span>
     </div>
     <a class="scrollcue" href="#dores">Dores &amp; gargalos <svg viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6"/></svg></a>
   </div>
@@ -207,26 +169,25 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
 </section>
 
 <div class="cur" id="cur"></div>
-<div class="curlab" id="curlab"></div>
 
 <script>
 const STEPS=[
- {n:'01',t:'Nasce (Lead)',ph:'aquisicao',s:'manual',oque:'O cliente chega por indicação ou prospecção e vira um lead.',tool:'WhatsApp · planilha',hoje:'Sem funil: o lead vive na conversa e na planilha — fácil de esquecer ou perder.',fazer:'Captura centralizada, com <b>entrada automática no funil</b> e a origem registrada.',como:'Formulário/landing e bot capturam o contato e criam o card no funil, com origem e tags.',ferr:['Tier CRM','WhatsApp Engine','formulário']},
- {n:'02',t:'Venda & Proposta',ph:'aquisicao',s:'manual',oque:'Apresentação da máquina em comodato e negociação da proposta.',tool:'WhatsApp · e-mail',hoje:'Pricing e condições ficam na cabeça; cada proposta é montada do zero.',fazer:'Proposta de comodato com <b>pricing-padrão, gerada em 1 clique</b>.',como:'Um modelo puxa o preço-padrão do comodato e gera o PDF/link pronto para enviar.',ferr:['Tier','gerador de proposta']},
- {n:'03',t:'Contrato & Assinatura',ph:'aquisicao',s:'parcial',oque:'Formalização da cessão de serviços e assinatura do contrato.',tool:'Bling · Clicksign',hoje:'O contrato vive no Bling e a assinatura no Clicksign, em sistemas separados.',fazer:'Um fluxo único: <b>contrato → Clicksign → cliente recorrente ativo</b>.',como:'Ao aceitar, gera o contrato, envia ao Clicksign e — assinado — ativa o cliente recorrente.',ferr:['Bling','Clicksign API']},
- {n:'04',t:'Instalação & Calibragem',ph:'aquisicao',s:'parcial',oque:'A máquina é instalada no ponto e calibrada pela primeira vez.',tool:'Máquina · Arduino + Wi-Fi',hoje:'A calibragem é feita na hora, no campo, e não fica registrada.',fazer:'<b>Calibragem remota</b> registrada já na ativação (intensidade, horários, zonas).',como:'O app registra a instalação e grava os parâmetros (intensidade, horários, zona) na máquina.',ferr:['App de campo','Máquina IoT']},
- {n:'05',t:'Operação & Telemetria',ph:'recorrencia',s:'bloqueado',oque:'A máquina opera difundindo o aroma; o refil vai sendo consumido.',tool:'Máquina IoT',hoje:'Não há leitura confiável do nível do refil em cada máquina.',fazer:'<b>Telemetria de nível em tempo real</b> — a base que destrava todo o resto.',como:'A máquina envia o nível do refil periodicamente (MQTT/HTTP) ao painel.',ferr:['Máquina IoT','gateway de telemetria']},
- {n:'06',t:'Previsão da “perda”',ph:'recorrencia',s:'manual',oque:'Estimar quando o refil vai zerar para agir antes do aroma sumir.',tool:'No olho · planilha',hoje:'A data da “perda” é chutada no olho ou anotada em planilha.',fazer:'<b>Previsão automática da “perda”</b>, calculada a partir da telemetria.',como:'A partir do histórico de consumo, calcula a curva e prevê a data — alertando X dias antes.',ferr:['Telemetria','regra de previsão']},
- {n:'07',t:'Troca assistida',ph:'recorrencia',s:'parcial',oque:'Lembrar o cliente, agendar e enviar o técnico para repor o refil.',tool:'WhatsApp · Auvo (API v2)',hoje:'O lembrete é no braço; o Auvo já cobre rota, GPS e checklist no campo.',fazer:'A previsão <b>dispara a agenda no Auvo</b> e o lembrete proativo ao cliente.',como:'A previsão cria a tarefa no Auvo (cliente, máquina, zona) e avisa o cliente; o webhook fecha o ciclo.',ferr:['Auvo API v2','webhook','WhatsApp Engine']},
- {n:'08',t:'Estoque & Produção',ph:'recorrencia',s:'manual',oque:'Dar baixa do refil usado, repor e acompanhar compra e validade.',tool:'Bling · planilha (Will)',hoje:'Baixa e “em separação” no braço, entre o Bling e a planilha do Will.',fazer:'<b>Baixa automática</b> + alertas de compra e de validade.',como:'A baixa acontece ao concluir a OS; alertas de mínimo, validade e recompra disparam sozinhos.',ferr:['Bling API','regras de estoque']},
- {n:'09',t:'Faturamento & Cobrança',ph:'recorrencia',s:'manual',oque:'Cobrar a recorrência e receber (boleto ou assinatura).',tool:'Bling · “sistema do Gustavo” · WhatsApp',hoje:'Boleto e assinatura ficam dispersos; a cobrança é feita por WhatsApp.',fazer:'<b>Cobrança recorrente automática</b>, com régua de cobrança.',como:'A recorrência emite boleto/assinatura e a régua cobra (lembrete, vencido, 2ª via) sozinha.',ferr:['Cobrança recorrente','régua de cobrança']},
- {n:'10',t:'Atendimento & Helpdesk',ph:'relacionamento',s:'manual',oque:'Atender dúvidas, pedidos e resolver problemas do cliente.',tool:'WhatsApp · e-mail',hoje:'Suporte solto no WhatsApp, sem registro de chamado nem histórico.',fazer:'<b>Tickets + base de conhecimento + SLA</b>, ligados ao agente.',como:'Cada contato vira ticket com SLA; o agente responde pela base e escala ao humano quando precisa.',ferr:['Helpdesk','Agente IA','WhatsApp']},
- {n:'11',t:'CRM / Ciclo de vida',ph:'relacionamento',s:'manual',oque:'Acompanhar a vida do cliente: ativo, em risco, perdido, reativado.',tool:'—',hoje:'Churn sem monitoramento — o cliente some sem ninguém perceber.',fazer:'Estado do cliente (<b>nasce / morre / ressuscita</b>) com alertas.',como:'O sistema acompanha o estado (ativo/risco/perdido), pontua o churn e dispara a reativação.',ferr:['Tier CRM','regras de churn']},
+ {n:'01',t:'Nasce (Lead)',ph:'aq',s:'manual',oque:'O cliente chega por indicação ou prospecção e vira um lead.',tool:'WhatsApp · planilha',hoje:'Sem funil: o lead vive na conversa e na planilha — fácil de esquecer ou perder.',fazer:'Captura centralizada, com <b>entrada automática no funil</b> e a origem registrada.',como:'Formulário/landing e bot capturam o contato e criam o card no funil, com origem e tags.',ferr:['Tier CRM','WhatsApp Engine','formulário']},
+ {n:'02',t:'Venda & Proposta',ph:'aq',s:'manual',oque:'Apresentação da máquina em comodato e negociação da proposta.',tool:'WhatsApp · e-mail',hoje:'Pricing e condições ficam na cabeça; cada proposta é montada do zero.',fazer:'Proposta de comodato com <b>pricing-padrão, gerada em 1 clique</b>.',como:'Um modelo puxa o preço-padrão do comodato e gera o PDF/link pronto para enviar.',ferr:['Tier','gerador de proposta']},
+ {n:'03',t:'Contrato & Assinatura',ph:'aq',s:'parcial',oque:'Formalização da cessão de serviços e assinatura do contrato.',tool:'Bling · Clicksign',hoje:'O contrato vive no Bling e a assinatura no Clicksign, em sistemas separados.',fazer:'Um fluxo único: <b>contrato → Clicksign → cliente recorrente ativo</b>.',como:'Ao aceitar, gera o contrato, envia ao Clicksign e — assinado — ativa o cliente recorrente.',ferr:['Bling','Clicksign API']},
+ {n:'04',t:'Instalação & Calibragem',ph:'aq',s:'parcial',oque:'A máquina é instalada no ponto e calibrada pela primeira vez.',tool:'Máquina · Arduino + Wi-Fi',hoje:'A calibragem é feita na hora, no campo, e não fica registrada.',fazer:'<b>Calibragem remota</b> registrada já na ativação (intensidade, horários, zonas).',como:'O app registra a instalação e grava os parâmetros (intensidade, horários, zona) na máquina.',ferr:['App de campo','Máquina IoT']},
+ {n:'05',t:'Operação & Telemetria',ph:'re',s:'bloqueado',oque:'A máquina opera difundindo o aroma; o refil vai sendo consumido.',tool:'Máquina IoT',hoje:'Não há leitura confiável do nível do refil em cada máquina.',fazer:'<b>Telemetria de nível em tempo real</b> — a base que destrava todo o resto.',como:'A máquina envia o nível do refil periodicamente (MQTT/HTTP) ao painel.',ferr:['Máquina IoT','gateway de telemetria']},
+ {n:'06',t:'Previsão da “perda”',ph:'re',s:'manual',oque:'Estimar quando o refil vai zerar para agir antes do aroma sumir.',tool:'No olho · planilha',hoje:'A data da “perda” é chutada no olho ou anotada em planilha.',fazer:'<b>Previsão automática da “perda”</b>, calculada a partir da telemetria.',como:'A partir do histórico de consumo, calcula a curva e prevê a data — alertando X dias antes.',ferr:['Telemetria','regra de previsão']},
+ {n:'07',t:'Troca assistida',ph:'re',s:'parcial',oque:'Lembrar o cliente, agendar e enviar o técnico para repor o refil.',tool:'WhatsApp · Auvo (API v2)',hoje:'O lembrete é no braço; o Auvo já cobre rota, GPS e checklist no campo.',fazer:'A previsão <b>dispara a agenda no Auvo</b> e o lembrete proativo ao cliente.',como:'A previsão cria a tarefa no Auvo (cliente, máquina, zona) e avisa o cliente; o webhook fecha o ciclo.',ferr:['Auvo API v2','webhook','WhatsApp Engine']},
+ {n:'08',t:'Estoque & Produção',ph:'re',s:'manual',oque:'Dar baixa do refil usado, repor e acompanhar compra e validade.',tool:'Bling · planilha (Will)',hoje:'Baixa e “em separação” no braço, entre o Bling e a planilha do Will.',fazer:'<b>Baixa automática</b> + alertas de compra e de validade.',como:'A baixa acontece ao concluir a OS; alertas de mínimo, validade e recompra disparam sozinhos.',ferr:['Bling API','regras de estoque']},
+ {n:'09',t:'Faturamento & Cobrança',ph:'re',s:'manual',oque:'Cobrar a recorrência e receber (boleto ou assinatura).',tool:'Bling · “sistema do Gustavo” · WhatsApp',hoje:'Boleto e assinatura ficam dispersos; a cobrança é feita por WhatsApp.',fazer:'<b>Cobrança recorrente automática</b>, com régua de cobrança.',como:'A recorrência emite boleto/assinatura e a régua cobra (lembrete, vencido, 2ª via) sozinha.',ferr:['Cobrança recorrente','régua de cobrança']},
+ {n:'10',t:'Atendimento & Helpdesk',ph:'rl',s:'manual',oque:'Atender dúvidas, pedidos e resolver problemas do cliente.',tool:'WhatsApp · e-mail',hoje:'Suporte solto no WhatsApp, sem registro de chamado nem histórico.',fazer:'<b>Tickets + base de conhecimento + SLA</b>, ligados ao agente.',como:'Cada contato vira ticket com SLA; o agente responde pela base e escala ao humano quando precisa.',ferr:['Helpdesk','Agente IA','WhatsApp']},
+ {n:'11',t:'CRM / Ciclo de vida',ph:'rl',s:'manual',oque:'Acompanhar a vida do cliente: ativo, em risco, perdido, reativado.',tool:'—',hoje:'Churn sem monitoramento — o cliente some sem ninguém perceber.',fazer:'Estado do cliente (<b>nasce / morre / ressuscita</b>) com alertas.',como:'O sistema acompanha o estado (ativo/risco/perdido), pontua o churn e dispara a reativação.',ferr:['Tier CRM','regras de churn']},
 ];
 const PHASES=[
- {k:'aquisicao',label:'Aquisição',hint:'uma vez por cliente',range:[0,3],band:[0,35.5]},
- {k:'recorrencia',label:'↻ Recorrência',hint:'repete a cada refil — o motor da receita',range:[4,8],band:[37,82.5],tint:true},
- {k:'relacionamento',label:'Relacionamento',hint:'contínuo, em paralelo',range:[9,10],band:[84,100]},
+ {k:'aq',label:'Aquisição',hint:'Uma vez por cliente — do primeiro contato à máquina operando.'},
+ {k:'re',label:'Recorrência',hint:'Repete a cada troca de refil. É o motor da receita.',eng:true},
+ {k:'rl',label:'Relacionamento',hint:'Contínuo, em paralelo — retém ou perde o cliente.'},
 ];
 const DORES=[
  {t:'Previsão no olho',d:'A troca depende de adivinhar quando o refil acaba — não há telemetria do nível.',e:'Etapas 05–06'},
@@ -238,46 +199,32 @@ const DORES=[
 ];
 const SLABEL={manual:'Manual hoje',parcial:'Parcial',bloqueado:'Bloqueado',pronto:'Pronto'};
 const SCOLOR={manual:'var(--manual)',parcial:'var(--parcial)',bloqueado:'var(--bloqueado)',pronto:'var(--pronto)'};
-const NS='http://www.w3.org/2000/svg', PAD=3.4, N=STEPS.length;
-const xOf=i=>PAD+(100-2*PAD)*(i/(N-1));
+const CHEV='<span class="chev"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></span>';
 function el(h){const d=document.createElement('div');d.innerHTML=h.trim();return d.firstChild;}
 
-// fases (rótulos + divisores tracejados)
-const tl=document.getElementById('tl'),phaserow=document.getElementById('phaserow');
-const b1=(xOf(3)+xOf(4))/2, b2=(xOf(8)+xOf(9))/2;
-const LL=[1.5,b1+1.2,b2+1.4];
-PHASES.forEach((ph,k)=>{
-  phaserow.appendChild(el('<div class="phase'+(ph.tint?' eng':'')+'" style="left:'+LL[k]+'%"><div class="pn">'+ph.label+'</div><div class="ps">'+ph.hint+'</div></div>'));
-});
-[b1,b2].forEach(x=>{const d=document.createElement('span');d.className='pdiv';d.style.left=x+'%';tl.appendChild(d);});
-
-// linha em 3 segmentos
-const lineart=document.getElementById('lineart'),track=document.getElementById('track');
-const progs=[];
+// módulo — 3 colunas (fases) com as etapas
+const module=document.getElementById('module');
 PHASES.forEach(ph=>{
-  const x1=xOf(ph.range[0]),x2=xOf(ph.range[1]);
-  const base=document.createElementNS(NS,'line');base.setAttribute('class','base');base.setAttribute('x1',x1+'%');base.setAttribute('y1','50%');base.setAttribute('x2',x2+'%');base.setAttribute('y2','50%');lineart.appendChild(base);
-  const prog=document.createElementNS(NS,'line');prog.setAttribute('class','prog');prog.setAttribute('x1',x1+'%');prog.setAttribute('y1','50%');prog.setAttribute('x2',x2+'%');prog.setAttribute('y2','50%');lineart.appendChild(prog);progs.push(prog);
+  const steps=STEPS.map((s,i)=>({s,i})).filter(o=>o.s.ph===ph.k);
+  const col=el('<div class="col'+(ph.eng?' eng':'')+'"></div>');
+  col.appendChild(el('<div class="chead"><div class="ctt"><div class="ct">'+ph.label+'</div><div class="cs">'+ph.hint+'</div></div>'+CHEV+'</div>'));
+  const list=el('<div class="steps"></div>');
+  steps.forEach(o=>{
+    const row=el('<div class="step s-'+o.s.s+'" data-i="'+o.i+'"><span class="sd"></span><span class="sn">'+o.s.n+'</span><span class="snm">'+o.s.t+'</span></div>');
+    row.addEventListener('pointerenter',()=>activate(o.i,true));
+    list.appendChild(row);
+  });
+  col.appendChild(list);
+  module.appendChild(col);
 });
-
-// nós
-STEPS.forEach((st,i)=>{
-  const up=i%2===0;
-  const node=el('<div class="node '+(up?'up':'down')+' s-'+st.s+'" style="left:'+xOf(i)+'%">'+
-    '<span class="hit"></span><span class="ring"></span><span class="tick"></span><span class="dot"></span>'+
-    '<span class="num">'+st.n+'</span><span class="cap">'+st.t+'</span></div>');
-  node.style.transitionDelay=(0.5+i*0.05)+'s';
-  node.addEventListener('pointerenter',()=>activate(i,true));
-  track.appendChild(node);
-});
-const nodes=[...document.querySelectorAll('.node')];
+const rows=[...document.querySelectorAll('.step')];
 
 // dores
 const dgrid=document.getElementById('dgrid');
 DORES.forEach(d=>dgrid.appendChild(el('<div class="dcard"><div class="dt"><i></i>'+d.t+'</div><div class="dd">'+d.d+'</div><span class="de">'+d.e+'</span></div>')));
 
 // leitor
-const hint=document.getElementById('hint'),rcard=document.getElementById('rcard');
+const rcard=document.getElementById('rcard');
 const rnum=document.getElementById('rnum'),rtitle=document.getElementById('rtitle'),roque=document.getElementById('roque');
 const rstatus=document.getElementById('rstatus'),rtool=document.getElementById('rtool'),rhoje=document.getElementById('rhoje'),rfazer=document.getElementById('rfazer');
 const rcomo=document.getElementById('rcomo'),rferr=document.getElementById('rferr');
@@ -289,29 +236,18 @@ function fill(i){const st=STEPS[i];
   rferr.innerHTML=st.ferr.map(f=>'<span>'+f+'</span>').join('');}
 function activate(i,hover){
   if(hover&&i===activeIdx)return;activeIdx=i;
-  nodes.forEach((n,j)=>n.classList.toggle('active',hover&&j===i));
-  hint.classList.remove('show');
+  rows.forEach(r=>r.classList.toggle('active',+r.dataset.i===i));
   rcard.classList.remove('show');void rcard.offsetWidth;fill(i);rcard.classList.add('show');
-  if(hover){curlab.textContent=STEPS[i].n+' · '+STEPS[i].t;curlab.classList.add('on');}else curlab.classList.remove('on');
 }
-function deactivate(){activate(0,false);}
-document.querySelector('.tl').addEventListener('pointerleave',deactivate);
-
-// desenho da linha (3 segmentos)
-function setLen(){progs.forEach(p=>{const len=p.getTotalLength()||1;p.style.strokeDasharray=len;if(!track.classList.contains('drawn'))p.style.strokeDashoffset=len;});}
-setLen();
-addEventListener('resize',()=>{setLen();if(track.classList.contains('drawn'))progs.forEach(p=>p.style.strokeDashoffset='0');});
-requestAnimationFrame(()=>requestAnimationFrame(()=>{track.classList.add('drawn');progs.forEach((p,k)=>{p.style.transitionDelay=(0.25+k*0.25)+'s';p.style.strokeDashoffset='0';});}));
+document.getElementById('module').addEventListener('pointerleave',()=>activate(0,false));
 
 // cursor
-const cur=document.getElementById('cur'),curlab=document.getElementById('curlab');
-let mx=innerWidth/2,my=innerHeight/2,cx=mx,cy=my,lx=mx,ly=my,on=false;
+const cur=document.getElementById('cur');
+let mx=innerWidth/2,my=innerHeight/2,cx=mx,cy=my,on=false;
 if(matchMedia('(hover:hover) and (pointer:fine)').matches){
   addEventListener('pointermove',e=>{mx=e.clientX;my=e.clientY;if(!on){on=true;cur.classList.add('on');}});
-  addEventListener('pointerover',e=>{cur.classList.toggle('hot',!!e.target.closest('.node, .dcard, a'));});
-  (function loop(){cx+=(mx-cx)*.2;cy+=(my-cy)*.2;lx+=(mx-lx)*.14;ly+=(my-ly)*.14;
-    cur.style.transform='translate('+cx+'px,'+cy+'px) translate(-50%,-50%)';
-    curlab.style.left=lx+'px';curlab.style.top=ly+'px';requestAnimationFrame(loop);})();
+  addEventListener('pointerover',e=>cur.classList.toggle('hot',!!e.target.closest('.step,.dcard,a')));
+  (function loop(){cx+=(mx-cx)*.2;cy+=(my-cy)*.2;cur.style.transform='translate('+cx+'px,'+cy+'px) translate(-50%,-50%)';requestAnimationFrame(loop);})();
 }
 activate(0,false);
 </script>
