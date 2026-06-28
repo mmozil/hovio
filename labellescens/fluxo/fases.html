@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>La Belle Scens — Separação das fases (variações)</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Hanken+Grotesk:wght@300;400;500;600&display=swap');
+@font-face{font-family:'Atacama';src:url('/fonts/Atacama-VF.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap}
+@font-face{font-family:'Atacama';src:url('/fonts/Atacama-Italic-VF.woff2') format('woff2');font-weight:100 900;font-style:italic;font-display:swap}
+@font-face{font-family:'Hellix';src:url('/fonts/HellixVAR.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap}
+:root{
+  --bg:#f8f8f8;--surface:#fff;--ink:#33383c;--ink-strong:#1f2326;--soft:#7b8487;--soft-2:#9aa1a3;
+  --line:rgba(51,56,60,.11);--line-strong:#d3cdc2;--accent:#9c8458;--accent-ink:#6f5c37;--accent-soft:#efe9dd;
+  --manual:#b25a4f;--parcial:#b78a2e;--bloqueado:#5a6f8a;--pronto:#5a8061;
+  --serif:'Atacama','Cormorant Garamond',Georgia,serif;--sans:'Hellix','Hanken Grotesk',-apple-system,'Segoe UI',sans-serif;
+  --nm:"wght" 400,"wdth" 100,"CNTR" 20,"XHGT" 0;--disp:"wght" 300,"wdth" 100,"CNTR" 20,"XHGT" 0;--ease:cubic-bezier(.22,1,.36,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;padding:40px 64px 70px}
+.top{text-align:center;border-bottom:1px solid var(--line);padding-bottom:22px;margin-bottom:8px}
+.logo{font-family:var(--serif);font-size:26px;font-variation-settings:var(--nm);color:var(--ink-strong)}
+.logo .d{color:var(--accent)}
+.lead{font-size:13px;color:var(--soft);margin-top:10px}
+.lead b{color:var(--accent-ink)}
+
+.variant{padding:38px 0 30px;border-bottom:1px solid var(--line)}
+.vlabel{display:flex;align-items:baseline;gap:12px;margin-bottom:6px}
+.vlabel .vn{font-family:var(--serif);font-variation-settings:var(--disp);font-size:30px;color:var(--accent)}
+.vlabel .vt{font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-strong);font-weight:600}
+.vlabel .vd{font-size:12px;color:var(--soft)}
+
+.tl{position:relative;height:188px;margin-top:14px}
+.phaserow{position:relative;height:46px}
+.track{position:absolute;left:0;right:0;top:46px;bottom:0}
+.lineart{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.lineart .seg{stroke:var(--accent);stroke-width:1.2;fill:none}
+.node{position:absolute;top:50%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center}
+.node .dot{width:13px;height:13px;border-radius:50%;background:var(--sc);border:2.5px solid var(--bg);box-shadow:0 0 0 1px color-mix(in srgb,var(--sc) 55%,transparent)}
+.node.s-manual{--sc:var(--manual)}.node.s-parcial{--sc:var(--parcial)}.node.s-bloqueado{--sc:var(--bloqueado)}.node.s-pronto{--sc:var(--pronto)}
+.node .num{font-size:9px;font-variant-numeric:tabular-nums;letter-spacing:.12em;color:var(--soft-2);position:absolute}
+.node .cap{font-family:var(--serif);font-variation-settings:var(--nm);font-size:12px;color:var(--soft);white-space:nowrap;position:absolute}
+.node.up .num{bottom:calc(50% + 33px)}.node.up .cap{bottom:calc(50% + 18px)}
+.node.down .num{top:calc(50% + 33px)}.node.down .cap{top:calc(50% + 18px)}
+.node .tick{position:absolute;left:50%;width:1px;transform:translateX(-50%);background:var(--line-strong)}
+.node.up .tick{bottom:calc(50% + 8px);height:9px}.node.down .tick{top:calc(50% + 8px);height:9px}
+
+/* rótulos de fase */
+.ph{position:absolute;bottom:8px;padding-left:12px}
+.ph::before{content:'';position:absolute;left:0;bottom:2px;width:2px;height:13px;background:var(--accent)}
+.ph .pn{font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:600;color:var(--ink-strong);white-space:nowrap}
+.ph.eng .pn{color:var(--accent-ink)}
+.ph .ps{font-size:9.5px;color:var(--soft);margin-top:4px;white-space:nowrap}
+
+/* V1 capítulos: filete sob o cabeçalho por trecho */
+.prule{position:absolute;bottom:6px;height:1px;background:color-mix(in srgb,var(--accent) 45%,transparent)}
+
+/* V2 zonas suaves */
+.zone{position:absolute;top:-46px;bottom:0;border-radius:10px}
+.zone.eng{background:color-mix(in srgb,var(--accent-soft) 60%,transparent)}
+.zone.plain{background:color-mix(in srgb,var(--ink) 2.5%,transparent)}
+
+/* V3 ornamento de quebra */
+.orn{position:absolute;top:50%;transform:translate(-50%,-50%) rotate(45deg);width:7px;height:7px;background:var(--surface);border:1.4px solid var(--accent)}
+.phC{position:absolute;bottom:8px;transform:translateX(-50%);text-align:center;padding:0}
+.phC::before{display:none}
+.phC .pn{font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:600;color:var(--ink-strong)}
+.phC.eng .pn{color:var(--accent-ink)}
+.phC .ps{font-size:9.5px;color:var(--soft);margin-top:4px}
+
+/* V4 atos numerados */
+.act{position:absolute;bottom:6px;display:flex;align-items:baseline;gap:9px}
+.act .rn{font-family:var(--serif);font-variation-settings:"wght" 300,"wdth" 100,"CNTR" 20,"XHGT" 0;font-size:26px;color:var(--accent);line-height:1}
+.act .an{font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:600;color:var(--ink-strong)}
+.act.eng .an{color:var(--accent-ink)}
+.act .as{font-size:9.5px;color:var(--soft);display:block;margin-top:3px}
+.actrule{position:absolute;bottom:0;height:1px;background:var(--line-strong)}
+
+.legend{display:flex;gap:22px;margin-top:30px;font-size:10.5px;color:var(--soft)}
+.legend span{display:inline-flex;align-items:center;gap:8px}.legend i{width:9px;height:9px;border-radius:50%}
+.foot{margin-top:26px;font-size:11px;color:var(--soft-2);text-align:center}
+</style>
+</head>
+<body>
+<div class="top">
+  <div class="logo">La Belle Scens<span class="d"> ·</span></div>
+  <div class="lead">Separação das fases — <b>escolha a variação</b> (1, 2, 3 ou 4) e eu aplico na linha do tempo.</div>
+</div>
+<div id="host"></div>
+<div class="legend">
+  <span><i style="background:var(--manual)"></i> Manual</span>
+  <span><i style="background:var(--parcial)"></i> Parcial</span>
+  <span><i style="background:var(--bloqueado)"></i> Bloqueado</span>
+  <span><i style="background:var(--pronto)"></i> Pronto</span>
+</div>
+<div class="foot">Protótipo · La Belle Scens</div>
+
+<script>
+const STEPS=[
+ {n:'01',t:'Nasce (Lead)',ph:'aq',s:'manual'},{n:'02',t:'Venda & Proposta',ph:'aq',s:'manual'},
+ {n:'03',t:'Contrato & Assinatura',ph:'aq',s:'parcial'},{n:'04',t:'Instalação & Calibragem',ph:'aq',s:'parcial'},
+ {n:'05',t:'Operação & Telemetria',ph:'re',s:'bloqueado'},{n:'06',t:'Previsão da “perda”',ph:'re',s:'manual'},
+ {n:'07',t:'Troca assistida',ph:'re',s:'parcial'},{n:'08',t:'Estoque & Produção',ph:'re',s:'manual'},
+ {n:'09',t:'Faturamento & Cobrança',ph:'re',s:'manual'},
+ {n:'10',t:'Atendimento & Helpdesk',ph:'rl',s:'manual'},{n:'11',t:'CRM / Ciclo de vida',ph:'rl',s:'manual'},
+];
+const PHASES=[
+ {k:'aq',label:'Aquisição',hint:'uma vez por cliente',range:[0,3],roman:'I'},
+ {k:'re',label:'↻ Recorrência',hint:'repete a cada refil · o motor da receita',range:[4,8],eng:true,roman:'II'},
+ {k:'rl',label:'Relacionamento',hint:'contínuo, em paralelo',range:[9,10],roman:'III'},
+];
+const VARIANTS=[
+ {n:'1',t:'Capítulos',d:'cabeçalho + filete sob cada trecho'},
+ {n:'2',t:'Zonas suaves',d:'fundo levíssimo por fase (sem borda)'},
+ {n:'3',t:'Ornamento de quebra',d:'losango champagne na transição + título centrado'},
+ {n:'4',t:'Atos numerados',d:'I · II · III, estilo editorial'},
+];
+const NS='http://www.w3.org/2000/svg',PAD=3.4,N=STEPS.length;
+const xOf=i=>PAD+(100-2*PAD)*(i/(N-1));
+const b1=(xOf(3)+xOf(4))/2,b2=(xOf(8)+xOf(9))/2;
+function el(h){const d=document.createElement('div');d.innerHTML=h.trim();return d.firstChild;}
+
+function baseStrip(){
+  const tl=el('<div class="tl"></div>');
+  const phaserow=el('<div class="phaserow"></div>');tl.appendChild(phaserow);
+  const track=el('<div class="track"></div>');
+  const svg=document.createElementNS(NS,'svg');svg.setAttribute('class','lineart');svg.setAttribute('preserveAspectRatio','none');track.appendChild(svg);
+  tl.appendChild(track);
+  PHASES.forEach(ph=>{const ln=document.createElementNS(NS,'line');ln.setAttribute('class','seg');
+    ln.setAttribute('x1',xOf(ph.range[0])+'%');ln.setAttribute('y1','50%');ln.setAttribute('x2',xOf(ph.range[1])+'%');ln.setAttribute('y2','50%');svg.appendChild(ln);});
+  STEPS.forEach((st,i)=>{const up=i%2===0;
+    track.appendChild(el('<div class="node '+(up?'up':'down')+' s-'+st.s+'" style="left:'+xOf(i)+'%"><span class="tick"></span><span class="dot"></span><span class="num">'+st.n+'</span><span class="cap">'+st.t+'</span></div>'));});
+  return {tl,phaserow,track};
+}
+function segMid(ph){return (xOf(ph.range[0])+xOf(ph.range[1]))/2;}
+function segL(ph){return xOf(ph.range[0]);}
+function segR(ph){return xOf(ph.range[1]);}
+
+function render(variant){
+  const {tl,phaserow,track}=baseStrip();
+  const LL=[1.5,b1+1.2,b2+1.4];
+  if(variant===1){ // capítulos
+    PHASES.forEach((ph,k)=>{phaserow.appendChild(el('<div class="ph'+(ph.eng?' eng':'')+'" style="left:'+LL[k]+'%"><div class="pn">'+ph.label+'</div><div class="ps">'+ph.hint+'</div></div>'));
+      const r=el('<span class="prule"></span>');r.style.left=(segL(ph)-1.5)+'%';r.style.width=(segR(ph)-segL(ph)+3)+'%';phaserow.appendChild(r);});
+  } else if(variant===2){ // zonas
+    const zones=[[0,b1-1,'plain'],[b1+1,b2-1,'eng'],[b2+1,100,'plain']];
+    zones.forEach(z=>{const d=el('<span class="zone '+z[2]+'"></span>');d.style.left=z[0]+'%';d.style.width=(z[1]-z[0])+'%';track.appendChild(d);});
+    PHASES.forEach((ph,k)=>phaserow.appendChild(el('<div class="ph'+(ph.eng?' eng':'')+'" style="left:'+LL[k]+'%"><div class="pn">'+ph.label+'</div><div class="ps">'+ph.hint+'</div></div>')));
+  } else if(variant===3){ // ornamento
+    [b1,b2].forEach(x=>{const o=el('<span class="orn"></span>');o.style.left=x+'%';track.appendChild(o);});
+    PHASES.forEach(ph=>phaserow.appendChild(el('<div class="phC'+(ph.eng?' eng':'')+'" style="left:'+segMid(ph)+'%"><div class="pn">'+ph.label+'</div><div class="ps">'+ph.hint+'</div></div>')));
+  } else { // atos
+    PHASES.forEach((ph,k)=>{phaserow.appendChild(el('<div class="act'+(ph.eng?' eng':'')+'" style="left:'+LL[k]+'%"><span class="rn">'+ph.roman+'</span><span><span class="an">'+ph.label.replace('↻ ','')+'</span><span class="as">'+ph.hint+'</span></span></div>'));
+      const r=el('<span class="actrule"></span>');r.style.left=(segL(ph)-1.5)+'%';r.style.width=(segR(ph)-segL(ph)+3)+'%';phaserow.appendChild(r);});
+  }
+  return tl;
+}
+
+const host=document.getElementById('host');
+VARIANTS.forEach((v,idx)=>{
+  const sec=el('<div class="variant"></div>');
+  sec.appendChild(el('<div class="vlabel"><span class="vn">'+v.n+'</span><span class="vt">'+v.t+'</span><span class="vd">— '+v.d+'</span></div>'));
+  sec.appendChild(render(idx+1));
+  host.appendChild(sec);
+});
+</script>
+</body>
+</html>
