@@ -46,9 +46,9 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
 
 /* timeline */
 .tl{flex:1;display:flex;flex-direction:column;justify-content:center;position:relative;margin-top:4px}
-.phases{display:flex;position:relative;height:16px;margin:0 8px 22px}
-.phase{position:relative;font-size:9.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--soft-2)}
-.phase::before{content:'';position:absolute;left:0;right:16px;top:13px;height:1px;background:var(--line)}
+.phases{display:flex;align-items:flex-end;position:relative;height:26px;margin:0 8px 12px;padding-bottom:11px;border-bottom:1px solid var(--line)}
+.phase{position:relative;font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--soft-2);padding-left:12px}
+.phase::before{content:'';position:absolute;left:0;top:1px;width:1px;height:12px;background:var(--accent)}
 .phase b{color:var(--accent-ink);font-weight:600}
 
 .track{position:relative;height:128px}
@@ -62,28 +62,28 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
   opacity:0;transition:opacity .6s var(--ease),transform .6s var(--ease)}
 .track.drawn .node{opacity:1}
 .node .hit{position:absolute;left:50%;top:50%;width:58px;height:120px;transform:translate(-50%,-50%);border-radius:30px}
-.node .dot{width:9px;height:9px;border-radius:50%;background:var(--bg);border:1.2px solid var(--line-strong);
+.node .dot{width:10px;height:10px;border-radius:50%;background:var(--surface);border:1.8px solid var(--sc,var(--line-strong));
   position:relative;z-index:2;transition:transform .5s var(--ease),border-color .5s var(--ease),background .5s var(--ease)}
-.node .ring{position:absolute;top:50%;left:50%;width:9px;height:9px;border-radius:50%;transform:translate(-50%,-50%) scale(1);
+.node.s-manual{--sc:var(--manual)} .node.s-parcial{--sc:var(--parcial)} .node.s-bloqueado{--sc:var(--bloqueado)} .node.s-pronto{--sc:var(--pronto)}
+.node .ring{position:absolute;top:50%;left:50%;width:10px;height:10px;border-radius:50%;transform:translate(-50%,-50%) scale(1);
   border:1px solid var(--accent);opacity:0;transition:transform .6s var(--ease),opacity .6s var(--ease)}
+.node .tick{position:absolute;left:50%;width:1px;transform:translateX(-50%);background:var(--line-strong);opacity:0;transition:opacity .5s var(--ease) .08s,background .4s}
+.track.drawn .node .tick{opacity:1}
+.node.up .tick{bottom:calc(50% + 6px);height:9px} .node.down .tick{top:calc(50% + 6px);height:9px}
 .node .num{font-size:9.5px;font-variant-numeric:tabular-nums;letter-spacing:.14em;color:var(--soft-2);position:absolute;transition:color .4s var(--ease)}
 .node .cap{font-family:var(--serif);font-variation-settings:var(--nm);font-size:12.5px;color:var(--soft);white-space:nowrap;position:absolute;transition:color .4s var(--ease)}
-.node.up .num{bottom:calc(50% + 31px)} .node.up .cap{bottom:calc(50% + 15px)}
-.node.down .num{top:calc(50% + 31px)} .node.down .cap{top:calc(50% + 15px)}
-.node .sdot{position:absolute;width:5px;height:5px;border-radius:50%;left:50%;transform:translateX(-50%);opacity:0;transition:opacity .4s var(--ease)}
-.node.up .sdot{top:calc(50% + 13px)} .node.down .sdot{bottom:calc(50% + 13px)}
-.track.drawn .node .sdot{opacity:1}
-.node.s-manual .sdot{background:var(--manual)} .node.s-parcial .sdot{background:var(--parcial)}
-.node.s-bloqueado .sdot{background:var(--bloqueado)} .node.s-pronto .sdot{background:var(--pronto)}
-.node.active .dot{transform:scale(1.5);border-color:var(--accent);background:var(--accent)}
+.node.up .num{bottom:calc(50% + 34px)} .node.up .cap{bottom:calc(50% + 18px)}
+.node.down .num{top:calc(50% + 34px)} .node.down .cap{top:calc(50% + 18px)}
+.node.active .dot{transform:scale(1.4);border-color:var(--accent);background:var(--accent)}
 .node.active .ring{opacity:1;transform:translate(-50%,-50%) scale(3.6)}
+.node.active .tick{background:var(--accent)}
 .node.active .num{color:var(--accent-ink)}
 .node.active .cap{color:var(--ink-strong)}
 
 /* leitor (detalhe editorial) */
-.reader{flex:none;margin-top:14px;border-top:1px solid var(--line);padding-top:24px;position:relative;min-height:208px}
-.rcard{position:absolute;inset:24px 0 0;opacity:0;transition:opacity .55s var(--ease);
-  display:grid;grid-template-columns:auto 1.25fr 1fr 1fr;gap:44px;align-items:start}
+.reader{flex:none;margin-top:12px;border-top:1px solid var(--line);padding-top:22px;position:relative;min-height:238px}
+.rcard{position:absolute;inset:22px 0 0;opacity:0;transition:opacity .55s var(--ease);
+  display:grid;grid-template-columns:auto 1.05fr .92fr 1.5fr;gap:38px;align-items:start}
 .rcard.show{opacity:1}
 .rnum{font-family:var(--serif);font-weight:200;font-variation-settings:"wght" 220,"wdth" 100,"CNTR" 20,"XHGT" 0;
   font-size:84px;line-height:.82;color:var(--accent);letter-spacing:-.03em}
@@ -96,10 +96,15 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
 .rcol .tool{display:inline-block;font-size:11px;letter-spacing:.02em;color:var(--ink);border:1px solid var(--line-strong);
   border-radius:2px;padding:4px 9px;margin-bottom:12px}
 .rcol .v{font-size:13.5px;line-height:1.55;color:var(--soft)}
-.rcol.fazer{border-left:1px solid var(--line);padding-left:34px;margin-left:-10px}
-.rcol.fazer .k{color:var(--accent-ink)}
-.rcol.fazer .v{color:var(--ink);font-size:14px}
-.rcol.fazer .v b{color:var(--ink-strong);font-weight:600}
+.rcol.auto{border-left:1px solid var(--line);padding-left:34px;margin-left:-10px}
+.rcol.auto .k{color:var(--accent-ink)}
+.rcol.auto .goal{font-size:14.5px;line-height:1.5;color:var(--ink-strong);font-weight:500;margin-bottom:13px}
+.rcol.auto .goal b{color:var(--ink-strong);font-weight:600}
+.comorow{display:flex;gap:10px;margin-bottom:13px}
+.comorow .lab{font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-ink);padding-top:3px;flex:none}
+.comorow .v2{font-size:12.5px;line-height:1.5;color:var(--soft)}
+.ferr{display:flex;flex-wrap:wrap;gap:6px}
+.ferr span{font-size:10px;letter-spacing:.02em;color:var(--accent-ink);background:var(--accent-soft);border-radius:20px;padding:3px 10px}
 
 .rhint{display:flex;align-items:center;gap:13px;color:var(--soft-2);font-size:13px;letter-spacing:.01em;opacity:0;transition:opacity .4s var(--ease)}
 .rhint.show{opacity:1}
@@ -166,9 +171,11 @@ body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-
         <span class="tool" id="rtool">—</span>
         <div class="v" id="rhoje">—</div>
       </div>
-      <div class="rcol fazer">
-        <div class="k">O que automatizar</div>
-        <div class="v" id="rfazer">—</div>
+      <div class="rcol auto">
+        <div class="k">A automação</div>
+        <div class="goal" id="rfazer">—</div>
+        <div class="comorow"><span class="lab">Como</span><span class="v2" id="rcomo">—</span></div>
+        <div class="ferr" id="rferr"></div>
       </div>
     </div>
   </div>
@@ -193,57 +200,79 @@ const STEPS=[
   oque:'O cliente chega por indicação ou prospecção e vira um lead.',
   tool:'WhatsApp · planilha',
   hoje:'Sem funil: o lead vive na conversa e na planilha — fácil de esquecer ou perder.',
-  fazer:'Captura centralizada, com <b>entrada automática no funil</b> e a origem registrada.'},
+  fazer:'Captura centralizada, com <b>entrada automática no funil</b> e a origem registrada.',
+  como:'Formulário/landing e bot capturam o contato e criam o card no funil, com origem e tags.',
+  ferr:['Tier CRM','WhatsApp Engine','formulário']},
  {n:'02',t:'Venda & Proposta',ph:'aquisicao',s:'manual',
   oque:'Apresentação da máquina em comodato e negociação da proposta.',
   tool:'WhatsApp · e-mail',
   hoje:'Pricing e condições ficam na cabeça; cada proposta é montada do zero.',
-  fazer:'Proposta de comodato com <b>pricing-padrão, gerada em 1 clique</b>.'},
+  fazer:'Proposta de comodato com <b>pricing-padrão, gerada em 1 clique</b>.',
+  como:'Um modelo puxa o preço-padrão do comodato e gera o PDF/link pronto para enviar.',
+  ferr:['Tier','gerador de proposta']},
  {n:'03',t:'Contrato & Assinatura',ph:'aquisicao',s:'parcial',
   oque:'Formalização da cessão de serviços e assinatura do contrato.',
   tool:'Bling · Clicksign',
   hoje:'O contrato vive no Bling e a assinatura no Clicksign, em sistemas separados.',
-  fazer:'Um fluxo único: <b>contrato → Clicksign → cliente recorrente ativo</b>.'},
+  fazer:'Um fluxo único: <b>contrato → Clicksign → cliente recorrente ativo</b>.',
+  como:'Ao aceitar, gera o contrato, envia ao Clicksign e — assinado — ativa o cliente recorrente.',
+  ferr:['Bling','Clicksign API']},
  {n:'04',t:'Instalação & Calibragem',ph:'aquisicao',s:'parcial',
   oque:'A máquina é instalada no ponto e calibrada pela primeira vez.',
   tool:'Máquina · Arduino + Wi-Fi',
   hoje:'A calibragem é feita na hora, no campo, e não fica registrada.',
-  fazer:'<b>Calibragem remota</b> registrada já na ativação (intensidade, horários, zonas).'},
+  fazer:'<b>Calibragem remota</b> registrada já na ativação (intensidade, horários, zonas).',
+  como:'O app registra a instalação e grava os parâmetros (intensidade, horários, zona) na máquina.',
+  ferr:['App de campo','Máquina IoT']},
  {n:'05',t:'Operação & Telemetria',ph:'recorrencia',s:'bloqueado',
   oque:'A máquina opera difundindo o aroma; o refil vai sendo consumido.',
   tool:'Máquina IoT',
   hoje:'Não há leitura confiável do nível do refil em cada máquina.',
-  fazer:'<b>Telemetria de nível em tempo real</b> — a base que destrava todo o resto.'},
+  fazer:'<b>Telemetria de nível em tempo real</b> — a base que destrava todo o resto.',
+  como:'A máquina envia o nível do refil periodicamente (MQTT/HTTP) ao painel.',
+  ferr:['Máquina IoT','gateway de telemetria']},
  {n:'06',t:'Previsão da “perda”',ph:'recorrencia',s:'manual',
   oque:'Estimar quando o refil vai zerar para agir antes do aroma sumir.',
   tool:'No olho · planilha',
   hoje:'A data da “perda” é chutada no olho ou anotada em planilha.',
-  fazer:'<b>Previsão automática da “perda”</b>, calculada a partir da telemetria.'},
+  fazer:'<b>Previsão automática da “perda”</b>, calculada a partir da telemetria.',
+  como:'A partir do histórico de consumo, calcula a curva e prevê a data — alertando X dias antes.',
+  ferr:['Telemetria','regra de previsão']},
  {n:'07',t:'Troca assistida',ph:'recorrencia',s:'parcial',
   oque:'Lembrar o cliente, agendar e enviar o técnico para repor o refil.',
   tool:'WhatsApp · Auvo (API v2)',
   hoje:'O lembrete é no braço; o Auvo já cobre rota, GPS e checklist no campo.',
-  fazer:'A previsão <b>dispara a agenda no Auvo</b> e o lembrete proativo ao cliente.'},
+  fazer:'A previsão <b>dispara a agenda no Auvo</b> e o lembrete proativo ao cliente.',
+  como:'A previsão cria a tarefa no Auvo (cliente, máquina, zona) e avisa o cliente; o webhook fecha o ciclo.',
+  ferr:['Auvo API v2','webhook','WhatsApp Engine']},
  {n:'08',t:'Estoque & Produção',ph:'recorrencia',s:'manual',
   oque:'Dar baixa do refil usado, repor e acompanhar compra e validade.',
   tool:'Bling · planilha (Will)',
   hoje:'Baixa e “em separação” no braço, entre o Bling e a planilha do Will.',
-  fazer:'<b>Baixa automática</b> + alertas de compra e de validade.'},
+  fazer:'<b>Baixa automática</b> + alertas de compra e de validade.',
+  como:'A baixa acontece ao concluir a OS; alertas de mínimo, validade e recompra disparam sozinhos.',
+  ferr:['Bling API','regras de estoque']},
  {n:'09',t:'Faturamento & Cobrança',ph:'recorrencia',s:'manual',
   oque:'Cobrar a recorrência e receber (boleto ou assinatura).',
   tool:'Bling · “sistema do Gustavo” · WhatsApp',
   hoje:'Boleto e assinatura ficam dispersos; a cobrança é feita por WhatsApp.',
-  fazer:'<b>Cobrança recorrente automática</b>, com régua de cobrança.'},
+  fazer:'<b>Cobrança recorrente automática</b>, com régua de cobrança.',
+  como:'A recorrência emite boleto/assinatura e a régua cobra (lembrete, vencido, 2ª via) sozinha.',
+  ferr:['Cobrança recorrente','régua de cobrança']},
  {n:'10',t:'Atendimento & Helpdesk',ph:'relacionamento',s:'manual',
   oque:'Atender dúvidas, pedidos e resolver problemas do cliente.',
   tool:'WhatsApp · e-mail',
   hoje:'Suporte solto no WhatsApp, sem registro de chamado nem histórico.',
-  fazer:'<b>Tickets + base de conhecimento + SLA</b>, ligados ao agente.'},
+  fazer:'<b>Tickets + base de conhecimento + SLA</b>, ligados ao agente.',
+  como:'Cada contato vira ticket com SLA; o agente responde pela base e escala ao humano quando precisa.',
+  ferr:['Helpdesk','Agente IA','WhatsApp']},
  {n:'11',t:'CRM / Ciclo de vida',ph:'relacionamento',s:'manual',
   oque:'Acompanhar a vida do cliente: ativo, em risco, perdido, reativado.',
   tool:'—',
   hoje:'Churn sem monitoramento — o cliente some sem ninguém perceber.',
-  fazer:'Estado do cliente (<b>nasce / morre / ressuscita</b>) com alertas.'},
+  fazer:'Estado do cliente (<b>nasce / morre / ressuscita</b>) com alertas.',
+  como:'O sistema acompanha o estado (ativo/risco/perdido), pontua o churn e dispara a reativação.',
+  ferr:['Tier CRM','regras de churn']},
 ];
 const PHASES=[
  {k:'aquisicao',label:'Aquisição',hint:'uma vez',span:4},
@@ -266,8 +295,8 @@ STEPS.forEach((st,i)=>{
   node.className='node '+(up?'up':'down')+' s-'+st.s;
   node.style.left=x+'%';
   node.style.transitionDelay=(0.55+i*0.06)+'s';
-  node.innerHTML='<span class="hit"></span><span class="ring"></span><span class="dot"></span>'+
-    '<span class="num">'+st.n+'</span><span class="cap">'+st.t+'</span><span class="sdot"></span>';
+  node.innerHTML='<span class="hit"></span><span class="ring"></span><span class="tick"></span><span class="dot"></span>'+
+    '<span class="num">'+st.n+'</span><span class="cap">'+st.t+'</span>';
   node.addEventListener('pointerenter',()=>activate(i,true));
   track.appendChild(node);
 });
@@ -276,6 +305,7 @@ const nodes=[...document.querySelectorAll('.node')];
 const hint=document.getElementById('hint'),rcard=document.getElementById('rcard');
 const rnum=document.getElementById('rnum'),rtitle=document.getElementById('rtitle'),roque=document.getElementById('roque');
 const rstatus=document.getElementById('rstatus'),rtool=document.getElementById('rtool'),rhoje=document.getElementById('rhoje'),rfazer=document.getElementById('rfazer');
+const rcomo=document.getElementById('rcomo'),rferr=document.getElementById('rferr');
 let activeIdx=-1;
 function fill(i){
   const st=STEPS[i];
@@ -283,6 +313,8 @@ function fill(i){
   rstatus.querySelector('i').style.background=SCOLOR[st.s];
   rstatus.querySelector('span').textContent=SLABEL[st.s];
   rtool.textContent=st.tool; rhoje.textContent=st.hoje; rfazer.innerHTML=st.fazer;
+  rcomo.textContent=st.como;
+  rferr.innerHTML=st.ferr.map(f=>'<span>'+f+'</span>').join('');
 }
 function activate(i,hover){
   if(hover&&i===activeIdx)return; activeIdx=i;
