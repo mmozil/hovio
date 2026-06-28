@@ -253,6 +253,52 @@ a{color:inherit;text-decoration:none}
 @media(max-width:1080px){.g4{grid-template-columns:repeat(2,1fr)}.g2{grid-template-columns:1fr}.kan{grid-template-columns:repeat(2,1fr)}.chatwrap{grid-template-columns:1fr}.crules,.clist{display:none}}
 @media(max-width:760px){.side{display:none}.content{padding:26px 20px 80px}.g4,.g3{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* ====== Cenário no padrão /fluxo/a.html (módulo Dior 3 colunas + leitor) ====== */
+#cenario .module{background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:0 1px 2px rgba(31,35,38,.05);display:grid;grid-template-columns:1fr 1.18fr 0.82fr;overflow:hidden;margin-top:24px}
+#cenario .col{padding:26px 30px 24px;position:relative}
+#cenario .col + .col{box-shadow:-1px 0 0 var(--line)}
+#cenario .chead{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;padding-bottom:17px;border-bottom:1px solid var(--line)}
+#cenario .chead .ctt .ct{font-size:15px;font-weight:500;color:var(--ink-strong);letter-spacing:.01em}
+#cenario .col.eng .chead .ctt .ct{color:var(--accent-ink)}
+#cenario .chead .ctt .cs{font-size:11.5px;color:var(--soft);margin-top:5px;line-height:1.45;max-width:210px}
+#cenario .chead .chev{flex:none;margin-top:2px;color:var(--soft-2);transition:color .3s var(--ease),transform .3s var(--ease)}
+#cenario .chead .chev svg{width:17px;height:17px;stroke:currentColor;stroke-width:1.4;fill:none;stroke-linecap:round;stroke-linejoin:round;display:block}
+#cenario .col:hover .chead .chev{color:var(--accent);transform:translateX(2px)}
+#cenario .steps{position:relative;padding:16px 0 0}
+#cenario .steps::before{content:'';position:absolute;left:6px;top:24px;bottom:16px;width:1px;background:var(--line)}
+#cenario .step{display:flex;align-items:center;gap:14px;padding:9px 8px 9px 0;position:relative;border-radius:7px;transition:background .3s var(--ease);cursor:default}
+#cenario .step:hover,#cenario .step.active{background:var(--accent-soft)}
+#cenario .step .sd{width:12px;height:12px;border-radius:50%;background:var(--sc,var(--line-strong));border:2.5px solid var(--surface);box-shadow:0 0 0 1px color-mix(in srgb,var(--sc,var(--line-strong)) 52%,transparent);flex:none;z-index:1;transition:transform .3s var(--ease),background .3s var(--ease)}
+#cenario .step.s-manual{--sc:var(--manual)}#cenario .step.s-parcial{--sc:var(--parcial)}#cenario .step.s-bloqueado{--sc:var(--bloqueado)}#cenario .step.s-pronto{--sc:var(--pronto)}
+#cenario .step.active .sd{background:var(--accent);transform:scale(1.12)}
+#cenario .step .sn{font-size:9px;font-variant-numeric:tabular-nums;letter-spacing:.1em;color:var(--soft-2);flex:none;width:15px}
+#cenario .step .snm{font-family:var(--sans);font-size:14px;font-weight:450;color:var(--ink);white-space:nowrap;transition:color .3s var(--ease)}
+#cenario .step:hover .snm,#cenario .step.active .snm{color:var(--ink-strong)}
+#cenario .jreader{margin-top:24px;border-top:1px solid var(--line);padding-top:22px;position:relative;min-height:170px}
+#cenario .rcard{display:grid;grid-template-columns:auto 1.05fr .92fr 1.5fr;gap:38px;align-items:start;opacity:0;transition:opacity .45s var(--ease)}
+#cenario .rcard.show{opacity:1}
+#cenario .rnum{font-family:var(--serif);font-weight:200;font-variation-settings:"wght" 220,"wdth" 100,"CNTR" 20,"XHGT" 0;font-size:74px;line-height:.82;color:var(--accent);letter-spacing:-.03em}
+#cenario .rmid .rstatus{display:inline-flex;align-items:center;gap:7px;font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--soft);margin-bottom:10px}
+#cenario .rmid .rstatus i{width:7px;height:7px;border-radius:50%}
+#cenario .rmid .rt{font-family:var(--sans);font-size:22px;font-weight:500;color:var(--ink-strong);line-height:1.12;letter-spacing:-.01em}
+#cenario .rmid .roque{font-size:13.5px;line-height:1.55;color:var(--soft);margin-top:11px;max-width:300px}
+#cenario .rcol .k{font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--soft-2);margin-bottom:10px}
+#cenario .rcol .tool{display:inline-block;font-size:11px;color:var(--ink);border:1px solid var(--line-strong);border-radius:2px;padding:4px 9px;margin-bottom:11px}
+#cenario .rcol .v{font-size:13px;line-height:1.55;color:var(--soft)}
+#cenario .rcol.auto{border-left:1px solid var(--line);padding-left:34px;margin-left:-10px}
+#cenario .rcol.auto .k{color:var(--accent-ink)}
+#cenario .rcol.auto .goal{font-size:14px;line-height:1.5;color:var(--ink-strong);font-weight:500;margin-bottom:12px}
+#cenario .rcol.auto .goal b{color:var(--ink-strong);font-weight:600}
+#cenario .comorow{display:flex;gap:10px;margin-bottom:12px}
+#cenario .comorow .lab{font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-ink);padding-top:3px;flex:none}
+#cenario .comorow .v2{font-size:12.5px;line-height:1.5;color:var(--soft)}
+#cenario .ferr{display:flex;flex-wrap:wrap;gap:6px}
+#cenario .ferr span{font-size:10px;color:var(--accent-ink);background:var(--accent-soft);border-radius:20px;padding:3px 10px}
+#cenario .jlegend{display:flex;gap:20px;margin-top:18px;border-top:1px solid var(--line);padding-top:14px}
+#cenario .jlegend span{display:inline-flex;align-items:center;gap:8px;font-size:10.5px;color:var(--soft)}
+#cenario .jlegend i{width:9px;height:9px;border-radius:50%}
+@media(max-width:1080px){#cenario .module{grid-template-columns:1fr}#cenario .col+.col{box-shadow:0 -1px 0 var(--line)}#cenario .rcard{grid-template-columns:1fr;gap:16px}#cenario .rnum{font-size:50px}#cenario .rcol.auto{border-left:0;padding-left:0;margin-left:0}}
 </style>
 </head>
 <body>
@@ -317,60 +363,35 @@ a{color:inherit;text-decoration:none}
         <div class="kpi"><div class="lbl">Receita recorrente</div><div class="val"><small>R$</small> 92,4<small>k</small></div><div class="dl up">▲ 6,1%</div></div>
       </div>
 
-      <!-- AQUISIÇÃO -->
-      <div class="tl-phase">
-        <div class="tl-bracket"><span class="pn">Aquisição</span><span class="pd">— uma vez por cliente · do 1º contato à máquina operando</span></div>
-        <div class="tl-row">
-          <div class="tl-card edge-error"><div class="st">01</div><h5>Nasce (Lead)</h5><p>Prospecção e indicação captam o cliente.</p><div class="tool">WhatsApp · planilha</div><span class="pill"><span class="dot dot-error"></span>Manual</span></div>
-          <div class="tl-card edge-error"><div class="st">02</div><h5>Venda &amp; Proposta</h5><p>Pricing, comodato e proposta comercial.</p><div class="tool">WhatsApp/e-mail · regras na cabeça</div><span class="pill"><span class="dot dot-error"></span>Manual</span></div>
-          <div class="tl-card edge-warn"><div class="st">03</div><h5>Contrato &amp; Assinatura</h5><p>Cessão de serviços e assinatura digital.</p><div class="tool">Bling · Clicksign</div><span class="pill"><span class="dot dot-warn"></span>Parcial</span></div>
-          <div class="tl-card edge-warn"><div class="st">04</div><h5>Instalação &amp; Calibragem</h5><p>Máquina em comodato instalada; 1ª calibragem.</p><div class="tool">Máquina (Arduino+Wi-Fi) · campo</div><span class="pill"><span class="dot dot-warn"></span>Parcial</span></div>
+      <div class="module" id="jm-module"></div>
+
+      <div class="jreader" id="jm-reader">
+        <div class="rcard" id="jm-rcard">
+          <div class="rnum" id="jm-rnum">01</div>
+          <div class="rmid">
+            <span class="rstatus" id="jm-rstatus"><i></i><span></span></span>
+            <div class="rt" id="jm-rtitle">—</div>
+            <p class="roque" id="jm-roque">—</p>
+          </div>
+          <div class="rcol hoje">
+            <div class="k">Hoje</div>
+            <span class="tool" id="jm-rtool">—</span>
+            <div class="v" id="jm-rhoje">—</div>
+          </div>
+          <div class="rcol auto">
+            <div class="k">A automação</div>
+            <div class="goal" id="jm-rfazer">—</div>
+            <div class="comorow"><span class="lab">Como</span><span class="v2" id="jm-rcomo">—</span></div>
+            <div class="ferr" id="jm-rferr"></div>
+          </div>
         </div>
       </div>
 
-      <!-- RECORRÊNCIA -->
-      <div class="tl-phase">
-        <div class="tl-bracket"><span class="pn">↻ Recorrência</span><span class="pd">— repete a cada troca de refil · é o motor da receita</span></div>
-        <div class="tl-row">
-          <div class="tl-card edge-info"><div class="st">05</div><h5>Operação &amp; Telemetria</h5><p>Máquina rodando; calibragem remota; nível do refil.</p><div class="tool">Máquina IoT (telemetria)</div><span class="pill"><span class="dot dot-info"></span>Bloqueado · falta IoT</span></div>
-          <div class="tl-card edge-error"><div class="st">06</div><h5>Previsão da "perda"</h5><p>Estimar quando o refil vai zerar.</p><div class="tool">No olho / planilha</div><span class="pill"><span class="dot dot-error"></span>Manual</span></div>
-          <div class="tl-card edge-warn"><div class="st">07</div><h5>Troca assistida</h5><p>Lembrete → agenda → rota por zona → campo.</p><div class="tool">lembrete manual · Auvo (API v2 ✅)</div><span class="pill"><span class="dot dot-warn"></span>Parcial</span></div>
-          <div class="tl-card edge-error"><div class="st">08</div><h5>Estoque &amp; Produção</h5><p>Baixa do refil · "em separação" · OP.</p><div class="tool">Bling · planilha (Will)</div><span class="pill"><span class="dot dot-error"></span>Manual</span></div>
-          <div class="tl-card edge-error"><div class="st">09</div><h5>Faturamento &amp; Cobrança</h5><p>Boleto / assinatura recorrente; cobrar.</p><div class="tool">Bling · "sistema do Gustavo" · WhatsApp</div><span class="pill"><span class="dot dot-error"></span>Manual</span></div>
-        </div>
-      </div>
-
-      <!-- RELACIONAMENTO -->
-      <div class="tl-phase">
-        <div class="tl-bracket"><span class="pn">Relacionamento</span><span class="pd">— contínuo, em paralelo · retém ou perde o cliente</span></div>
-        <div class="tl-row">
-          <div class="tl-card edge-error"><div class="st">10</div><h5>Atendimento &amp; Helpdesk</h5><p>Suporte, dúvidas e dores do cliente.</p><div class="tool">WhatsApp / e-mail</div><span class="pill"><span class="dot dot-error"></span>Sem tickets</span></div>
-          <div class="tl-card edge-error"><div class="st">11</div><h5>CRM / Ciclo de vida</h5><p>Churn: o cliente nasce, morre, ressuscita.</p><div class="tool">—</div><span class="pill"><span class="dot dot-error"></span>Sem monitoramento</span></div>
-        </div>
-      </div>
-
-      <div class="tl-legend">
-        <span><span class="dot dot-error"></span> Manual hoje (dói)</span>
-        <span><span class="dot dot-warn"></span> Parcial — tem ferramenta, falta integrar</span>
-        <span><span class="dot dot-info"></span> Bloqueado — falta IoT/sistema</span>
-        <span><span class="dot dot-success"></span> Pronto p/ integrar (Auvo)</span>
-      </div>
-
-      <div class="grid g2" style="margin-top:30px">
-        <div class="card">
-          <div class="card-kicker">Modelo de negócio</div>
-          <h4 class="serif" style="font-size:21px;margin-bottom:10px">A receita vem do refil, não da máquina</h4>
-          <p class="muted" style="font-size:13.5px;line-height:1.6">Máquina em <b>comodato</b> (custo) → <b>refil + serviço</b> recorrente = a receita. Reter o cliente e acertar a previsão da "perda" é o que sustenta o faturamento.</p>
-        </div>
-        <div class="alert alert-warn">
-          <svg class="ai" viewBox="0 0 24 24"><path d="M12 9v4M12 17h.01M10.3 3.9l-8 14A2 2 0 004 21h16a2 2 0 001.7-3l-8-14a2 2 0 00-3.4 0z"/></svg>
-          <div><b>6 gargalos manuais hoje</b><p>Previsão da perda, estoque em planilha, "em separação" no braço, cobrança dispersa, roteirização manual e churn sem monitoramento.</p></div>
-        </div>
-      </div>
-
-      <div class="alert alert-success" style="margin-top:16px">
-        <svg class="ai" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        <div><b>Próximo passo — automação</b><p>Candidato a módulo-âncora do MVP: etapas <b>5–7 (Operação → Previsão da "perda" → Troca)</b>. A telemetria dispara a agenda no Auvo e a baixa em estoque/financeiro/CRM — é o que destrava a recorrência.</p></div>
+      <div class="jlegend">
+        <span><i style="background:var(--manual)"></i>Manual</span>
+        <span><i style="background:var(--parcial)"></i>Parcial</span>
+        <span><i style="background:var(--bloqueado)"></i>Bloqueado</span>
+        <span><i style="background:var(--pronto)"></i>Pronto</span>
       </div>
     </section>
 
@@ -646,6 +667,65 @@ a{color:inherit;text-decoration:none}
       document.querySelectorAll('.citem').forEach(function(x){x.classList.remove('sel')});c.classList.add('sel');
     });
   });
+</script>
+<script>
+/* Cenário — módulo da jornada (padrão /fluxo/a.html) */
+(function(){
+const STEPS=[
+ {n:'01',t:'Nasce (Lead)',ph:'aq',s:'manual',oque:'O cliente chega por indicação ou prospecção e vira um lead.',tool:'WhatsApp · planilha',hoje:'Sem funil: o lead vive na conversa e na planilha — fácil de esquecer ou perder.',fazer:'Captura centralizada, com <b>entrada automática no funil</b> e a origem registrada.',como:'Formulário/landing e bot capturam o contato e criam o card no funil, com origem e tags.',ferr:['Tier CRM','WhatsApp Engine','formulário']},
+ {n:'02',t:'Venda & Proposta',ph:'aq',s:'manual',oque:'Apresentação da máquina em comodato e negociação da proposta.',tool:'WhatsApp · e-mail',hoje:'Pricing e condições ficam na cabeça; cada proposta é montada do zero.',fazer:'Proposta de comodato com <b>pricing-padrão, gerada em 1 clique</b>.',como:'Um modelo puxa o preço-padrão do comodato e gera o PDF/link pronto para enviar.',ferr:['Tier','gerador de proposta']},
+ {n:'03',t:'Contrato & Assinatura',ph:'aq',s:'parcial',oque:'Formalização da cessão de serviços e assinatura do contrato.',tool:'Bling · Clicksign',hoje:'O contrato vive no Bling e a assinatura no Clicksign, em sistemas separados.',fazer:'Um fluxo único: <b>contrato → Clicksign → cliente recorrente ativo</b>.',como:'Ao aceitar, gera o contrato, envia ao Clicksign e — assinado — ativa o cliente recorrente.',ferr:['Bling','Clicksign API']},
+ {n:'04',t:'Instalação & Calibragem',ph:'aq',s:'parcial',oque:'A máquina é instalada no ponto e calibrada pela primeira vez.',tool:'Máquina · Arduino + Wi-Fi',hoje:'A calibragem é feita na hora, no campo, e não fica registrada.',fazer:'<b>Calibragem remota</b> registrada já na ativação (intensidade, horários, zonas).',como:'O app registra a instalação e grava os parâmetros (intensidade, horários, zona) na máquina.',ferr:['App de campo','Máquina IoT']},
+ {n:'05',t:'Operação & Telemetria',ph:'re',s:'bloqueado',oque:'A máquina opera difundindo o aroma; o refil vai sendo consumido.',tool:'Máquina IoT',hoje:'Não há leitura confiável do nível do refil em cada máquina.',fazer:'<b>Telemetria de nível em tempo real</b> — a base que destrava todo o resto.',como:'A máquina envia o nível do refil periodicamente (MQTT/HTTP) ao painel.',ferr:['Máquina IoT','gateway de telemetria']},
+ {n:'06',t:'Previsão da “perda”',ph:'re',s:'manual',oque:'Estimar quando o refil vai zerar para agir antes do aroma sumir.',tool:'No olho · planilha',hoje:'A data da “perda” é chutada no olho ou anotada em planilha.',fazer:'<b>Previsão automática da “perda”</b>, calculada a partir da telemetria.',como:'A partir do histórico de consumo, calcula a curva e prevê a data — alertando X dias antes.',ferr:['Telemetria','regra de previsão']},
+ {n:'07',t:'Troca assistida',ph:'re',s:'parcial',oque:'Lembrar o cliente, agendar e enviar o técnico para repor o refil.',tool:'WhatsApp · Auvo (API v2)',hoje:'O lembrete é no braço; o Auvo já cobre rota, GPS e checklist no campo.',fazer:'A previsão <b>dispara a agenda no Auvo</b> e o lembrete proativo ao cliente.',como:'A previsão cria a tarefa no Auvo (cliente, máquina, zona) e avisa o cliente; o webhook fecha o ciclo.',ferr:['Auvo API v2','webhook','WhatsApp Engine']},
+ {n:'08',t:'Estoque & Produção',ph:'re',s:'manual',oque:'Dar baixa do refil usado, repor e acompanhar compra e validade.',tool:'Bling · planilha (Will)',hoje:'Baixa e “em separação” no braço, entre o Bling e a planilha do Will.',fazer:'<b>Baixa automática</b> + alertas de compra e de validade.',como:'A baixa acontece ao concluir a OS; alertas de mínimo, validade e recompra disparam sozinhos.',ferr:['Bling API','regras de estoque']},
+ {n:'09',t:'Faturamento & Cobrança',ph:'re',s:'manual',oque:'Cobrar a recorrência e receber (boleto ou assinatura).',tool:'Bling · “sistema do Gustavo” · WhatsApp',hoje:'Boleto e assinatura ficam dispersos; a cobrança é feita por WhatsApp.',fazer:'<b>Cobrança recorrente automática</b>, com régua de cobrança.',como:'A recorrência emite boleto/assinatura e a régua cobra (lembrete, vencido, 2ª via) sozinha.',ferr:['Cobrança recorrente','régua de cobrança']},
+ {n:'10',t:'Atendimento & Helpdesk',ph:'rl',s:'manual',oque:'Atender dúvidas, pedidos e resolver problemas do cliente.',tool:'WhatsApp · e-mail',hoje:'Suporte solto no WhatsApp, sem registro de chamado nem histórico.',fazer:'<b>Tickets + base de conhecimento + SLA</b>, ligados ao agente.',como:'Cada contato vira ticket com SLA; o agente responde pela base e escala ao humano quando precisa.',ferr:['Helpdesk','Agente IA','WhatsApp']},
+ {n:'11',t:'CRM / Ciclo de vida',ph:'rl',s:'manual',oque:'Acompanhar a vida do cliente: ativo, em risco, perdido, reativado.',tool:'—',hoje:'Churn sem monitoramento — o cliente some sem ninguém perceber.',fazer:'Estado do cliente (<b>nasce / morre / ressuscita</b>) com alertas.',como:'O sistema acompanha o estado (ativo/risco/perdido), pontua o churn e dispara a reativação.',ferr:['Tier CRM','regras de churn']},
+];
+const PHASES=[
+ {k:'aq',label:'Aquisição',hint:'Uma vez por cliente — do primeiro contato à máquina operando.'},
+ {k:'re',label:'Recorrência',hint:'Repete a cada troca de refil. É o motor da receita.',eng:true},
+ {k:'rl',label:'Relacionamento',hint:'Contínuo, em paralelo — retém ou perde o cliente.'},
+];
+const SLABEL={manual:'Manual hoje',parcial:'Parcial',bloqueado:'Bloqueado',pronto:'Pronto'};
+const SCOLOR={manual:'var(--manual)',parcial:'var(--parcial)',bloqueado:'var(--bloqueado)',pronto:'var(--pronto)'};
+const CHEV='<span class="chev"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></span>';
+function jel(h){const d=document.createElement('div');d.innerHTML=h.trim();return d.firstChild;}
+const mod=document.getElementById('jm-module');
+if(!mod)return;
+PHASES.forEach(function(ph){
+  const steps=STEPS.map(function(s,i){return {s:s,i:i};}).filter(function(o){return o.s.ph===ph.k;});
+  const col=jel('<div class="col'+(ph.eng?' eng':'')+'"></div>');
+  col.appendChild(jel('<div class="chead"><div class="ctt"><div class="ct">'+ph.label+'</div><div class="cs">'+ph.hint+'</div></div>'+CHEV+'</div>'));
+  const list=jel('<div class="steps"></div>');
+  steps.forEach(function(o){
+    const row=jel('<div class="step s-'+o.s.s+'" data-i="'+o.i+'"><span class="sd"></span><span class="sn">'+o.s.n+'</span><span class="snm">'+o.s.t+'</span></div>');
+    row.addEventListener('pointerenter',function(){activate(o.i,true);});
+    list.appendChild(row);
+  });
+  col.appendChild(list); mod.appendChild(col);
+});
+const rows=[].slice.call(mod.querySelectorAll('.step'));
+const rcard=document.getElementById('jm-rcard');
+const rnum=document.getElementById('jm-rnum'),rtitle=document.getElementById('jm-rtitle'),roque=document.getElementById('jm-roque');
+const rstatus=document.getElementById('jm-rstatus'),rtool=document.getElementById('jm-rtool'),rhoje=document.getElementById('jm-rhoje'),rfazer=document.getElementById('jm-rfazer');
+const rcomo=document.getElementById('jm-rcomo'),rferr=document.getElementById('jm-rferr');
+let activeIdx=-1;
+function fill(i){const st=STEPS[i];
+  rnum.textContent=st.n;rtitle.textContent=st.t;roque.textContent=st.oque;
+  rstatus.querySelector('i').style.background=SCOLOR[st.s];rstatus.querySelector('span').textContent=SLABEL[st.s];
+  rtool.textContent=st.tool;rhoje.textContent=st.hoje;rfazer.innerHTML=st.fazer;rcomo.textContent=st.como;
+  rferr.innerHTML=st.ferr.map(function(f){return '<span>'+f+'</span>';}).join('');}
+function activate(i,hover){
+  if(hover&&i===activeIdx)return;activeIdx=i;
+  rows.forEach(function(r){r.classList.toggle('active',+r.dataset.i===i);});
+  rcard.classList.remove('show');void rcard.offsetWidth;fill(i);rcard.classList.add('show');
+}
+mod.addEventListener('pointerleave',function(){activate(0,false);});
+activate(0,false);
+})();
 </script>
 </body>
 </html>
