@@ -131,10 +131,12 @@ a{color:inherit;text-decoration:none}
   font-variation-settings:"wght" 400,"wdth" 100,"CNTR" 20,"XHGT" 0;color:var(--ink-strong);line-height:1}
 .brand-mark .bdot{width:5px;height:5px;border-radius:50%;background:var(--accent);transform:translateY(-3px)}
 .brand-sub{margin-top:8px;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--soft)}
-.nav{flex:1;padding:8px 12px 16px;overflow:hidden}
-.nav-h{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--soft);padding:12px 12px 6px;font-weight:400}
-.nav a{display:block;padding:6px 12px 6px 14px;margin:0;border-radius:var(--r-xs);color:var(--soft);
-  font-size:13px;cursor:pointer;position:relative;transition:color var(--t-fast) var(--ease),background var(--t-fast) var(--ease)}
+.nav{flex:1;padding:10px 12px 18px;overflow-y:auto}
+.nav::-webkit-scrollbar{width:7px}
+.nav::-webkit-scrollbar-thumb{background:var(--line-strong);border-radius:99px}
+.nav-h{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--soft);padding:13px 12px 6px;font-weight:400}
+.nav a{display:block;padding:7px 12px 7px 14px;margin:1px 0;border-radius:var(--r-sm);color:var(--soft);
+  font-size:13.5px;cursor:pointer;position:relative;transition:color var(--t-fast) var(--ease),background var(--t-fast) var(--ease)}
 .nav a::before{content:'';position:absolute;left:0;top:50%;transform:translateY(-50%) scaleY(0);
   width:2px;height:15px;background:var(--ink);border-radius:2px;transition:transform var(--t) var(--ease)}
 .nav a:hover{background:var(--surface-2);color:var(--ink)}
@@ -257,7 +259,7 @@ a{color:inherit;text-decoration:none}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 
 /* ====== Cenário no padrão /fluxo/a.html (módulo Dior 3 colunas + leitor) ====== */
-#cenario .module{background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:0 1px 2px rgba(31,35,38,.05);display:grid;grid-template-columns:1fr 1.18fr 0.82fr;overflow:hidden;margin-top:24px}
+#cenario .module{background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:0 1px 2px rgba(31,35,38,.05);display:grid;grid-template-columns:1fr 1.18fr 0.82fr;overflow:hidden;margin-top:24px}
 #cenario .col{padding:26px 30px 24px;position:relative}
 #cenario .col + .col{box-shadow:-1px 0 0 var(--line)}
 #cenario .chead{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;padding-bottom:17px;border-bottom:1px solid var(--line)}
@@ -307,7 +309,7 @@ a{color:inherit;text-decoration:none}
 #materiais .mat-group:first-of-type{margin-top:10px}
 #materiais .mat-gh{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent-ink);padding-bottom:12px;border-bottom:1px solid var(--line);margin-bottom:18px}
 #materiais .mat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-#materiais .mat-card{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:14px;background:var(--surface);padding:22px 22px 18px;text-decoration:none;color:inherit;transition:box-shadow .4s cubic-bezier(.22,1,.36,1),transform .4s cubic-bezier(.22,1,.36,1),border-color .4s}
+#materiais .mat-card{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:22px 22px 18px;text-decoration:none;color:inherit;transition:box-shadow .4s cubic-bezier(.22,1,.36,1),transform .4s cubic-bezier(.22,1,.36,1),border-color .4s}
 #materiais .mat-card:hover{box-shadow:0 18px 44px -22px rgba(31,35,38,.24);transform:translateY(-3px);border-color:var(--line-strong)}
 #materiais .mat-card .mt{font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--soft-2);margin-bottom:13px}
 #materiais .mat-card .mn{font-size:16px;font-weight:500;color:var(--ink-strong);letter-spacing:.01em}
@@ -449,7 +451,7 @@ a{color:inherit;text-decoration:none}
       <div class="mat-group">
         <div class="mat-gh">Design System</div>
         <div class="mat-grid">
-          <a class="mat-card" href="/" target="_blank" rel="noopener">
+          <a class="mat-card" href="/design-system/" target="_blank" rel="noopener">
             <div class="mt">Linguagem</div>
             <div class="mn">Catálogo do Design System</div>
             <div class="md">Tokens, tipografia, cores e componentes da identidade Dior da marca — a base visual de tudo.</div>

@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>La Belle Scens — Design System</title>
+<meta name="description" content="Sistema de design da La Belle Scens — marketing olfativo. Tokens, tipografia, componentes e estados." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+/* ============================================================
+   LA BELLE SCENS — DESIGN SYSTEM
+   Linguagem visual derivada da Maison Dior (beauty/editorial):
+   off-white, tinta grafite, linhas finas, serifa elegante,
+   grotesca neutra, muito respiro, motion quase invisível.
+
+   FONTES: substitutas livres (Cormorant Garamond + Manrope).
+   As reais da Dior (Atacama=Newglyph, Hellix=Displaay) são
+   PROPRIETÁRIAS — comprar p/ produção. Pra testar localmente,
+   dropar os .woff2 em /fonts/ que o @font-face abaixo assume.
+   ============================================================ */
+
+/* --- Fontes REAIS da Dior — Atacama (serif) + Hellix (sans), variáveis ---
+   TESTE/DEMO apenas: proprietárias (Atacama=Newglyph, Hellix=Displaay).
+   Licenciar antes de qualquer uso público/produção. Fallback livre abaixo. */
+@font-face{font-family:'Atacama';src:url('/fonts/Atacama-VF.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap;}
+@font-face{font-family:'Atacama';src:url('/fonts/Atacama-Italic-VF.woff2') format('woff2');font-weight:100 900;font-style:italic;font-display:swap;}
+@font-face{font-family:'Hellix';src:url('/fonts/HellixVAR.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap;}
+
+/* =================== TOKENS =================== */
+:root{
+  /* superfícies / tinta */
+  --bg:#f8f8f8;
+  --surface:#ffffff;
+  --surface-2:#f1f1ef;
+  --surface-3:#ece9e3;
+  --ink:#33383c;
+  --ink-strong:#1f2326;
+  --soft:#7b8487;
+  --soft-2:#9aa1a3;
+  --line:rgba(51,56,60,.14);
+  --line-strong:#acb2b4;
+  --on-dark:#f6f4ef;
+
+  /* acento — champagne/bronze, usar com parcimônia */
+  --accent:#9c8458;
+  --accent-ink:#6f5c37;
+  --accent-soft:#f3eee2;
+
+  /* semânticos */
+  --success:#5a7d63; --success-soft:#eaf1ec;
+  --warn:#9a7d3c;    --warn-soft:#f5efe1;
+  --error:#9a5a5a;   --error-soft:#f4eaea;
+  --info:#5a6f8a;    --info-soft:#e9eef4;
+
+  /* tipografia */
+  --serif:'Atacama','Cormorant Garamond',Georgia,'Times New Roman',serif;
+  --sans:'Hellix','Hanken Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+
+  /* raios */
+  --r-xs:4px; --r-sm:6px; --r-md:8px; --r-lg:12px; --r-pill:999px;
+
+  /* elevação (sutil, luxo) */
+  --sh-1:0 1px 2px rgba(31,35,38,.04), 0 0 0 1px rgba(31,35,38,.05);
+  --sh-2:0 4px 16px -6px rgba(31,35,38,.12), 0 0 0 1px rgba(31,35,38,.05);
+  --sh-3:0 18px 48px -16px rgba(31,35,38,.22), 0 0 0 1px rgba(31,35,38,.05);
+
+  /* easing */
+  --ease:cubic-bezier(.23,1,.32,1);
+  --ease-snappy:cubic-bezier(.76,0,.24,1);
+  --t-fast:.18s; --t:.4s; --t-slow:.7s;
+
+  /* layout */
+  --sidebar:268px;
+  --maxw:980px;
+}
+[data-theme="dark"]{
+  --bg:#16181a;
+  --surface:#1d2022;
+  --surface-2:#24282b;
+  --surface-3:#2c3033;
+  --ink:#ece9e3;
+  --ink-strong:#ffffff;
+  --soft:#9aa1a3;
+  --soft-2:#7e8486;
+  --line:rgba(236,233,227,.12);
+  --line-strong:#3a4044;
+  --on-dark:#16181a;
+  --accent:#c4ac79;
+  --accent-ink:#d8c498;
+  --accent-soft:#2a2620;
+  --success-soft:#1e2620; --warn-soft:#2a2418; --error-soft:#2a1d1d; --info-soft:#1d2330;
+  --sh-1:0 1px 2px rgba(0,0,0,.4), 0 0 0 1px rgba(255,255,255,.06);
+  --sh-2:0 4px 16px -6px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.06);
+  --sh-3:0 18px 48px -16px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.06);
+}
+
+/* =================== BASE =================== */
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:var(--sans); font-size:16px; line-height:1.55;
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  transition:background var(--t) var(--ease), color var(--t) var(--ease);
+}
+::selection{background:var(--ink); color:var(--bg);}
+h1,h2,h3,h4,h5{margin:0; font-family:var(--serif); font-weight:400; color:var(--ink-strong); letter-spacing:-.01em;}
+p{margin:0;}
+a{color:inherit; text-decoration:none;}
+svg{display:block;}
+
+/* =================== LAYOUT =================== */
+.app{display:flex; min-height:100vh;}
+
+/* ---- Sidebar ---- */
+.side{
+  width:var(--sidebar); flex:none; position:sticky; top:0; height:100vh;
+  border-right:1px solid var(--line); background:var(--surface);
+  display:flex; flex-direction:column; overflow:hidden;
+  transition:background var(--t) var(--ease), border-color var(--t) var(--ease);
+}
+.side-brand{padding:26px 24px 18px; border-bottom:1px solid var(--line);}
+.brand-mark{display:flex; align-items:baseline; gap:7px;}
+.brand-mark .lb{font-family:var(--serif); font-size:23px; font-weight:500; letter-spacing:.01em; color:var(--ink-strong); line-height:1;}
+.brand-mark .dot{width:5px; height:5px; border-radius:50%; background:var(--accent); transform:translateY(-2px);}
+.brand-sub{margin-top:7px; font-size:10.5px; letter-spacing:.22em; text-transform:uppercase; color:var(--soft);}
+
+.side-nav{flex:1; overflow-y:auto; padding:14px 12px 30px;}
+.side-nav::-webkit-scrollbar{width:7px;}
+.side-nav::-webkit-scrollbar-thumb{background:var(--line-strong); border-radius:99px;}
+.nav-group{margin-bottom:6px;}
+.nav-group-h{
+  display:flex; align-items:center; justify-content:space-between; width:100%;
+  padding:9px 12px; background:none; border:0; cursor:pointer;
+  font-family:var(--sans); font-size:10.5px; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--soft); transition:color var(--t-fast) var(--ease);
+}
+.nav-group-h:hover{color:var(--ink);}
+.nav-group-h svg{width:11px; height:11px; transition:transform var(--t) var(--ease); color:var(--soft-2);}
+.nav-group.collapsed svg{transform:rotate(-90deg);}
+.nav-items{overflow:hidden; transition:height var(--t) var(--ease);}
+.nav-group.collapsed .nav-items{height:0 !important;}
+.nav-items a{
+  display:block; padding:7px 12px 7px 14px; margin:1px 0; border-radius:var(--r-sm);
+  font-size:13.5px; color:var(--soft); position:relative;
+  transition:color var(--t-fast) var(--ease), background var(--t-fast) var(--ease);
+}
+.nav-items a::before{
+  content:''; position:absolute; left:0; top:50%; transform:translateY(-50%) scaleY(0);
+  width:2px; height:15px; background:var(--ink); border-radius:2px;
+  transition:transform var(--t) var(--ease);
+}
+.nav-items a:hover{color:var(--ink); background:var(--surface-2);}
+.nav-items a.active{color:var(--ink-strong); font-weight:500;}
+.nav-items a.active::before{transform:translateY(-50%) scaleY(1);}
+
+/* ---- Topbar ---- */
+.main{flex:1; min-width:0;}
+.top{
+  position:sticky; top:0; z-index:20; height:58px; padding:0 36px;
+  display:flex; align-items:center; justify-content:space-between;
+  background:color-mix(in srgb, var(--bg) 78%, transparent);
+  backdrop-filter:saturate(140%) blur(14px); -webkit-backdrop-filter:saturate(140%) blur(14px);
+  border-bottom:1px solid var(--line);
+}
+.top-l{font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--soft);}
+.top-r{display:flex; align-items:center; gap:10px;}
+.theme-toggle{
+  display:inline-flex; align-items:center; gap:8px; height:34px; padding:0 14px;
+  border:1px solid var(--line-strong); border-radius:var(--r-pill); background:transparent;
+  color:var(--ink); font-family:var(--sans); font-size:12px; cursor:pointer;
+  transition:all var(--t) var(--ease);
+}
+.theme-toggle:hover{border-color:var(--ink); background:var(--surface);}
+.theme-toggle svg{width:14px; height:14px;}
+
+/* ---- Content ---- */
+.content{padding:64px 36px 140px; max-width:calc(var(--maxw) + 72px); margin:0 auto;}
+
+/* hero */
+.hero{padding:30px 0 70px; border-bottom:1px solid var(--line); margin-bottom:64px;}
+.eyebrow{font-size:11px; letter-spacing:.24em; text-transform:uppercase; color:var(--soft); margin-bottom:22px;}
+.hero h1{font-size:clamp(40px,6vw,68px); font-weight:300; line-height:1.0; letter-spacing:-.025em;}
+.hero h1 em{font-style:italic; color:var(--accent-ink);}
+.hero-lead{margin-top:24px; max-width:540px; font-size:18px; line-height:1.6; color:var(--soft);}
+.hero-meta{margin-top:34px; display:flex; gap:34px; flex-wrap:wrap;}
+.hero-meta div{font-size:12px; color:var(--soft);}
+.hero-meta b{display:block; font-family:var(--serif); font-size:22px; font-weight:400; color:var(--ink-strong); letter-spacing:0;}
+
+/* section blocks */
+section{scroll-margin-top:78px; padding:52px 0; border-bottom:1px solid var(--line);}
+section:last-child{border-bottom:0;}
+.sec-head{margin-bottom:38px;}
+.sec-kicker{font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--accent-ink); margin-bottom:14px;}
+.sec-head h2{font-size:34px; font-weight:300; letter-spacing:-.02em;}
+.sec-head p{margin-top:14px; max-width:560px; color:var(--soft); font-size:15px;}
+
+.demo{
+  background:transparent; border:1px solid var(--line); border-radius:var(--r-lg);
+  padding:40px; margin-bottom:18px;
+  transition:background var(--t) var(--ease), border-color var(--t) var(--ease);
+}
+.demo + .demo{margin-top:0;}
+.demo-label{font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--soft); margin-bottom:24px;}
+.row{display:flex; flex-wrap:wrap; align-items:center; gap:16px;}
+.col{display:flex; flex-direction:column; gap:16px;}
+.stack{display:flex; flex-direction:column; gap:8px;}
+.grid{display:grid; gap:18px;}
+.divider-soft{height:1px; background:var(--line); margin:30px 0;}
+
+/* =================== COLORS =================== */
+.swatches{display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:14px;}
+.swatch{cursor:pointer;}
+.swatch .chip{height:74px; border-radius:var(--r-md); border:1px solid var(--line); transition:transform var(--t) var(--ease), box-shadow var(--t) var(--ease);}
+.swatch:hover .chip{transform:translateY(-3px); box-shadow:var(--sh-2);}
+.swatch .nm{margin-top:11px; font-size:12.5px; color:var(--ink); font-weight:500;}
+.swatch .hx{font-size:11px; color:var(--soft); font-family:var(--sans); letter-spacing:.02em;}
+
+/* =================== TYPOGRAPHY =================== */
+.type-row{display:flex; align-items:baseline; gap:24px; padding:18px 0; border-bottom:1px solid var(--line);}
+.type-row:last-child{border-bottom:0;}
+.type-spec{flex:none; width:130px; font-size:11px; color:var(--soft); letter-spacing:.04em; padding-top:6px;}
+.type-sample{flex:1; min-width:0; color:var(--ink-strong);}
+.t-display{font-family:var(--serif); font-weight:300; font-size:56px; line-height:1; letter-spacing:-.025em;}
+.t-h1{font-family:var(--serif); font-weight:300; font-size:42px; line-height:1.05; letter-spacing:-.02em;}
+.t-h2{font-family:var(--serif); font-weight:400; font-size:32px; line-height:1.1; letter-spacing:-.015em;}
+.t-h3{font-family:var(--serif); font-weight:400; font-size:25px; line-height:1.2;}
+.t-h4{font-family:var(--serif); font-weight:500; font-size:20px; line-height:1.3;}
+.t-lead{font-family:var(--sans); font-weight:400; font-size:18px; line-height:1.6; color:var(--ink);}
+.t-body{font-family:var(--sans); font-weight:400; font-size:16px; line-height:1.55; color:var(--ink);}
+.t-small{font-family:var(--sans); font-weight:400; font-size:14px; line-height:1.5; color:var(--ink);}
+.t-cap{font-family:var(--sans); font-weight:500; font-size:12px; line-height:1.4; color:var(--soft);}
+.t-eyebrow{font-family:var(--sans); font-weight:500; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--soft);}
+
+/* =================== BUTTONS =================== */
+.btn{
+  --btn-h:48px;
+  display:inline-flex; align-items:center; justify-content:center; gap:9px;
+  height:var(--btn-h); padding:0 24px; border-radius:var(--r-sm);
+  font-family:var(--sans); font-size:14px; font-weight:500; line-height:1;
+  border:1px solid transparent; cursor:pointer; white-space:nowrap;
+  transition:background var(--t) var(--ease), color var(--t) var(--ease),
+             border-color var(--t) var(--ease), transform var(--t-fast) var(--ease),
+             box-shadow var(--t) var(--ease), opacity var(--t) var(--ease);
+}
+.btn svg{width:16px; height:16px;}
+.btn:active{transform:translateY(1px);}
+.btn:focus-visible{outline:none; box-shadow:0 0 0 2px var(--bg), 0 0 0 4px var(--accent);}
+.btn:disabled{opacity:.38; cursor:not-allowed; transform:none;}
+
+/* primary — fill grafite (CTA Dior "Confirmer") */
+.btn-primary{background:var(--ink-strong); color:var(--on-dark); border-color:var(--ink-strong);}
+.btn-primary:hover{background:#000; border-color:#000;}
+[data-theme="dark"] .btn-primary{background:var(--ink); color:var(--on-dark); border-color:var(--ink);}
+[data-theme="dark"] .btn-primary:hover{background:#fff; border-color:#fff;}
+
+/* secondary — outline, inverte no hover */
+.btn-secondary{background:transparent; color:var(--ink-strong); border-color:var(--ink);}
+.btn-secondary:hover{background:var(--ink-strong); color:var(--on-dark);}
+
+/* ghost */
+.btn-ghost{background:transparent; color:var(--ink);}
+.btn-ghost:hover{background:var(--surface-2);}
+
+/* accent — champagne (raro, p/ destaque único) */
+.btn-accent{background:var(--accent); color:#fff; border-color:var(--accent);}
+.btn-accent:hover{background:var(--accent-ink); border-color:var(--accent-ink);}
+
+/* editorial — uppercase letterspaced com filete embaixo */
+.btn-editorial{
+  height:auto; padding:0 0 6px; border-radius:0; gap:10px; background:none; color:var(--ink-strong);
+  border-bottom:1px solid var(--ink); font-size:12px; letter-spacing:.16em; text-transform:uppercase; font-weight:500;
+}
+.btn-editorial:hover{color:var(--accent-ink); border-color:var(--accent);}
+.btn-editorial:active{transform:none;}
+.btn-editorial svg{width:13px; height:13px; transition:transform var(--t) var(--ease);}
+.btn-editorial:hover svg{transform:translateX(4px);}
+
+/* tamanhos */
+.btn-sm{--btn-h:36px; padding:0 16px; font-size:13px;}
+.btn-lg{--btn-h:56px; padding:0 32px; font-size:15px;}
+.btn-block{display:flex; width:100%;}
+
+/* loading */
+.btn-loading{position:relative; color:transparent !important; pointer-events:none;}
+.btn-loading::after{
+  content:''; position:absolute; width:16px; height:16px; border-radius:50%;
+  border:2px solid currentColor; border-top-color:transparent; opacity:.9;
+  animation:spin .7s linear infinite; color:var(--on-dark);
+}
+.btn-secondary.btn-loading::after,.btn-ghost.btn-loading::after,.btn-editorial.btn-loading::after{color:var(--ink);}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* =================== LINKS =================== */
+.lnk{position:relative; color:var(--ink); font-size:15px; padding-bottom:2px;}
+.lnk::after{
+  content:''; position:absolute; left:0; bottom:0; width:100%; height:1px; background:currentColor;
+  transform:scaleX(0); transform-origin:right; transition:transform var(--t) var(--ease);
+}
+.lnk:hover{color:var(--accent-ink);}
+.lnk:hover::after{transform:scaleX(1); transform-origin:left;}
+.lnk-muted{color:var(--soft);}
+.lnk-muted:hover{color:var(--ink);}
+.lnk-arrow{display:inline-flex; align-items:center; gap:7px; font-size:14px; color:var(--ink);}
+.lnk-arrow svg{width:14px; height:14px; transition:transform var(--t) var(--ease);}
+.lnk-arrow:hover{color:var(--accent-ink);}
+.lnk-arrow:hover svg{transform:translateX(5px);}
+
+/* =================== FORMS =================== */
+.field{display:flex; flex-direction:column; gap:8px; max-width:340px;}
+.field label{font-size:12.5px; font-weight:500; color:var(--ink); letter-spacing:.02em;}
+.field .help{font-size:12px; color:var(--soft);}
+.field .help.err{color:var(--error);}
+
+/* underline input (assinatura Dior) */
+.inp-line{
+  border:0; border-bottom:1px solid var(--line-strong); background:transparent;
+  font-family:var(--sans); font-size:15px; color:var(--ink); padding:8px 2px;
+  transition:border-color var(--t) var(--ease);
+}
+.inp-line::placeholder{color:var(--soft-2);}
+.inp-line:focus{outline:none; border-bottom-color:var(--ink);}
+.inp-line:disabled{opacity:.45; cursor:not-allowed;}
+
+/* bordered input */
+.inp{
+  height:48px; border:1px solid var(--line-strong); border-radius:var(--r-sm); background:var(--surface);
+  font-family:var(--sans); font-size:15px; color:var(--ink); padding:0 14px;
+  transition:border-color var(--t) var(--ease), box-shadow var(--t) var(--ease);
+}
+.inp::placeholder{color:var(--soft-2);}
+.inp:focus{outline:none; border-color:var(--ink); box-shadow:0 0 0 3px color-mix(in srgb, var(--ink) 9%, transparent);}
+.inp:disabled{background:var(--surface-2); opacity:.6; cursor:not-allowed;}
+.inp.err{border-color:var(--error);}
+.inp.err:focus{box-shadow:0 0 0 3px var(--error-soft);}
+textarea.inp{height:auto; padding:12px 14px; resize:vertical; min-height:96px; line-height:1.5;}
+select.inp{appearance:none; cursor:pointer;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%237b8487' stroke-width='1.5'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat; background-position:right 14px center; padding-right:38px;}
+
+/* checkbox / radio / toggle */
+.choice{display:inline-flex; align-items:center; gap:11px; cursor:pointer; font-size:14px; color:var(--ink); user-select:none;}
+.choice input{position:absolute; opacity:0; pointer-events:none;}
+.cbx{width:18px; height:18px; border:1px solid var(--line-strong); border-radius:var(--r-xs); background:var(--surface);
+  display:inline-flex; align-items:center; justify-content:center; transition:all var(--t) var(--ease); flex:none;}
+.cbx svg{width:12px; height:12px; stroke:var(--on-dark); stroke-width:2.4; opacity:0; transform:scale(.5); transition:all var(--t) var(--ease);}
+.choice:hover .cbx{border-color:var(--ink);}
+.choice input:checked + .cbx{background:var(--ink-strong); border-color:var(--ink-strong);}
+.choice input:checked + .cbx svg{opacity:1; transform:scale(1);}
+.choice input:focus-visible + .cbx{box-shadow:0 0 0 3px var(--accent-soft);}
+
+.rdo{width:18px; height:18px; border:1px solid var(--line-strong); border-radius:50%; background:var(--surface);
+  display:inline-flex; align-items:center; justify-content:center; transition:all var(--t) var(--ease); flex:none;}
+.rdo::after{content:''; width:8px; height:8px; border-radius:50%; background:var(--ink-strong); transform:scale(0); transition:transform var(--t) var(--ease);}
+.choice:hover .rdo{border-color:var(--ink);}
+.choice input:checked + .rdo{border-color:var(--ink-strong);}
+.choice input:checked + .rdo::after{transform:scale(1);}
+
+.tgl{width:40px; height:22px; border-radius:var(--r-pill); background:var(--line-strong); position:relative; transition:background var(--t) var(--ease); flex:none;}
+.tgl::after{content:''; position:absolute; top:2px; left:2px; width:18px; height:18px; border-radius:50%; background:#fff; box-shadow:0 1px 3px rgba(0,0,0,.25); transition:transform var(--t) var(--ease-snappy);}
+.choice input:checked + .tgl{background:var(--ink-strong);}
+.choice input:checked + .tgl::after{transform:translateX(18px);}
+.choice input:disabled ~ *{opacity:.4;}
+
+/* =================== BADGES / PILLS =================== */
+.pill{display:inline-flex; align-items:center; gap:7px; height:26px; padding:0 11px; border-radius:var(--r-xs);
+  background:var(--surface-2); color:var(--ink); font-size:12px; font-weight:500; letter-spacing:.01em;}
+.pill-outline{background:transparent; border:1px solid var(--line-strong); color:var(--soft);}
+.pill-accent{background:var(--accent-soft); color:var(--accent-ink);}
+.dot{width:6px; height:6px; border-radius:50%; flex:none;}
+.dot-success{background:var(--success);} .dot-warn{background:var(--warn);}
+.dot-error{background:var(--error);} .dot-info{background:var(--info);} .dot-soft{background:var(--soft-2);}
+.status{display:inline-flex; align-items:center; gap:7px; font-size:13px; color:var(--soft);}
+
+/* =================== CARDS =================== */
+.card{background:var(--surface); border:1px solid var(--line); border-radius:var(--r-md); padding:26px;
+  transition:transform var(--t) var(--ease), box-shadow var(--t) var(--ease), border-color var(--t) var(--ease);}
+.card:hover{transform:translateY(-3px); box-shadow:var(--sh-2);}
+.card h4{font-size:21px; margin-bottom:8px;}
+.card p{color:var(--soft); font-size:14px;}
+.card-kicker{font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--accent-ink); margin-bottom:14px;}
+
+/* product card (difusor / refil) */
+.pcard{background:var(--surface); border:1px solid var(--line); border-radius:var(--r-md); overflow:hidden;
+  transition:transform var(--t) var(--ease), box-shadow var(--t) var(--ease);}
+.pcard:hover{transform:translateY(-3px); box-shadow:var(--sh-2);}
+.pcard-media{aspect-ratio:4/3; overflow:hidden; background:linear-gradient(135deg,var(--surface-3),var(--surface-2));
+  display:flex; align-items:center; justify-content:center; position:relative;}
+.pcard-media svg{width:46px; height:46px; color:var(--soft-2); transition:transform var(--t-slow) var(--ease);}
+.pcard:hover .pcard-media svg{transform:scale(1.08);}
+.pcard-body{padding:20px 22px 24px;}
+.pcard-body .nm{font-family:var(--serif); font-size:21px; font-weight:400; color:var(--ink-strong);}
+.pcard-body .ds{font-size:13px; color:var(--soft); margin-top:5px;}
+.pcard-body .ft{margin-top:16px; display:flex; align-items:center; justify-content:space-between;}
+.pcard-body .pr{font-size:15px; font-weight:600; font-variant-numeric:tabular-nums;}
+
+/* =================== TABLE =================== */
+.tbl{width:100%; border-collapse:collapse; font-size:14px;}
+.tbl th{text-align:left; font-family:var(--sans); font-weight:500; font-size:12px; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--soft); padding:0 16px 14px; border-bottom:1px solid var(--line-strong);}
+.tbl td{padding:15px 16px; border-bottom:1px solid var(--line); color:var(--ink);}
+.tbl tbody tr{transition:background var(--t-fast) var(--ease);}
+.tbl tbody tr:hover{background:var(--surface-2);}
+.tbl .num{text-align:right; font-variant-numeric:tabular-nums;}
+
+/* =================== TOOLTIP =================== */
+.tip{position:relative; display:inline-flex;}
+.tip .bubble{
+  position:absolute; bottom:calc(100% + 10px); left:50%; transform:translateX(-50%) translateY(4px);
+  background:var(--ink-strong); color:var(--on-dark); font-size:12px; line-height:1.4; padding:7px 11px;
+  border-radius:var(--r-sm); white-space:nowrap; opacity:0; pointer-events:none;
+  transition:opacity var(--t) var(--ease), transform var(--t) var(--ease); box-shadow:var(--sh-2); z-index:5;}
+.tip .bubble::after{content:''; position:absolute; top:100%; left:50%; transform:translateX(-50%);
+  border:5px solid transparent; border-top-color:var(--ink-strong);}
+.tip:hover .bubble{opacity:1; transform:translateX(-50%) translateY(0);}
+
+/* =================== ALERTS =================== */
+.alert{display:flex; gap:13px; padding:15px 18px; border-radius:var(--r-md); border:1px solid var(--line);
+  background:var(--surface); font-size:14px;}
+.alert .ai{width:18px; height:18px; flex:none; margin-top:1px;}
+.alert b{display:block; margin-bottom:2px; font-family:var(--sans); font-weight:600; color:var(--ink-strong);}
+.alert p{color:var(--soft); font-size:13px;}
+.alert-success{background:var(--success-soft); border-color:color-mix(in srgb,var(--success) 28%, transparent);} .alert-success .ai{color:var(--success);}
+.alert-warn{background:var(--warn-soft); border-color:color-mix(in srgb,var(--warn) 28%, transparent);} .alert-warn .ai{color:var(--warn);}
+.alert-error{background:var(--error-soft); border-color:color-mix(in srgb,var(--error) 28%, transparent);} .alert-error .ai{color:var(--error);}
+.alert-info{background:var(--info-soft); border-color:color-mix(in srgb,var(--info) 28%, transparent);} .alert-info .ai{color:var(--info);}
+
+/* =================== TABS =================== */
+.tabs{display:flex; gap:28px; border-bottom:1px solid var(--line);}
+.tab{background:none; border:0; padding:0 0 14px; font-family:var(--sans); font-size:14px; color:var(--soft);
+  cursor:pointer; position:relative; transition:color var(--t-fast) var(--ease);}
+.tab::after{content:''; position:absolute; left:0; bottom:-1px; width:100%; height:2px; background:var(--ink); transform:scaleX(0); transition:transform var(--t) var(--ease);}
+.tab:hover{color:var(--ink);}
+.tab.active{color:var(--ink-strong);}
+.tab.active::after{transform:scaleX(1);}
+.tab-panel{padding-top:24px; font-size:14px; color:var(--soft); display:none;}
+.tab-panel.active{display:block; animation:fade .4s var(--ease);}
+@keyframes fade{from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:none;}}
+
+/* =================== ACCORDION (FAQ Dior) =================== */
+.acc-item{border-bottom:1px solid var(--line);}
+.acc-h{display:flex; align-items:center; justify-content:space-between; width:100%; padding:20px 2px; gap:20px;
+  background:none; border:0; cursor:pointer; text-align:left; font-family:var(--serif); font-size:19px; font-weight:400; color:var(--ink-strong);
+  transition:color var(--t-fast) var(--ease);}
+.acc-h:hover{color:var(--accent-ink);}
+.acc-h svg{width:16px; height:16px; flex:none; color:var(--soft); transition:transform var(--t) var(--ease);}
+.acc-item.open .acc-h svg{transform:rotate(45deg);}
+.acc-body{overflow:hidden; height:0; transition:height var(--t) var(--ease);}
+.acc-body-inner{padding:0 2px 22px; color:var(--soft); font-size:14px; line-height:1.6; max-width:600px;}
+
+/* =================== ICONS =================== */
+.icons{display:grid; grid-template-columns:repeat(auto-fill,minmax(96px,1fr)); gap:10px;}
+.ico{display:flex; flex-direction:column; align-items:center; gap:10px; padding:20px 8px; border:1px solid var(--line);
+  border-radius:var(--r-md); transition:all var(--t) var(--ease); color:var(--ink);}
+.ico:hover{border-color:var(--ink); transform:translateY(-2px);}
+.ico svg{width:22px; height:22px; stroke-width:1.4;}
+.ico span{font-size:10.5px; color:var(--soft);}
+
+/* =================== EFFECTS =================== */
+.fx-img{width:100%; aspect-ratio:16/10; border-radius:var(--r-md); overflow:hidden; position:relative; cursor:pointer;
+  background:linear-gradient(135deg,var(--surface-3),var(--surface-2));}
+.fx-img .ph{position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+  transition:transform var(--t-slow) var(--ease); color:var(--soft-2);}
+.fx-img:hover .ph{transform:scale(1.07);}
+.fx-img .cap{position:absolute; left:18px; bottom:16px; font-family:var(--serif); font-size:20px; color:var(--ink-strong); z-index:2;}
+
+.reveal-mask{overflow:hidden;}
+.reveal-mask span{display:inline-block; transform:translateY(110%); transition:transform var(--t-slow) var(--ease);}
+.reveal-in .reveal-mask span{transform:translateY(0);}
+
+.stagger > *{opacity:0; transform:translateY(16px); transition:opacity var(--t-slow) var(--ease), transform var(--t-slow) var(--ease);}
+.stagger.reveal-in > *{opacity:1; transform:none;}
+.stagger.reveal-in > *:nth-child(1){transition-delay:0s;}
+.stagger.reveal-in > *:nth-child(2){transition-delay:.07s;}
+.stagger.reveal-in > *:nth-child(3){transition-delay:.14s;}
+.stagger.reveal-in > *:nth-child(4){transition-delay:.21s;}
+
+.ornament{display:flex; align-items:center; gap:18px; color:var(--line-strong); margin:8px 0;}
+.ornament::before,.ornament::after{content:''; flex:1; height:1px; background:var(--line);}
+.ornament svg{width:16px; height:16px; color:var(--accent);}
+
+.code{font-family:'SF Mono',ui-monospace,Menlo,monospace; font-size:12px; color:var(--soft);
+  background:var(--surface-2); border:1px solid var(--line); border-radius:var(--r-sm); padding:2px 7px;}
+
+.note{font-size:12.5px; color:var(--soft); display:flex; gap:9px; align-items:flex-start; margin-top:14px;}
+.note svg{width:14px; height:14px; flex:none; margin-top:2px; color:var(--accent);}
+
+/* toast (copy feedback) */
+.toast{position:fixed; bottom:26px; left:50%; transform:translateX(-50%) translateY(20px); opacity:0;
+  background:var(--ink-strong); color:var(--on-dark); font-size:13px; padding:11px 18px; border-radius:var(--r-sm);
+  box-shadow:var(--sh-3); transition:all var(--t) var(--ease); z-index:50; pointer-events:none;}
+.toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
+
+/* =================== RESPONSIVE =================== */
+.menu-btn{display:none;}
+@media(max-width:860px){
+  .side{position:fixed; left:0; top:0; z-index:40; transform:translateX(-100%); transition:transform var(--t) var(--ease-snappy); box-shadow:var(--sh-3);}
+  body.nav-open .side{transform:translateX(0);}
+  .scrim{position:fixed; inset:0; background:rgba(20,22,24,.4); opacity:0; pointer-events:none; z-index:35; transition:opacity var(--t) var(--ease);}
+  body.nav-open .scrim{opacity:1; pointer-events:auto;}
+  .menu-btn{display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border:1px solid var(--line-strong); border-radius:var(--r-sm); background:transparent; color:var(--ink); cursor:pointer;}
+  .menu-btn svg{width:17px; height:17px;}
+  .content{padding:40px 22px 100px;}
+  .top{padding:0 22px;}
+  .demo{padding:26px 20px;}
+  .type-row{flex-direction:column; gap:8px;}
+  .type-spec{width:auto;}
+  .t-display{font-size:40px;} .t-h1{font-size:32px;}
+}
+/* === PESO EXATO DIOR — serifa Atacama via eixos da fonte variável ===
+   Dior renderiza Atacama em wght 300 + CNTR 20, XHGT 0, wdth 100.
+   Hierarquia vem do TAMANHO, não do peso (títulos uniformemente leves). */
+h1,h2,h3,h4,h5,
+.t-display,.t-h1,.t-h2,.t-h3,.t-h4,
+.hero h1,.hero h1 em,.sec-head h2,
+.acc-h,.pcard-body .nm,.card h4{
+  font-weight:300;
+  font-variation-settings:"wght" 300,"wdth" 100,"CNTR" 20,"XHGT" 0;
+}
+/* wordmark da marca: um respiro a mais de presença (400) */
+.brand-mark .lb{
+  font-weight:400;
+  font-variation-settings:"wght" 400,"wdth" 100,"CNTR" 20,"XHGT" 0;
+}
+
+@media(prefers-reduced-motion:reduce){*{transition:none !important; animation:none !important;}}
+</style>
+</head>
+<body>
+<div class="scrim" data-close-nav></div>
+<div class="app">
+
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="side" id="side">
+    <div class="side-brand">
+      <div class="brand-mark"><span class="lb">La&nbsp;Belle&nbsp;Scens</span><span class="dot"></span></div>
+      <div class="brand-sub">Design System</div>
+    </div>
+    <nav class="side-nav" id="nav"><!-- preenchido por JS --></nav>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <div class="main">
+    <header class="top">
+      <div style="display:flex;align-items:center;gap:14px;">
+        <button class="menu-btn" id="menuBtn" aria-label="Menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+        </button>
+        <span class="top-l">Fundamentos & Componentes</span>
+      </div>
+      <div class="top-r">
+        <button class="theme-toggle" id="themeBtn">
+          <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+          <span id="themeLabel">Claro</span>
+        </button>
+      </div>
+    </header>
+
+    <div class="content">
+
+      <!-- HERO -->
+      <div class="hero">
+        <div class="eyebrow">Marketing Olfativo · Maison de Parfum</div>
+        <h1>O sistema de design <em>La&nbsp;Belle&nbsp;Scens</em>.</h1>
+        <p class="hero-lead">A linguagem visual que veste cada produto, ambiente e ponto de contato — do difusor em comodato ao portal do cliente. Sobriedade, respiro e elegância editorial.</p>
+        <div class="hero-meta">
+          <div><b>2</b>famílias tipográficas</div>
+          <div><b>14</b>tokens de cor</div>
+          <div><b>16</b>grupos de componentes</div>
+          <div><b>1.0</b>versão</div>
+        </div>
+      </div>
+
+      <!-- ============ FUNDAMENTOS ============ -->
+
+      <section id="cores">
+        <div class="sec-head"><div class="sec-kicker">Fundamentos</div><h2>Cores</h2>
+          <p>Base off-white com tinta grafite e linhas finíssimas. O acento champagne é raro — entra em um único ponto de destaque, nunca como cor de preenchimento. Clique num swatch para copiar.</p></div>
+
+        <div class="demo">
+          <div class="demo-label">Neutros & superfícies</div>
+          <div class="swatches" data-swatch-grid>
+            <div class="swatch" data-hex="#f8f8f8"><div class="chip" style="background:#f8f8f8"></div><div class="nm">Fundo</div><div class="hx">#f8f8f8</div></div>
+            <div class="swatch" data-hex="#ffffff"><div class="chip" style="background:#ffffff"></div><div class="nm">Superfície</div><div class="hx">#ffffff</div></div>
+            <div class="swatch" data-hex="#f1f1ef"><div class="chip" style="background:#f1f1ef"></div><div class="nm">Superfície 2</div><div class="hx">#f1f1ef</div></div>
+            <div class="swatch" data-hex="#33383c"><div class="chip" style="background:#33383c"></div><div class="nm">Tinta</div><div class="hx">#33383c</div></div>
+            <div class="swatch" data-hex="#1f2326"><div class="chip" style="background:#1f2326"></div><div class="nm">Tinta forte</div><div class="hx">#1f2326</div></div>
+            <div class="swatch" data-hex="#7b8487"><div class="chip" style="background:#7b8487"></div><div class="nm">Suave</div><div class="hx">#7b8487</div></div>
+            <div class="swatch" data-hex="#acb2b4"><div class="chip" style="background:#acb2b4"></div><div class="nm">Linha forte</div><div class="hx">#acb2b4</div></div>
+          </div>
+        </div>
+
+        <div class="demo">
+          <div class="demo-label">Acento & semânticos</div>
+          <div class="swatches" data-swatch-grid>
+            <div class="swatch" data-hex="#9c8458"><div class="chip" style="background:#9c8458"></div><div class="nm">Acento</div><div class="hx">#9c8458</div></div>
+            <div class="swatch" data-hex="#f3eee2"><div class="chip" style="background:#f3eee2"></div><div class="nm">Acento suave</div><div class="hx">#f3eee2</div></div>
+            <div class="swatch" data-hex="#5a7d63"><div class="chip" style="background:#5a7d63"></div><div class="nm">Sucesso</div><div class="hx">#5a7d63</div></div>
+            <div class="swatch" data-hex="#9a7d3c"><div class="chip" style="background:#9a7d3c"></div><div class="nm">Atenção</div><div class="hx">#9a7d3c</div></div>
+            <div class="swatch" data-hex="#9a5a5a"><div class="chip" style="background:#9a5a5a"></div><div class="nm">Erro</div><div class="hx">#9a5a5a</div></div>
+            <div class="swatch" data-hex="#5a6f8a"><div class="chip" style="background:#5a6f8a"></div><div class="nm">Info</div><div class="hx">#5a6f8a</div></div>
+          </div>
+          <div class="note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+            Semânticos são dessaturados de propósito — um vermelho calmo, nunca alarmante. Luxo não grita.</div>
+        </div>
+      </section>
+
+      <section id="tipografia">
+        <div class="sec-head"><div class="sec-kicker">Fundamentos</div><h2>Tipografia</h2>
+          <p>Dupla editorial: serifa elegante para títulos e momentos de marca, grotesca neutra para interface e leitura. Pesos leves nos títulos, tracking negativo, muito ar.</p></div>
+
+        <div class="demo">
+          <div class="demo-label">Serifa display — <span class="code">--serif</span> (Atacama / Cormorant Garamond)</div>
+          <div class="type-row"><div class="type-spec">Display · 56 · 300</div><div class="type-sample t-display">Une fragrance</div></div>
+          <div class="type-row"><div class="type-spec">H1 · 42 · 300</div><div class="type-sample t-h1">A assinatura de cada ambiente</div></div>
+          <div class="type-row"><div class="type-spec">H2 · 32 · 400</div><div class="type-sample t-h2">Difusão calibrada, presença discreta</div></div>
+          <div class="type-row"><div class="type-spec">H3 · 25 · 400</div><div class="type-sample t-h3">O ritual do refil mensal</div></div>
+          <div class="type-row"><div class="type-spec">H4 · 20 · 500</div><div class="type-sample t-h4">Comodato & recorrência</div></div>
+        </div>
+
+        <div class="demo">
+          <div class="demo-label">Grotesca — <span class="code">--sans</span> (Hellix / Manrope)</div>
+          <div class="type-row"><div class="type-spec">Lead · 18 · 400</div><div class="type-sample t-lead">Levamos identidade olfativa a hotéis, clínicas e flagship stores — com máquinas em comodato e refil recorrente.</div></div>
+          <div class="type-row"><div class="type-spec">Body · 16 · 400</div><div class="type-sample t-body">A calibragem é feita por sensores de presença e horário, garantindo intensidade constante sem saturar o ambiente. Cada zona recebe uma curva própria.</div></div>
+          <div class="type-row"><div class="type-spec">Small · 14 · 400</div><div class="type-sample t-small">Acompanhe o consumo de essência e a próxima troca diretamente no painel.</div></div>
+          <div class="type-row"><div class="type-spec">Caption · 12 · 500</div><div class="type-sample t-cap">Atualizado há 2 horas · Zona Lobby</div></div>
+          <div class="type-row"><div class="type-spec">Eyebrow · 11 · .2em</div><div class="type-sample t-eyebrow">Marketing Olfativo</div></div>
+        </div>
+      </section>
+
+      <section id="titulos">
+        <div class="sec-head"><div class="sec-kicker">Fundamentos</div><h2>Títulos & cores de título</h2>
+          <p>Hierarquia de cabeçalhos com a cor própria de cada nível: kicker em acento, título em tinta forte, subtítulo em suave.</p></div>
+        <div class="demo">
+          <div class="col" style="gap:30px;">
+            <div class="stack">
+              <div class="sec-kicker" style="margin:0;">Coleção · Primavera</div>
+              <h2 class="t-h1" style="margin:0;">Essências assinatura</h2>
+              <p class="t-lead" style="color:var(--soft);">Seis composições autorais, desenhadas para diferentes temperaturas de ambiente.</p>
+            </div>
+            <div class="ornament"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 3c3 4 3 6 0 9-3-3-3-5 0-9zM12 12v9"/></svg></div>
+            <div class="stack">
+              <h3 class="t-h3" style="margin:0;">Título de seção</h3>
+              <p class="t-body" style="color:var(--soft);">Subtítulo em tom suave, com leitura confortável e contraste calibrado.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="espacamento">
+        <div class="sec-head"><div class="sec-kicker">Fundamentos</div><h2>Espaçamento, raio & elevação</h2>
+          <p>Escala base 4. Respiro generoso entre blocos. Raios contidos. Sombras quase imperceptíveis — a profundidade vem da linha, não da sombra.</p></div>
+        <div class="demo">
+          <div class="demo-label">Escala de espaçamento (4 · 8 · 12 · 16 · 24 · 32 · 48 · 64)</div>
+          <div class="row" style="align-items:flex-end;gap:12px;">
+            <div class="stack" style="align-items:center;gap:6px;"><div style="width:4px;height:4px;background:var(--ink);"></div><span class="t-cap">4</span></div>
+            <div class="stack" style="align-items:center;gap:6px;"><div style="width:8px;height:8px;background:var(--ink);"></div><span class="t-cap">8</span></div>
+            <div class="stack" style="align-items:center;gap:6px;"><div style="width:12px;height:12px;background:var(--ink);"></div><span class="t-cap">12</span></div>
+            <div class="stack" style="align-items:center;gap:6px;"><div style="width:16px;height:16px;background:var(--ink);"></div><span class="t-cap">16</span></div>
+            <div class="stack" style="align-items:center;gap:6px;"><div style="width:24px;height:24px;background:var(--ink);"></div><span class="t-cap">24</span></div>
+            <div class="stack" style="align-items:center;gap:6px;"><div style="width:32px;height:32px;background:var(--ink);"></div><span class="t-cap">32</span></div>
+            <div class="stack" style="align-items:center;gap:6px;"><div style="width:48px;height:48px;background:var(--ink);"></div><span class="t-cap">48</span></div>
+            <div class="stack" style="align-items:center;gap:6px;"><div style="width:64px;height:64px;background:var(--ink);"></div><span class="t-cap">64</span></div>
+          </div>
+          <div class="divider-soft"></div>
+          <div class="demo-label">Raio & elevação</div>
+          <div class="row" style="gap:24px;">
+            <div class="stack" style="align-items:center;gap:10px;"><div style="width:84px;height:60px;background:var(--surface-2);border:1px solid var(--line);border-radius:4px;"></div><span class="t-cap">4 · xs</span></div>
+            <div class="stack" style="align-items:center;gap:10px;"><div style="width:84px;height:60px;background:var(--surface-2);border:1px solid var(--line);border-radius:6px;"></div><span class="t-cap">6 · sm</span></div>
+            <div class="stack" style="align-items:center;gap:10px;"><div style="width:84px;height:60px;background:var(--surface-2);border:1px solid var(--line);border-radius:8px;"></div><span class="t-cap">8 · md</span></div>
+            <div class="stack" style="align-items:center;gap:10px;"><div style="width:84px;height:60px;background:var(--surface);border-radius:8px;box-shadow:var(--sh-1);"></div><span class="t-cap">sh-1</span></div>
+            <div class="stack" style="align-items:center;gap:10px;"><div style="width:84px;height:60px;background:var(--surface);border-radius:8px;box-shadow:var(--sh-2);"></div><span class="t-cap">sh-2</span></div>
+            <div class="stack" style="align-items:center;gap:10px;"><div style="width:84px;height:60px;background:var(--surface);border-radius:8px;box-shadow:var(--sh-3);"></div><span class="t-cap">sh-3</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="icones">
+        <div class="sec-head"><div class="sec-kicker">Fundamentos</div><h2>Ícones</h2>
+          <p>Linha fina (stroke 1.4), cantos suaves, traço uniforme. Funcionais, nunca decorativos — sempre acompanhados de rótulo quando ambíguos.</p></div>
+        <div class="demo"><div class="icons" id="iconGrid"></div></div>
+      </section>
+
+      <!-- ============ COMPONENTES ============ -->
+
+      <section id="botoes">
+        <div class="sec-head"><div class="sec-kicker">Componentes</div><h2>Botões</h2>
+          <p>CTA primário em grafite (assinatura Dior), secundário em outline que inverte no hover, fantasma, acento raro e editorial em caixa-alta com filete. Hover &lt; 100ms, active afunda 1px.</p></div>
+
+        <div class="demo">
+          <div class="demo-label">Variantes</div>
+          <div class="row">
+            <button class="btn btn-primary">Confirmar pedido</button>
+            <button class="btn btn-secondary">Saber mais</button>
+            <button class="btn btn-ghost">Cancelar</button>
+            <button class="btn btn-accent">Assinar plano</button>
+            <a class="btn btn-editorial">Descobrir a coleção
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </div>
+        </div>
+
+        <div class="demo">
+          <div class="demo-label">Tamanhos · ícone · bloco</div>
+          <div class="row" style="margin-bottom:22px;">
+            <button class="btn btn-primary btn-sm">Pequeno</button>
+            <button class="btn btn-primary">Médio</button>
+            <button class="btn btn-primary btn-lg">Grande</button>
+            <button class="btn btn-secondary">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14M5 12h14"/></svg>Com ícone</button>
+          </div>
+          <button class="btn btn-primary btn-block" style="max-width:340px;">Botão de bloco</button>
+        </div>
+
+        <div class="demo">
+          <div class="demo-label">Estados — hover · active · focus · disabled · loading</div>
+          <div class="row">
+            <button class="btn btn-primary">Normal</button>
+            <button class="btn btn-primary btn-loading">Carregando</button>
+            <button class="btn btn-primary" disabled>Desativado</button>
+            <button class="btn btn-secondary" disabled>Desativado</button>
+          </div>
+          <div class="note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+            Foco visível: anel champagne com gap (use <span class="code">Tab</span> para ver). Transições <span class="code">.4s cubic-bezier(.23,1,.32,1)</span>.</div>
+        </div>
+      </section>
+
+      <section id="links">
+        <div class="sec-head"><div class="sec-kicker">Componentes</div><h2>Links</h2>
+          <p>Sublinhado que se desenha da esquerda no hover, link suave para navegação secundária e link-seta para "continuar lendo".</p></div>
+        <div class="demo">
+          <div class="row" style="gap:36px;">
+            <a class="lnk">Sublinhado animado</a>
+            <a class="lnk lnk-muted">Link suave</a>
+            <a class="lnk-arrow">Ver detalhes do plano
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+          </div>
+        </div>
+      </section>
+
+      <section id="formularios">
+        <div class="sec-head"><div class="sec-kicker">Componentes</div><h2>Formulários</h2>
+          <p>Input de filete (assinatura Dior) para formulários editoriais, e input com borda para o sistema. Foco em tinta, erro dessaturado, helper text discreto.</p></div>
+
+        <div class="demo">
+          <div class="demo-label">Input de filete (underline)</div>
+          <div class="row" style="gap:40px;align-items:flex-end;">
+            <div class="field"><label>E-mail</label><input class="inp-line" type="email" placeholder="voce@empresa.com" /></div>
+            <div class="field"><label>Nome</label><input class="inp-line" value="Marcelo" /></div>
+            <div class="field"><label>Desativado</label><input class="inp-line" placeholder="—" disabled /></div>
+          </div>
+        </div>
+
+        <div class="demo">
+          <div class="demo-label">Input com borda · estados</div>
+          <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(240px,1fr));">
+            <div class="field"><label>Padrão</label><input class="inp" placeholder="Digite aqui" /></div>
+            <div class="field"><label>Foco (clique)</label><input class="inp" placeholder="Borda em tinta + anel" /></div>
+            <div class="field"><label>Erro</label><input class="inp err" value="cnpj inválido" /><span class="help err">Informe um CNPJ válido.</span></div>
+            <div class="field"><label>Desativado</label><input class="inp" placeholder="Indisponível" disabled /></div>
+            <div class="field"><label>Seleção</label><select class="inp"><option>Lobby</option><option>Recepção</option><option>Spa</option></select></div>
+            <div class="field" style="grid-column:span 2;max-width:none;"><label>Observações</label><textarea class="inp" placeholder="Detalhes da instalação…"></textarea></div>
+          </div>
+        </div>
+
+        <div class="demo">
+          <div class="demo-label">Checkbox · Radio · Toggle</div>
+          <div class="row" style="gap:44px;align-items:flex-start;">
+            <div class="stack">
+              <label class="choice"><input type="checkbox" checked /><span class="cbx"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5"/></svg></span>Refil automático</label>
+              <label class="choice"><input type="checkbox" /><span class="cbx"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5"/></svg></span>Receber relatório mensal</label>
+              <label class="choice"><input type="checkbox" disabled /><span class="cbx"><svg viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5"/></svg></span>Indisponível</label>
+            </div>
+            <div class="stack">
+              <label class="choice"><input type="radio" name="plano" checked /><span class="rdo"></span>Comodato</label>
+              <label class="choice"><input type="radio" name="plano" /><span class="rdo"></span>Compra do equipamento</label>
+              <label class="choice"><input type="radio" name="plano" disabled /><span class="rdo"></span>Sob consulta</label>
+            </div>
+            <div class="stack">
+              <label class="choice"><input type="checkbox" checked /><span class="tgl"></span>Difusão noturna</label>
+              <label class="choice"><input type="checkbox" /><span class="tgl"></span>Modo economia</label>
+              <label class="choice"><input type="checkbox" disabled checked /><span class="tgl"></span>Bloqueado</label>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="badges">
+        <div class="sec-head"><div class="sec-kicker">Componentes</div><h2>Badges, pills & status</h2>
+          <p>Pílula cinza para rótulos, contorno para categorias, acento para destaque. Status com dot semântico — texto em suave.</p></div>
+        <div class="demo">
+          <div class="row" style="margin-bottom:24px;">
+            <span class="pill">Novo</span>
+            <span class="pill pill-outline">Categoria</span>
+            <span class="pill pill-accent">Assinatura</span>
+            <span class="pill"><span class="dot dot-success"></span>Ativo</span>
+            <span class="pill"><span class="dot dot-warn"></span>Troca em breve</span>
+          </div>
+          <div class="row" style="gap:30px;">
+            <span class="status"><span class="dot dot-success"></span>Operando</span>
+            <span class="status"><span class="dot dot-warn"></span>Refil baixo</span>
+            <span class="status"><span class="dot dot-error"></span>Offline</span>
+            <span class="status"><span class="dot dot-info"></span>Em rota</span>
+            <span class="status"><span class="dot dot-soft"></span>Pausado</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="cards">
+        <div class="sec-head"><div class="sec-kicker">Componentes</div><h2>Cards</h2>
+          <p>Card de conteúdo com borda fina e lift suave no hover; card de produto com mídia, título serifado e preço tabular.</p></div>
+        <div class="demo">
+          <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));">
+            <div class="card">
+              <div class="card-kicker">Comodato</div>
+              <h4>Difusor Atelier</h4>
+              <p>Cobertura até 200m². Calibragem por sensor de presença e timer por zona.</p>
+            </div>
+            <div class="pcard">
+              <div class="pcard-media"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M9 3h6v3l2 3v10a2 2 0 01-2 2H9a2 2 0 01-2-2V9l2-3V3z"/><path d="M9 6h6"/></svg></div>
+              <div class="pcard-body">
+                <div class="nm">Bois de Lumière</div>
+                <div class="ds">Essência amadeirada · 500ml</div>
+                <div class="ft"><span class="pr">R$ 289</span><span class="pill pill-outline">Refil</span></div>
+              </div>
+            </div>
+            <div class="pcard">
+              <div class="pcard-media"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 3c3 4 3 6 0 9-3-3-3-5 0-9z"/><path d="M12 12v9M8 21h8"/></svg></div>
+              <div class="pcard-body">
+                <div class="nm">Fleur d'Aube</div>
+                <div class="ds">Essência floral · 500ml</div>
+                <div class="ft"><span class="pr">R$ 312</span><span class="pill pill-accent">Assinatura</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="tabela">
+        <div class="sec-head"><div class="sec-kicker">Componentes</div><h2>Tabela</h2>
+          <p>Divisores finos, cabeçalho em caixa-alta suave, hover de linha discreto, números tabulares alinhados à direita.</p></div>
+        <div class="demo">
+          <table class="tbl">
+            <thead><tr><th>Cliente</th><th>Zona</th><th>Status</th><th class="num">Refil restante</th></tr></thead>
+            <tbody>
+              <tr><td>Hotel Fasano</td><td>Lobby</td><td><span class="status"><span class="dot dot-success"></span>Operando</span></td><td class="num">78%</td></tr>
+              <tr><td>Clínica Vita</td><td>Recepção</td><td><span class="status"><span class="dot dot-warn"></span>Troca em breve</span></td><td class="num">19%</td></tr>
+              <tr><td>Flagship Iguatemi</td><td>Vitrine</td><td><span class="status"><span class="dot dot-error"></span>Offline</span></td><td class="num">0%</td></tr>
+              <tr><td>Spa Lumière</td><td>Sala 3</td><td><span class="status"><span class="dot dot-info"></span>Em rota</span></td><td class="num">44%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="feedback">
+        <div class="sec-head"><div class="sec-kicker">Componentes</div><h2>Alertas & tooltip</h2>
+          <p>Avisos com fundo dessaturado e ícone de linha. Tooltip escuro, pequeno, com seta — aparece com fade suave.</p></div>
+        <div class="demo">
+          <div class="col">
+            <div class="alert alert-success"><svg class="ai" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 6L9 17l-5-5"/></svg><div><b>Pedido confirmado</b><p>A instalação foi agendada para terça-feira, 14h.</p></div></div>
+            <div class="alert alert-warn"><svg class="ai" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 9v4M12 17h.01M10.3 3.9L2.4 18a2 2 0 001.7 3h15.8a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/></svg><div><b>Refil em nível baixo</b><p>Duas zonas precisam de troca nos próximos 7 dias.</p></div></div>
+            <div class="alert alert-error"><svg class="ai" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6M9 9l6 6"/></svg><div><b>Difusor offline</b><p>Sem comunicação há 3 horas. Equipe acionada.</p></div></div>
+            <div class="alert alert-info"><svg class="ai" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div><b>Nova essência disponível</b><p>Conheça a coleção de inverno no catálogo.</p></div></div>
+          </div>
+          <div class="divider-soft"></div>
+          <div class="row" style="gap:30px;">
+            <span class="tip"><button class="btn btn-secondary btn-sm">Passe o mouse</button><span class="bubble">Calibragem automática a cada 24h</span></span>
+            <span class="tip"><span class="pill"><span class="dot dot-warn"></span>19%</span><span class="bubble">Troca recomendada esta semana</span></span>
+          </div>
+        </div>
+      </section>
+
+      <section id="navegacao">
+        <div class="sec-head"><div class="sec-kicker">Componentes</div><h2>Tabs & acordeão</h2>
+          <p>Tabs com filete inferior animado. Acordeão estilo FAQ Dior — cabeçalho serifado, ícone "+" que gira para "×".</p></div>
+        <div class="demo">
+          <div class="tabs" id="tabs">
+            <button class="tab active" data-tab="0">Visão geral</button>
+            <button class="tab" data-tab="1">Calibragem</button>
+            <button class="tab" data-tab="2">Logística</button>
+          </div>
+          <div class="tab-panel active" data-panel="0">Painel único com status de cada difusor, consumo de essência e próximas trocas por zona.</div>
+          <div class="tab-panel" data-panel="1">Curvas de intensidade por horário e presença, ajustáveis remotamente sem visita técnica.</div>
+          <div class="tab-panel" data-panel="2">Rotas de troca otimizadas por região, com janela de atendimento e confirmação do cliente.</div>
+        </div>
+        <div class="demo">
+          <div class="acc" id="acc">
+            <div class="acc-item open"><button class="acc-h">Como funciona o comodato?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14M5 12h14"/></svg></button><div class="acc-body"><div class="acc-body-inner">O equipamento é instalado sem custo de aquisição; você paga apenas a recorrência de essência e manutenção. A propriedade do difusor permanece com a La Belle Scens.</div></div></div>
+            <div class="acc-item"><button class="acc-h">Posso trocar a fragrância?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14M5 12h14"/></svg></button><div class="acc-body"><div class="acc-body-inner">Sim. A troca de essência pode ser solicitada a qualquer momento pelo painel, e entra na próxima rota de atendimento da sua região.</div></div></div>
+            <div class="acc-item"><button class="acc-h">Qual a cobertura por difusor?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14M5 12h14"/></svg></button><div class="acc-body"><div class="acc-body-inner">Cada modelo cobre uma metragem específica — do Atelier (200m²) ao Grand (até 600m²). A recomendação é feita após visita de mapeamento.</div></div></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="efeitos">
+        <div class="sec-head"><div class="sec-kicker">Efeitos</div><h2>Movimento & revelações</h2>
+          <p>Motion quase invisível — fades suaves, micro-deslocamentos, imagem que respira no hover. Nada que distraia do produto. Role para ver as revelações dispararem.</p></div>
+
+        <div class="demo reveal" data-reveal>
+          <div class="demo-label">Revelação por máscara (line mask)</div>
+          <h2 class="t-h1 reveal-mask" style="margin:0;"><span>A elegância está no que se omite.</span></h2>
+        </div>
+
+        <div class="demo reveal" data-reveal>
+          <div class="demo-label">Entrada escalonada (stagger 70ms)</div>
+          <div class="row stagger">
+            <span class="pill">Difusão</span><span class="pill">Calibragem</span><span class="pill">Recorrência</span><span class="pill">Telemetria</span>
+          </div>
+        </div>
+
+        <div class="demo">
+          <div class="demo-label">Hover de imagem (scale lento)</div>
+          <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));">
+            <div class="fx-img"><span class="cap">Lobby</span><span class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M3 16l5-5 4 4 3-3 6 6"/><circle cx="8" cy="8" r="2"/><rect x="2" y="3" width="20" height="18" rx="2"/></svg></span></div>
+            <div class="fx-img"><span class="cap">Spa</span><span class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M3 16l5-5 4 4 3-3 6 6"/><circle cx="8" cy="8" r="2"/><rect x="2" y="3" width="20" height="18" rx="2"/></svg></span></div>
+            <div class="fx-img"><span class="cap">Boutique</span><span class="ph"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M3 16l5-5 4 4 3-3 6 6"/><circle cx="8" cy="8" r="2"/><rect x="2" y="3" width="20" height="18" rx="2"/></svg></span></div>
+          </div>
+        </div>
+      </section>
+
+      <footer style="padding:60px 0 0;text-align:center;">
+        <div class="ornament" style="margin-bottom:30px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 3c3 4 3 6 0 9-3-3-3-5 0-9zM12 12v9"/></svg></div>
+        <div class="brand-mark" style="justify-content:center;margin-bottom:10px;"><span class="lb" style="font-size:26px;">La&nbsp;Belle&nbsp;Scens</span><span class="dot"></span></div>
+        <p class="t-cap" style="color:var(--soft);">Design System v1.0 · Marketing Olfativo · Hovio Venture Builder</p>
+        <p class="t-cap" style="color:var(--soft-2);margin-top:18px;max-width:520px;margin-left:auto;margin-right:auto;line-height:1.6;">
+          Fontes de produção (Atacama · Hellix) são licenciadas — Newglyph &amp; Displaay. Este catálogo usa substitutas livres (Cormorant Garamond · Hanken Grotesk) com mesma intenção tipográfica.</p>
+      </footer>
+
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast">Copiado</div>
+
+<script>
+/* ===== Navegação (gerada) + scroll-spy ===== */
+const NAV = [
+  {group:'Fundamentos', items:[
+    {id:'cores',label:'Cores'},{id:'tipografia',label:'Tipografia'},{id:'titulos',label:'Títulos'},
+    {id:'espacamento',label:'Espaçamento & raio'},{id:'icones',label:'Ícones'}]},
+  {group:'Componentes', items:[
+    {id:'botoes',label:'Botões'},{id:'links',label:'Links'},{id:'formularios',label:'Formulários'},
+    {id:'badges',label:'Badges & status'},{id:'cards',label:'Cards'},{id:'tabela',label:'Tabela'},
+    {id:'feedback',label:'Alertas & tooltip'},{id:'navegacao',label:'Tabs & acordeão'}]},
+  {group:'Efeitos', items:[{id:'efeitos',label:'Movimento'}]},
+];
+const navEl = document.getElementById('nav');
+NAV.forEach(g=>{
+  const wrap=document.createElement('div'); wrap.className='nav-group';
+  wrap.innerHTML=`<button class="nav-group-h">${g.group}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 9l6 6 6-6"/></svg></button><div class="nav-items">${g.items.map(i=>`<a href="#${i.id}" data-id="${i.id}">${i.label}</a>`).join('')}</div>`;
+  navEl.appendChild(wrap);
+  const items=wrap.querySelector('.nav-items'); items.style.height=items.scrollHeight+'px';
+  wrap.querySelector('.nav-group-h').addEventListener('click',()=>{
+    if(wrap.classList.contains('collapsed')){wrap.classList.remove('collapsed'); items.style.height=items.scrollHeight+'px';}
+    else{items.style.height=items.scrollHeight+'px'; requestAnimationFrame(()=>{wrap.classList.add('collapsed'); items.style.height='0px';});}
+  });
+});
+const links=[...document.querySelectorAll('.nav-items a')];
+links.forEach(a=>a.addEventListener('click',()=>document.body.classList.remove('nav-open')));
+const spy=new IntersectionObserver(es=>{
+  es.forEach(e=>{if(e.isIntersecting){
+    links.forEach(l=>l.classList.toggle('active', l.dataset.id===e.target.id));
+  }});
+},{rootMargin:'-30% 0px -65% 0px'});
+document.querySelectorAll('section[id]').forEach(s=>spy.observe(s));
+
+/* ===== Tema ===== */
+const root=document.documentElement, tBtn=document.getElementById('themeBtn'),
+      tLabel=document.getElementById('themeLabel'), tIcon=document.getElementById('themeIcon');
+const moon='<path d="M21 12.8A9 9 0 1111.2 3 7 7 0 0021 12.8z"/>';
+const sun='<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>';
+tBtn.addEventListener('click',()=>{
+  const dark=root.getAttribute('data-theme')==='dark';
+  root.setAttribute('data-theme',dark?'light':'dark');
+  tLabel.textContent=dark?'Claro':'Escuro'; tIcon.innerHTML=dark?sun:moon;
+});
+
+/* ===== Menu mobile ===== */
+document.getElementById('menuBtn').addEventListener('click',()=>document.body.classList.toggle('nav-open'));
+document.querySelector('[data-close-nav]').addEventListener('click',()=>document.body.classList.remove('nav-open'));
+
+/* ===== Copiar cor ===== */
+const toast=document.getElementById('toast'); let toastT;
+document.querySelectorAll('.swatch').forEach(s=>s.addEventListener('click',()=>{
+  const hex=s.dataset.hex; navigator.clipboard&&navigator.clipboard.writeText(hex);
+  toast.textContent=hex+' copiado'; toast.classList.add('show');
+  clearTimeout(toastT); toastT=setTimeout(()=>toast.classList.remove('show'),1400);
+}));
+
+/* ===== Tabs ===== */
+const tabs=document.querySelectorAll('#tabs .tab');
+tabs.forEach(t=>t.addEventListener('click',()=>{
+  tabs.forEach(x=>x.classList.remove('active')); t.classList.add('active');
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.toggle('active',p.dataset.panel===t.dataset.tab));
+}));
+
+/* ===== Acordeão ===== */
+document.querySelectorAll('#acc .acc-item').forEach(item=>{
+  const body=item.querySelector('.acc-body');
+  if(item.classList.contains('open')) body.style.height=body.firstElementChild.offsetHeight+'px';
+  item.querySelector('.acc-h').addEventListener('click',()=>{
+    const open=item.classList.contains('open');
+    if(open){body.style.height=body.firstElementChild.offsetHeight+'px'; requestAnimationFrame(()=>{item.classList.remove('open'); body.style.height='0px';});}
+    else{item.classList.add('open'); body.style.height=body.firstElementChild.offsetHeight+'px';}
+  });
+});
+
+/* ===== Reveal on scroll ===== */
+const rev=new IntersectionObserver(es=>{
+  es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('reveal-in'); rev.unobserve(e.target);}});
+},{threshold:.25});
+document.querySelectorAll('[data-reveal]').forEach(el=>rev.observe(el));
+
+/* ===== Ícones de linha fina ===== */
+const ICONS={
+  Difusor:'<path d="M9 3h6v3l2 3v10a2 2 0 01-2 2H9a2 2 0 01-2-2V9l2-3V3z"/><path d="M9 6h6"/>',
+  Essência:'<path d="M12 3c3 4 3 6 0 9-3-3-3-5 0-9z"/><path d="M12 12v9M8 21h8"/>',
+  Calibrar:'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/>',
+  Rota:'<circle cx="6" cy="6" r="2"/><circle cx="18" cy="18" r="2"/><path d="M8 6h7a3 3 0 010 6H9a3 3 0 000 6h7"/>',
+  Cliente:'<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/>',
+  Painel:'<rect x="3" y="3" width="7" height="9" rx="1"/><rect x="14" y="3" width="7" height="5" rx="1"/><rect x="14" y="12" width="7" height="9" rx="1"/><rect x="3" y="16" width="7" height="5" rx="1"/>',
+  Agenda:'<rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>',
+  Sensor:'<path d="M12 2a10 10 0 00-7 17M12 6a6 6 0 00-4.2 10M12 10a2 2 0 102 2"/>',
+  Estoque:'<path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 7v10l9 4 9-4V7"/>',
+  Contrato:'<path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h6"/>',
+  Agente:'<rect x="4" y="6" width="16" height="12" rx="2"/><path d="M9 12h.01M15 12h.01M12 2v4"/>',
+  Config:'<circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 00-.1-1l2-1.5-2-3.4-2.3 1a7 7 0 00-1.7-1l-.3-2.6h-4l-.3 2.6a7 7 0 00-1.7 1l-2.3-1-2 3.4 2 1.5a7 7 0 000 2l-2 1.5 2 3.4 2.3-1a7 7 0 001.7 1l.3 2.6h4l.3-2.6a7 7 0 001.7-1l2.3 1 2-3.4-2-1.5a7 7 0 00.1-1z"/>',
+};
+const ig=document.getElementById('iconGrid');
+Object.entries(ICONS).forEach(([nm,p])=>{
+  const d=document.createElement('div'); d.className='ico';
+  d.innerHTML=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">${p}</svg><span>${nm}</span>`;
+  ig.appendChild(d);
+});
+</script>
+</body>
+</html>
