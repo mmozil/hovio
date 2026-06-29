@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>La Belle Scens — Investimento</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Hanken+Grotesk:wght@300;400;500;600&display=swap');
+@font-face{font-family:'Atacama';src:url('/fonts/Atacama-VF.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap}
+@font-face{font-family:'Atacama';src:url('/fonts/Atacama-Italic-VF.woff2') format('woff2');font-weight:100 900;font-style:italic;font-display:swap}
+@font-face{font-family:'Hellix';src:url('/fonts/HellixVAR.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap}
+:root{
+  --bg:#f8f8f8;--surface:#fff;--ink:#33383c;--ink-strong:#1f2326;--soft:#7b8487;--soft-2:#9aa1a3;
+  --line:rgba(51,56,60,.11);--line-strong:#d3cdc2;--accent:#9c8458;--accent-ink:#6f5c37;--accent-soft:#efe9dd;
+  --serif:'Atacama','Cormorant Garamond',Georgia,serif;--sans:'Hellix','Hanken Grotesk',-apple-system,'Segoe UI',sans-serif;
+  --disp:"wght" 300,"wdth" 100,"CNTR" 20,"XHGT" 0;--nm:"wght" 400,"wdth" 100,"CNTR" 20,"XHGT" 0;--ease:cubic-bezier(.22,1,.36,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+@media(hover:hover){body{cursor:none}}
+a{color:inherit;text-decoration:none}
+
+.masthead{display:flex;align-items:center;justify-content:space-between;padding:22px 64px 18px;border-bottom:1px solid var(--line)}
+.logo{display:inline-flex;align-items:baseline;gap:8px}
+.logo .lb{font-family:var(--serif);font-size:26px;font-variation-settings:var(--nm);color:var(--ink-strong);letter-spacing:.02em}
+.logo .bdot{width:6px;height:6px;border-radius:50%;background:var(--accent);transform:translateY(-4px)}
+.crumb{display:flex;gap:18px;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--soft-2)}
+.crumb a{transition:color .3s var(--ease)}.crumb a:hover{color:var(--accent-ink)}
+.crumb a.cur{color:var(--ink-strong)}
+
+.hero{padding:40px 64px 6px;max-width:1340px;margin:0 auto}
+.kick{font-size:10px;letter-spacing:.34em;text-transform:uppercase;color:var(--accent-ink);margin-bottom:14px}
+.hero h1{font-family:var(--serif);font-weight:300;font-variation-settings:var(--disp);font-size:clamp(30px,4vw,50px);line-height:1.02;letter-spacing:-.022em;color:var(--ink-strong)}
+.hero h1 em{font-style:italic;color:var(--accent-ink)}
+.hero p{margin-top:14px;font-size:14px;line-height:1.6;color:var(--soft);max-width:620px}
+
+.wrap{max-width:1340px;margin:0 auto;padding:0 64px}
+.sec{padding:46px 0 8px}
+.shead{display:flex;align-items:baseline;justify-content:space-between;gap:20px;border-bottom:1px solid var(--line);padding-bottom:16px}
+.shead .stt{display:flex;align-items:baseline;gap:14px}
+.shead .stag{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--soft-2)}
+.shead .sname{font-family:var(--serif);font-weight:320;font-variation-settings:var(--disp);font-size:clamp(22px,2.4vw,30px);color:var(--ink-strong);letter-spacing:-.015em}
+.shead .sname em{font-style:italic;color:var(--accent-ink)}
+.shead .sdesc{font-size:12.5px;line-height:1.5;color:var(--soft);max-width:430px;text-align:right}
+
+/* módulo de opções — 3 colunas Dior */
+.opts{background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:0 1px 2px rgba(31,35,38,.05);display:grid;grid-template-columns:1fr 1fr 1fr;overflow:hidden;margin-top:22px}
+.opt{padding:28px 30px 30px;position:relative;display:flex;flex-direction:column}
+.opt + .opt{box-shadow:-1px 0 0 var(--line)}
+.opt.eng{background:linear-gradient(180deg,#fcfaf6,#fff 120px)}
+.opt .pick{position:absolute;top:0;left:0;right:0;height:3px;background:var(--accent);opacity:0;transition:opacity .3s}
+.opt.eng .pick{opacity:1}
+.opt .obadge{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent-ink);background:var(--accent-soft);border-radius:20px;padding:3px 10px;align-self:flex-start;margin-bottom:14px;visibility:hidden}
+.opt.eng .obadge{visibility:visible}
+.opt .oname{font-size:17px;font-weight:500;color:var(--ink-strong);letter-spacing:.01em}
+.opt.eng .oname{color:var(--accent-ink)}
+.opt .opos{font-size:12px;line-height:1.5;color:var(--soft);margin-top:7px;min-height:36px}
+.price{margin-top:18px;padding:16px 0 4px;border-top:1px solid var(--line)}
+.price .pr{display:flex;align-items:baseline;gap:6px}
+.price .cur{font-size:12px;color:var(--soft);font-weight:500}
+.price .val{font-size:25px;font-weight:600;color:var(--ink-strong);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.price .plab{font-size:10.5px;letter-spacing:.04em;color:var(--soft-2);margin-top:2px}
+.price .mo{margin-top:11px}
+.price .mo .val{font-size:18px}
+.feats{list-style:none;margin:20px 0 0;padding:18px 0 0;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:9px;flex:1}
+.feats li{font-size:12.5px;line-height:1.45;color:var(--ink);padding-left:18px;position:relative}
+.feats li::before{content:'';position:absolute;left:0;top:6px;width:6px;height:6px;border-radius:50%;background:var(--line-strong)}
+.opt.eng .feats li::before{background:var(--accent)}
+.feats li.mut{color:var(--soft-2)}.feats li.mut::before{background:var(--soft-2);opacity:.5}
+.ofor{margin-top:20px;padding-top:14px;border-top:1px solid var(--line);font-size:11px;line-height:1.5;color:var(--soft)}
+.ofor b{color:var(--ink-strong);font-weight:600}
+
+/* comparação */
+.cmp{margin-top:24px;background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.cmp table{width:100%;border-collapse:collapse}
+.cmp th,.cmp td{text-align:left;padding:15px 24px;font-size:13px;border-bottom:1px solid var(--line);vertical-align:top}
+.cmp thead th{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--soft-2);font-weight:500;background:#fcfbf9}
+.cmp thead th.bA{color:var(--ink-strong)}.cmp thead th.bB{color:var(--accent-ink)}
+.cmp td.dim{color:var(--soft);width:230px;font-weight:500}
+.cmp td b{color:var(--ink-strong);font-weight:600}
+.cmp tr:last-child td{border-bottom:0}
+.cmp .big{font-size:15px;font-weight:600;color:var(--ink-strong);font-variant-numeric:tabular-nums}
+
+.reco{margin-top:24px;display:grid;grid-template-columns:auto 1fr;gap:22px;align-items:start;background:var(--ink-strong);color:#e9e3d8;border-radius:16px;padding:28px 32px}
+.reco .rk{font-family:var(--serif);font-weight:300;font-variation-settings:"wght" 240,"wdth" 100,"CNTR" 20,"XHGT" 0;font-size:42px;color:#e7cf9b;line-height:.9;white-space:nowrap}
+.reco .rt{font-size:15px;font-weight:600;color:#fff;margin-bottom:9px}
+.reco .rb{font-size:13.5px;line-height:1.6;color:#cfc9bd}
+.reco .rb b{color:#e7cf9b;font-weight:600}
+
+.foot{max-width:1340px;margin:34px auto 0;padding:18px 64px 70px}
+.premissas{border-top:1px solid var(--line);padding-top:16px;font-size:11px;line-height:1.6;color:var(--soft-2)}
+.premissas b{color:var(--soft);font-weight:600}
+
+.cur{position:fixed;top:0;left:0;width:30px;height:30px;border:1px solid var(--accent);border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:90;opacity:0;transition:opacity .3s,width .3s var(--ease),height .3s var(--ease),background .3s}
+.cur.on{opacity:1}.cur.hot{width:13px;height:13px;background:var(--accent);border-color:var(--accent)}
+
+.rev{opacity:0;transform:translateY(14px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.rev.in{opacity:1;transform:none}
+
+@media(max-width:1080px){
+  .masthead,.hero,.wrap,.foot{padding-left:24px;padding-right:24px}
+  .opts{grid-template-columns:1fr}.opt+.opt{box-shadow:0 -1px 0 var(--line)}
+  .reco{grid-template-columns:1fr}.reco .rk{font-size:30px}
+  .shead{flex-direction:column}.shead .sdesc{text-align:left}
+  .cmp{overflow-x:auto}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.rev{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="logo"><span class="lb">La Belle Scens</span><span class="bdot"></span></div>
+  <nav class="crumb">
+    <a href="/painel/">Painel</a>
+    <a href="/fluxo/a.html">Jornada</a>
+    <a class="cur">Investimento</a>
+  </nav>
+</div>
+
+<div class="hero">
+  <div class="kick">Investimento · dois caminhos</div>
+  <h1 class="rev">Dois caminhos para o mesmo <em>destino</em></h1>
+  <p class="rev">Automatizar a operação — da previsão da "perda" à cobrança recorrente. A diferença está em <b>como</b>: orquestrar o que já existe, ou construir a tecnologia própria. Abaixo, o que cada caminho entrega, o investimento e quando faz sentido.</p>
+</div>
+
+<!-- ============ CAMINHO A ============ -->
+<div class="wrap">
+<section class="sec">
+  <div class="shead rev">
+    <div class="stt">
+      <span class="stag">Caminho A</span>
+      <span class="sname">Orquestração <em>inteligente</em></span>
+    </div>
+    <div class="sdesc">A Hovio constrói a camada própria sobre o <b>Tier</b> e conecta o que você já usa (Bling, Auvo, Clicksign, WhatsApp). Você sobe rápido e segue assinando os SaaS de terceiros.</div>
+  </div>
+
+  <div class="opts rev">
+    <div class="opt">
+      <span class="obadge">—</span>
+      <div class="oname">Essencial</div>
+      <div class="opos">O núcleo da recorrência: cadastro, estoque e cobrança rodando juntos.</div>
+      <div class="price">
+        <div class="pr"><span class="cur">R$</span><span class="val">18.000</span></div>
+        <div class="plab">setup único</div>
+        <div class="mo pr"><span class="cur">R$</span><span class="val">1.490</span><span class="plab" style="margin:0 0 2px 4px">/mês</span></div>
+      </div>
+      <ul class="feats">
+        <li>CRM + clientes + máquinas (cadastro central)</li>
+        <li>Estoque no Tier (baixa, mínimo, validade)</li>
+        <li>Cobrança via API Bling (boleto + fatura)</li>
+        <li>Lembrete de troca por WhatsApp</li>
+        <li>Integração Bling + WhatsApp</li>
+        <li class="mut">Sem roteirização automática</li>
+        <li class="mut">Previsão da "perda" manual</li>
+      </ul>
+      <div class="ofor"><b>Para:</b> validar a operação digital rápido, com baixo investimento.</div>
+    </div>
+
+    <div class="opt eng">
+      <div class="pick"></div>
+      <span class="obadge">Recomendado</span>
+      <div class="oname">Recorrência</div>
+      <div class="opos">A jornada completa que mapeamos — o motor da receita no automático.</div>
+      <div class="price">
+        <div class="pr"><span class="cur">R$</span><span class="val">42.000</span></div>
+        <div class="plab">setup único</div>
+        <div class="mo pr"><span class="cur">R$</span><span class="val">2.990</span><span class="plab" style="margin:0 0 2px 4px">/mês</span></div>
+      </div>
+      <ul class="feats">
+        <li>Tudo do Essencial</li>
+        <li>Previsão da "perda" por histórico (planilha Cibele)</li>
+        <li>Roteirização por zona + agenda no Auvo (API v2)</li>
+        <li>Agente de estoque: mín/máx, validade, parado, preço</li>
+        <li>Agente financeiro: régua de cobrança completa</li>
+        <li>Dashboards de operação + integração Clicksign</li>
+        <li>Bling + Auvo + Clicksign + WhatsApp</li>
+      </ul>
+      <div class="ofor"><b>Para:</b> rodar a operação inteira sem planilha — captura a recorrência de ponta a ponta.</div>
+    </div>
+
+    <div class="opt">
+      <span class="obadge">—</span>
+      <div class="oname">Operação total</div>
+      <div class="opos">A recorrência + atendimento, churn e a casa pronta para escalar.</div>
+      <div class="price">
+        <div class="pr"><span class="cur">R$</span><span class="val">78.000</span></div>
+        <div class="plab">setup único</div>
+        <div class="mo pr"><span class="cur">R$</span><span class="val">5.490</span><span class="plab" style="margin:0 0 2px 4px">/mês</span></div>
+      </div>
+      <ul class="feats">
+        <li>Tudo da Recorrência</li>
+        <li>Agente de atendimento + helpdesk (tickets/SLA)</li>
+        <li>CRM de ciclo de vida + score de churn</li>
+        <li>Relatórios avançados + multiusuário</li>
+        <li>Suporte prioritário (SLA dedicado)</li>
+        <li>Pronto para telemetria IoT quando existir</li>
+      </ul>
+      <div class="ofor"><b>Para:</b> quando o volume cresce e atendimento + retenção viram prioridade.</div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ============ CAMINHO B ============ -->
+<div class="wrap">
+<section class="sec">
+  <div class="shead rev">
+    <div class="stt">
+      <span class="stag">Caminho B</span>
+      <span class="sname">Tecnologia <em>própria</em></span>
+    </div>
+    <div class="sdesc">A Hovio constrói tudo proprietário — você passa a ser <b>dono das tecnologias</b>: o seu próprio "Auvo", o app das máquinas, estoque e financeiro nativos. Sem depender de SaaS de terceiros.</div>
+  </div>
+
+  <div class="opts rev">
+    <div class="opt">
+      <span class="obadge">—</span>
+      <div class="oname">Fundação própria</div>
+      <div class="opos">O coração no Tier, nativo: estoque, financeiro e CRM sem SaaS de terceiros.</div>
+      <div class="price">
+        <div class="pr"><span class="cur">a partir de R$</span><span class="val">110.000</span></div>
+        <div class="plab">projeto (fases)</div>
+        <div class="mo pr"><span class="cur">R$</span><span class="val">4.900</span><span class="plab" style="margin:0 0 2px 4px">/mês</span></div>
+      </div>
+      <ul class="feats">
+        <li>Estoque, financeiro e CRM nativos (sem Bling)</li>
+        <li>App de campo MVP (rota + checklist)</li>
+        <li>Previsão da "perda" própria</li>
+        <li>Cobrança própria (boleto/fatura/régua)</li>
+        <li class="mut">App de campo sem offline avançado</li>
+        <li class="mut">Sem telemetria IoT ainda</li>
+      </ul>
+      <div class="ofor"><b>Para:</b> começar a internalizar, reduzindo dependência de SaaS.</div>
+    </div>
+
+    <div class="opt eng">
+      <div class="pick"></div>
+      <span class="obadge">Recomendado</span>
+      <div class="oname">Plataforma própria</div>
+      <div class="opos">O "Auvo" de vocês, de verdade: app de campo completo + apps das máquinas.</div>
+      <div class="price">
+        <div class="pr"><span class="cur">a partir de R$</span><span class="val">190.000</span></div>
+        <div class="plab">projeto (fases)</div>
+        <div class="mo pr"><span class="cur">R$</span><span class="val">7.900</span><span class="plab" style="margin:0 0 2px 4px">/mês</span></div>
+      </div>
+      <ul class="feats">
+        <li>Tudo da Fundação</li>
+        <li>App de campo completo: GPS, offline, foto, assinatura</li>
+        <li>Roteirização por zona própria (substitui o Auvo)</li>
+        <li>App das máquinas + calibragem</li>
+        <li>Agentes (estoque, financeiro, atendimento) nativos</li>
+        <li>Marca e código 100% La Belle Scens</li>
+      </ul>
+      <div class="ofor"><b>Para:</b> deixar de alugar a tecnologia de campo e ter o ativo próprio.</div>
+    </div>
+
+    <div class="opt">
+      <span class="obadge">—</span>
+      <div class="oname">Ecossistema proprietário</div>
+      <div class="opos">Tudo próprio, incluindo a inteligência das máquinas e a posse do código.</div>
+      <div class="price">
+        <div class="pr"><span class="cur">a partir de R$</span><span class="val">320.000</span></div>
+        <div class="plab">projeto (fases)</div>
+        <div class="mo pr"><span class="cur">R$</span><span class="val">11.900</span><span class="plab" style="margin:0 0 2px 4px">/mês</span></div>
+      </div>
+      <ul class="feats">
+        <li>Tudo da Plataforma própria</li>
+        <li>Telemetria IoT (firmware + gateway) — quando a infra existir</li>
+        <li>Analytics + previsão por consumo real</li>
+        <li>Multi-filial / multi-operação</li>
+        <li>Entrega do código-fonte (ativo de vocês)</li>
+      </ul>
+      <div class="ofor"><b>Para:</b> tornar a tecnologia um diferencial competitivo e patrimônio da empresa.</div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ============ COMPARAÇÃO ============ -->
+<div class="wrap">
+<section class="sec">
+  <div class="shead rev">
+    <div class="stt">
+      <span class="stag">Lado a lado</span>
+      <span class="sname">A ou B — <em>como decidir</em></span>
+    </div>
+    <div class="sdesc">Comparação dos caminhos recomendados (Recorrência × Plataforma própria) num horizonte de 24 meses.</div>
+  </div>
+
+  <div class="cmp rev">
+    <table>
+      <thead>
+        <tr><th>Critério</th><th class="bA">Caminho A · Orquestração</th><th class="bB">Caminho B · In-house</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="dim">Investimento inicial</td><td><b>R$ 42.000</b> setup</td><td><b>a partir de R$ 190.000</b> (fases)</td></tr>
+        <tr><td class="dim">Mensalidade Hovio</td><td>R$ 2.990/mês</td><td>R$ 7.900/mês</td></tr>
+        <tr><td class="dim">SaaS de terceiros</td><td>Continua (Auvo, Bling, Clicksign)</td><td><b>Eliminado</b> no longo prazo</td></tr>
+        <tr><td class="dim">Custo total em 24 meses</td><td class="big">≈ R$ 114k <span style="font-size:11px;color:var(--soft);font-weight:400">(+ SaaS terceiros)</span></td><td class="big">≈ R$ 380k</td></tr>
+        <tr><td class="dim">Tempo até no ar</td><td><b>6–10 semanas</b></td><td>6–12 meses (por fases)</td></tr>
+        <tr><td class="dim">Propriedade da tecnologia</td><td>Uso (alugam Auvo/Bling)</td><td><b>Donos do código e do ativo</b></td></tr>
+        <tr><td class="dim">Dependência externa</td><td>Preço/disponibilidade dos SaaS</td><td>Nenhuma (autonomia total)</td></tr>
+        <tr><td class="dim">Risco do projeto</td><td>Baixo (peças prontas)</td><td>Maior (construção do zero)</td></tr>
+        <tr><td class="dim">Customização</td><td>Alta (dentro do que os SaaS permitem)</td><td><b>Total</b> (sob medida)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="reco rev">
+    <div class="rk">A&nbsp;→&nbsp;B</div>
+    <div>
+      <div class="rt">Recomendação: comprar agora, construir depois.</div>
+      <div class="rb">Começar pelo <b>Caminho A (Recorrência)</b> coloca a operação no ar em semanas e já <b>captura a recorrência</b> — o motor da receita — com investimento baixo e risco mínimo. Conforme o volume da operação cresce, <b>internalizar de forma seletiva</b> só o que vira caro ou estratégico (tipicamente o app de campo, quando o custo do Auvo passar o custo de manter um app próprio). Você valida com a orquestração e só constrói in-house o que o volume justificar — sem queimar capital antes da hora.</div>
+    </div>
+  </div>
+</section>
+</div>
+
+<div class="foot">
+  <div class="premissas rev">
+    <b>Premissas.</b> Estimativas para porte PME · o volume da operação (nº de máquinas, clientes e frequência de troca) ainda será dimensionado pela <b>planilha da Cibele</b> — os valores finais fecham na call de discovery. Os preços do <b>Caminho A não incluem</b> as mensalidades de SaaS de terceiros (Auvo, Bling, Clicksign), pagas direto pela La Belle Scens. Setup parcelável; mensalidades com reajuste anual. Telemetria IoT depende de infraestrutura de hardware (em avaliação) e entra em fase posterior. · La Belle Scens · Hovio
+  </div>
+</div>
+
+<div class="cur" id="cur"></div>
+
+<script>
+// cursor
+const cur=document.getElementById('cur');
+let mx=innerWidth/2,my=innerHeight/2,cx=mx,cy=my,on=false;
+if(matchMedia('(hover:hover) and (pointer:fine)').matches){
+  addEventListener('pointermove',e=>{mx=e.clientX;my=e.clientY;if(!on){on=true;cur.classList.add('on');}});
+  addEventListener('pointerover',e=>cur.classList.toggle('hot',!!e.target.closest('.opt,a,.reco')));
+  (function loop(){cx+=(mx-cx)*.2;cy+=(my-cy)*.2;cur.style.transform='translate('+cx+'px,'+cy+'px) translate(-50%,-50%)';requestAnimationFrame(loop);})();
+}
+// reveal
+const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{threshold:.12});
+document.querySelectorAll('.rev').forEach(n=>io.observe(n));
+</script>
+</body>
+</html>
