@@ -100,7 +100,8 @@
 *{box-sizing:border-box;}
 html{scroll-behavior:smooth;}
 body{
-  margin:0; background:var(--bg); color:var(--ink);
+  margin:0; background-color:var(--bg); color:var(--ink);
+  background-image:repeating-linear-gradient(45deg,color-mix(in srgb,var(--ink) 4%,transparent) 0 1px,transparent 1px 80px),repeating-linear-gradient(-45deg,color-mix(in srgb,var(--ink) 4%,transparent) 0 1px,transparent 1px 80px);
   font-family:var(--sans); font-size:16px; line-height:1.55;
   -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
   transition:background var(--t) var(--ease), color var(--t) var(--ease);
