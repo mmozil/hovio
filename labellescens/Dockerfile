@@ -13,6 +13,8 @@ COPY fluxo/ /usr/share/nginx/html/fluxo/
 COPY fonts/ /usr/share/nginx/html/fonts/
 # Imagens do hero — self-hosted (sem picsum/CDN externo, não bloqueável)
 COPY img/ /usr/share/nginx/html/img/
+# Design System em rota dedicada — labellescens.hovio.com.br/design-system/
+COPY design-system/ /usr/share/nginx/html/design-system/
 
 EXPOSE 80
 # Healthcheck rápido (wget existe no nginx:alpine via busybox) — fica saudável em ~3-8s,
