@@ -299,6 +299,21 @@ a{color:inherit;text-decoration:none}
 #cenario .jlegend span{display:inline-flex;align-items:center;gap:8px;font-size:10.5px;color:var(--soft)}
 #cenario .jlegend i{width:9px;height:9px;border-radius:50%}
 @media(max-width:1080px){#cenario .module{grid-template-columns:1fr}#cenario .col+.col{box-shadow:0 -1px 0 var(--line)}#cenario .rcard{grid-template-columns:1fr;gap:16px}#cenario .rnum{font-size:50px}#cenario .rcol.auto{border-left:0;padding-left:0;margin-left:0}}
+
+/* ====== Materiais — índice de entregáveis (grade Dior) ====== */
+#materiais .mat-group{margin-top:30px}
+#materiais .mat-group:first-of-type{margin-top:10px}
+#materiais .mat-gh{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent-ink);padding-bottom:12px;border-bottom:1px solid var(--line);margin-bottom:18px}
+#materiais .mat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+#materiais .mat-card{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:14px;background:var(--surface);padding:22px 22px 18px;text-decoration:none;color:inherit;transition:box-shadow .4s cubic-bezier(.22,1,.36,1),transform .4s cubic-bezier(.22,1,.36,1),border-color .4s}
+#materiais .mat-card:hover{box-shadow:0 18px 44px -22px rgba(31,35,38,.24);transform:translateY(-3px);border-color:var(--line-strong)}
+#materiais .mat-card .mt{font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--soft-2);margin-bottom:13px}
+#materiais .mat-card .mn{font-size:16px;font-weight:500;color:var(--ink-strong);letter-spacing:.01em}
+#materiais .mat-card .md{font-size:12.5px;line-height:1.5;color:var(--soft);margin-top:9px;flex:1}
+#materiais .mat-card .mo{margin-top:18px;font-size:11px;letter-spacing:.05em;color:var(--accent-ink);display:inline-flex;align-items:center;gap:6px;transition:gap .3s}
+#materiais .mat-card:hover .mo{gap:10px}
+#materiais .mat-card .mo svg{width:13px;height:13px;stroke:currentColor;stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:1080px){#materiais .mat-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -311,6 +326,7 @@ a{color:inherit;text-decoration:none}
   <nav class="nav">
     <div class="nav-h">Visão geral</div>
     <a data-s="cenario" class="active"><svg viewBox="0 0 24 24"><path d="M3 12h4l3 8 4-16 3 8h4"/></svg> Cenário</a>
+    <a data-s="materiais"><svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/></svg> Materiais</a>
     <a href="/fluxo/a.html"><svg viewBox="0 0 24 24"><circle cx="4" cy="6" r="1.5"/><circle cx="4" cy="12" r="1.5"/><circle cx="4" cy="18" r="1.5"/><path d="M9 6h11M9 12h11M9 18h7"/></svg> Planejamento</a>
     <a href="/fluxo/investimento.html"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 8v8M9.5 9.8c0-1 1.1-1.6 2.5-1.6s2.5.6 2.5 1.6-1.1 1.5-2.5 1.7-2.5.7-2.5 1.7 1.1 1.6 2.5 1.6 2.5-.6 2.5-1.6"/></svg> Investimento</a>
     <div class="nav-h">Operação</div>
@@ -393,6 +409,69 @@ a{color:inherit;text-decoration:none}
         <span><i style="background:var(--parcial)"></i>Parcial</span>
         <span><i style="background:var(--bloqueado)"></i>Bloqueado</span>
         <span><i style="background:var(--pronto)"></i>Pronto</span>
+      </div>
+    </section>
+
+    <!-- ============ MATERIAIS (índice de entregáveis) ============ -->
+    <section class="screen" id="materiais">
+      <div class="screen-head">
+        <div class="eyebrow">Materiais · entregáveis</div>
+        <h2>Tudo do projeto, num <em style="font-style:italic;color:var(--accent-ink)">só lugar</em></h2>
+        <p class="lead">Os artefatos que produzimos para a La Belle Scens — planejamento, design e a proposta de investimento. Cada cartão abre o material em uma nova aba.</p>
+      </div>
+
+      <div class="mat-group">
+        <div class="mat-gh">Planejamento &amp; fluxos</div>
+        <div class="mat-grid">
+          <a class="mat-card" href="/fluxo/a.html" target="_blank" rel="noopener">
+            <div class="mt">Jornada</div>
+            <div class="mn">Jornada do cliente</div>
+            <div class="md">As 11 etapas em três tempos (aquisição · recorrência · relacionamento), com o que automatizar em cada uma.</div>
+            <span class="mo">Abrir <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></span>
+          </a>
+          <a class="mat-card" href="/fluxo/index.html" target="_blank" rel="noopener">
+            <div class="mt">Estudos</div>
+            <div class="mn">Estudos de fluxo</div>
+            <div class="md">As variações visuais que exploramos (linha do tempo, fluxograma, scroll-cinema, fluxo de agente) lado a lado.</div>
+            <span class="mo">Abrir <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></span>
+          </a>
+          <a class="mat-card" href="/fluxo/squad/" target="_blank" rel="noopener">
+            <div class="mt">Agentes</div>
+            <div class="mn">Squad de agentes</div>
+            <div class="md">O mapa do squad de IA (estilo n8n/AIOS): orquestrador, agentes e as ferramentas que cada um aciona.</div>
+            <span class="mo">Abrir <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></span>
+          </a>
+        </div>
+      </div>
+
+      <div class="mat-group">
+        <div class="mat-gh">Design System</div>
+        <div class="mat-grid">
+          <a class="mat-card" href="/" target="_blank" rel="noopener">
+            <div class="mt">Linguagem</div>
+            <div class="mn">Catálogo do Design System</div>
+            <div class="md">Tokens, tipografia, cores e componentes da identidade Dior da marca — a base visual de tudo.</div>
+            <span class="mo">Abrir <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></span>
+          </a>
+          <a class="mat-card" href="/hero.html" target="_blank" rel="noopener">
+            <div class="mt">Hero</div>
+            <div class="mn">Hero cinematográfico</div>
+            <div class="md">O hero full-bleed com morph no scroll — a abertura editorial da marca.</div>
+            <span class="mo">Abrir <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></span>
+          </a>
+        </div>
+      </div>
+
+      <div class="mat-group">
+        <div class="mat-gh">Comercial</div>
+        <div class="mat-grid">
+          <a class="mat-card" href="/fluxo/investimento.html" target="_blank" rel="noopener">
+            <div class="mt">Proposta</div>
+            <div class="mn">Investimento — dois caminhos</div>
+            <div class="md">Orquestração (sobre o Tier) × tecnologia própria (in-house): opções, comparação 24m e recomendação.</div>
+            <span class="mo">Abrir <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></span>
+          </a>
+        </div>
       </div>
     </section>
 
@@ -640,7 +719,7 @@ a{color:inherit;text-decoration:none}
 
 <script>
   var titles={
-    cenario:['Visão geral','Cenário'], dashboard:['Operação','Início'], maquinas:['Operação','Máquinas'],
+    cenario:['Visão geral','Cenário'], materiais:['Visão geral','Materiais'], dashboard:['Operação','Início'], maquinas:['Operação','Máquinas'],
     logistica:['Operação','Logística & Rotas'], estoque:['Operação','Estoque & Produção'],
     financeiro:['Comercial','Financeiro & Contratos'], crm:['Comercial','CRM & Clientes'],
     bi:['Inteligência','Indicadores'], agente:['Inteligência','Agente IA'], config:['Sistema','Configurações']
