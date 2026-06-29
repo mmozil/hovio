@@ -319,6 +319,31 @@ a{color:inherit;text-decoration:none}
 #materiais .mat-card:hover .mo{gap:10px}
 #materiais .mat-card .mo svg{width:13px;height:13px;stroke:currentColor;stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
 @media(max-width:1080px){#materiais .mat-grid{grid-template-columns:1fr}}
+
+/* ====== Carrossel Dior — Visão geral ====== */
+#cenario .dior-hero{display:grid;grid-template-columns:minmax(200px,.72fr) 2fr;gap:34px;align-items:center;margin:4px 0 42px}
+#cenario .dh-intro .eyebrow{font-size:10px;letter-spacing:.34em;text-transform:uppercase;color:var(--accent-ink);margin-bottom:13px}
+#cenario .dh-intro h2{font-family:var(--serif);font-weight:300;font-variation-settings:"wght" 300,"wdth" 100,"CNTR" 20,"XHGT" 0;font-size:clamp(26px,2.8vw,40px);line-height:1.04;letter-spacing:-.02em;color:var(--ink-strong)}
+#cenario .dh-intro h2 em{font-style:italic;color:var(--accent-ink)}
+#cenario .dh-intro p{margin-top:13px;font-size:13.5px;line-height:1.6;color:var(--soft);max-width:300px}
+#cenario .dh-stage{min-width:0}
+#cenario .dh-viewport{overflow:hidden}
+#cenario .dh-track{display:flex;gap:18px;transition:transform .7s cubic-bezier(.22,1,.36,1)}
+#cenario .dh-card{flex:0 0 300px;height:430px;border-radius:var(--r-lg);overflow:hidden;position:relative;cursor:pointer;text-decoration:none;display:block;box-shadow:0 2px 10px -4px rgba(31,35,38,.18)}
+#cenario .dh-card .img{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .9s cubic-bezier(.22,1,.36,1)}
+#cenario .dh-card:hover .img{transform:scale(1.06)}
+#cenario .dh-card::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(18,20,22,.74),rgba(18,20,22,.12) 42%,rgba(18,20,22,0) 68%)}
+#cenario .dh-cap{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:0 18px 22px;text-align:center}
+#cenario .dh-cap .t{display:block;font-size:16px;font-weight:500;letter-spacing:.01em;color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.35)}
+#cenario .dh-cap .l{display:inline-block;margin-top:9px;font-size:11.5px;letter-spacing:.08em;color:#fff;border-bottom:1px solid rgba(255,255,255,.55);padding-bottom:2px;transition:border-color .3s}
+#cenario .dh-card:hover .dh-cap .l{border-color:#fff}
+#cenario .dh-nav{display:flex;align-items:center;justify-content:flex-end;gap:16px;margin-top:16px}
+#cenario .dh-count{font-size:12px;font-variant-numeric:tabular-nums;color:var(--soft);letter-spacing:.05em}
+#cenario .dh-arrow{width:32px;height:32px;border-radius:50%;border:1px solid var(--line-strong);background:var(--surface);color:var(--ink);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:all .3s}
+#cenario .dh-arrow:hover{border-color:var(--ink);background:var(--ink-strong);color:#fff}
+#cenario .dh-arrow:disabled{opacity:.32;cursor:default;border-color:var(--line);background:transparent;color:var(--soft-2)}
+#cenario .dh-arrow svg{width:14px;height:14px;stroke:currentColor;stroke-width:1.6;fill:none;stroke-linecap:round;stroke-linejoin:round}
+@media(max-width:1080px){#cenario .dior-hero{grid-template-columns:1fr;gap:18px}#cenario .dh-card{flex-basis:240px;height:360px}}
 </style>
 </head>
 <body>
@@ -372,6 +397,30 @@ a{color:inherit;text-decoration:none}
 
     <!-- ============ CENÁRIO (overview / timeline) ============ -->
     <section class="screen active" id="cenario">
+      <div class="dior-hero">
+        <div class="dh-intro">
+          <div class="eyebrow">Visão geral · La Belle Scens</div>
+          <h2>Tudo o que <em>preparamos</em></h2>
+          <p>Navegue pelas áreas — do cenário atual ao plano e ao investimento.</p>
+        </div>
+        <div class="dh-stage">
+          <div class="dh-viewport">
+            <div class="dh-track">
+              <a class="dh-card" data-nav="cenario"><span class="img" style="background-image:url('/img/p1.jpg')"></span><span class="dh-cap"><span class="t">Cenário</span><span class="l">Ver →</span></span></a>
+              <a class="dh-card" data-nav="materiais"><span class="img" style="background-image:url('/img/p2.jpg')"></span><span class="dh-cap"><span class="t">Materiais</span><span class="l">Ver →</span></span></a>
+              <a class="dh-card" href="/fluxo/a.html"><span class="img" style="background-image:url('/img/p3.jpg')"></span><span class="dh-cap"><span class="t">Planejamento</span><span class="l">Abrir →</span></span></a>
+              <a class="dh-card" data-nav="dashboard"><span class="img" style="background-image:url('/img/p4.jpg')"></span><span class="dh-cap"><span class="t">Operação</span><span class="l">Ver →</span></span></a>
+              <a class="dh-card" href="/fluxo/investimento.html"><span class="img" style="background-image:url('/img/p1.jpg')"></span><span class="dh-cap"><span class="t">Investimento</span><span class="l">Abrir →</span></span></a>
+            </div>
+          </div>
+          <div class="dh-nav">
+            <span class="dh-count" id="dhCount">1 / 2</span>
+            <button class="dh-arrow" id="dhPrev" aria-label="Anterior"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
+            <button class="dh-arrow" id="dhNext" aria-label="Próximo"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
+          </div>
+        </div>
+      </div>
+
       <div class="screen-head">
         <div class="eyebrow">Cenário · hoje</div>
         <h2>Da chegada do cliente à <em style="font-style:italic;color:var(--accent-ink)">recorrência</em></h2>
@@ -810,6 +859,23 @@ function activate(i,hover){
 }
 mod.addEventListener('pointerleave',function(){activate(0,false);});
 activate(0,false);
+})();
+</script>
+<script>
+/* Carrossel Dior — Visão geral */
+(function(){
+  var vp=document.querySelector('#cenario .dh-viewport'); if(!vp)return;
+  var track=document.querySelector('#cenario .dh-track');
+  var cards=[].slice.call(track.children);
+  var prev=document.getElementById('dhPrev'),next=document.getElementById('dhNext'),count=document.getElementById('dhCount');
+  var page=0;
+  function metrics(){var cw=cards[0].offsetWidth+18;var vis=Math.max(1,Math.floor((vp.offsetWidth+18)/cw));var pages=Math.max(1,Math.ceil(cards.length/vis));return{cw:cw,vis:vis,pages:pages};}
+  function render(){var m=metrics();if(page>m.pages-1)page=m.pages-1;if(page<0)page=0;var max=Math.max(0,track.scrollWidth-vp.offsetWidth);var x=Math.min(page*m.vis*m.cw,max);track.style.transform='translateX('+(-x)+'px)';count.textContent=(page+1)+' / '+m.pages;prev.disabled=page<=0;next.disabled=page>=m.pages-1;}
+  prev.addEventListener('click',function(){page--;render();});
+  next.addEventListener('click',function(){page++;render();});
+  window.addEventListener('resize',render);
+  document.querySelectorAll('#cenario .dh-card[data-nav]').forEach(function(c){c.addEventListener('click',function(e){e.preventDefault();var el=document.querySelector('.nav a[data-s="'+c.dataset.nav+'"]');if(el)el.click();});});
+  render();
 })();
 </script>
 </body>
