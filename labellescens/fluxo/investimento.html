@@ -128,6 +128,11 @@ a{color:inherit;text-decoration:none}
 .tl-t{font-size:15px;font-weight:500;color:var(--ink-strong)}
 .tl-d{font-size:12.5px;color:var(--soft);margin-top:5px;line-height:1.5}
 @media(max-width:1080px){.tl-row{grid-template-columns:1fr;gap:6px}}
+/* planos separados (sem moldura única) */
+.opts.sep{background:transparent;border:0;border-radius:0;overflow:visible;gap:16px;grid-template-columns:1fr 1fr}
+.opts.sep .opt{border:1px solid var(--line);border-radius:6px;background:var(--surface)}
+.opts.sep .opt+.opt{box-shadow:none}
+@media(max-width:1080px){.opts.sep{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -229,7 +234,7 @@ a{color:inherit;text-decoration:none}
     <div class="sdesc">A Hovio constrói a camada própria sobre o <b>Tier</b> e conecta o que você já usa (Bling, Auvo, Clicksign, WhatsApp). Você sobe rápido e segue assinando os SaaS de terceiros.</div>
   </div>
 
-  <div class="opts rev" style="grid-template-columns:1fr 1fr">
+  <div class="opts rev sep">
     <div class="opt">
       <span class="obadge">—</span>
       <div class="oname">Essencial</div>
@@ -251,10 +256,9 @@ a{color:inherit;text-decoration:none}
       <div class="ofor"><b>Para:</b> validar a operação digital rápido, com baixo investimento.</div>
     </div>
 
-    <div class="opt eng">
-      <div class="pick"></div>
-      <span class="obadge">Recomendado</span>
-      <div class="oname">Recorrência</div>
+    <div class="opt">
+      <span class="obadge">—</span>
+      <div class="oname">Operação Total</div>
       <div class="opos">A operação completa no automático — da captação à recorrência, ao atendimento e à retenção.</div>
       <div class="price">
         <div class="pr"><span class="cur">R$</span><span class="val">42.000</span></div>

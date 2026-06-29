@@ -9,15 +9,23 @@
   </defs>
   <rect width="600" height="860" fill="url(#bg)"/>
   <rect width="600" height="860" fill="url(#cn)"/>
-  <!-- rota por zonas -->
-  <path d="M160 250 C 260 210 250 360 360 330 C 460 305 380 470 300 500" fill="none" stroke="#cfc6b4" stroke-width="2.6" stroke-dasharray="2 12" stroke-linecap="round" stroke-opacity="0.7"/>
-  <!-- pins -->
-  <g fill="none" stroke="#caa86a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M160 268 c -18 0 -28 -14 -28 -28 a 28 28 0 0 1 56 0 c 0 14 -10 28 -28 28 z" transform="translate(0,-18)"/>
-    <circle cx="160" cy="222" r="9"/>
-    <path d="M360 348 c -18 0 -28 -14 -28 -28 a 28 28 0 0 1 56 0 c 0 14 -10 28 -28 28 z" transform="translate(0,-18)"/>
-    <circle cx="360" cy="302" r="9"/>
-    <path d="M300 518 c -18 0 -28 -14 -28 -28 a 28 28 0 0 1 56 0 c 0 14 -10 28 -28 28 z" transform="translate(0,-18)"/>
-    <circle cx="300" cy="472" r="9"/>
+  <!-- conectores -->
+  <g stroke="#cfc6b4" stroke-width="2.4" stroke-opacity="0.55" fill="none" stroke-linecap="round">
+    <line x1="300" y1="276" x2="300" y2="310"/>
+    <path d="M148 310 H452"/>
+    <line x1="148" y1="310" x2="148" y2="344"/>
+    <line x1="300" y1="310" x2="300" y2="344"/>
+    <line x1="452" y1="310" x2="452" y2="344"/>
+    <line x1="148" y1="404" x2="148" y2="436"/>
+    <line x1="452" y1="404" x2="452" y2="436"/>
+  </g>
+  <!-- nós -->
+  <g fill="none" stroke="#caa86a" stroke-width="3" stroke-linejoin="round">
+    <rect x="232" y="222" width="136" height="54" rx="9"/>
+    <rect x="100" y="344" width="96" height="60" rx="8"/>
+    <rect x="252" y="344" width="96" height="60" rx="8"/>
+    <rect x="404" y="344" width="96" height="60" rx="8"/>
+    <rect x="108" y="436" width="80" height="50" rx="7"/>
+    <rect x="412" y="436" width="80" height="50" rx="7"/>
   </g>
 </svg>
