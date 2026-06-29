@@ -106,6 +106,20 @@ a{color:inherit;text-decoration:none}
   .cmp{overflow-x:auto}
 }
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.rev{opacity:1;transform:none}}
+
+/* app próprio (Caminho B) — criação e custos */
+.appgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:22px}
+.appcol{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:24px 26px}
+.ach{font-size:14px;font-weight:600;color:var(--ink-strong);display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;padding-bottom:14px;border-bottom:1px solid var(--line);margin-bottom:14px}
+.atag{font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-ink);background:var(--accent-soft);border-radius:20px;padding:3px 9px;font-weight:500}
+.alist{list-style:none;display:flex;flex-direction:column;gap:12px}
+.alist li{font-size:12.5px;line-height:1.5;color:var(--soft);padding-left:16px;position:relative}
+.alist li::before{content:'';position:absolute;left:0;top:7px;width:6px;height:6px;border-radius:50%;background:var(--accent)}
+.alist li b{color:var(--ink-strong);font-weight:600}
+.alist li .av{color:var(--ink-strong);font-weight:600}
+.anote{margin-top:16px;padding-top:13px;border-top:1px solid var(--line);font-size:11px;line-height:1.5;color:var(--soft-2)}
+.anote b{color:var(--soft);font-weight:600}
+@media(max-width:1080px){.appgrid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -273,6 +287,42 @@ a{color:inherit;text-decoration:none}
         <li>Entrega do código-fonte (ativo de vocês)</li>
       </ul>
       <div class="ofor"><b>Para:</b> tornar a tecnologia um diferencial competitivo e patrimônio da empresa.</div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ============ APP PRÓPRIO (custos do Caminho B) ============ -->
+<div class="wrap">
+<section class="sec">
+  <div class="shead rev">
+    <div class="stt">
+      <span class="stag">Caminho B · detalhe</span>
+      <span class="sname">Criar o app próprio — <em>o que entra e o que custa</em></span>
+    </div>
+    <div class="sdesc">O app de campo (substituir o Auvo) e o app das máquinas fazem parte do Caminho B. Além de desenvolver, publicar e operar um app tem custos próprios — e as licenças ficam no nome da La Belle Scens.</div>
+  </div>
+
+  <div class="appgrid rev">
+    <div class="appcol">
+      <div class="ach">Desenvolvimento <span class="atag">uma vez</span></div>
+      <ul class="alist">
+        <li><b>App de campo</b> — GPS, offline, rota por zona, checklist, foto, assinatura (substitui o Auvo) — <span class="av">R$ 60–120k</span></li>
+        <li><b>App das máquinas</b> — parâmetros, calibragem, leitura — <span class="av">incluído no projeto B</span></li>
+        <li><b>Backend / sistema</b> que alimenta os apps — <span class="av">R$ 100–300k</span></li>
+      </ul>
+      <div class="anote">Já embutido nos valores do Caminho B (Fundação / Plataforma / Ecossistema). Faixas de mercado, 2026.</div>
+    </div>
+    <div class="appcol">
+      <div class="ach">Requisitos &amp; custos recorrentes <span class="atag">publicar &amp; operar</span></div>
+      <ul class="alist">
+        <li><b>Apple Developer Program</b> — publicar na App Store (iOS) — <span class="av">US$ 99/ano (~R$ 550)</span></li>
+        <li><b>Google Play Console</b> — publicar na Play Store (Android) — <span class="av">US$ 25 (taxa única)</span></li>
+        <li><b>Google Maps Platform</b> — mapa, rota e geocoding do app de campo — <span class="av">cota grátis + uso</span></li>
+        <li><b>Hospedagem / infraestrutura</b> do backend — <span class="av">R$ 500–2.000/mês</span></li>
+        <li><b>Notificações</b> push grátis; WhatsApp/SMS, se usar — <span class="av">por mensagem</span></li>
+      </ul>
+      <div class="anote">As licenças de loja ficam <b>no nome da La Belle Scens</b> — vocês são donos do app. A anuidade da Apple é renovável.</div>
     </div>
   </div>
 </section>
