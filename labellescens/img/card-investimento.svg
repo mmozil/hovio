@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 860" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2a2f37"/><stop offset="1" stop-color="#14171b"/>
+    </linearGradient>
+    <pattern id="cn" width="64" height="64" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <path d="M32 0V64M0 32H64" stroke="#ffffff" stroke-opacity="0.035" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="600" height="860" fill="url(#bg)"/>
+  <rect width="600" height="860" fill="url(#cn)"/>
+  <!-- barras ascendentes -->
+  <g fill="none" stroke="#caa86a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="180" y="430" width="44" height="110" rx="5"/>
+    <rect x="248" y="380" width="44" height="160" rx="5"/>
+    <rect x="316" y="320" width="44" height="220" rx="5"/>
+    <rect x="384" y="250" width="44" height="290" rx="5"/>
+  </g>
+  <!-- curva de crescimento + seta -->
+  <g fill="none" stroke="#cfc6b4" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" stroke-opacity="0.9">
+    <path d="M170 470 C 250 440 300 360 410 240"/>
+    <path d="M372 232 L 418 228 L 414 274"/>
+  </g>
+</svg>
