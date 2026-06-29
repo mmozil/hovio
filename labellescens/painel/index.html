@@ -86,12 +86,12 @@ a{color:inherit;text-decoration:none}
 .status{display:inline-flex;align-items:center;gap:7px;font-size:13px;color:var(--soft)}
 
 /* ====== Cards ====== */
-.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:22px;
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-sm);padding:22px;
   transition:transform var(--t) var(--ease),box-shadow var(--t) var(--ease),border-color var(--t) var(--ease)}
 .card-kicker{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-ink);margin-bottom:12px}
 
 /* ====== KPI ====== */
-.kpi{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:18px 20px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-sm);padding:18px 20px}
 .kpi .lbl{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--soft)}
 .kpi .val{font-family:var(--serif);font-weight:300;font-variation-settings:var(--serif-axes);
   font-size:30px;color:var(--ink-strong);margin-top:12px;line-height:1}
@@ -101,7 +101,7 @@ a{color:inherit;text-decoration:none}
 
 /* ====== Tabela ====== */
 .tbl{width:100%;border-collapse:collapse;font-size:13.5px}
-.tbl-wrap{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden}
+.tbl-wrap{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-sm);overflow:hidden}
 .tbl th{text-align:left;font-family:var(--sans);font-weight:500;font-size:11px;letter-spacing:.08em;text-transform:uppercase;
   color:var(--soft);padding:16px 18px 14px;border-bottom:1px solid var(--line-strong);background:var(--surface)}
 .tbl td{padding:14px 18px;border-bottom:1px solid var(--line);color:var(--ink)}
@@ -113,7 +113,7 @@ a{color:inherit;text-decoration:none}
   font-weight:400;color:var(--ink-strong);font-size:15px}
 
 /* ====== Alert ====== */
-.alert{display:flex;gap:13px;padding:15px 18px;border-radius:var(--r-md);border:1px solid var(--line);background:var(--surface);font-size:13.5px}
+.alert{display:flex;gap:13px;padding:15px 18px;border-radius:var(--r-sm);border:1px solid var(--line);background:var(--surface);font-size:13.5px}
 .alert b{display:block;margin-bottom:3px;font-family:var(--sans);font-weight:600;color:var(--ink-strong)}
 .alert p{color:var(--soft);font-size:13px;line-height:1.55}
 .alert .ai{width:18px;height:18px;flex:none;margin-top:1px;stroke-width:1.6;fill:none;stroke-linecap:round;stroke-linejoin:round}
@@ -195,7 +195,7 @@ a{color:inherit;text-decoration:none}
 
 /* kanban */
 .kan{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
-.kcol{background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r-md);padding:12px;min-height:380px}
+.kcol{background:var(--surface-2);border:1px solid var(--line);border-radius:var(--r-sm);padding:12px;min-height:380px}
 .kcol .kh{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;font-size:12px;
   letter-spacing:.06em;text-transform:uppercase;color:var(--soft);font-weight:600}
 .kcol .kh .ct{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-pill);padding:1px 8px;font-size:11px;color:var(--soft)}
@@ -208,7 +208,7 @@ a{color:inherit;text-decoration:none}
 .kcard .val{font-variant-numeric:tabular-nums;font-size:13px;font-weight:600}
 
 /* chat */
-.chatwrap{display:grid;grid-template-columns:250px 1fr 270px;border:1px solid var(--line);border-radius:var(--r-md);
+.chatwrap{display:grid;grid-template-columns:250px 1fr 270px;border:1px solid var(--line);border-radius:var(--r-sm);
   overflow:hidden;height:520px;background:var(--surface)}
 .clist{border-right:1px solid var(--line);overflow-y:auto}
 .citem{padding:14px 16px;border-bottom:1px solid var(--line);cursor:pointer;transition:background var(--t-fast) var(--ease)}
@@ -218,7 +218,7 @@ a{color:inherit;text-decoration:none}
 .citem .cp{font-size:12px;color:var(--soft);margin-top:5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .cthread{display:flex;flex-direction:column;background:var(--bg)}
 .cmsgs{flex:1;padding:20px;display:flex;flex-direction:column;gap:12px;overflow-y:auto}
-.bub{max-width:74%;padding:11px 14px;border-radius:12px;font-size:13px;line-height:1.5}
+.bub{max-width:74%;padding:11px 14px;border-radius:6px;font-size:13px;line-height:1.5}
 .bub.in{align-self:flex-start;background:var(--surface);border:1px solid var(--line)}
 .bub.out{align-self:flex-end;background:var(--ink-strong);color:var(--on-dark)}
 [data-theme="dark"] .bub.out{background:var(--accent);color:#1a1712}
@@ -237,7 +237,7 @@ a{color:inherit;text-decoration:none}
 .tl-bracket .pd{font-size:12.5px;color:var(--soft)}
 .tl-row{display:flex;flex-wrap:wrap;gap:14px}
 .tl-card{flex:0 0 215px;background:var(--surface);border:1px solid var(--line);
-  border-radius:var(--r-md);padding:16px 16px 15px;position:relative;transition:box-shadow var(--t) var(--ease),transform var(--t) var(--ease)}
+  border-radius:var(--r-sm);padding:16px 16px 15px;position:relative;transition:box-shadow var(--t) var(--ease),transform var(--t) var(--ease)}
 .tl-card:hover{box-shadow:var(--sh-2);transform:translateY(-2px)}
 .tl-card .st{font-size:11px;letter-spacing:.1em;color:var(--soft-2);font-variant-numeric:tabular-nums}
 .tl-card h5{font-family:var(--serif);font-variation-settings:"wght" 400,"wdth" 100,"CNTR" 20,"XHGT" 0;
@@ -260,7 +260,7 @@ a{color:inherit;text-decoration:none}
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 
 /* ====== Cenário no padrão /fluxo/a.html (módulo Dior 3 colunas + leitor) ====== */
-#cenario .module{background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:0 1px 2px rgba(31,35,38,.05);display:grid;grid-template-columns:1fr 1.18fr 0.82fr;overflow:hidden;margin-top:24px}
+#cenario .module{background:var(--surface);border:1px solid var(--line);border-radius:6px;box-shadow:0 1px 2px rgba(31,35,38,.05);display:grid;grid-template-columns:1fr 1.18fr 0.82fr;overflow:hidden;margin-top:24px}
 #cenario .col{padding:26px 30px 24px;position:relative}
 #cenario .col + .col{box-shadow:-1px 0 0 var(--line)}
 #cenario .chead{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;padding-bottom:17px;border-bottom:1px solid var(--line)}
@@ -310,7 +310,7 @@ a{color:inherit;text-decoration:none}
 #materiais .mat-group:first-of-type{margin-top:10px}
 #materiais .mat-gh{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent-ink);padding-bottom:12px;border-bottom:1px solid var(--line);margin-bottom:18px}
 #materiais .mat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-#materiais .mat-card{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:22px 22px 18px;text-decoration:none;color:inherit;transition:box-shadow .4s cubic-bezier(.22,1,.36,1),transform .4s cubic-bezier(.22,1,.36,1),border-color .4s}
+#materiais .mat-card{display:flex;flex-direction:column;border:1px solid var(--line);border-radius:6px;background:var(--surface);padding:22px 22px 18px;text-decoration:none;color:inherit;transition:box-shadow .4s cubic-bezier(.22,1,.36,1),transform .4s cubic-bezier(.22,1,.36,1),border-color .4s}
 #materiais .mat-card:hover{box-shadow:0 18px 44px -22px rgba(31,35,38,.24);transform:translateY(-3px);border-color:var(--line-strong)}
 #materiais .mat-card .mt{font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--soft-2);margin-bottom:13px}
 #materiais .mat-card .mn{font-size:16px;font-weight:500;color:var(--ink-strong);letter-spacing:.01em}
@@ -329,7 +329,7 @@ a{color:inherit;text-decoration:none}
 #cenario .dh-stage{min-width:0}
 #cenario .dh-viewport{overflow:hidden}
 #cenario .dh-track{display:flex;gap:18px;transition:transform .7s cubic-bezier(.22,1,.36,1)}
-#cenario .dh-card{flex:0 0 300px;height:430px;border-radius:var(--r-lg);overflow:hidden;position:relative;cursor:pointer;text-decoration:none;display:block;box-shadow:0 2px 10px -4px rgba(31,35,38,.18)}
+#cenario .dh-card{flex:0 0 300px;height:430px;border-radius:var(--r-sm);overflow:hidden;position:relative;cursor:pointer;text-decoration:none;display:block;box-shadow:0 2px 10px -4px rgba(31,35,38,.18)}
 #cenario .dh-card .img{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .9s cubic-bezier(.22,1,.36,1)}
 #cenario .dh-card:hover .img{transform:scale(1.06)}
 #cenario .dh-card::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(18,20,22,.74),rgba(18,20,22,.12) 42%,rgba(18,20,22,0) 68%)}
@@ -344,6 +344,22 @@ a{color:inherit;text-decoration:none}
 #cenario .dh-arrow:disabled{opacity:.32;cursor:default;border-color:var(--line);background:transparent;color:var(--soft-2)}
 #cenario .dh-arrow svg{width:14px;height:14px;stroke:currentColor;stroke-width:1.6;fill:none;stroke-linecap:round;stroke-linejoin:round}
 @media(max-width:1080px){#cenario .dior-hero{grid-template-columns:1fr;gap:18px}#cenario .dh-card{flex-basis:240px;height:360px}}
+
+/* ====== Skeleton — telas operacionais em construção ====== */
+.sk{position:relative;overflow:hidden;background:var(--surface-2);display:block;border-radius:6px}
+.sk::after{content:'';position:absolute;inset:0;transform:translateX(-100%);background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);animation:sksh 1.7s infinite}
+@keyframes sksh{100%{transform:translateX(100%)}}
+.sk-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.sk-c{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:18px 20px}
+.sk-l{height:9px;border-radius:5px}
+.sk-b{height:26px;width:62%;margin-top:14px;border-radius:5px}
+.sk-panel{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:20px;margin-top:16px}
+.sk-rows{margin-top:18px;display:flex;flex-direction:column;gap:10px}
+.sk-row{height:40px;border-radius:6px}
+.sk-note{margin-top:18px;font-size:12px;color:var(--soft-2);display:flex;align-items:center;gap:8px;letter-spacing:.02em}
+.sk-note i{width:7px;height:7px;border-radius:50%;background:var(--warn);flex:none}
+@media(max-width:1080px){.sk-kpis{grid-template-columns:repeat(2,1fr)}}
+@media(prefers-reduced-motion:reduce){.sk::after{animation:none}}
 </style>
 </head>
 <body>
@@ -421,49 +437,6 @@ a{color:inherit;text-decoration:none}
         </div>
       </div>
 
-      <div class="screen-head">
-        <div class="eyebrow">Cenário · hoje</div>
-        <h2>Da chegada do cliente à <em style="font-style:italic;color:var(--accent-ink)">recorrência</em></h2>
-        <p class="lead">A jornada completa — do primeiro contato à troca de refil e ao relacionamento contínuo. Cada etapa marca a ferramenta usada e o quanto ainda é manual hoje. É a base para decidirmos o que automatizar.</p>
-      </div>
-
-      <div class="grid g4">
-        <div class="kpi"><div class="lbl">Máquinas instaladas</div><div class="val">128</div><div class="dl up">▲ 9 no mês</div></div>
-        <div class="kpi"><div class="lbl">Clientes ativos</div><div class="val">86</div><div class="dl up">▲ 4 no mês</div></div>
-        <div class="kpi"><div class="lbl">Trocas / mês</div><div class="val">240</div><div class="dl">recorrência</div></div>
-        <div class="kpi"><div class="lbl">Receita recorrente</div><div class="val"><small>R$</small> 92,4<small>k</small></div><div class="dl up">▲ 6,1%</div></div>
-      </div>
-
-      <div class="module" id="jm-module"></div>
-
-      <div class="jreader" id="jm-reader">
-        <div class="rcard" id="jm-rcard">
-          <div class="rnum" id="jm-rnum">01</div>
-          <div class="rmid">
-            <span class="rstatus" id="jm-rstatus"><i></i><span></span></span>
-            <div class="rt" id="jm-rtitle">—</div>
-            <p class="roque" id="jm-roque">—</p>
-          </div>
-          <div class="rcol hoje">
-            <div class="k">Hoje</div>
-            <span class="tool" id="jm-rtool">—</span>
-            <div class="v" id="jm-rhoje">—</div>
-          </div>
-          <div class="rcol auto">
-            <div class="k">A automação</div>
-            <div class="goal" id="jm-rfazer">—</div>
-            <div class="comorow"><span class="lab">Como</span><span class="v2" id="jm-rcomo">—</span></div>
-            <div class="ferr" id="jm-rferr"></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="jlegend">
-        <span><i style="background:var(--manual)"></i>Manual</span>
-        <span><i style="background:var(--parcial)"></i>Parcial</span>
-        <span><i style="background:var(--bloqueado)"></i>Bloqueado</span>
-        <span><i style="background:var(--pronto)"></i>Pronto</span>
-      </div>
     </section>
 
     <!-- ============ MATERIAIS (índice de entregáveis) ============ -->
@@ -859,6 +832,23 @@ function activate(i,hover){
 }
 mod.addEventListener('pointerleave',function(){activate(0,false);});
 activate(0,false);
+})();
+</script>
+<script>
+/* Skeleton — telas operacionais em construção (sem dados fake) */
+(function(){
+  var SK='<div class="sk-kpis">'+
+    '<div class="sk-c"><span class="sk sk-l" style="width:46%"></span><span class="sk sk-b"></span></div>'+
+    '<div class="sk-c"><span class="sk sk-l" style="width:54%"></span><span class="sk sk-b"></span></div>'+
+    '<div class="sk-c"><span class="sk sk-l" style="width:40%"></span><span class="sk sk-b"></span></div>'+
+    '<div class="sk-c"><span class="sk sk-l" style="width:50%"></span><span class="sk sk-b"></span></div>'+
+    '</div>'+
+    '<div class="sk-panel"><span class="sk sk-l" style="width:180px;height:12px"></span>'+
+    '<div class="sk-rows"><span class="sk sk-row"></span><span class="sk sk-row"></span><span class="sk sk-row"></span><span class="sk sk-row"></span><span class="sk sk-row"></span></div></div>'+
+    '<div class="sk-note"><i></i> Módulo em construção — estrutura ilustrativa, sem dados reais.</div>';
+  ['dashboard','maquinas','logistica','estoque','financeiro','crm','bi','agente'].forEach(function(id){
+    var el=document.getElementById(id); if(el){el.innerHTML=SK;}
+  });
 })();
 </script>
 <script>
