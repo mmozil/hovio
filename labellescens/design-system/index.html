@@ -527,7 +527,27 @@ h1,h2,h3,h4,h5,
   font-variation-settings:"wght" 400,"wdth" 100,"CNTR" 20,"XHGT" 0;
 }
 
-@media(prefers-reduced-motion:reduce){*{transition:none !important; animation:none !important;}}
+/* reduce-motion: animação da marca preservada (catálogo de apresentação Dior) */
+/* ===== Carrossel editorial (La touche finale) ===== */
+.lt-wrap{position:relative;margin-top:4px}
+.lt-viewport{overflow:hidden;cursor:grab;touch-action:pan-y}
+.lt-viewport.grab{cursor:grabbing}
+.lt-track{display:flex;gap:10px;transition:transform .6s cubic-bezier(.22,1,.36,1);user-select:none}
+.lt-card{flex:0 0 300px;height:420px;position:relative;overflow:hidden;display:block;text-decoration:none;cursor:pointer;background:#1b1e22;-webkit-user-drag:none}
+.lt-card .img{position:absolute;inset:0;transition:transform .6s cubic-bezier(.22,1,.36,1);will-change:transform}
+.lt-card .img-z{position:absolute;inset:0;background-size:cover;background-position:center;transform:scale(1.14);transition:transform 1.2s cubic-bezier(.22,1,.36,1);will-change:transform}
+.lt-card:hover .img-z{transform:scale(1.36);transition:transform 5s linear}
+.lt-viewport.grab .lt-card .img-z{transform:scale(1.14);transition:transform .4s ease}
+.lt-card::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(40,32,26,.82) 0%,rgba(40,32,26,.42) 20%,rgba(40,32,26,.12) 44%,rgba(40,32,26,0) 66%)}
+.lt-cap{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:0 20px 26px;text-align:center}
+.lt-cap .eb{display:block;font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.74);margin-bottom:7px}
+.lt-cap .t{display:block;font-family:var(--serif);font-weight:400;font-size:20px;color:#fff;line-height:1.05}
+.lt-cap .l{display:inline-block;margin-top:9px;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#fff;border-bottom:1px solid rgba(255,255,255,.55);padding-bottom:3px}
+.lt-nav{display:flex;align-items:center;justify-content:flex-end;gap:13px;margin-top:16px}
+.lt-count{font-size:12px;font-variant-numeric:tabular-nums;color:var(--soft);letter-spacing:.08em;min-width:40px;text-align:center}
+.lt-arrow{background:none;border:0;color:var(--soft);cursor:pointer;padding:2px;display:inline-flex;transition:color .3s}
+.lt-arrow:hover{color:var(--ink-strong)}.lt-arrow:disabled{opacity:.3;cursor:default}
+.lt-arrow svg{width:17px;height:17px;stroke:currentColor;stroke-width:1.3;fill:none;stroke-linecap:round;stroke-linejoin:round}
 </style>
 </head>
 <body>
@@ -921,6 +941,30 @@ h1,h2,h3,h4,h5,
         </div>
       </section>
 
+      <section id="carrossel">
+        <div class="sec-head"><div class="sec-kicker">Padrões</div><h2>Carrossel editorial · La touche finale</h2>
+          <p>O padrão de vitrine da Dior: banners grandes, arraste com inércia, parallax sutil e <b>zoom lento no hover</b> (a imagem cresce aos poucos). Passe o mouse num banner e segure; arraste para o lado.</p></div>
+        <div class="demo">
+          <div class="demo-label">Carrossel de banners — parallax + hover-zoom (5s) + snap</div>
+          <div class="lt-wrap">
+            <div class="lt-viewport" id="ltViewport">
+              <div class="lt-track" id="ltTrack">
+                <a class="lt-card"><span class="img"><span class="img-z" style="background-image:url('/img/cenario.webp')"></span></span><span class="lt-cap"><span class="eb">La Belle Scens</span><span class="t">Figo Negro</span><span class="l">Descobrir</span></span></a>
+                <a class="lt-card"><span class="img"><span class="img-z" style="background-image:url('/img/materiais.webp')"></span></span><span class="lt-cap"><span class="eb">La Belle Scens</span><span class="t">Floral Provence</span><span class="l">Descobrir</span></span></a>
+                <a class="lt-card"><span class="img"><span class="img-z" style="background-image:url('/img/planejamento.webp')"></span></span><span class="lt-cap"><span class="eb">La Belle Scens</span><span class="t">Bamboo Natural</span><span class="l">Descobrir</span></span></a>
+                <a class="lt-card"><span class="img"><span class="img-z" style="background-image:url('/img/operacao.webp')"></span></span><span class="lt-cap"><span class="eb">La Belle Scens</span><span class="t">Alecrim Silvestre</span><span class="l">Descobrir</span></span></a>
+                <a class="lt-card"><span class="img"><span class="img-z" style="background-image:url('/img/investimento.webp')"></span></span><span class="lt-cap"><span class="eb">La Belle Scens</span><span class="t">Flooral</span><span class="l">Descobrir</span></span></a>
+              </div>
+            </div>
+            <div class="lt-nav">
+              <button class="lt-arrow" id="ltPrev" aria-label="Anterior"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
+              <span class="lt-count" id="ltCount">1 / 2</span>
+              <button class="lt-arrow" id="ltNext" aria-label="Próximo"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <footer style="padding:60px 0 0;text-align:center;">
         <div class="ornament" style="margin-bottom:30px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 3c3 4 3 6 0 9-3-3-3-5 0-9zM12 12v9"/></svg></div>
         <div class="brand-mark" style="justify-content:center;margin-bottom:10px;"><span class="lb" style="font-size:26px;">La&nbsp;Belle&nbsp;Scens</span><span class="dot"></span></div>
@@ -944,7 +988,7 @@ const NAV = [
     {id:'botoes',label:'Botões'},{id:'links',label:'Links'},{id:'formularios',label:'Formulários'},
     {id:'badges',label:'Badges & status'},{id:'cards',label:'Cards'},{id:'tabela',label:'Tabela'},
     {id:'feedback',label:'Alertas & tooltip'},{id:'navegacao',label:'Tabs & acordeão'}]},
-  {group:'Efeitos', items:[{id:'efeitos',label:'Movimento'}]},
+  {group:'Efeitos', items:[{id:'efeitos',label:'Movimento'},{id:'carrossel',label:'Carrossel editorial'}]},
 ];
 const navEl = document.getElementById('nav');
 NAV.forEach(g=>{
@@ -1034,6 +1078,38 @@ Object.entries(ICONS).forEach(([nm,p])=>{
   d.innerHTML=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">${p}</svg><span>${nm}</span>`;
   ig.appendChild(d);
 });
+</script>
+<script>
+/* Carrossel editorial (La touche finale) — drag + parallax + hover-zoom (CSS) + snap + pager */
+(function(){
+  var vp=document.getElementById('ltViewport'); if(!vp)return;
+  var track=document.getElementById('ltTrack');
+  var cards=[].slice.call(track.children);
+  var imgs=cards.map(function(c){return c.querySelector('.img');});
+  var prev=document.getElementById('ltPrev'),next=document.getElementById('ltNext'),count=document.getElementById('ltCount');
+  var GAP=10,pos=0;
+  function cw(){return cards[0].offsetWidth+GAP;}
+  function maxShift(){return Math.max(0,track.scrollWidth-vp.offsetWidth);}
+  function vis(){return Math.max(1,Math.round(vp.offsetWidth/cw()));}
+  function pages(){return Math.max(1,cards.length-vis()+1);}
+  function clamp(p){return Math.max(-maxShift(),Math.min(0,p));}
+  function tf(i){if(!imgs[i])return '';var w=cards[i].offsetWidth;var cx=cards[i].offsetLeft+pos+w/2;var tx=(cx-vp.offsetWidth/2)*-0.05;var mx=w*0.08;if(tx>mx)tx=mx;if(tx<-mx)tx=-mx;return 'translate3d('+tx+'px,0,0)';}
+  function parallax(){for(var i=0;i<cards.length;i++){if(imgs[i])imgs[i].style.transform=tf(i);}}
+  function pager(){var s=cw();var idx=s?Math.round(-pos/s):0;idx=Math.max(0,Math.min(pages()-1,idx));count.textContent=(idx+1)+' / '+pages();prev.disabled=pos>=-2;next.disabled=pos<=-maxShift()+2;}
+  function paint(anim){track.style.transition=anim?'transform .6s cubic-bezier(.22,1,.36,1)':'none';for(var i=0;i<imgs.length;i++){if(imgs[i])imgs[i].style.transition=anim?'transform .6s cubic-bezier(.22,1,.36,1)':'none';}track.style.transform='translate3d('+pos+'px,0,0)';parallax();pager();}
+  function snap(){var s=cw(),ms=maxShift(),vw=vp.offsetWidth,sw=track.scrollWidth,lastL=sw-cards[cards.length-1].offsetWidth,best=0,bd=Infinity;for(var p=0;p>-ms-s;p-=s){var q=p<-ms?-ms:p;if(q>-ms&&lastL+q<vw-1&&sw+q>vw+1)continue;var d=Math.abs(pos-q);if(d<bd){bd=d;best=q;}}pos=clamp(best);paint(true);}
+  prev.addEventListener('click',function(){pos=clamp(pos+vis()*cw());snap();});
+  next.addEventListener('click',function(){pos=clamp(pos-vis()*cw());snap();});
+  var down=false,sx=0,sp=0,moved=0,lastX=0,vel=0;
+  track.addEventListener('dragstart',function(e){e.preventDefault();});
+  vp.addEventListener('pointerdown',function(e){down=true;sx=e.clientX;lastX=e.clientX;sp=pos;moved=0;vel=0;paint(false);vp.classList.add('grab');try{vp.setPointerCapture(e.pointerId);}catch(_){}});
+  vp.addEventListener('pointermove',function(e){if(!down)return;var dx=e.clientX-sx;if(Math.abs(dx)>moved)moved=Math.abs(dx);vel=e.clientX-lastX;lastX=e.clientX;var p=sp+dx;if(p>0)p*=0.35;var m=-maxShift();if(p<m)p=m+(p-m)*0.35;pos=p;track.style.transform='translate3d('+pos+'px,0,0)';parallax();});
+  function release(){if(!down)return;down=false;vp.classList.remove('grab');pos=clamp(pos+vel*14);snap();}
+  vp.addEventListener('pointerup',release);vp.addEventListener('pointercancel',release);
+  cards.forEach(function(c){c.addEventListener('click',function(e){e.preventDefault();if(moved>8)e.stopPropagation();});});
+  window.addEventListener('resize',function(){pos=clamp(pos);paint(false);});
+  paint(false);
+})();
 </script>
 </body>
 </html>
