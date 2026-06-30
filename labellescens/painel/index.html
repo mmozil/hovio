@@ -322,7 +322,7 @@ a{color:inherit;text-decoration:none}
 @media(max-width:1080px){#materiais .mat-grid{grid-template-columns:1fr}}
 
 /* ====== Carrossel Dior — Visão geral ====== */
-#cenario .dior-hero{position:relative;margin:4px 0 42px}
+#cenario .dior-hero{position:relative;margin:4px 0 42px 48px}
 #cenario .dh-intro{position:absolute;left:0;top:50%;transform:translateY(-50%);width:300px;z-index:1;pointer-events:none;transition:opacity .45s cubic-bezier(.22,1,.36,1)}
 #cenario .dh-intro .eyebrow{font-size:10px;letter-spacing:.34em;text-transform:uppercase;color:var(--accent-ink);margin-bottom:13px}
 #cenario .dh-intro h2{font-family:var(--serif);font-weight:300;font-variation-settings:"wght" 300,"wdth" 100,"CNTR" 20,"XHGT" 0;font-size:clamp(26px,2.8vw,40px);line-height:1.04;letter-spacing:-.02em;color:var(--ink-strong)}
@@ -348,7 +348,7 @@ a{color:inherit;text-decoration:none}
 #cenario .dh-arrow:hover{border-color:var(--ink);background:var(--ink-strong);color:#fff}
 #cenario .dh-arrow:disabled{opacity:.32;cursor:default;border-color:var(--line);background:transparent;color:var(--soft-2)}
 #cenario .dh-arrow svg{width:14px;height:14px;stroke:currentColor;stroke-width:1.6;fill:none;stroke-linecap:round;stroke-linejoin:round}
-@media(max-width:1080px){#cenario .dh-intro{position:static;width:auto;transform:none;opacity:1!important;margin-bottom:16px}#cenario .dh-track{padding-left:0}#cenario .dh-card{flex-basis:300px;height:480px}}
+@media(max-width:1080px){#cenario .dior-hero{margin-left:0}#cenario .dh-intro{position:static;width:auto;transform:none;opacity:1!important;margin-bottom:16px}#cenario .dh-track{padding-left:0}#cenario .dh-card{flex-basis:300px;height:480px}}
 
 /* ====== Skeleton — telas operacionais em construção ====== */
 .sk{position:relative;overflow:hidden;background:var(--surface-2);display:block;border-radius:6px}
@@ -939,7 +939,7 @@ activate(0,false);
   function vis(){return Math.max(1,Math.round(vp.offsetWidth/cw()));}
   function pages(){return Math.max(1,Math.ceil(cards.length/Math.max(1,vis())));}
   function clamp(p){return Math.max(-maxShift(), Math.min(0,p));}
-  function parallax(){var vc=vp.offsetWidth/2;for(var i=0;i<cards.length;i++){if(!imgs[i])continue;var cx=cards[i].offsetLeft+pos+cards[i].offsetWidth/2;imgs[i].style.transform='scale(1.16) translate3d('+((cx-vc)*-0.05)+'px,0,0)';}}
+  function parallax(){var vc=vp.offsetWidth/2;for(var i=0;i<cards.length;i++){if(!imgs[i])continue;var cw=cards[i].offsetWidth;var cx=cards[i].offsetLeft+pos+cw/2;var tx=(cx-vc)*-0.05;var mx=cw*0.085;if(tx>mx)tx=mx;if(tx<-mx)tx=-mx;imgs[i].style.transform='scale(1.2) translate3d('+tx+'px,0,0)';}}
   function fadeIntro(){if(intro)intro.style.opacity=Math.max(0,Math.min(1,1-(-pos)/300));}
   function paint(anim){track.style.transition=anim?'transform .6s cubic-bezier(.22,1,.36,1)':'none';for(var i=0;i<imgs.length;i++){if(imgs[i])imgs[i].style.transition=anim?'transform .6s cubic-bezier(.22,1,.36,1)':'none';}track.style.transform='translate3d('+pos+'px,0,0)';fadeIntro();parallax();pager();}
   function pager(){var step=vis()*cw();var pg=step?Math.round(-pos/step):0;pg=Math.max(0,Math.min(pages()-1,pg));count.textContent=(pg+1)+' / '+pages();prev.disabled=pos>=-2;next.disabled=pos<=-maxShift()+2;}
