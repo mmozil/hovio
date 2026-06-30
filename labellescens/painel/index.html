@@ -940,7 +940,7 @@ activate(0,false);
   function pages(){return Math.max(1,Math.ceil(cards.length/Math.max(1,vis())));}
   function clamp(p){return Math.max(-maxShift(), Math.min(0,p));}
   var hoverIdx=-1;
-  function tf(i){if(!imgs[i])return '';var cwi=cards[i].offsetWidth;var cx=cards[i].offsetLeft+pos+cwi/2;var tx=(cx-vp.offsetWidth/2)*-0.05;var mx=cwi*0.085;if(tx>mx)tx=mx;if(tx<-mx)tx=-mx;var sc=hoverIdx===i?1.3:1.2;return 'scale('+sc+') translate3d('+tx+'px,0,0)';}
+  function tf(i){if(!imgs[i])return '';var cwi=cards[i].offsetWidth;var cx=cards[i].offsetLeft+pos+cwi/2;var tx=(cx-vp.offsetWidth/2)*-0.05;var mx=cwi*0.085;if(tx>mx)tx=mx;if(tx<-mx)tx=-mx;var sc=hoverIdx===i?1.42:1.2;return 'scale('+sc+') translate3d('+tx+'px,0,0)';}
   function parallax(){for(var i=0;i<cards.length;i++){if(imgs[i])imgs[i].style.transform=tf(i);}}
   function fadeIntro(){if(intro)intro.style.opacity=Math.max(0,Math.min(1,1-(-pos)/300));}
   function paint(anim){track.style.transition=anim?'transform .6s cubic-bezier(.22,1,.36,1)':'none';for(var i=0;i<imgs.length;i++){if(imgs[i])imgs[i].style.transition=anim?'transform .6s cubic-bezier(.22,1,.36,1)':'none';}track.style.transform='translate3d('+pos+'px,0,0)';fadeIntro();parallax();pager();}
@@ -958,8 +958,8 @@ activate(0,false);
   vp.addEventListener('pointercancel',function(){release(false);});
   cards.forEach(function(c){c.addEventListener('click',function(e){if(moved>8){e.preventDefault();e.stopPropagation();}});});
   cards.forEach(function(c,i){
-    c.addEventListener('pointerenter',function(){if(down)return;hoverIdx=i;if(imgs[i]){imgs[i].style.transition='transform .6s cubic-bezier(.22,1,.36,1)';imgs[i].style.transform=tf(i);}});
-    c.addEventListener('pointerleave',function(){if(hoverIdx===i)hoverIdx=-1;if(imgs[i]){imgs[i].style.transition='transform .6s cubic-bezier(.22,1,.36,1)';imgs[i].style.transform=tf(i);}});
+    c.addEventListener('pointerenter',function(){if(down)return;hoverIdx=i;if(imgs[i]){imgs[i].style.transition='transform 5s linear';imgs[i].style.transform=tf(i);}});
+    c.addEventListener('pointerleave',function(){if(hoverIdx===i)hoverIdx=-1;if(imgs[i]){imgs[i].style.transition='transform 1.1s cubic-bezier(.22,1,.36,1)';imgs[i].style.transform=tf(i);}});
   });
   window.addEventListener('resize',function(){pos=clamp(pos);paint(false);});
   paint(false);
