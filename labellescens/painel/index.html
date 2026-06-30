@@ -923,6 +923,9 @@ activate(0,false);
       +'</div>'
     +'</div>'+NOTE;
 
+  S.config=head('Sistema · configurações','Configurações','Integrações, máquinas, zonas, agente, faturamento e equipe — tudo num só lugar.')
+    +'<div class="sk-grid sk-g3">'+rep('<div class="sk-card"><div class="sk-ct"><span class="sk sk-l" style="width:120px"></span></div>'+lines([85,58])+'<span class="sk" style="display:block;width:108px;height:30px;border-radius:6px;margin-top:18px"></span></div>',6)+'</div>'+NOTE;
+
   Object.keys(S).forEach(function(id){var el=document.getElementById(id);if(el)el.innerHTML=S[id];});
 })();
 </script>
