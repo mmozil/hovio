@@ -329,12 +329,14 @@ a{color:inherit;text-decoration:none}
 #cenario .dh-intro h2 em{font-style:italic;color:var(--accent-ink)}
 #cenario .dh-intro p{margin-top:13px;font-size:13.5px;line-height:1.6;color:var(--soft);max-width:300px}
 #cenario .dh-stage{position:relative;z-index:2;width:100%;min-width:0}
-#cenario .dh-viewport{overflow:hidden;cursor:grab;touch-action:pan-y;margin-right:-40px}
+#cenario .dh-viewport{overflow:hidden;cursor:grab;touch-action:pan-y;margin-left:-88px;margin-right:-40px}
 #cenario .dh-viewport.grab{cursor:grabbing}
-#cenario .dh-track{display:flex;gap:6px;padding-left:340px;transition:transform .6s cubic-bezier(.22,1,.36,1);user-select:none}
+#cenario .dh-track{display:flex;gap:6px;padding-left:428px;transition:transform .6s cubic-bezier(.22,1,.36,1);user-select:none}
 #cenario .dh-card{flex:0 0 440px;height:680px;border-radius:0;overflow:hidden;position:relative;cursor:pointer;text-decoration:none;display:block;-webkit-user-drag:none}
-#cenario .dh-card .img{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .6s cubic-bezier(.22,1,.36,1);will-change:transform}
-#cenario .dh-card:hover .img{transform:scale(1.06)}
+#cenario .dh-card .img{position:absolute;inset:0;transition:transform .6s cubic-bezier(.22,1,.36,1);will-change:transform}
+#cenario .dh-card .img-z{position:absolute;inset:0;background-size:cover;background-position:center;transform:scale(1.2);transition:transform 1.2s cubic-bezier(.22,1,.36,1);will-change:transform}
+#cenario .dh-card:hover .img-z{transform:scale(1.45);transition:transform 5s linear}
+#cenario .dh-viewport.grab .dh-card .img-z{transform:scale(1.2);transition:transform .4s ease}
 #cenario .dh-card::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(40,32,26,.82) 0%,rgba(40,32,26,.42) 20%,rgba(40,32,26,.12) 44%,rgba(40,32,26,0) 66%);transition:background .5s cubic-bezier(.22,1,.36,1)}
 #cenario .dh-card:hover::after{background:linear-gradient(to top,rgba(40,32,26,.88) 0%,rgba(40,32,26,.5) 24%,rgba(40,32,26,.16) 48%,rgba(40,32,26,.03) 70%)}
 #cenario .dh-cap{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:0 22px 30px;text-align:center}
@@ -348,7 +350,7 @@ a{color:inherit;text-decoration:none}
 #cenario .dh-arrow:hover{color:var(--ink-strong);background:none}
 #cenario .dh-arrow:disabled{opacity:.3;cursor:default;color:var(--soft-2)}
 #cenario .dh-arrow svg{width:17px;height:17px;stroke:currentColor;stroke-width:1.3;fill:none;stroke-linecap:round;stroke-linejoin:round}
-@media(max-width:1080px){#cenario .dior-hero{margin-left:0}#cenario .dh-viewport{margin-right:0}#cenario .dh-intro{position:static;width:auto;transform:none;opacity:1!important;margin-bottom:16px}#cenario .dh-track{padding-left:0}#cenario .dh-card{flex-basis:300px;height:480px}}
+@media(max-width:1080px){#cenario .dior-hero{margin-left:0}#cenario .dh-viewport{margin-left:0;margin-right:0}#cenario .dh-intro{position:static;width:auto;transform:none;opacity:1!important;margin-bottom:16px}#cenario .dh-track{padding-left:0}#cenario .dh-card{flex-basis:300px;height:480px}}
 
 /* ====== Skeleton — telas operacionais em construção ====== */
 .sk{position:relative;overflow:hidden;background:var(--surface-2);display:block;border-radius:6px}
@@ -461,11 +463,11 @@ a{color:inherit;text-decoration:none}
         <div class="dh-stage">
           <div class="dh-viewport">
             <div class="dh-track">
-              <a class="dh-card" data-nav="cenario"><span class="img" style="background-image:url('/img/cenario.webp')"></span><span class="dh-cap"><span class="dh-eb">La Belle Scens</span><span class="t">Cenário</span><span class="l">Abrir</span></span></a>
-              <a class="dh-card" data-nav="materiais"><span class="img" style="background-image:url('/img/materiais.webp')"></span><span class="dh-cap"><span class="dh-eb">La Belle Scens</span><span class="t">Materiais</span><span class="l">Abrir</span></span></a>
-              <a class="dh-card" href="/fluxo/a.html"><span class="img" style="background-image:url('/img/planejamento.webp')"></span><span class="dh-cap"><span class="dh-eb">La Belle Scens</span><span class="t">Planejamento</span><span class="l">Abrir</span></span></a>
-              <a class="dh-card" data-nav="dashboard"><span class="img" style="background-image:url('/img/operacao.webp')"></span><span class="dh-cap"><span class="dh-eb">La Belle Scens</span><span class="t">Operação</span><span class="l">Abrir</span></span></a>
-              <a class="dh-card" href="/fluxo/investimento.html"><span class="img" style="background-image:url('/img/investimento.webp')"></span><span class="dh-cap"><span class="dh-eb">La Belle Scens</span><span class="t">Investimento</span><span class="l">Abrir</span></span></a>
+              <a class="dh-card" data-nav="cenario"><span class="img"><span class="img-z" style="background-image:url('/img/cenario.webp')"></span></span><span class="dh-cap"><span class="dh-eb">La Belle Scens</span><span class="t">Cenário</span><span class="l">Abrir</span></span></a>
+              <a class="dh-card" data-nav="materiais"><span class="img"><span class="img-z" style="background-image:url('/img/materiais.webp')"></span></span><span class="dh-cap"><span class="dh-eb">La Belle Scens</span><span class="t">Materiais</span><span class="l">Abrir</span></span></a>
+              <a class="dh-card" href="/fluxo/a.html"><span class="img"><span class="img-z" style="background-image:url('/img/planejamento.webp')"></span></span><span class="dh-cap"><span class="dh-eb">La Belle Scens</span><span class="t">Planejamento</span><span class="l">Abrir</span></span></a>
+              <a class="dh-card" data-nav="dashboard"><span class="img"><span class="img-z" style="background-image:url('/img/operacao.webp')"></span></span><span class="dh-cap"><span class="dh-eb">La Belle Scens</span><span class="t">Operação</span><span class="l">Abrir</span></span></a>
+              <a class="dh-card" href="/fluxo/investimento.html"><span class="img"><span class="img-z" style="background-image:url('/img/investimento.webp')"></span></span><span class="dh-cap"><span class="dh-eb">La Belle Scens</span><span class="t">Investimento</span><span class="l">Abrir</span></span></a>
             </div>
           </div>
           <div class="dh-nav">
@@ -933,14 +935,13 @@ activate(0,false);
   var cards=[].slice.call(track.children);
   var imgs=cards.map(function(c){return c.querySelector('.img');});
   var prev=document.getElementById('dhPrev'),next=document.getElementById('dhNext'),count=document.getElementById('dhCount');
-  var GAP=16, pos=0;
+  var GAP=6, pos=0;
   function cw(){return cards[0].offsetWidth+GAP;}
   function maxShift(){return Math.max(0, track.scrollWidth - vp.offsetWidth);}
   function vis(){return Math.max(1,Math.round(vp.offsetWidth/cw()));}
   function pages(){return Math.max(1,Math.ceil(cards.length/Math.max(1,vis())));}
   function clamp(p){return Math.max(-maxShift(), Math.min(0,p));}
-  var hoverIdx=-1;
-  function tf(i){if(!imgs[i])return '';var cwi=cards[i].offsetWidth;var cx=cards[i].offsetLeft+pos+cwi/2;var tx=(cx-vp.offsetWidth/2)*-0.05;var mx=cwi*0.085;if(tx>mx)tx=mx;if(tx<-mx)tx=-mx;var sc=hoverIdx===i?1.42:1.2;return 'scale('+sc+') translate3d('+tx+'px,0,0)';}
+  function tf(i){if(!imgs[i])return '';var cwi=cards[i].offsetWidth;var cx=cards[i].offsetLeft+pos+cwi/2;var tx=(cx-vp.offsetWidth/2)*-0.05;var mx=cwi*0.085;if(tx>mx)tx=mx;if(tx<-mx)tx=-mx;return 'translate3d('+tx+'px,0,0)';}
   function parallax(){for(var i=0;i<cards.length;i++){if(imgs[i])imgs[i].style.transform=tf(i);}}
   function fadeIntro(){if(intro)intro.style.opacity=Math.max(0,Math.min(1,1-(-pos)/300));}
   function paint(anim){track.style.transition=anim?'transform .6s cubic-bezier(.22,1,.36,1)':'none';for(var i=0;i<imgs.length;i++){if(imgs[i])imgs[i].style.transition=anim?'transform .6s cubic-bezier(.22,1,.36,1)':'none';}track.style.transform='translate3d('+pos+'px,0,0)';fadeIntro();parallax();pager();}
@@ -951,16 +952,12 @@ activate(0,false);
   var down=false,sx=0,sp=0,moved=0,lastX=0,vel=0,startCard=null;
   function go(c){if(!c)return;var nav=c.getAttribute('data-nav');if(nav){var el=document.querySelector('.nav a[data-s="'+nav+'"]');if(el)el.click();return;}var href=c.getAttribute('href');if(href)window.location.href=href;}
   track.addEventListener('dragstart',function(e){e.preventDefault();});
-  vp.addEventListener('pointerdown',function(e){down=true;sx=e.clientX;lastX=e.clientX;sp=pos;moved=0;vel=0;hoverIdx=-1;startCard=e.target.closest?e.target.closest('.dh-card'):null;paint(false);vp.classList.add('grab');try{vp.setPointerCapture(e.pointerId);}catch(_){}});
+  vp.addEventListener('pointerdown',function(e){down=true;sx=e.clientX;lastX=e.clientX;sp=pos;moved=0;vel=0;startCard=e.target.closest?e.target.closest('.dh-card'):null;paint(false);vp.classList.add('grab');try{vp.setPointerCapture(e.pointerId);}catch(_){}});
   vp.addEventListener('pointermove',function(e){if(!down)return;var dx=e.clientX-sx;if(Math.abs(dx)>moved)moved=Math.abs(dx);vel=e.clientX-lastX;lastX=e.clientX;var p=sp+dx;if(p>0)p*=0.35;var m=-maxShift();if(p<m)p=m+(p-m)*0.35;pos=p;track.style.transform='translate3d('+pos+'px,0,0)';fadeIntro();parallax();});
   function release(tap){if(!down)return;down=false;vp.classList.remove('grab');pos=clamp(pos+vel*14);snap();if(tap&&moved<8)go(startCard);startCard=null;}
   vp.addEventListener('pointerup',function(){release(true);});
   vp.addEventListener('pointercancel',function(){release(false);});
   cards.forEach(function(c){c.addEventListener('click',function(e){if(moved>8){e.preventDefault();e.stopPropagation();}});});
-  cards.forEach(function(c,i){
-    c.addEventListener('pointerenter',function(){if(down)return;hoverIdx=i;var im=imgs[i];if(im){im.style.transition='transform 5s linear';void im.offsetWidth;im.style.transform=tf(i);}});
-    c.addEventListener('pointerleave',function(){if(hoverIdx===i)hoverIdx=-1;var im=imgs[i];if(im){im.style.transition='transform 1.1s cubic-bezier(.22,1,.36,1)';void im.offsetWidth;im.style.transform=tf(i);}});
-  });
   window.addEventListener('resize',function(){pos=clamp(pos);paint(false);});
   paint(false);
 })();
