@@ -331,7 +331,7 @@ a{color:inherit;text-decoration:none}
 #cenario .dh-stage{position:relative;z-index:2;width:100%;min-width:0}
 #cenario .dh-viewport{overflow:hidden;cursor:grab;touch-action:pan-y}
 #cenario .dh-viewport.grab{cursor:grabbing}
-#cenario .dh-track{display:flex;gap:16px;padding-left:340px;transition:transform .6s cubic-bezier(.22,1,.36,1);user-select:none}
+#cenario .dh-track{display:flex;gap:6px;padding-left:340px;transition:transform .6s cubic-bezier(.22,1,.36,1);user-select:none}
 #cenario .dh-card{flex:0 0 440px;height:680px;border-radius:0;overflow:hidden;position:relative;cursor:pointer;text-decoration:none;display:block;-webkit-user-drag:none}
 #cenario .dh-card .img{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .6s cubic-bezier(.22,1,.36,1);will-change:transform}
 #cenario .dh-card:hover .img{transform:scale(1.06)}
@@ -342,12 +342,12 @@ a{color:inherit;text-decoration:none}
 #cenario .dh-cap .t{display:block;font-family:var(--serif);font-weight:400;font-variation-settings:"wght" 400,"wdth" 100,"CNTR" 20,"XHGT" 0;font-size:21px;letter-spacing:.01em;line-height:1.05;color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.4)}
 #cenario .dh-cap .l{display:inline-block;margin-top:11px;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#fff;border-bottom:1px solid rgba(255,255,255,.55);padding-bottom:3px;transition:border-color .3s}
 #cenario .dh-card:hover .dh-cap .l{border-color:#fff}
-#cenario .dh-nav{display:flex;align-items:center;justify-content:flex-end;gap:16px;margin-top:16px}
-#cenario .dh-count{font-size:12px;font-variant-numeric:tabular-nums;color:var(--soft);letter-spacing:.05em}
-#cenario .dh-arrow{width:32px;height:32px;border-radius:50%;border:1px solid var(--line-strong);background:var(--surface);color:var(--ink);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:all .3s}
-#cenario .dh-arrow:hover{border-color:var(--ink);background:var(--ink-strong);color:#fff}
-#cenario .dh-arrow:disabled{opacity:.32;cursor:default;border-color:var(--line);background:transparent;color:var(--soft-2)}
-#cenario .dh-arrow svg{width:14px;height:14px;stroke:currentColor;stroke-width:1.6;fill:none;stroke-linecap:round;stroke-linejoin:round}
+#cenario .dh-nav{display:flex;align-items:center;justify-content:flex-end;gap:13px;margin-top:18px}
+#cenario .dh-count{font-size:12px;font-variant-numeric:tabular-nums;color:var(--soft);letter-spacing:.08em;min-width:40px;text-align:center}
+#cenario .dh-arrow{width:auto;height:auto;border:0;border-radius:0;background:none;color:var(--soft);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;padding:2px;transition:color .3s}
+#cenario .dh-arrow:hover{color:var(--ink-strong);background:none}
+#cenario .dh-arrow:disabled{opacity:.3;cursor:default;color:var(--soft-2)}
+#cenario .dh-arrow svg{width:17px;height:17px;stroke:currentColor;stroke-width:1.3;fill:none;stroke-linecap:round;stroke-linejoin:round}
 @media(max-width:1080px){#cenario .dior-hero{margin-left:0}#cenario .dh-intro{position:static;width:auto;transform:none;opacity:1!important;margin-bottom:16px}#cenario .dh-track{padding-left:0}#cenario .dh-card{flex-basis:300px;height:480px}}
 
 /* ====== Skeleton — telas operacionais em construção ====== */
@@ -469,8 +469,8 @@ a{color:inherit;text-decoration:none}
             </div>
           </div>
           <div class="dh-nav">
-            <span class="dh-count" id="dhCount">1 / 2</span>
             <button class="dh-arrow" id="dhPrev" aria-label="Anterior"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
+            <span class="dh-count" id="dhCount">1 / 2</span>
             <button class="dh-arrow" id="dhNext" aria-label="Próximo"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
           </div>
         </div>
