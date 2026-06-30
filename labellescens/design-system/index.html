@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>La Belle Scens — Design System</title>
+<link rel="icon" type="image/png" href="/img/favicon.png" />
 <meta name="description" content="Sistema de design da La Belle Scens — marketing olfativo. Tokens, tipografia, componentes e estados." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -101,7 +102,7 @@
 html{scroll-behavior:smooth;}
 body{
   margin:0; background-color:var(--bg); color:var(--ink);
-  background-image:url('/img/cannage-background.png');background-size:1200px auto;
+  background-image:repeating-linear-gradient(45deg,color-mix(in srgb,var(--ink) 4%,transparent) 0 1px,transparent 1px 80px),repeating-linear-gradient(-45deg,color-mix(in srgb,var(--ink) 4%,transparent) 0 1px,transparent 1px 80px);
   font-family:var(--sans); font-size:16px; line-height:1.55;
   -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
   transition:background var(--t) var(--ease), color var(--t) var(--ease);

@@ -4,6 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>La Belle Scens — Painel</title>
+<link rel="icon" type="image/png" href="/img/favicon.png" />
 <style>
 /* ====== Fontes ====== */
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap');
@@ -126,7 +127,8 @@ a{color:inherit;text-decoration:none}
   border-right:1px solid var(--line);display:flex;flex-direction:column;overflow:hidden;
   transition:background var(--t) var(--ease),border-color var(--t) var(--ease)}
 .side-brand{padding:24px 24px 18px;border-bottom:1px solid var(--line)}
-.brand-mark{display:flex;align-items:baseline;gap:7px}
+.brand-mark{display:flex;align-items:center;gap:9px}
+.brand-logo{width:26px;height:26px;flex:none;object-fit:contain}
 .brand-mark .lb{font-family:var(--serif);font-size:23px;font-weight:400;
   font-variation-settings:"wght" 400,"wdth" 100,"CNTR" 20,"XHGT" 0;color:var(--ink-strong);line-height:1}
 .brand-mark .bdot{width:5px;height:5px;border-radius:50%;background:var(--accent);transform:translateY(-3px)}
@@ -155,10 +157,10 @@ a{color:inherit;text-decoration:none}
 .top .crumb{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--soft)}
 .top h1{font-size:19px}
 .top-r{margin-left:auto;display:flex;align-items:center;gap:10px}
-.theme-toggle{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;
-  border:1px solid var(--line-strong);border-radius:var(--r-pill);background:transparent;color:var(--ink);cursor:pointer;
-  transition:all var(--t) var(--ease)}
-.theme-toggle:hover{border-color:var(--ink);background:var(--surface)}
+.theme-toggle{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;
+  border:0;background:transparent;color:var(--soft);cursor:pointer;
+  transition:color var(--t) var(--ease)}
+.theme-toggle:hover{color:var(--ink-strong)}
 .theme-toggle svg{width:16px;height:16px;stroke:currentColor;stroke-width:1.5;fill:none;stroke-linecap:round;stroke-linejoin:round}
 .theme-toggle .moon{display:none} [data-theme="dark"] .theme-toggle .sun{display:none} [data-theme="dark"] .theme-toggle .moon{display:block}
 
@@ -419,7 +421,7 @@ a{color:inherit;text-decoration:none}
 
 <aside class="side">
   <div class="side-brand">
-    <div class="brand-mark"><span class="lb">La Belle Scens</span><span class="bdot"></span></div>
+    <div class="brand-mark"><img class="brand-logo" src="/img/favicon.png" alt="" /><span class="lb">La Belle Scens</span><span class="bdot"></span></div>
     <div class="brand-sub">Gestão de Aromatização</div>
   </div>
   <nav class="nav">
@@ -460,7 +462,6 @@ a{color:inherit;text-decoration:none}
         <svg class="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg>
         <svg class="moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>
       </button>
-      <button class="btn btn-primary btn-sm"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg> Nova troca</button>
     </div>
   </div>
 
