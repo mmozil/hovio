@@ -949,7 +949,7 @@ activate(0,false);
   function fadeIntro(){if(intro)intro.style.opacity=Math.max(0,Math.min(1,1-(-pos)/300));}
   function paint(anim){track.style.transition=anim?'transform .6s cubic-bezier(.22,1,.36,1)':'none';for(var i=0;i<imgs.length;i++){if(imgs[i])imgs[i].style.transition=anim?'transform .6s cubic-bezier(.22,1,.36,1)':'none';}track.style.transform='translate3d('+pos+'px,0,0)';fadeIntro();parallax();pager();}
   function pager(){var step=vis()*cw();var pg=step?Math.round(-pos/step):0;pg=Math.max(0,Math.min(pages()-1,pg));count.textContent=(pg+1)+' / '+pages();prev.disabled=pos>=-2;next.disabled=pos<=-maxShift()+2;}
-  function snap(){var s=cw(),ms=maxShift(),best=0,bd=Infinity;for(var p=0;p>-ms-s;p-=s){var q=p<-ms?-ms:p;var d=Math.abs(pos-q);if(d<bd){bd=d;best=q;}}pos=clamp(best);paint(true);}
+  function snap(){var s=cw(),ms=maxShift(),vw=vp.offsetWidth,sw=track.scrollWidth,lastL=sw-cards[cards.length-1].offsetWidth,best=0,bd=Infinity;for(var p=0;p>-ms-s;p-=s){var q=p<-ms?-ms:p;if(q>-ms&&lastL+q<vw-1&&sw+q>vw+1)continue;var d=Math.abs(pos-q);if(d<bd){bd=d;best=q;}}pos=clamp(best);paint(true);}
   prev.addEventListener('click',function(){pos=clamp(pos+vis()*cw());paint(true);});
   next.addEventListener('click',function(){pos=clamp(pos-vis()*cw());paint(true);});
   var down=false,sx=0,sp=0,moved=0,lastX=0,vel=0,startCard=null;
