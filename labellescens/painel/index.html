@@ -127,8 +127,7 @@ a{color:inherit;text-decoration:none}
   border-right:1px solid var(--line);display:flex;flex-direction:column;overflow:hidden;
   transition:background var(--t) var(--ease),border-color var(--t) var(--ease)}
 .side-brand{padding:24px 24px 18px;border-bottom:1px solid var(--line)}
-.brand-mark{display:flex;align-items:center;gap:9px}
-.brand-logo{width:26px;height:26px;flex:none;object-fit:contain}
+.brand-mark{display:flex;align-items:baseline;gap:7px}
 .brand-mark .lb{font-family:var(--serif);font-size:23px;font-weight:400;
   font-variation-settings:"wght" 400,"wdth" 100,"CNTR" 20,"XHGT" 0;color:var(--ink-strong);line-height:1}
 .brand-mark .bdot{width:5px;height:5px;border-radius:50%;background:var(--accent);transform:translateY(-3px)}
@@ -421,7 +420,7 @@ a{color:inherit;text-decoration:none}
 
 <aside class="side">
   <div class="side-brand">
-    <div class="brand-mark"><img class="brand-logo" src="/img/favicon.png" alt="" /><span class="lb">La Belle Scens</span><span class="bdot"></span></div>
+    <div class="brand-mark"><span class="lb">La Belle Scens</span><span class="bdot"></span></div>
     <div class="brand-sub">Gestão de Aromatização</div>
   </div>
   <nav class="nav">
@@ -445,7 +444,7 @@ a{color:inherit;text-decoration:none}
     <a data-s="config">Configurações</a>
   </nav>
   <div class="side-foot">
-    <span class="avatar">L</span>
+    <span class="avatar"><img src="/img/favicon.png" alt="" style="width:22px;height:22px;object-fit:contain" /></span>
     <span class="who">La Belle Scens<small>Conta demonstração</small></span>
   </div>
 </aside>
