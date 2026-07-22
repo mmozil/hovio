@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>La Belle Scens — Comparativo · Sistema próprio × Auvo</title>
+<link rel="icon" type="image/png" href="/img/favicon.png" />
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Hanken+Grotesk:wght@300;400;500;600&display=swap');
+@font-face{font-family:'Atacama';src:url('/fonts/Atacama-VF.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap}
+@font-face{font-family:'Atacama';src:url('/fonts/Atacama-Italic-VF.woff2') format('woff2');font-weight:100 900;font-style:italic;font-display:swap}
+@font-face{font-family:'Hellix';src:url('/fonts/HellixVAR.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap}
+:root{
+  --bg:#f8f8f8;--surface:#fff;--ink:#33383c;--ink-strong:#1f2326;--soft:#7b8487;--soft-2:#9aa1a3;
+  --line:rgba(51,56,60,.14);--line-strong:#acb2b4;--accent:#9c8458;--accent-ink:#6f5c37;--accent-soft:#f3eee2;
+  --success:#5a7d63;--warn:#9a7d3c;--error:#9a5a5a;--info:#5a6f8a;
+  --serif:'Atacama','Cormorant Garamond',Georgia,serif;--sans:'Hellix','Hanken Grotesk',-apple-system,'Segoe UI',sans-serif;
+  --disp:"wght" 300,"wdth" 100,"CNTR" 20,"XHGT" 0;--nm:"wght" 400,"wdth" 100,"CNTR" 20,"XHGT" 0;--ease:cubic-bezier(.22,1,.36,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background-color:var(--bg);background-image:url('/img/cannage-background.png');background-size:1200px auto;color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+@media(hover:hover){body{cursor:none}}
+a{color:inherit;text-decoration:none}
+
+.masthead{display:flex;align-items:center;justify-content:space-between;padding:22px 64px 18px;border-bottom:1px solid var(--line)}
+.logo{display:inline-flex;align-items:baseline;gap:8px}
+.logo .lb{font-family:var(--serif);font-size:26px;font-variation-settings:var(--nm);color:var(--ink-strong);letter-spacing:.02em}
+.logo .bdot{width:6px;height:6px;border-radius:50%;background:var(--accent);transform:translateY(-4px)}
+.crumb{display:flex;gap:18px;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--soft-2)}
+.crumb a{transition:color .3s var(--ease)}.crumb a:hover{color:var(--accent-ink)}
+.crumb a.cur{color:var(--ink-strong)}
+.back-home{display:inline-flex;align-items:center;gap:10px;padding:0 0 6px;border-bottom:1px solid var(--ink);color:var(--ink-strong);font-family:var(--sans);font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:500;transition:color .3s var(--ease),border-color .3s var(--ease)}
+.back-home svg{width:13px;height:13px;transition:transform .3s var(--ease)}
+.back-home:hover{color:var(--accent-ink);border-color:var(--accent)}.back-home:hover svg{transform:translateX(-4px)}
+
+.hero{padding:40px 64px 6px;max-width:1340px;margin:0 auto}
+.kick{font-size:10px;letter-spacing:.34em;text-transform:uppercase;color:var(--accent-ink);margin-bottom:14px}
+.hero h1{font-family:var(--serif);font-weight:300;font-variation-settings:var(--disp);font-size:clamp(30px,4vw,50px);line-height:1.02;letter-spacing:-.022em;color:var(--ink-strong)}
+.hero h1 em{font-style:italic;color:var(--accent-ink)}
+.hero p{margin-top:14px;font-size:14px;line-height:1.6;color:var(--soft);max-width:660px}
+
+.wrap{max-width:1340px;margin:0 auto;padding:0 64px}
+.sec{padding:46px 0 8px}
+.shead{display:flex;align-items:baseline;justify-content:space-between;gap:20px;border-bottom:1px solid var(--line);padding-bottom:16px}
+.shead .stt{display:flex;align-items:baseline;gap:14px}
+.shead .stag{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--soft-2)}
+.shead .sname{font-family:var(--serif);font-weight:320;font-variation-settings:var(--disp);font-size:clamp(22px,2.4vw,30px);color:var(--ink-strong);letter-spacing:-.015em}
+.shead .sname em{font-style:italic;color:var(--accent-ink)}
+.shead .sdesc{font-size:12.5px;line-height:1.5;color:var(--soft);max-width:440px;text-align:right}
+
+/* callout */
+.callout{margin-top:22px;background:var(--surface);border:1px solid var(--line);border-left:2px solid var(--accent);border-radius:6px;padding:24px 28px;box-shadow:0 1px 2px rgba(31,35,38,.05)}
+.callout .q{font-family:var(--serif);font-style:italic;font-variation-settings:"wght" 360,"wdth" 100,"CNTR" 20,"XHGT" 0;font-size:19px;line-height:1.4;color:var(--ink-strong)}
+.callout .src{margin-top:12px;font-size:11px;letter-spacing:.02em;color:var(--soft-2)}
+.callout p{margin-top:14px;font-size:13.5px;line-height:1.6;color:var(--soft)}
+.callout p b{color:var(--ink-strong);font-weight:600}
+
+/* prós e contras */
+.pc{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:22px}
+.pccol{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:26px 28px 28px;display:flex;flex-direction:column}
+.pccol.us{background:linear-gradient(180deg,#fcfaf6,#fff 150px);border-color:color-mix(in srgb,var(--accent) 34%,var(--line))}
+.pctag{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--soft-2);background:#f2f2f0;border-radius:20px;padding:3px 10px;align-self:flex-start;margin-bottom:14px}
+.pccol.us .pctag{color:var(--accent-ink);background:var(--accent-soft)}
+.pcname{font-size:17px;font-weight:600;color:var(--ink-strong);letter-spacing:.01em}
+.pccol.us .pcname{color:var(--accent-ink)}
+.pcsub{font-size:12px;line-height:1.5;color:var(--soft);margin-top:6px;min-height:34px}
+.pcgrp{margin-top:16px;padding-top:15px;border-top:1px solid var(--line)}
+.pcgrp .h{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--soft-2);margin-bottom:11px}
+.pclist{list-style:none;display:flex;flex-direction:column;gap:9px}
+.pclist li{font-size:12.5px;line-height:1.45;color:var(--ink);padding-left:20px;position:relative}
+.pclist li::before{content:'';position:absolute;left:0;top:2px;width:13px;height:13px}
+.pclist.pro li::before{background:no-repeat center/contain url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235a7d63' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'><path d='M20 6L9 17l-5-5'/></svg>")}
+.pclist.con li::before{background:no-repeat center/contain url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239a5a5a' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'><path d='M18 6L6 18M6 6l12 12'/></svg>")}
+.pclist li b{color:var(--ink-strong);font-weight:600}
+@media(max-width:1080px){.pc{grid-template-columns:1fr}}
+
+/* tabela comparativa */
+.cmp{margin-top:22px;background:var(--surface);border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.cmp + .cmp{margin-top:16px}
+.cmp table{width:100%;border-collapse:collapse}
+.cmp caption{caption-side:top;text-align:left;font-family:var(--serif);font-variation-settings:var(--nm);font-size:16px;color:var(--ink-strong);padding:18px 24px 4px;letter-spacing:.01em}
+.cmp th,.cmp td{text-align:left;padding:13px 22px;font-size:12.8px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.45}
+.cmp thead th{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--soft-2);font-weight:500;background:#fcfbf9}
+.cmp thead th.bU{color:var(--accent-ink)}
+.cmp td.dim{color:var(--ink-strong);width:250px;font-weight:600;font-size:13px}
+.cmp td.au{color:var(--soft);width:auto}
+.cmp td.us{color:var(--ink);width:auto}
+.cmp td.us b,.cmp td.au b{font-weight:600;color:var(--ink-strong)}
+.cmp tr:last-child td{border-bottom:0}
+.vd{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:600;white-space:nowrap;letter-spacing:.02em}
+.vd i{width:7px;height:7px;border-radius:50%;flex:none}
+.vd.win i{background:var(--accent)}.vd.win{color:var(--accent-ink)}
+.vd.tie i{background:var(--line-strong)}.vd.tie{color:var(--soft-2)}
+.vd.them i{background:var(--warn)}.vd.them{color:var(--warn)}
+.cmpnote{font-size:11.5px;line-height:1.6;color:var(--soft-2);margin-top:12px;padding-left:2px}
+.cmpnote b{color:var(--soft);font-weight:600}
+@media(max-width:1080px){.cmp{overflow-x:auto}.cmp table{min-width:720px}}
+
+/* faixa "o que o auvo não tem" */
+.band{margin-top:24px;background:var(--ink-strong);color:#e9e3d8;border-radius:6px;padding:30px 34px}
+.band .bt{font-family:var(--serif);font-weight:300;font-variation-settings:"wght" 300,"wdth" 100,"CNTR" 20,"XHGT" 0;font-size:26px;color:#fff;letter-spacing:-.01em}
+.band .bt em{font-style:italic;color:#e7cf9b}
+.band .bsub{font-size:13px;line-height:1.6;color:#cfc9bd;margin-top:8px;max-width:640px}
+.bandgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:24px}
+.bandc{border-top:1px solid rgba(231,207,155,.32);padding-top:14px}
+.bandc .n{font-family:var(--serif);font-variation-settings:"wght" 240,"wdth" 100,"CNTR" 20,"XHGT" 0;font-size:15px;color:#e7cf9b;margin-bottom:8px}
+.bandc p{font-size:12px;line-height:1.5;color:#cfc9bd}
+@media(max-width:1080px){.bandgrid{grid-template-columns:1fr 1fr}}
+@media(max-width:620px){.bandgrid{grid-template-columns:1fr}}
+
+/* reco IA */
+.reco{margin-top:24px;display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:start;background:var(--accent-soft);border:1px solid color-mix(in srgb,var(--accent) 32%,transparent);border-radius:6px;padding:28px 32px}
+.reco .rk{font-family:var(--serif);font-weight:300;font-variation-settings:"wght" 240,"wdth" 100,"CNTR" 20,"XHGT" 0;font-size:40px;color:var(--accent-ink);line-height:.9;white-space:nowrap}
+.reco .rt{font-size:15px;font-weight:600;color:var(--ink-strong);margin-bottom:9px}
+.reco .rb{font-size:13.5px;line-height:1.62;color:var(--ink)}
+.reco .rb b{color:var(--accent-ink);font-weight:600}
+@media(max-width:1080px){.reco{grid-template-columns:1fr}.reco .rk{font-size:30px}}
+
+/* temos × construir */
+.tc{margin-top:22px;background:var(--surface);border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.tc table{width:100%;border-collapse:collapse}
+.tc th,.tc td{text-align:left;padding:13px 22px;font-size:12.8px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.45}
+.tc thead th{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--soft-2);font-weight:500;background:#fcfbf9}
+.tc td.pz{color:var(--ink-strong);font-weight:600;width:auto}
+.tc td.pz small{display:block;font-weight:400;color:var(--soft);font-size:11.5px;margin-top:3px;letter-spacing:0}
+.tc td.fo{color:var(--soft);width:220px;font-size:12px}
+.tc tr:last-child td{border-bottom:0}
+.tc tr.sep td{background:#faf9f7;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--soft-2);font-weight:500;padding:9px 22px}
+.st{display:inline-flex;align-items:center;gap:8px;font-size:11.5px;font-weight:600;white-space:nowrap;letter-spacing:.01em}
+.st i{width:8px;height:8px;border-radius:50%;flex:none}
+.st.have i{background:var(--success)}.st.have{color:var(--success)}
+.st.build i{background:var(--error)}.st.build{color:var(--error)}
+.st.mid i{background:var(--warn)}.st.mid{color:var(--warn)}
+@media(max-width:1080px){.tc{overflow-x:auto}.tc table{min-width:680px}}
+
+.premissas{border-top:1px solid var(--line);padding-top:16px;margin-top:34px;font-size:11px;line-height:1.6;color:var(--soft-2)}
+.premissas b{color:var(--soft);font-weight:600}
+
+.foot{max-width:1340px;margin:20px auto 0;padding:18px 64px 80px}
+
+.cur{position:fixed;top:0;left:0;width:30px;height:30px;border:1px solid var(--accent);border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:90;opacity:0;transition:opacity .3s,width .3s var(--ease),height .3s var(--ease),background .3s}
+.cur.on{opacity:1}.cur.hot{width:13px;height:13px;background:var(--accent);border-color:var(--accent)}
+
+.rev{opacity:0;transform:translateY(14px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.rev.in{opacity:1;transform:none}
+
+@media(max-width:1080px){
+  .masthead,.hero,.wrap,.foot{padding-left:24px;padding-right:24px}
+  .shead{flex-direction:column}.shead .sdesc{text-align:left}
+}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.rev{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div style="display:flex;align-items:center;gap:16px">
+    <a href="/painel/" class="back-home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>Voltar</a>
+    <div class="logo"><span class="lb">La Belle Scens</span><span class="bdot"></span></div>
+  </div>
+  <nav class="crumb">
+    <a href="/fluxo/a.html">Jornada</a>
+    <a class="cur">Comparativo</a>
+    <a href="/fluxo/investimento.html">Investimento</a>
+  </nav>
+</div>
+
+<div class="hero">
+  <div class="kick">Comparativo · sem maquiar</div>
+  <h1 class="rev">O sistema próprio da La Belle, <em>ou o Auvo</em></h1>
+  <p class="rev">O Auvo cuida bem do <b>campo</b>. Ele não cuida da sua <b>recorrência</b> — que é o seu negócio. Abaixo, honestamente: o que cada um faz, onde a gente ganha, onde o Auvo ainda ganha hoje, e exatamente o que vamos construir para vocês. Base: páginas oficiais do Auvo, documentação da API v2 e avaliações públicas, com verificação de fontes.</p>
+</div>
+
+<!-- ============ POSICIONAMENTO ============ -->
+<div class="wrap">
+<section class="sec">
+  <div class="shead rev">
+    <div class="stt"><span class="stag">O ponto de partida</span><span class="sname">O que é o <em>Auvo</em></span></div>
+    <div class="sdesc">Uma ferramenta de gestão de equipes em campo — não um sistema de gestão completo. A própria empresa diz isso.</div>
+  </div>
+  <div class="callout rev">
+    <div class="q">"O Auvo é um software de gerenciamento de equipes externas… não se trata de nenhum dos dois sistemas: ERP ou CRM."</div>
+    <div class="src">— Auvo (blog oficial). "Gestão de equipes externas? É com o Auvo. Gestão interna? É com um ERP. Gestão comercial? Conte com um CRM."</div>
+    <p>O Auvo é forte e maduro no <b>campo</b> (mais de 40 mil usuários). Mas o financeiro, o estoque e o "CRM" dele são <b>módulos pagos à parte</b>, montados ao redor desse núcleo — e o resto da operação a La Belle tapa hoje com <b>Bling + RD Station + o "sistema do Gustavo" + planilhas</b>. Nossa proposta unifica tudo isso num sistema só, feito para a sua recorrência.</p>
+  </div>
+</section>
+</div>
+
+<!-- ============ PRÓS & CONTRAS ============ -->
+<div class="wrap">
+<section class="sec">
+  <div class="shead rev">
+    <div class="stt"><span class="stag">Resumo</span><span class="sname">Prós &amp; <em>contras</em></span></div>
+    <div class="sdesc">A decisão em uma tela. Sem esconder as nossas fraquezas nem inflar as vantagens.</div>
+  </div>
+  <div class="pc rev">
+    <div class="pccol us">
+      <span class="pctag">Recomendado</span>
+      <div class="pcname">Sistema próprio · Tier + Hovio</div>
+      <div class="pcsub">A operação inteira num sistema que é seu — da previsão da "perda" à retenção.</div>
+      <div class="pcgrp">
+        <div class="h">A favor</div>
+        <ul class="pclist pro">
+          <li><b>Prevê a "perda"</b> e fecha o loop de recorrência inteiro (prever → rota → troca → baixa → cobrar → reter)</li>
+          <li><b>Boleto sem taxa</b> — registrado no banco da própria La Belle (CNAB), sem PSP no meio</li>
+          <li><b>CRM de verdade</b> — funil, ciclo de vida, recompra e score de churn</li>
+          <li><b>IA nas suas regras</b> de negócio, com conhecimento e chave próprios</li>
+          <li><b>Você é dono</b> do sistema e do app (na marca La Belle, nas lojas)</li>
+          <li><b>Custo fixo</b> — não cresce por funcionário nem por módulo add-on</li>
+          <li>Consolida <b>4–5 sistemas</b> (Auvo, Bling-boleto, RD, Gustavo, planilha) em um só</li>
+        </ul>
+      </div>
+      <div class="pcgrp">
+        <div class="h">Contra (o que gerenciamos)</div>
+        <ul class="pclist con">
+          <li>Não é instantâneo — é um <b>build de ~8–10 semanas</b> até o go-live</li>
+          <li>O <b>app de campo é novo</b>; o do Auvo já roda em 40 mil usuários</li>
+          <li>O <b>funcionamento offline</b> precisa ser projetado e provado no seu chão</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pccol">
+      <span class="pctag">Hoje</span>
+      <div class="pcname">Auvo</div>
+      <div class="pcsub">Ótimo app de campo. Uma ferramenta, não a sua operação.</div>
+      <div class="pcgrp">
+        <div class="h">A favor</div>
+        <ul class="pclist pro">
+          <li><b>Funciona hoje</b> — turnkey, sem tempo de construção</li>
+          <li><b>App de campo maduro</b> — GPS, check-in por geofence, foto, assinatura</li>
+          <li><b>QR Code do equipamento</b> com histórico, pronto de fábrica</li>
+          <li>Funcionamento <b>offline</b> no app do técnico (rodado em escala)</li>
+        </ul>
+      </div>
+      <div class="pcgrp">
+        <div class="h">Contra</div>
+        <ul class="pclist con">
+          <li><b>Não prevê a "perda"</b> — o gatilho da sua receita fica na planilha</li>
+          <li>Faz só o <b>campo</b> (1 dos 6 passos da recorrência)</li>
+          <li>Cobra <b>por usuário</b> + módulos pagos + <b>taxa no boleto</b> (Auvo Pay)</li>
+          <li>"CRM" raso — <b>sem funil, ciclo de vida ou churn</b> confirmados</li>
+          <li>Você <b>aluga para sempre</b>; saiu do Auvo, perde a plataforma</li>
+          <li>Ainda exige <b>Bling + RD + planilha</b> rodando em paralelo</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ============ COMPARATIVO MÓDULO A MÓDULO ============ -->
+<div class="wrap">
+<section class="sec">
+  <div class="shead rev">
+    <div class="stt"><span class="stag">Detalhe</span><span class="sname">Módulo a <em>módulo</em></span></div>
+    <div class="sdesc">O que cada um entrega, por área. Veredito honesto ao lado — inclusive onde o Auvo ganha.</div>
+  </div>
+
+  <div class="cmp rev">
+    <table>
+      <caption>Campo &amp; Rotas</caption>
+      <thead><tr><th>Capacidade</th><th>Auvo (hoje)</th><th class="bU">Nosso sistema</th><th>Veredito</th></tr></thead>
+      <tbody>
+        <tr><td class="dim">Roteirização / otimização de rota</td><td class="au">Automática por proximidade + turno</td><td class="us"><b>Motor próprio</b> com janela de tempo + prioridade (VRPTW) — afinado à sua "perda"</td><td><span class="vd win"><i></i>Nós</span></td></tr>
+        <tr><td class="dim">OS digital, checklist, foto, assinatura</td><td class="au">Maduro</td><td class="us">App de campo próprio (a construir)</td><td><span class="vd tie"><i></i>Empate</span></td></tr>
+        <tr><td class="dim">GPS em tempo real / rastreio da equipe</td><td class="au">Maduro</td><td class="us">A construir</td><td><span class="vd them"><i></i>Auvo hoje</span></td></tr>
+        <tr><td class="dim">Check-in/out por geofence</td><td class="au">Automático</td><td class="us">A construir</td><td><span class="vd them"><i></i>Auvo hoje</span></td></tr>
+        <tr><td class="dim">Funcionamento offline</td><td class="au">Sim (rodado em escala)</td><td class="us">A projetar e provar</td><td><span class="vd them"><i></i>Auvo hoje</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="cmp rev">
+    <table>
+      <caption>Financeiro &amp; Cobrança</caption>
+      <thead><tr><th>Capacidade</th><th>Auvo (hoje)</th><th class="bU">Nosso sistema</th><th>Veredito</th></tr></thead>
+      <tbody>
+        <tr><td class="dim">Boleto</td><td class="au">Via Auvo Pay — <b>com taxa</b> por transação</td><td class="us"><b>Registrado no banco da própria La Belle</b> (CNAB) — sem taxa de PSP</td><td><span class="vd win"><i></i>Nós</span></td></tr>
+        <tr><td class="dim">Contas a pagar/receber, fluxo de caixa, fatura</td><td class="au">Sim (módulo pago)</td><td class="us">Nativo no Tier</td><td><span class="vd tie"><i></i>Empate</span></td></tr>
+        <tr><td class="dim">PIX / cartão / cobrança recorrente + régua</td><td class="au">Sim (Auvo Pay, com taxa)</td><td class="us">Sim (Pagar.me + assinaturas)</td><td><span class="vd tie"><i></i>Empate</span></td></tr>
+        <tr><td class="dim">Nota fiscal (NF-e produto + NFS-e serviço)</td><td class="au">Sim</td><td class="us"><b>Stack fiscal completa</b> (NF-e, NFS-e, NFC-e, cancelamento, carta de correção)</td><td><span class="vd win"><i></i>Nós</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="cmp rev">
+    <table>
+      <caption>CRM &amp; Retenção</caption>
+      <thead><tr><th>Capacidade</th><th>Auvo (hoje)</th><th class="bU">Nosso sistema</th><th>Veredito</th></tr></thead>
+      <tbody>
+        <tr><td class="dim">Cadastro de clientes + contratos</td><td class="au">Sim + gestão de contrato</td><td class="us">Sim + Clicksign (cessão/comodato)</td><td><span class="vd tie"><i></i>Empate</span></td></tr>
+        <tr><td class="dim">Funil de vendas</td><td class="au">Não confirmado (Auvo não é CRM)</td><td class="us"><b>Pipeline nativo</b></td><td><span class="vd win"><i></i>Nós</span></td></tr>
+        <tr><td class="dim">Ciclo de vida &amp; churn ("nasce, morre, ressuscita")</td><td class="au">Não</td><td class="us"><b>Recompra preditiva + score de churn</b></td><td><span class="vd win"><i></i>Nós</span></td></tr>
+        <tr><td class="dim">Helpdesk / tickets / SLA</td><td class="au">Tickets; chat via terceiro (AuvoChat)</td><td class="us">Helpdesk nativo, sem dependência de terceiro</td><td><span class="vd win"><i></i>Nós</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="cmp rev">
+    <table>
+      <caption>Estoque, Produtos &amp; Máquinas</caption>
+      <thead><tr><th>Capacidade</th><th>Auvo (hoje)</th><th class="bU">Nosso sistema</th><th>Veredito</th></tr></thead>
+      <tbody>
+        <tr><td class="dim">Baixa de estoque na OS</td><td class="au">Automática/manual</td><td class="us">Baixa no fechamento da troca</td><td><span class="vd tie"><i></i>Empate</span></td></tr>
+        <tr><td class="dim">Alerta de mínimo / validade / preço de compra</td><td class="au">Só indicador visual (vermelho); sem validade/histórico de preço</td><td class="us"><b>Agente de estoque</b> com alerta ativo de mín/máx, validade e variação de preço</td><td><span class="vd win"><i></i>Nós</span></td></tr>
+        <tr><td class="dim">Ativo/equipamento com histórico</td><td class="au"><b>QR Code</b> → histórico (maduro)</td><td class="us">Cadastro de máquina + histórico</td><td><span class="vd them"><i></i>Auvo (QR)</span></td></tr>
+        <tr><td class="dim">Máquina em comodato como modelo de negócio</td><td class="au">Equipamento genérico</td><td class="us"><b>Domínio olfativo dedicado</b> (parâmetros por máquina, comodato)</td><td><span class="vd win"><i></i>Nós</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="cmp rev">
+    <table>
+      <caption>IA, Integração &amp; Propriedade</caption>
+      <thead><tr><th>Capacidade</th><th>Auvo (hoje)</th><th class="bU">Nosso sistema</th><th>Veredito</th></tr></thead>
+      <tbody>
+        <tr><td class="dim">Agente de IA / automação</td><td class="au">"Auvo Hub" (agentes de IA, produto novo)</td><td class="us">Agente multicanal (WhatsApp/e-mail/Slack) com <b>as suas regras</b></td><td><span class="vd tie"><i></i>Empate</span></td></tr>
+        <tr><td class="dim">API / integração</td><td class="au">REST v2 (token 30 min, 400 req/min)</td><td class="us">OAuth 2.0 + webhooks assinados</td><td><span class="vd tie"><i></i>Empate</span></td></tr>
+        <tr><td class="dim">Modelo de custo</td><td class="au"><b>Por usuário/mês</b> + add-ons + taxa de boleto</td><td class="us"><b>Setup único + mensalidade fixa</b>, sem escalar por cabeça</td><td><span class="vd win"><i></i>Nós</span></td></tr>
+        <tr><td class="dim">Propriedade</td><td class="au">Aluguel — nunca é seu</td><td class="us"><b>Você é dono</b> do sistema e do app</td><td><span class="vd win"><i></i>Nós</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="cmpnote rev"><b>Preço público verificado do Auvo:</b> R$ 74,90 por usuário/mês no plano "Auvo Service" (contrato público, 2025) — e isso é <b>só o campo</b>: financeiro, Auvo Pay e IA são módulos cobrados à parte.</div>
+</section>
+</div>
+
+<!-- ============ O QUE O AUVO NÃO TEM ============ -->
+<div class="wrap">
+<section class="sec">
+  <div class="band rev">
+    <div class="bt">O que o Auvo <em>não</em> faz — e é o seu negócio</div>
+    <div class="bsub">A La Belle Scens não é uma empresa de campo. É uma máquina de recorrência. E a máquina de recorrência é exatamente o que o Auvo não constrói.</div>
+    <div class="bandgrid">
+      <div class="bandc"><div class="n">Previsão da "perda"</div><p>Prever quando o refil zera é o gatilho de toda a receita. O Auvo não prevê nada — hoje é a planilha da Cibele na mão.</p></div>
+      <div class="bandc"><div class="n">O loop completo</div><p>Prever → roteirizar → trocar → dar baixa → cobrar → reter. O Auvo só cobre o "trocar".</p></div>
+      <div class="bandc"><div class="n">Boleto sem taxa</div><p>Num negócio recorrente, taxa de PSP compõe todo mês. Nosso boleto cai direto no banco da La Belle.</p></div>
+      <div class="bandc"><div class="n">Retenção / churn</div><p>Em recorrência, reter é o negócio. O Auvo monitora o técnico, não o ciclo de vida do cliente.</p></div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ============ IA (frase matadora) ============ -->
+<div class="wrap">
+<section class="sec">
+  <div class="shead rev">
+    <div class="stt"><span class="stag">Inteligência artificial</span><span class="sname">Os dois têm IA. <em>A diferença é outra.</em></span></div>
+    <div class="sdesc">Não brigamos no "quem tem IA". Brigamos em de quem a IA obedece.</div>
+  </div>
+  <div class="reco rev">
+    <div class="rk">IA</div>
+    <div>
+      <div class="rt">Ter IA não é o diferencial — os dois têm.</div>
+      <div class="rb">O "Auvo Hub" existe e é vendido, mas "IA que age sem supervisão" é <b>linguagem de vendedor</b>, não capacidade auditada. O nosso diferencial não é "ter IA" — é o agente <b>rodar dentro das regras de negócio da La Belle Scens</b>, com <b>chave e conhecimento próprios</b>: ele conhece a sua "perda", o seu comodato, a sua régua de cobrança e o seu cliente — porque foi construído em cima da sua operação, não de um modelo genérico.</div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- ============ TEMOS × CONSTRUIR ============ -->
+<div class="wrap">
+<section class="sec">
+  <div class="shead rev">
+    <div class="stt"><span class="stag">Transparência</span><span class="sname">O que já temos × o que vamos <em>construir</em></span></div>
+    <div class="sdesc">Sem promessa vazia. O que é reúso pronto (baixo risco) e o que é feito sob medida para vocês.</div>
+  </div>
+  <div class="tc rev">
+    <table>
+      <thead><tr><th>Peça</th><th>Situação</th><th>De onde vem</th></tr></thead>
+      <tbody>
+        <tr><td class="pz">Motor de roteirização (janela + prioridade)</td><td><span class="st have"><i></i>Já temos</span></td><td class="fo">Reúso (Hovio Pet)</td></tr>
+        <tr><td class="pz">Geocodificação + mapa + rota traçada</td><td><span class="st have"><i></i>Já temos</span></td><td class="fo">Reúso (Hovio Pet)</td></tr>
+        <tr><td class="pz">Estoque, NF-e, cobrança CNAB, assinaturas, CRM, helpdesk, agente de IA</td><td><span class="st have"><i></i>Já temos</span></td><td class="fo">Plataforma Tier</td></tr>
+        <tr><td class="pz">Login, multiusuário, hospedagem, armazenamento de arquivos</td><td><span class="st have"><i></i>Já temos</span></td><td class="fo">Tier / Hovio</td></tr>
+        <tr class="sep"><td colspan="3">O que vamos construir para a La Belle</td></tr>
+        <tr><td class="pz">App do técnico (instalável no celular)<small>a peça mais nova</small></td><td><span class="st build"><i></i>Construir</span></td><td class="fo">Novo (domínio)</td></tr>
+        <tr><td class="pz">Funcionamento offline<small>cache + fila + sincronização — o mais difícil</small></td><td><span class="st build"><i></i>Construir</span></td><td class="fo">Novo</td></tr>
+        <tr><td class="pz">Check-in/out por geofence + GPS em tempo real</td><td><span class="st build"><i></i>Construir</span></td><td class="fo">Novo</td></tr>
+        <tr><td class="pz">Previsão da "perda" (por histórico da planilha da Cibele)</td><td><span class="st build"><i></i>Construir</span></td><td class="fo">Sob medida</td></tr>
+        <tr><td class="pz">Assinatura no app · checklist offline · QR Code do ativo</td><td><span class="st mid"><i></i>Construir (médio)</span></td><td class="fo">Novo</td></tr>
+        <tr><td class="pz">Publicação nas lojas (App Store / Google Play)</td><td><span class="st build"><i></i>Construir</span></td><td class="fo">Operacional</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="reco rev" style="background:#fff;border-color:var(--line)">
+    <div class="rk" style="color:var(--ink-strong)">Sem risco</div>
+    <div>
+      <div class="rt">Como entregamos isso sem parar a sua operação</div>
+      <div class="rb" style="color:var(--soft)">O "cérebro" (previsão da "perda" + cobrança sem taxa + CRM/churn + estoque) é <b style="color:var(--ink-strong)">reúso — vai rápido e com baixo risco</b>. O braço de campo é o que construímos. Por isso a transição é <b style="color:var(--ink-strong)">em fases</b>: entregamos primeiro o cérebro — o que o Auvo não faz — e <b style="color:var(--ink-strong)">mantemos o Auvo rodando o campo</b> durante a transição. Quando o app de campo próprio estiver provado no seu chão (inclusive offline), migramos o campo. Você não arranca o que funciona, e não fica parado esperando.</div>
+    </div>
+  </div>
+</section>
+</div>
+
+<div class="foot">
+  <div class="premissas rev">
+    <b>Método &amp; fontes.</b> Comparativo elaborado a partir das páginas oficiais do Auvo (auvo.com e blog), da documentação da API v2 e de avaliações públicas (Capterra, Reclame Aqui) e de um contrato público de 2025 (preço) — com verificação de fontes. Onde a fonte não confirma (funcionamento offline, webhooks da API, profundidade do "CRM"), o ponto está marcado como "a validar". As mensalidades de terceiros (Auvo, Bling, Clicksign) são pagas direto pela La Belle Scens. · La Belle Scens · Hovio
+  </div>
+</div>
+
+<div class="cur" id="cur"></div>
+
+<script>
+const cur=document.getElementById('cur');
+let mx=innerWidth/2,my=innerHeight/2,cx=mx,cy=my,on=false;
+if(matchMedia('(hover:hover) and (pointer:fine)').matches){
+  addEventListener('pointermove',e=>{mx=e.clientX;my=e.clientY;if(!on){on=true;cur.classList.add('on');}});
+  addEventListener('pointerover',e=>cur.classList.toggle('hot',!!e.target.closest('a,.pccol,.reco,.band')));
+  (function loop(){cx+=(mx-cx)*.2;cy+=(my-cy)*.2;cur.style.transform='translate('+cx+'px,'+cy+'px) translate(-50%,-50%)';requestAnimationFrame(loop);})();
+}
+const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{threshold:.1});
+document.querySelectorAll('.rev').forEach(n=>io.observe(n));
+</script>
+</body>
+</html>
