@@ -74,13 +74,20 @@
      morfa sozinha. Rodando uma forma irregular, a silhueta varre — é daí que
      vem o "líquido" do orbe do ChatGPT/Siri, sem WebGL nenhum. Círculo perfeito
      girando não produz movimento visível: gira e parece parado. */
+  /* 🚨 O "líquido" NÃO vem do blur. Vem de blur + contrast JUNTOS, no invólucro:
+     o blur borra as bordas, o contraste as recorta de volta, e onde duas manchas
+     borradas se encostam elas FUNDEM numa só — é o efeito metaball/gooey. Blur
+     sozinho (o que estava aqui) dá fumaça, não dá matéria.
+     O contraste sobe com a voz: falando alto o líquido fica mais definido. */
+  .nevoas { position:absolute; inset:0; border-radius:50%; overflow:hidden;
+            filter:blur(calc(var(--disco) * .06)) contrast(calc(6 + var(--v) * 8)); }
   .neb { position:absolute; }
   .neb i { display:block; width:100%; height:100%;
            border-radius:60% 40% 55% 45% / 50% 60% 40% 50%;
            mix-blend-mode:screen;
            /* voz alta = névoa mais NÍTIDA e maior. O foco entrando é metade do
               efeito; só escalar dá "balão inflando", não dá presença. */
-           filter:blur(calc(var(--disco) * (.19 - var(--v) * .07)));
+           filter:blur(calc(var(--disco) * (.10 - var(--v) * .03)));
            transform:scale(calc(1 + var(--v) * .5));
            opacity:calc(.42 + var(--v) * .58);
            animation:morf 7s ease-in-out infinite;
@@ -161,8 +168,10 @@
     <div class="orbe" id="orbe" title="Gravar">
       <span class="aro"></span>
       <div class="planeta">
-        <span class="neb neb--a"><i></i></span>
-        <span class="neb neb--b"><i></i></span>
+        <span class="nevoas">
+          <span class="neb neb--a"><i></i></span>
+          <span class="neb neb--b"><i></i></span>
+        </span>
       </div>
       <div class="orbe__nucleo">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
