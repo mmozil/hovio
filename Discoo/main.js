@@ -151,7 +151,11 @@ app.whenReady().then(() => {
 
   // Áudio do sistema direto, sem picker.
   session.defaultSession.setDisplayMediaRequestHandler((request, callback) => {
-    desktopCapturer.getSources({ types: ['screen'] })
+    // 🚨 `thumbnailSize: 0` NÃO é detalhe. Sem ele o Electron gera uma miniatura
+    // em RESOLUÇÃO CHEIA de CADA monitor antes de responder — nesta máquina são
+    // quatro telas, e é isso que fazia o play demorar uma eternidade. A gente
+    // nunca olha a miniatura: só precisamos do id da fonte pra pedir o loopback.
+    desktopCapturer.getSources({ types: ['screen'], thumbnailSize: { width: 0, height: 0 } })
       .then((fontes) => callback({ video: fontes[0], audio: 'loopback' }))
       .catch(() => callback({}));
   }, { useSystemPicker: false });

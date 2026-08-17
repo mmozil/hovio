@@ -187,7 +187,7 @@
 const $ = id => document.getElementById(id);
 let rec = null, ctx = null, streams = [], t0 = 0, tid = null, caminho = null;
 let usarMic = true, enviarAoParar = true, aberto = false, logado = false, escala = 1;
-let anMic = null, anSis = null, sobre = false;
+let anMic = null, anSis = null, sobre = false, ocupado = false, fechaDepois = 0;
 
 /* O visualizador vive o tempo todo (em silêncio ele fica quieto — a borda do
    `orbe` só existe quando há fala). Montar/desmontar a cada gravação daria
@@ -223,9 +223,18 @@ const rotulo = (texto, variante) => {
 };
 
 async function iniciar() {
+  // 🚨 TRAVA DE REENTRADA. Capturar a tela leva um tempo; sem isto, o segundo
+  // clique de quem achou que "não pegou" dispara uma SEGUNDA gravação, e aí o
+  // botão de parar para só uma — que é a cara de "não para".
+  if (ocupado) return;
+  ocupado = true;
+  rotulo('preparando');            // resposta na hora: o clique não some no vazio
   try {
     const sistema = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
     streams.push(sistema);
+    // o vídeo é só o passe pro áudio do sistema; capturar quadro de 4 telas o
+    // tempo todo é CPU jogada fora numa reunião de uma hora
+    sistema.getVideoTracks().forEach(t => t.stop());
     let mic = null;
     if (usarMic) {
       try { mic = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: false } }); streams.push(mic); }
@@ -294,15 +303,30 @@ async function iniciar() {
 
     $('fontes').style.display = 'flex';
     $('orbe').classList.add('orbe--on');
-    abrir(true);                       // gravando fica aberta: o tempo tem de estar à vista
+    ocupado = false;
+    // 🔑 GRAVANDO A PEÇA FECHA, e vira só o disco falando. O tempo e as fontes
+    // aparecem ao passar o mouse. Manter o cartão aberto uma hora inteira é
+    // ocupar a tela de quem está na reunião. Pra voltar ao contrário, é trocar
+    // esta linha por `abrir(true)`.
+    abrir();
     rotulo(temSistema ? (mic ? 'reunião + mic' : 'reunião') : 'só mic', 'viva');
     window.tier.estado(true);
   } catch (e) {
-    rotulo('falhou', 'alerta');
+    ocupado = false;
+    streams.forEach(st => st.getTracks().forEach(t => t.stop())); streams = [];
+    rotulo('não consegui capturar', 'alerta');
   }
 }
 
-const parar = () => rec && rec.state !== 'inactive' && rec.stop();
+function parar() {
+  if (!rec || rec.state === 'inactive') return;
+  // o `onstop` só chega depois do último pedaço; sem avisar aqui, o clique de
+  // parar parece ignorado por um segundo — que é exatamente a queixa.
+  rotulo('finalizando');
+  abrir(true);                      // abre pra mostrar o que está acontecendo
+  ocupado = true;                   // e nenhum clique começa outra no meio disso
+  rec.stop();
+}
 
 async function finalizar() {
   clearInterval(tid);
@@ -317,23 +341,32 @@ async function finalizar() {
   const arquivo = await window.tier.fecharArquivo();   // fecha o fluxo já escrito
   const min = Math.max(1, Math.round((Date.now() - t0) / 60000));
   $('tempo').textContent = '';
+  $('fontes').style.display = 'none';
+  ocupado = false;
+
+  /* 🚨 "não sei se salvou" era queixa legítima: o rótulo antigo aparecia e a
+     peça fechava junto, então a confirmação passava batido. Agora ela FICA
+     aberta segurando o aviso, e o aviso é clicável — leva direto ao arquivo. */
+  const confirmar = (texto, variante) => {
+    rotulo(texto, variante);
+    $('rot').style.cursor = 'pointer';
+    $('rot').title = 'abrir a pasta';
+    $('rot').onclick = () => window.tier.abrirPasta(arquivo);
+    abrir(true);
+    clearTimeout(fechaDepois);
+    fechaDepois = setTimeout(() => abrir(), 8000);   // 8s de leitura, aí recolhe
+  };
 
   if (!(enviarAoParar && logado)) {
-    rotulo(`salvo · ${min} min`, 'ok');
-    $('rot').style.cursor = 'pointer';
-    $('rot').onclick = () => window.tier.abrirPasta(arquivo);
+    confirmar(`salvo · ${min} min`, 'ok');
     return;
   }
   rotulo('enviando');
   const r = await window.tier.enviar(arquivo);
-  if (r.ok) {
-    rotulo('transcrevendo', 'ok');
-    setTimeout(() => rotulo(`enviado · ${min} min`, 'ok'), 4000);
-  } else {
-    rotulo(r.erro || 'falha no envio', 'alerta');
-    $('rot').style.cursor = 'pointer';
-    $('rot').onclick = () => window.tier.abrirPasta(arquivo);
-  }
+  // 🔑 mesmo enviando, o arquivo JÁ está no disco — dizer "salvo" também é
+  // verdade e é o que tira a dúvida de quem parou a gravação.
+  if (r.ok) confirmar(`salvo e enviado · ${min} min`, 'ok');
+  else      confirmar(`salvo · ${min} min · ${r.erro || 'falha no envio'}`, 'alerta');
 }
 
 /** 🚨 O renderer mede e o main obedece — nunca o contrário. Largura fixa no
