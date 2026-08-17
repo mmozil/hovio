@@ -48,88 +48,22 @@
         transition:background .18s ease, box-shadow .18s ease; }
   .pt--ok { background:#22a06b; box-shadow:0 0 0 2.5px rgba(34,160,107,.16); }
 
-  /* ── a esfera: o elemento de produto ─────────────────────────────
-     Substitui o botão e a onda. Ela respira com o volume — é o mesmo
-     gesto do widget de agentes do ElevenLabs. */
-  /* --v = quanto de voz está entrando AGORA (0..1), escrito pelo JS a cada
-     quadro. É o que faz a névoa mexer junto com a conversa: antes ela derivava
-     em tempo fixo e ficava idêntica no silêncio e na discussão. */
-  .orbe { --disco:66px; --v:0; -webkit-app-region:no-drag;
-          width:66px; height:66px; border-radius:50%; flex:none;
+  /* ── a esfera ────────────────────────────────────────────────────
+     🔑 NÃO é CSS. É o visualizador `orbe` do **optimus-viz**, o mesmo que roda
+     na tela de voz do Tier Agent (`agent.tier.finance/c/<slug>`) — canvas 2D,
+     sem dependência. Tentei imitar em CSS antes: blur+contrast até chega perto
+     da matéria, mas o que faz a névoa PARECER VIVA é o que o canvas faz e o CSS
+     não alcança — a silhueta ondula por BANDA de frequência (índices
+     diferentes do espectro em pontos diferentes da borda), não pela amplitude
+     média. Escalar o conjunto com o volume dá balão inflando; ondular localizado
+     dá fala. Reusar o que já funciona vale mais que reinventar pior. */
+  .orbe { -webkit-app-region:no-drag; width:66px; height:66px; flex:none;
           position:relative; cursor:pointer; display:grid; place-items:center;
-          transition:transform .09s ease-out; }
-  .planeta { position:absolute; inset:0; border-radius:50%; overflow:hidden;
-             background:radial-gradient(circle at 32% 26%, #34343f 0%, #17171e 42%, #0a0a0d 78%, #050507 100%);
-             box-shadow:inset -9px -12px 28px rgba(0,0,0,.75),
-                        inset 8px 9px 24px rgba(255,255,255,.05),
-                        0 8px 30px rgba(4,71,255,.15);
-             transition:box-shadow var(--el-medio); }
-
-  /* 🚨 DUAS camadas por névoa, e não uma. A externa faz a deriva/rotação lenta
-     por keyframes; a INTERNA responde à voz. Se as duas coisas morassem no
-     mesmo elemento, o `transform` do keyframe sobrescreveria o da voz e a névoa
-     ficaria parada — foi o primeiro desenho, e não funciona.
-
-     A névoa não é um círculo: é uma BOLHA com `border-radius` de 8 valores que
-     morfa sozinha. Rodando uma forma irregular, a silhueta varre — é daí que
-     vem o "líquido" do orbe do ChatGPT/Siri, sem WebGL nenhum. Círculo perfeito
-     girando não produz movimento visível: gira e parece parado. */
-  /* 🚨 O "líquido" NÃO vem do blur. Vem de blur + contrast JUNTOS, no invólucro:
-     o blur borra as bordas, o contraste as recorta de volta, e onde duas manchas
-     borradas se encostam elas FUNDEM numa só — é o efeito metaball/gooey. Blur
-     sozinho (o que estava aqui) dá fumaça, não dá matéria.
-     O contraste sobe com a voz: falando alto o líquido fica mais definido. */
-  .nevoas { position:absolute; inset:0; border-radius:50%; overflow:hidden;
-            filter:blur(calc(var(--disco) * .06)) contrast(calc(6 + var(--v) * 8)); }
-  .neb { position:absolute; }
-  .neb i { display:block; width:100%; height:100%;
-           border-radius:60% 40% 55% 45% / 50% 60% 40% 50%;
-           mix-blend-mode:screen;
-           /* voz alta = névoa mais NÍTIDA e maior. O foco entrando é metade do
-              efeito; só escalar dá "balão inflando", não dá presença. */
-           filter:blur(calc(var(--disco) * (.10 - var(--v) * .03)));
-           transform:scale(calc(1 + var(--v) * .5));
-           opacity:calc(.42 + var(--v) * .58);
-           animation:morf 7s ease-in-out infinite;
-           transition:background var(--el-medio); }
-  .neb--a { width:82%; height:82%; left:-10%; top:4%; animation:derivaA 13s ease-in-out infinite; }
-  .neb--b { width:66%; height:66%; right:-8%; bottom:-6%; animation:derivaB 17s ease-in-out infinite; }
-  .neb--b i { animation-duration:9s; animation-direction:reverse; }
-  .neb--a i { background:radial-gradient(circle, rgba(60,86,220,.9), rgba(30,40,120,0) 68%); }
-  .neb--b i { background:radial-gradient(circle, rgba(120,70,210,.66), rgba(60,30,110,0) 70%); }
-
-  @keyframes morf {
-    0%,100% { border-radius:60% 40% 55% 45% / 50% 60% 40% 50% }
-    33%     { border-radius:45% 55% 38% 62% / 62% 42% 58% 38% }
-    66%     { border-radius:52% 48% 62% 38% / 38% 58% 42% 62% }
-  }
-  /* rotação junto da deriva: é a rotação da bolha que faz a névoa "rodopiar" */
-  @keyframes derivaA {
-    0%,100%{ transform:translate(0,0) rotate(0deg) scale(1) }
-    50%    { transform:translate(20%,12%) rotate(180deg) scale(1.16) }
-  }
-  @keyframes derivaB {
-    0%,100%{ transform:translate(0,0) rotate(0deg) scale(1) }
-    50%    { transform:translate(-16%,-14%) rotate(-160deg) scale(1.12) }
-  }
-
-  /* aro que pulsa com a voz — o "anel" que aparece quando o outro fala.
-     Fica FORA do planeta (que tem overflow:hidden) pra poder vazar. */
-  .aro { position:absolute; inset:-3px; border-radius:50%; pointer-events:none;
-         box-shadow:0 0 0 1px rgba(255,71,4,calc(var(--v) * .55));
-         transform:scale(calc(1 + var(--v) * .10));
-         opacity:calc(var(--v) * .9); }
-
-  /* gravando: a névoa esquenta pro laranja da marca, roda mais rápido, e o
-     brilho externo pulsa com a voz em vez de ficar constante */
-  .orbe--on .planeta { box-shadow:inset -9px -12px 28px rgba(0,0,0,.75),
-                                  inset 8px 9px 24px rgba(255,255,255,.06),
-                                  0 8px calc(28px + var(--v) * 26px) rgba(255,71,4,calc(.16 + var(--v) * .34)); }
-  .orbe--on .neb--a { animation-duration:5.5s; }
-  .orbe--on .neb--b { animation-duration:7.5s; }
-  .orbe--on .neb i  { animation-duration:3.2s; }
-  .orbe--on .neb--a i { background:radial-gradient(circle, rgba(255,120,45,.88), rgba(150,50,10,0) 68%); }
-  .orbe--on .neb--b i { background:radial-gradient(circle, rgba(228,62,30,.64), rgba(120,30,10,0) 70%); }
+          border-radius:50%; overflow:hidden;
+          box-shadow:0 6px 22px rgba(4,71,255,.16); transition:box-shadow var(--el-medio); }
+  .orbe--on { box-shadow:0 6px 26px rgba(255,71,4,.24); }
+  .viz { position:absolute; inset:0; }
+  .viz canvas { display:block; width:100%; height:100%; }
 
   /* miolo branco com o ícone — igual à referência */
   .orbe__nucleo { position:relative; width:26px; height:26px; border-radius:50%;
@@ -140,6 +74,10 @@
   .orbe__nucleo svg { width:14px; height:14px; color:var(--el-tinta-1); transition:opacity var(--el-rapido); }
   .orbe--on .orbe__nucleo svg { opacity:0; }
 
+  .estado { font-size:var(--el-t-corpo); font-weight:500; color:var(--el-tinta-1);
+            white-space:nowrap; letter-spacing:-.005em; }
+  .tempo  { font-size:var(--el-t-menor); color:var(--el-tinta-3);
+            font-variant-numeric:tabular-nums; white-space:nowrap; }
   .meio { flex:0 0 auto; min-width:0; max-width:190px; display:flex; flex-direction:column; gap:2px; }
 
   .painel { background:var(--el-papel); border-top:1px solid var(--el-linha);
@@ -152,8 +90,11 @@
 <body>
   <div class="pilula">
     <div class="meio some">
-      <span class="el-num" id="tempo" style="font-size:27px">00:00</span>
-      <span class="el-rot" id="rot">pronto</span>
+      <!-- 🚨 sem `.el-num`: aquele relógio em mono display de 27px dominava a
+           peça e brigava com o disco. Aqui o estado é o texto principal e o
+           tempo é nota de rodapé, na fonte do DS. -->
+      <span class="estado" id="rot">pronto</span>
+      <span class="tempo" id="tempo"></span>
       <div class="fontes" id="fontes" style="display:none">
         <span class="fonte"><i class="pt" id="ptMic"></i>mic</span>
         <span class="fonte"><i class="pt" id="ptSis"></i>reunião</span>
@@ -166,13 +107,7 @@
       </svg>
     </button>
     <div class="orbe" id="orbe" title="Gravar">
-      <span class="aro"></span>
-      <div class="planeta">
-        <span class="nevoas">
-          <span class="neb neb--a"><i></i></span>
-          <span class="neb neb--b"><i></i></span>
-        </span>
-      </div>
+      <div class="viz" id="viz"></div>
       <div class="orbe__nucleo">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
           <path d="M12 2v10M12 2a3 3 0 0 1 3 3v4a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z" fill="currentColor" stroke="none"/>
@@ -207,11 +142,18 @@
     </div>
   </div>
 
+<script src="optimus-viz.js"></script>
 <script>
 const $ = id => document.getElementById(id);
 let rec = null, ctx = null, streams = [], t0 = 0, tid = null, caminho = null;
 let usarMic = true, enviarAoParar = true, aberto = false, logado = false, escala = 1;
 let anMic = null, anSis = null, sobre = false;
+
+/* O visualizador vive o tempo todo (em silêncio ele fica quieto — a borda do
+   `orbe` só existe quando há fala). Montar/desmontar a cada gravação daria
+   piscada e recriaria o canvas. */
+const viz = OptimusViz.mount('#viz', 'orbe', { palette: 'roxo' });
+OptimusViz.setLevel(0);
 
 /** Média do espectro de uma fonte — serve só pros pontinhos verdes. */
 const medir = (an, buf) => { if (!an) return 0; an.getByteFrequencyData(buf);
@@ -227,7 +169,7 @@ function abrir(forcar) {
 }
 
 const rotulo = (texto, variante) => {
-  $('rot').className = 'el-rot' + (variante ? ' el-rot--' + variante : '');
+  $('rot').className = 'estado' + (variante ? ' estado--' + variante : '');
   $('rot').textContent = texto;
 };
 
@@ -257,6 +199,9 @@ async function iniciar() {
       anMic = ctx.createAnalyser(); anMic.fftSize = 128; m.connect(anMic);
     }
     if (!temSistema && !mic) throw new Error('sem áudio');
+    // 🔑 é o mesmo AnalyserNode da gravação: o visualizador lê as bandas
+    // direto dele, então o desenho responde ao que está sendo GRAVADO.
+    OptimusViz.attachAnalyser(an);
 
     // 🚨 arquivo aberto ANTES de gravar: cada pedaço cai no disco na hora
     caminho = await window.tier.abrirArquivo();
@@ -274,17 +219,16 @@ async function iniciar() {
       const s = Math.floor((Date.now() - t0) / 1000), h = Math.floor(s / 3600);
       $('tempo').textContent = (h ? String(h).padStart(2,'0') + ':' : '') +
         String(Math.floor(s/60)%60).padStart(2,'0') + ':' + String(s%60).padStart(2,'0');
+      ajustar();   // o rótulo cresce ao passar de 9:59; a janela acompanha
     }, 500);
 
     // A esfera respira E a névoa mexe: `escala` sobe rápido e cai devagar
     // (ataque/decaimento), senão a imagem pisca a cada sílaba em vez de ondular.
     const buf = new Uint8Array(an.frequencyBinCount);
     const b1 = new Uint8Array(64), b2 = new Uint8Array(64);
-    let voz = 0;
     (function loop() {
       if (!rec || rec.state === 'inactive') {
         $('orbe').style.transform = 'scale(1)';
-        $('orbe').style.setProperty('--v', 0);
         return;
       }
       an.getByteFrequencyData(buf);
@@ -293,9 +237,6 @@ async function iniciar() {
       const alvo = 1 + nivel * 0.22;
       escala += (alvo - escala) * (alvo > escala ? .5 : .12);
       $('orbe').style.transform = `scale(${escala.toFixed(3)})`;
-
-      voz += (nivel - voz) * (nivel > voz ? .45 : .07);   // decai mais devagar que a escala
-      $('orbe').style.setProperty('--v', voz.toFixed(3));
 
       $('ptMic').classList.toggle('pt--ok', medir(anMic, b1) > 4);
       $('ptSis').classList.toggle('pt--ok', medir(anSis, b2) > 4);
@@ -320,12 +261,13 @@ async function finalizar() {
   streams = []; escala = 1;
   $('orbe').classList.remove('orbe--on');
   $('orbe').style.transform = 'scale(1)';
+  OptimusViz.setLevel(0);          // solta o analisador: sem fala, sem borda
   window.tier.estado(false);
   rotulo('salvando');
 
   const arquivo = await window.tier.fecharArquivo();   // fecha o fluxo já escrito
   const min = Math.max(1, Math.round((Date.now() - t0) / 60000));
-  $('tempo').textContent = '00:00';
+  $('tempo').textContent = '';
 
   if (!(enviarAoParar && logado)) {
     rotulo(`salvo · ${min} min`, 'ok');
