@@ -14,9 +14,12 @@
  * 2. A janela flutua sobre tela cheia, então a gravação fica visível durante a
  *    apresentação.
  *
- * 🚨 SEM janela transparente. Tentado com `transparent:true` e o Windows insistia
- * em pintar fundo claro atrás dos cantos arredondados (halo em volta da pílula).
- * A janela agora É a peça: superfície sólida e o Win11 arredonda a moldura.
+ * 🚨 JANELA TRANSPARENTE, e o aviso antigo ("nada de transparente") caiu em
+ * 17/08. O halo claro que apareceu na primeira tentativa vinha do CANTO
+ * ARREDONDADO da moldura do Windows, não da transparência: com
+ * `roundedCorners:false` + `hasShadow:false` não sobra moldura pra ele pintar.
+ * É o que permite a peça ser SÓ O DISCO em repouso. Superfície, canto e sombra
+ * do cartão são desenhados por nós no CSS, e só quando ela abre.
  */
 const { app, BrowserWindow, Tray, Menu, ipcMain, desktopCapturer, shell, screen, nativeImage, session, dialog } = require('electron');
 const path = require('path');
@@ -89,11 +92,16 @@ function criarJanela() {
     x: width - LARGURA_FECHADA - 24,
     y: height - ALTURA_FECHADA - 24,
     frame: false,
-    transparent: false,
-    backgroundColor: '#fdfcfc',     // papel quente — a janela é a superfície
+    // 🚨 O AVISO ANTIGO ERA "nada de janela transparente" (o Windows pintava um
+    // halo claro atrás dos cantos arredondados). O halo vinha do CANTO
+    // ARREDONDADO da moldura, não da transparência: com `roundedCorners:false`
+    // e sem sombra do sistema não há moldura pra ele pintar. É o que permite a
+    // peça ser SÓ O DISCO, sem o quadrado branco em volta.
+    transparent: true,
+    roundedCorners: false,
+    backgroundColor: '#00000000',
     icon: path.join(__dirname, 'icone.ico'),  // o planeta (alt-tab e instalador)
-    hasShadow: true,
-    roundedCorners: true,
+    hasShadow: false,   // a sombra do sistema é retangular e denuncia a caixa
     resizable: false,
     alwaysOnTop: true,
     skipTaskbar: true,
@@ -162,6 +170,11 @@ app.on('window-all-closed', (e) => e.preventDefault());   // vive na bandeja
  */
 if (process.env.DISCOO_DEBUG_SHOT) {
   let n = 0;
+  // abre a pílula e o painel sozinho: é o estado que eu NÃO tinha conferido
+  // (o painel espremido só apareceu quando o dono abriu na mão)
+  setTimeout(() => janela && janela.webContents.executeJavaScript(
+    "document.body.classList.add('aberta'); document.getElementById('cfg').click();"
+  ).catch(() => {}), 4000);
   setInterval(() => {
     if (!janela || janela.isDestroyed()) return;
     janela.webContents.capturePage().then((img) => {

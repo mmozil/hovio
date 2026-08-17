@@ -74,13 +74,16 @@
   pointer-events: none;
 }
 
-/* brilho especular: uma luz só, em cima e à esquerda. É o que faz ler como
-   esfera em vez de disco — mesma decisão do planeta do Discoo. */
+/* 🚨 A ESFERA É PRETA, a névoa é que é roxa.
+   Os cônicos sozinhos deixam a peça inteira acesa e ela vira uma bola colorida
+   — deixa de ser a marca do Discoo. Estas duas camadas devolvem o corpo escuro:
+   escurecimento do centro pra fora (o preto que sobra ENTRE as névoas) e uma
+   luz especular só, em cima e à esquerda, que é o que faz ler como esfera e
+   não como disco. Mesma decisão do planeta original. */
 .siri-orb-sheen {
   background:
-    radial-gradient(circle at 34% 24%, rgba(255, 255, 255, .30) 0%, transparent 46%),
-    radial-gradient(circle at 62% 82%, rgba(255, 255, 255, .07) 0%, transparent 40%);
-  mix-blend-mode: screen;
+    radial-gradient(circle at 50% 50%, rgba(6, 3, 12, .30) 0%, rgba(6, 3, 12, .74) 62%, rgba(4, 2, 8, .93) 100%),
+    radial-gradient(circle at 34% 24%, rgba(255, 255, 255, .16) 0%, transparent 40%);
 }
 
 /* aro fino: separa a massa do fundo sem virar contorno desenhado */

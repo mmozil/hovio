@@ -17,14 +17,21 @@
      🔑 O disco fica encostado na direita e o resto cresce pra esquerda —
      assim a janela muda de tamanho e o disco NÃO sai do lugar. Se ele
      estivesse à esquerda, abrir e fechar faria a marca pular na tela. */
-  html, body { overflow:hidden; }
+  /* 🚨 A JANELA TRANSPARENTE NÃO BASTA: o `ds.css` pinta `html,body` de papel,
+     e era ESSE branco o quadrado atrás do disco — a transparência do Electron
+     estava certa o tempo todo. Só apareceu na foto de TELA; a foto que o app
+     tira de si mesmo compõe sobre branco e esconde exatamente este defeito. */
+  html, body { overflow:hidden; background:transparent !important; }
   /* 🚨 o conteudo encosta na DIREITA. A pilula e mais larga que a janela
      durante a animacao de abrir/fechar; alinhada a esquerda, o que fica
      visivel no aperto e o texto, e o disco sai da tela. */
   body { display:flex; flex-direction:column; align-items:flex-end; }
   .painel { width:100%; }
+  /* 🚨 fundo TRANSPARENTE quando fechada: é isso que faz aparecer só o disco.
+     A superfície branca (e a sombra) só existem quando a peça está aberta —
+     aí ela vira cartão de verdade e precisa de fundo pra ler o texto. */
   .pilula { -webkit-app-region:drag; height:90px; padding:0 14px;
-            display:flex; align-items:center; gap:14px; background:var(--el-papel);
+            display:flex; align-items:center; gap:14px; background:transparent;
             /* 🚨 `max-content` e NÃO `100%`: a janela nasce com 90px, e com
                largura em % o flex espremeria o conteúdo dentro desses 90px —
                a medida voltaria minúscula e a pílula nunca abriria de verdade.
@@ -39,6 +46,18 @@
      Filho direto sobe a especificidade e resolve sem !important. */
   .pilula > .some { display:none; }
   body.aberta .pilula > .some { display:flex; }
+  /* Aberta vira cartão: superfície, CANTO ARREDONDADO e sombra desenhados por
+     nós — a moldura do Windows está sem canto (`roundedCorners:false`), então
+     quem arredonda somos nós, e é por isso que a transparência era condição. */
+  body.aberta .pilula, body.painel-aberto .pilula {
+    background:var(--el-papel); border-radius:22px;
+    box-shadow:0 12px 34px rgba(0,0,0,.16), 0 0 0 1px rgba(0,0,0,.05); }
+  body.painel-aberto .pilula { border-radius:22px 22px 0 0; box-shadow:none; }
+  body.painel-aberto .painel { border-radius:0 0 22px 22px; }
+  /* o conjunto pílula+painel tem de ler como UMA peça, com um contorno só */
+  body.painel-aberto { border-radius:22px; overflow:hidden;
+    box-shadow:0 12px 34px rgba(0,0,0,.16), 0 0 0 1px rgba(0,0,0,.05); }
+  .painel { background:var(--el-papel); }
   body.aberta .meio { animation:entrar .18s cubic-bezier(.2,.8,.3,1) both; }
   @keyframes entrar { from{opacity:0; transform:translateX(6px)} to{opacity:1; transform:none} }
 
@@ -90,7 +109,16 @@
   .meio { flex:0 0 auto; min-width:0; max-width:190px; display:flex; flex-direction:column; gap:2px; }
 
   .painel { background:var(--el-papel); border-top:1px solid var(--el-linha);
-            padding:6px; display:none; -webkit-app-region:no-drag; }
+            padding:8px 6px 10px; display:none; -webkit-app-region:no-drag;
+            /* largura natural: é ela que a janela passa a obedecer */
+            width:max-content; min-width:100%; }
+  /* 🚨 `nowrap` nos itens do painel. A quebra em duas linhas não é estética:
+     é sintoma de janela estreita demais, e some quando a largura é medida
+     certo. Deixar quebrar esconde o defeito em vez de mostrar. */
+  .painel .el-item { white-space:nowrap; padding:11px 14px; gap:24px; }
+  .painel .el-item__nota { max-width:none; }
+  .painel .el-risco { margin:6px 14px; }
+  .form { min-width:250px; }
   .painel--aberto { display:block; }
   .form { padding:var(--el-e-3); display:flex; flex-direction:column; gap:var(--el-e-2); }
   .erro { color:var(--el-laranja); font-size:var(--el-t-menor); }
@@ -115,7 +143,7 @@
         <circle cx="11" cy="7" r="1.3" fill="currentColor"/>
       </svg>
     </button>
-    <div class="orbe" id="orbe" title="Gravar">
+    <div class="orbe" id="orbe">
       <div class="viz" id="viz"></div>
       <div class="orbe__nucleo">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
@@ -146,7 +174,10 @@
         <span class="el-item__nota" id="pastaAtual" style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;direction:rtl">—</span>
       </div>
       <div class="el-item el-item--clic" id="abrirPasta"><span>Abrir a pasta</span><span class="el-item__nota">no explorador</span></div>
-      <div class="el-item el-item--clic" id="conta"><span id="contaEmail">conta</span><span class="el-item__nota">sair</span></div>
+      <div class="el-item el-item--clic" id="conta">
+        <span id="contaEmail" style="max-width:190px;overflow:hidden;text-overflow:ellipsis">conta</span>
+        <span class="el-item__nota">sair</span>
+      </div>
       <div class="el-item el-item--clic" id="sair"><span>Fechar o app</span></div>
     </div>
   </div>
@@ -167,9 +198,9 @@ let anMic = null, anSis = null, sobre = false;
 // enquanto as outras leem `PALO` (a da instância). Quem troca a cor dele é
 // `setPalette`. Passar `{palette}` aqui não dá erro — simplesmente não faz nada,
 // que é o tipo de opção morta que custa meia hora pra perceber.
-// Azul é o padrão e cai bem: é o mesmo tom do acento da marca (#0447ff).
-// Trocar pra 'roxo' ou 'ouro' é uma palavra.
-OptimusViz.setPalette('azul');
+// O orbe do Discoo é PRETO com névoa ROXA — 'azul' foi escolha minha e estava
+// errada: o azul dominava a peça e ela deixava de ser a marca.
+OptimusViz.setPalette('roxo');   // o orbe do Discoo é preto com névoa roxa
 const viz = OptimusViz.mount('#viz', 'siri', { size: 66 });
 OptimusViz.setLevel(0);
 
@@ -318,8 +349,13 @@ function ajustar() {
       window.tier.tamanho(LARGURA_FECHADA, alta);
       return;
     }
-    // a barra já tem largura natural (width:max-content), então basta medi-la
-    const larga = Math.ceil(barra.scrollWidth);
+    // 🚨 O PAINEL TAMBÉM MEDE. Antes só a pílula mandava na largura, e o painel
+    // era espremido dentro dos 220px dela: "Abrir com o Windows" quebrava em
+    // duas linhas e o e-mail vazava. Quem manda é o mais largo dos dois.
+    const larga = Math.ceil(Math.max(
+      barra.scrollWidth,
+      aberto ? $('painel').scrollWidth : 0,
+    ));
     window.tier.tamanho(Math.max(LARGURA_FECHADA, larga), alta);
   });
 }
@@ -332,7 +368,12 @@ window.tier.aoSobre(dentro => { sobre = dentro; abrir(); });
 
 $('orbe').onclick = () => (gravando() ? parar() : iniciar());
 window.tier.aoAlternar(() => (gravando() ? parar() : iniciar()));
-$('cfg').onclick = () => { aberto = !aberto; $('painel').classList.toggle('painel--aberto', aberto); abrir(); };
+$('cfg').onclick = () => {
+  aberto = !aberto;
+  $('painel').classList.toggle('painel--aberto', aberto);
+  document.body.classList.toggle('painel-aberto', aberto);   // muda o canto da pílula
+  abrir();
+};
 
 const alterna = (el, v) => el.classList.toggle('el-sw--on', v);
 $('swMic').onclick    = () => alterna($('swMic'), usarMic = !usarMic);
