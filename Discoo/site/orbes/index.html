@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>Discoo · os 25 orbes</title>
+<link rel="icon" href="/favicon.svg" />
+<!-- o `siri` do optimus-viz nao traz folha propria; sem isto o card dele fica em branco -->
+<link rel="stylesheet" href="/orbes/siri-orb.css" />
+<style>
+@font-face{font-family:'Hellix';src:url('/fonts/HellixVAR.woff2') format('woff2-variations');
+  font-weight:100 900;font-display:swap}
+@font-face{font-family:'Geist';src:url('/fonts/Geist-SemiBold.woff2') format('woff2');font-weight:600;font-display:swap}
+:root{
+  --papel:#fdfcfc; --sup-1:#f5f3f1; --sup-3:#e7e3df;
+  --linha:rgba(0,0,0,.08); --linha-forte:rgba(0,0,0,.16);
+  --tinta-1:#0a0a0a; --tinta-2:#777169; --tinta-3:#a8a29b;
+  --violeta:#0447ff; --laranja:#ff4704;
+  --r-2:14px; --r-3:20px; --pill:9999px;
+  --fonte:'Hellix','Outfit',-apple-system,'Segoe UI',Roboto,sans-serif;
+  --display:-apple-system,BlinkMacSystemFont,'SF Pro Display','Geist','Hellix','Segoe UI',sans-serif;
+  --rapido:.15s cubic-bezier(.4,0,.2,1);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-font-smoothing:antialiased}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+body{background:var(--sup-1);color:var(--tinta-1);font-family:var(--fonte);line-height:1.5}
+.wrap{max-width:1180px;margin:0 auto;padding:0 22px 70px}
+header{display:flex;align-items:center;justify-content:space-between;padding:26px 0 0}
+.marca{display:flex;align-items:center;gap:9px;font-size:15px;font-weight:600;letter-spacing:-.01em}
+.volta{font-size:12.5px;color:var(--tinta-3);text-decoration:none}
+.volta:hover{color:var(--tinta-1)}
+h1{font-family:var(--display);font-size:28px;font-weight:600;letter-spacing:-.02em;margin:38px 0 8px}
+.sub{color:var(--tinta-2);font-size:14px;max-width:60ch;margin-bottom:8px}
+.barra{display:flex;gap:10px;align-items:center;margin:22px 0 26px;flex-wrap:wrap}
+.btn{height:38px;padding:0 18px;border-radius:var(--pill);background:var(--tinta-1);color:var(--papel);
+     font-size:13.5px;font-weight:500;transition:var(--rapido)}
+.btn.fant{background:transparent;color:var(--tinta-1);box-shadow:inset 0 0 0 1px var(--linha-forte)}
+.btn.fant:hover{background:var(--papel)}
+.dica{font-size:12.5px;color:var(--tinta-3)}
+
+.grade{display:grid;gap:16px;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.card{background:var(--papel);border:1px solid var(--linha);border-radius:var(--r-3);overflow:hidden;
+      display:flex;flex-direction:column}
+.card.escolhido{box-shadow:inset 0 0 0 2px var(--tinta-1)}
+.palco{aspect-ratio:1/1;background:#050308;position:relative}
+.palco > div{position:absolute;inset:0}
+.info{padding:14px 16px 16px;display:flex;flex-direction:column;gap:5px;flex:1}
+.nome{font-size:14.5px;font-weight:600;display:flex;align-items:center;gap:8px}
+.id{font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--tinta-3)}
+.desc{font-size:12.5px;color:var(--tinta-2);line-height:1.55}
+.tag{font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:var(--pill);
+     box-shadow:inset 0 0 0 1px currentColor;color:var(--tinta-3)}
+.tag--uso{color:#22a06b}
+footer{margin-top:40px;font-size:12.5px;color:var(--tinta-3);line-height:1.6}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="marca"><img src="/favicon.svg" alt="" width="20" height="20" /> Discoo</div>
+    <a class="volta" href="/">voltar ao gravador</a>
+  </header>
+
+  <h1>Os 25 orbes</h1>
+  <p class="sub">
+    Todos vivos, todos reagindo à mesma voz simulada. É a biblioteca
+    <b>optimus-viz</b> — a mesma que roda na tela de voz do Tier Agent.
+    Me diga o <b>id</b> do que você quer e eu troco na pílula.
+  </p>
+
+  <div class="barra">
+    <button class="btn" id="mic">Usar meu microfone</button>
+    <button class="btn fant" id="sim">Voltar pra voz simulada</button>
+    <span class="dica" id="dica">tocando voz simulada — fale no microfone para comparar de verdade</span>
+  </div>
+
+  <div class="grade" id="grade"></div>
+
+  <footer>
+    Em uso hoje na pílula do Discoo: <b>siri</b>.<br />
+    Fonte: <code>renderer/optimus-viz.js</code> — canvas 2D e WebGL2, sem dependência.
+  </footer>
+</div>
+
+<script src="/orbes/optimus-viz.js"></script>
+<script>
+const grade = document.getElementById('grade');
+const EM_USO = 'siri';
+
+// alguns são pesados (raymarching em WebGL); montar todos de uma vez trava a
+// página em máquina fraca, então os cards entram conforme aparecem na tela.
+const lista = OptimusViz.list();
+const montados = new Map();
+
+lista.forEach(v => {
+  const card = document.createElement('div');
+  card.className = 'card' + (v.id === EM_USO ? ' escolhido' : '');
+  card.innerHTML =
+    '<div class="palco"><div id="p-' + v.id + '"></div></div>' +
+    '<div class="info">' +
+      '<div class="nome">' + v.name +
+        (v.id === EM_USO ? '<span class="tag tag--uso">em uso</span>' : '') + '</div>' +
+      '<div class="id">' + v.id + ' · ' + v.type + '</div>' +
+      '<div class="desc">' + v.desc + '</div>' +
+    '</div>';
+  grade.appendChild(card);
+});
+
+const olho = new IntersectionObserver(entradas => {
+  entradas.forEach(e => {
+    const id = e.target.id.slice(2);
+    if (e.isIntersecting && !montados.has(id)) {
+      try { montados.set(id, OptimusViz.mount('#' + e.target.id, id, {})); } catch (err) {}
+    } else if (!e.isIntersecting && montados.has(id)) {
+      montados.get(id).stop();                       // fora da tela não gasta quadro
+    } else if (e.isIntersecting && montados.has(id)) {
+      montados.get(id).start();
+    }
+  });
+}, { rootMargin: '200px' });
+
+lista.forEach(v => olho.observe(document.getElementById('p-' + v.id)));
+
+OptimusViz.simulate(true);
+document.getElementById('sim').onclick = () => {
+  OptimusViz.simulate(true);
+  document.getElementById('dica').textContent = 'tocando voz simulada';
+};
+document.getElementById('mic').onclick = () => {
+  OptimusViz.attachMic().then(() => {
+    document.getElementById('dica').textContent = 'ouvindo o seu microfone — fale';
+  }).catch(() => {
+    document.getElementById('dica').textContent = 'não consegui abrir o microfone';
+  });
+};
+</script>
+</body>
+</html>

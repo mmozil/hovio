@@ -1,8 +1,11 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8" />
 <link rel="stylesheet" href="ds.css" />
+<!-- 🚨 o optimus-viz NÃO traz o CSS do `siri`: sem esta folha ele monta o DOM e
+     não desenha nada. Escrita aqui a partir das variáveis que o JS escreve. -->
+<link rel="stylesheet" href="siri-orb.css" />
 <style>
   /* Registrar --v como NÚMERO é o que permite usá-lo dentro de calc() em
      filter/opacity/box-shadow com interpolação. Sem @property ele é texto
@@ -49,7 +52,7 @@
   .pt--ok { background:#22a06b; box-shadow:0 0 0 2.5px rgba(34,160,107,.16); }
 
   /* ── a esfera ────────────────────────────────────────────────────
-     🔑 NÃO é CSS. É o visualizador `orbe` do **optimus-viz**, o mesmo que roda
+     🔑 NÃO é CSS. É o visualizador `siri` do **optimus-viz**, o mesmo que roda
      na tela de voz do Tier Agent (`agent.tier.finance/c/<slug>`) — canvas 2D,
      sem dependência. Tentei imitar em CSS antes: blur+contrast até chega perto
      da matéria, mas o que faz a névoa PARECER VIVA é o que o canvas faz e o CSS
@@ -57,10 +60,16 @@
      diferentes do espectro em pontos diferentes da borda), não pela amplitude
      média. Escalar o conjunto com o volume dá balão inflando; ondular localizado
      dá fala. Reusar o que já funciona vale mais que reinventar pior. */
+  /* 🚨 o `siri` é DOM (7 gradientes cônicos borrados), não canvas — ele SANGRA
+     pra fora da caixa de propósito (é névoa, não tem contorno). Sem
+     `overflow:hidden` o borrão vaza na pílula branca; com ele, o corte fica
+     duro demais. `overflow:visible` + máscara radial deixa a borda apagar. */
   .orbe { -webkit-app-region:no-drag; width:66px; height:66px; flex:none;
           position:relative; cursor:pointer; display:grid; place-items:center;
-          border-radius:50%; overflow:hidden;
-          box-shadow:0 6px 22px rgba(4,71,255,.16); transition:box-shadow var(--el-medio); }
+          border-radius:50%;
+          -webkit-mask:radial-gradient(circle at 50% 50%, #000 58%, transparent 78%);
+          mask:radial-gradient(circle at 50% 50%, #000 58%, transparent 78%);
+          transition:box-shadow var(--el-medio); }
   .orbe--on { box-shadow:0 6px 26px rgba(255,71,4,.24); }
   .viz { position:absolute; inset:0; }
   .viz canvas { display:block; width:100%; height:100%; }
@@ -152,7 +161,16 @@ let anMic = null, anSis = null, sobre = false;
 /* O visualizador vive o tempo todo (em silêncio ele fica quieto — a borda do
    `orbe` só existe quando há fala). Montar/desmontar a cada gravação daria
    piscada e recriaria o canvas. */
-const viz = OptimusViz.mount('#viz', 'orbe', { palette: 'roxo' });
+// 🚨 `size` explícito: o tipo 'dom' lê `host.clientWidth` UMA vez, no mount.
+// Se a medida sair antes do layout, ele nasce com 240px (o padrão) e estoura.
+// 🚨 `palette` NÃO funciona no `siri`: o `siriPaint` lê a variável GLOBAL `PAL`,
+// enquanto as outras leem `PALO` (a da instância). Quem troca a cor dele é
+// `setPalette`. Passar `{palette}` aqui não dá erro — simplesmente não faz nada,
+// que é o tipo de opção morta que custa meia hora pra perceber.
+// Azul é o padrão e cai bem: é o mesmo tom do acento da marca (#0447ff).
+// Trocar pra 'roxo' ou 'ouro' é uma palavra.
+OptimusViz.setPalette('azul');
+const viz = OptimusViz.mount('#viz', 'siri', { size: 66 });
 OptimusViz.setLevel(0);
 
 /** Média do espectro de uma fonte — serve só pros pontinhos verdes. */
