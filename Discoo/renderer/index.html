@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="ds.css" />
+<style>
+  /* Registrar --v como NÚMERO é o que permite usá-lo dentro de calc() em
+     filter/opacity/box-shadow com interpolação. Sem @property ele é texto
+     opaco pro motor de animação. */
+  @property --v { syntax:'<number>'; initial-value:0; inherits:true; }
+  /* ── a pílula ────────────────────────────────────────────────────
+     Em repouso é SÓ o disco. Ao passar o mouse (ou gravando) ela se
+     abre PRA ESQUERDA e mostra tempo e fontes de áudio.
+     🔑 O disco fica encostado na direita e o resto cresce pra esquerda —
+     assim a janela muda de tamanho e o disco NÃO sai do lugar. Se ele
+     estivesse à esquerda, abrir e fechar faria a marca pular na tela. */
+  html, body { overflow:hidden; }
+  /* 🚨 o conteudo encosta na DIREITA. A pilula e mais larga que a janela
+     durante a animacao de abrir/fechar; alinhada a esquerda, o que fica
+     visivel no aperto e o texto, e o disco sai da tela. */
+  body { display:flex; flex-direction:column; align-items:flex-end; }
+  .painel { width:100%; }
+  .pilula { -webkit-app-region:drag; height:90px; padding:0 14px;
+            display:flex; align-items:center; gap:14px; background:var(--el-papel);
+            /* 🚨 `max-content` e NÃO `100%`: a janela nasce com 90px, e com
+               largura em % o flex espremeria o conteúdo dentro desses 90px —
+               a medida voltaria minúscula e a pílula nunca abriria de verdade.
+               `min-width:100%` mantém o fundo preenchido quando fechada. */
+            width:max-content; min-width:100%; }
+  .orbe { margin-left:auto; }                     /* sempre colado na direita */
+
+  /* o que só existe quando aberta */
+  /* 🚨 `.pilula > .some` e nao `.some`: `.meio` declara `display:flex` mais
+     abaixo na folha, e com a MESMA especificidade a ultima regra vence — o
+     relogio nunca sumia, e fechada a pilula mostrava a hora em vez do disco.
+     Filho direto sobe a especificidade e resolve sem !important. */
+  .pilula > .some { display:none; }
+  body.aberta .pilula > .some { display:flex; }
+  body.aberta .meio { animation:entrar .18s cubic-bezier(.2,.8,.3,1) both; }
+  @keyframes entrar { from{opacity:0; transform:translateX(6px)} to{opacity:1; transform:none} }
+
+  /* pontinhos das duas fontes — é a informação que mais falta na hora:
+     "o outro lado está entrando?". Verde = tem som chegando agora. */
+  .fontes { display:flex; align-items:center; gap:9px; margin-top:3px; }
+  .fonte { display:flex; align-items:center; gap:5px;
+           font-size:var(--el-t-menor); color:var(--el-tinta-3); white-space:nowrap; }
+  .pt { width:6px; height:6px; border-radius:50%; background:var(--el-sup-3);
+        transition:background .18s ease, box-shadow .18s ease; }
+  .pt--ok { background:#22a06b; box-shadow:0 0 0 2.5px rgba(34,160,107,.16); }
+
+  /* ── a esfera: o elemento de produto ─────────────────────────────
+     Substitui o botão e a onda. Ela respira com o volume — é o mesmo
+     gesto do widget de agentes do ElevenLabs. */
+  /* --v = quanto de voz está entrando AGORA (0..1), escrito pelo JS a cada
+     quadro. É o que faz a névoa mexer junto com a conversa: antes ela derivava
+     em tempo fixo e ficava idêntica no silêncio e na discussão. */
+  .orbe { --disco:66px; --v:0; -webkit-app-region:no-drag;
+          width:66px; height:66px; border-radius:50%; flex:none;
+          position:relative; cursor:pointer; display:grid; place-items:center;
+          transition:transform .09s ease-out; }
+  .planeta { position:absolute; inset:0; border-radius:50%; overflow:hidden;
+             background:radial-gradient(circle at 32% 26%, #34343f 0%, #17171e 42%, #0a0a0d 78%, #050507 100%);
+             box-shadow:inset -9px -12px 28px rgba(0,0,0,.75),
+                        inset 8px 9px 24px rgba(255,255,255,.05),
+                        0 8px 30px rgba(4,71,255,.15);
+             transition:box-shadow var(--el-medio); }
+
+  /* 🚨 DUAS camadas por névoa, e não uma. A externa faz a deriva/rotação lenta
+     por keyframes; a INTERNA responde à voz. Se as duas coisas morassem no
+     mesmo elemento, o `transform` do keyframe sobrescreveria o da voz e a névoa
+     ficaria parada — foi o primeiro desenho, e não funciona.
+
+     A névoa não é um círculo: é uma BOLHA com `border-radius` de 8 valores que
+     morfa sozinha. Rodando uma forma irregular, a silhueta varre — é daí que
+     vem o "líquido" do orbe do ChatGPT/Siri, sem WebGL nenhum. Círculo perfeito
+     girando não produz movimento visível: gira e parece parado. */
+  .neb { position:absolute; }
+  .neb i { display:block; width:100%; height:100%;
+           border-radius:60% 40% 55% 45% / 50% 60% 40% 50%;
+           mix-blend-mode:screen;
+           /* voz alta = névoa mais NÍTIDA e maior. O foco entrando é metade do
+              efeito; só escalar dá "balão inflando", não dá presença. */
+           filter:blur(calc(var(--disco) * (.19 - var(--v) * .07)));
+           transform:scale(calc(1 + var(--v) * .5));
+           opacity:calc(.42 + var(--v) * .58);
+           animation:morf 7s ease-in-out infinite;
+           transition:background var(--el-medio); }
+  .neb--a { width:82%; height:82%; left:-10%; top:4%; animation:derivaA 13s ease-in-out infinite; }
+  .neb--b { width:66%; height:66%; right:-8%; bottom:-6%; animation:derivaB 17s ease-in-out infinite; }
+  .neb--b i { animation-duration:9s; animation-direction:reverse; }
+  .neb--a i { background:radial-gradient(circle, rgba(60,86,220,.9), rgba(30,40,120,0) 68%); }
+  .neb--b i { background:radial-gradient(circle, rgba(120,70,210,.66), rgba(60,30,110,0) 70%); }
+
+  @keyframes morf {
+    0%,100% { border-radius:60% 40% 55% 45% / 50% 60% 40% 50% }
+    33%     { border-radius:45% 55% 38% 62% / 62% 42% 58% 38% }
+    66%     { border-radius:52% 48% 62% 38% / 38% 58% 42% 62% }
+  }
+  /* rotação junto da deriva: é a rotação da bolha que faz a névoa "rodopiar" */
+  @keyframes derivaA {
+    0%,100%{ transform:translate(0,0) rotate(0deg) scale(1) }
+    50%    { transform:translate(20%,12%) rotate(180deg) scale(1.16) }
+  }
+  @keyframes derivaB {
+    0%,100%{ transform:translate(0,0) rotate(0deg) scale(1) }
+    50%    { transform:translate(-16%,-14%) rotate(-160deg) scale(1.12) }
+  }
+
+  /* aro que pulsa com a voz — o "anel" que aparece quando o outro fala.
+     Fica FORA do planeta (que tem overflow:hidden) pra poder vazar. */
+  .aro { position:absolute; inset:-3px; border-radius:50%; pointer-events:none;
+         box-shadow:0 0 0 1px rgba(255,71,4,calc(var(--v) * .55));
+         transform:scale(calc(1 + var(--v) * .10));
+         opacity:calc(var(--v) * .9); }
+
+  /* gravando: a névoa esquenta pro laranja da marca, roda mais rápido, e o
+     brilho externo pulsa com a voz em vez de ficar constante */
+  .orbe--on .planeta { box-shadow:inset -9px -12px 28px rgba(0,0,0,.75),
+                                  inset 8px 9px 24px rgba(255,255,255,.06),
+                                  0 8px calc(28px + var(--v) * 26px) rgba(255,71,4,calc(.16 + var(--v) * .34)); }
+  .orbe--on .neb--a { animation-duration:5.5s; }
+  .orbe--on .neb--b { animation-duration:7.5s; }
+  .orbe--on .neb i  { animation-duration:3.2s; }
+  .orbe--on .neb--a i { background:radial-gradient(circle, rgba(255,120,45,.88), rgba(150,50,10,0) 68%); }
+  .orbe--on .neb--b i { background:radial-gradient(circle, rgba(228,62,30,.64), rgba(120,30,10,0) 70%); }
+
+  /* miolo branco com o ícone — igual à referência */
+  .orbe__nucleo { position:relative; width:26px; height:26px; border-radius:50%;
+                  background:var(--el-papel); display:grid; place-items:center;
+                  box-shadow:0 0 0 1px rgba(0,0,0,.10);   /* o selo do disco */
+                  transition:var(--el-medio); }
+  .orbe--on .orbe__nucleo { width:20px; height:20px; border-radius:5px; background:var(--el-papel); }
+  .orbe__nucleo svg { width:14px; height:14px; color:var(--el-tinta-1); transition:opacity var(--el-rapido); }
+  .orbe--on .orbe__nucleo svg { opacity:0; }
+
+  .meio { flex:0 0 auto; min-width:0; max-width:190px; display:flex; flex-direction:column; gap:2px; }
+
+  .painel { background:var(--el-papel); border-top:1px solid var(--el-linha);
+            padding:6px; display:none; -webkit-app-region:no-drag; }
+  .painel--aberto { display:block; }
+  .form { padding:var(--el-e-3); display:flex; flex-direction:column; gap:var(--el-e-2); }
+  .erro { color:var(--el-laranja); font-size:var(--el-t-menor); }
+</style>
+</head>
+<body>
+  <div class="pilula">
+    <div class="meio some">
+      <span class="el-num" id="tempo" style="font-size:27px">00:00</span>
+      <span class="el-rot" id="rot">pronto</span>
+      <div class="fontes" id="fontes" style="display:none">
+        <span class="fonte"><i class="pt" id="ptMic"></i>mic</span>
+        <span class="fonte"><i class="pt" id="ptSis"></i>reunião</span>
+      </div>
+    </div>
+    <button class="el-icone some" id="cfg" title="Opções">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <circle cx="3" cy="7" r="1.3" fill="currentColor"/><circle cx="7" cy="7" r="1.3" fill="currentColor"/>
+        <circle cx="11" cy="7" r="1.3" fill="currentColor"/>
+      </svg>
+    </button>
+    <div class="orbe" id="orbe" title="Gravar">
+      <span class="aro"></span>
+      <div class="planeta">
+        <span class="neb neb--a"><i></i></span>
+        <span class="neb neb--b"><i></i></span>
+      </div>
+      <div class="orbe__nucleo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+          <path d="M12 2v10M12 2a3 3 0 0 1 3 3v4a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z" fill="currentColor" stroke="none"/>
+          <path d="M5 10a7 7 0 0 0 14 0M12 17v4"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="painel" id="painel">
+    <div class="form" id="formLogin">
+      <div class="el-rot">enviar para o Tier</div>
+      <input class="el-campo" id="email" type="email" placeholder="e-mail" autocomplete="off" />
+      <input class="el-campo" id="senha" type="password" placeholder="senha" />
+      <button class="el-btn" id="entrar">Entrar</button>
+      <div class="erro" id="erroLogin"></div>
+      <div class="el-item__nota">sem conta, a gravação fica só no computador</div>
+    </div>
+
+    <div id="menu" style="display:none">
+      <div class="el-item"><span>Meu microfone</span><div class="el-sw el-sw--on" id="swMic"></div></div>
+      <div class="el-item"><span>Enviar ao parar</span><div class="el-sw el-sw--on" id="swEnviar"></div></div>
+      <div class="el-item"><span>Abrir com o Windows</span><div class="el-sw" id="swInicio"></div></div>
+      <div class="el-risco"></div>
+      <div class="el-item el-item--clic" id="trocarPasta">
+        <span>Pasta das gravações</span>
+        <span class="el-item__nota" id="pastaAtual" style="max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;direction:rtl">—</span>
+      </div>
+      <div class="el-item el-item--clic" id="abrirPasta"><span>Abrir a pasta</span><span class="el-item__nota">no explorador</span></div>
+      <div class="el-item el-item--clic" id="conta"><span id="contaEmail">conta</span><span class="el-item__nota">sair</span></div>
+      <div class="el-item el-item--clic" id="sair"><span>Fechar o app</span></div>
+    </div>
+  </div>
+
+<script>
+const $ = id => document.getElementById(id);
+let rec = null, ctx = null, streams = [], t0 = 0, tid = null, caminho = null;
+let usarMic = true, enviarAoParar = true, aberto = false, logado = false, escala = 1;
+let anMic = null, anSis = null, sobre = false;
+
+/** Média do espectro de uma fonte — serve só pros pontinhos verdes. */
+const medir = (an, buf) => { if (!an) return 0; an.getByteFrequencyData(buf);
+  return buf.reduce((a, v) => a + v, 0) / buf.length; };
+
+/** A pílula está aberta quando: o mouse está em cima, OU está gravando, OU o
+ *  painel de opções está aberto. Qualquer um dos três segura ela aberta. */
+const gravando = () => !!rec && rec.state === 'recording';
+function abrir(forcar) {
+  const deveAbrir = forcar || sobre || gravando() || aberto;
+  document.body.classList.toggle('aberta', deveAbrir);
+  ajustar();
+}
+
+const rotulo = (texto, variante) => {
+  $('rot').className = 'el-rot' + (variante ? ' el-rot--' + variante : '');
+  $('rot').textContent = texto;
+};
+
+async function iniciar() {
+  try {
+    const sistema = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
+    streams.push(sistema);
+    let mic = null;
+    if (usarMic) {
+      try { mic = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: false } }); streams.push(mic); }
+      catch { /* sem mic não aborta */ }
+    }
+
+    ctx = new AudioContext();
+    const destino = ctx.createMediaStreamDestination();
+    const an = ctx.createAnalyser(); an.fftSize = 256; an.smoothingTimeConstant = .8;
+    const temSistema = sistema.getAudioTracks().length > 0;
+    // analisadores SEPARADOS por fonte: o geral move a névoa, os dois de baixo
+    // respondem "de quem é o som que está entrando" — sem isso não dá pra saber
+    // que a reunião não está sendo captada até ouvir a gravação no fim.
+    if (temSistema) {
+      const s = ctx.createMediaStreamSource(sistema); s.connect(destino); s.connect(an);
+      anSis = ctx.createAnalyser(); anSis.fftSize = 128; s.connect(anSis);
+    }
+    if (mic) {
+      const m = ctx.createMediaStreamSource(mic); m.connect(destino); m.connect(an);
+      anMic = ctx.createAnalyser(); anMic.fftSize = 128; m.connect(anMic);
+    }
+    if (!temSistema && !mic) throw new Error('sem áudio');
+
+    // 🚨 arquivo aberto ANTES de gravar: cada pedaço cai no disco na hora
+    caminho = await window.tier.abrirArquivo();
+
+    rec = new MediaRecorder(destino.stream, { mimeType: 'audio/webm', audioBitsPerSecond: 64000 });
+    rec.ondataavailable = async (e) => {
+      if (!e.data.size) return;
+      window.tier.pedaco(await e.data.arrayBuffer());   // vai pro disco e sai da memória
+    };
+    rec.onstop = finalizar;
+    rec.start(5000);
+
+    t0 = Date.now();
+    tid = setInterval(() => {
+      const s = Math.floor((Date.now() - t0) / 1000), h = Math.floor(s / 3600);
+      $('tempo').textContent = (h ? String(h).padStart(2,'0') + ':' : '') +
+        String(Math.floor(s/60)%60).padStart(2,'0') + ':' + String(s%60).padStart(2,'0');
+    }, 500);
+
+    // A esfera respira E a névoa mexe: `escala` sobe rápido e cai devagar
+    // (ataque/decaimento), senão a imagem pisca a cada sílaba em vez de ondular.
+    const buf = new Uint8Array(an.frequencyBinCount);
+    const b1 = new Uint8Array(64), b2 = new Uint8Array(64);
+    let voz = 0;
+    (function loop() {
+      if (!rec || rec.state === 'inactive') {
+        $('orbe').style.transform = 'scale(1)';
+        $('orbe').style.setProperty('--v', 0);
+        return;
+      }
+      an.getByteFrequencyData(buf);
+      const nivel = Math.min(1, (buf.reduce((a, b) => a + b, 0) / buf.length) / 85);
+
+      const alvo = 1 + nivel * 0.22;
+      escala += (alvo - escala) * (alvo > escala ? .5 : .12);
+      $('orbe').style.transform = `scale(${escala.toFixed(3)})`;
+
+      voz += (nivel - voz) * (nivel > voz ? .45 : .07);   // decai mais devagar que a escala
+      $('orbe').style.setProperty('--v', voz.toFixed(3));
+
+      $('ptMic').classList.toggle('pt--ok', medir(anMic, b1) > 4);
+      $('ptSis').classList.toggle('pt--ok', medir(anSis, b2) > 4);
+      requestAnimationFrame(loop);
+    })();
+
+    $('fontes').style.display = 'flex';
+    $('orbe').classList.add('orbe--on');
+    abrir(true);                       // gravando fica aberta: o tempo tem de estar à vista
+    rotulo(temSistema ? (mic ? 'reunião + mic' : 'reunião') : 'só mic', 'viva');
+    window.tier.estado(true);
+  } catch (e) {
+    rotulo('falhou', 'alerta');
+  }
+}
+
+const parar = () => rec && rec.state !== 'inactive' && rec.stop();
+
+async function finalizar() {
+  clearInterval(tid);
+  streams.forEach(s => s.getTracks().forEach(t => t.stop()));
+  streams = []; escala = 1;
+  $('orbe').classList.remove('orbe--on');
+  $('orbe').style.transform = 'scale(1)';
+  window.tier.estado(false);
+  rotulo('salvando');
+
+  const arquivo = await window.tier.fecharArquivo();   // fecha o fluxo já escrito
+  const min = Math.max(1, Math.round((Date.now() - t0) / 60000));
+  $('tempo').textContent = '00:00';
+
+  if (!(enviarAoParar && logado)) {
+    rotulo(`salvo · ${min} min`, 'ok');
+    $('rot').style.cursor = 'pointer';
+    $('rot').onclick = () => window.tier.abrirPasta(arquivo);
+    return;
+  }
+  rotulo('enviando');
+  const r = await window.tier.enviar(arquivo);
+  if (r.ok) {
+    rotulo('transcrevendo', 'ok');
+    setTimeout(() => rotulo(`enviado · ${min} min`, 'ok'), 4000);
+  } else {
+    rotulo(r.erro || 'falha no envio', 'alerta');
+    $('rot').style.cursor = 'pointer';
+    $('rot').onclick = () => window.tier.abrirPasta(arquivo);
+  }
+}
+
+/** 🚨 O renderer mede e o main obedece — nunca o contrário. Largura fixa no
+ *  main corta texto quando o rótulo cresce ("transcrevendo"), do mesmo jeito
+ *  que altura fixa cortava o painel. */
+const LARGURA_FECHADA = 90;
+function ajustar() {
+  requestAnimationFrame(() => {
+    const barra = document.querySelector('.pilula');
+    const alta = barra.getBoundingClientRect().height +
+                 (aberto ? $('painel').getBoundingClientRect().height : 0);
+    if (!document.body.classList.contains('aberta')) {
+      window.tier.tamanho(LARGURA_FECHADA, alta);
+      return;
+    }
+    // a barra já tem largura natural (width:max-content), então basta medi-la
+    const larga = Math.ceil(barra.scrollWidth);
+    window.tier.tamanho(Math.max(LARGURA_FECHADA, larga), alta);
+  });
+}
+
+// abre no hover, fecha ao sair — mas nunca fecha no meio de uma gravação
+// 🚨 Quem avisa é o MAIN, não `mouseenter`: a pílula inteira é região de
+// arrasto (`-webkit-app-region: drag`) e isso ENGOLE os eventos de mouse do
+// DOM. Com o listener aqui, a pílula não abria uma vez sequer (medido).
+window.tier.aoSobre(dentro => { sobre = dentro; abrir(); });
+
+$('orbe').onclick = () => (gravando() ? parar() : iniciar());
+window.tier.aoAlternar(() => (gravando() ? parar() : iniciar()));
+$('cfg').onclick = () => { aberto = !aberto; $('painel').classList.toggle('painel--aberto', aberto); abrir(); };
+
+const alterna = (el, v) => el.classList.toggle('el-sw--on', v);
+$('swMic').onclick    = () => alterna($('swMic'), usarMic = !usarMic);
+$('swEnviar').onclick = () => alterna($('swEnviar'), enviarAoParar = !enviarAoParar);
+$('swInicio').onclick = async () => {
+  const novo = !$('swInicio').classList.contains('el-sw--on');
+  alterna($('swInicio'), await window.tier.inicioWindows(novo));
+};
+$('abrirPasta').onclick = () => window.tier.abrirPasta(null);
+$('trocarPasta').onclick = async () => { $('pastaAtual').textContent = await window.tier.escolherPasta(); };
+$('sair').onclick = () => window.tier.fechar();
+$('conta').onclick = async () => { await window.tier.sairConta(); await carregarConfig(); abrir(); };
+
+$('entrar').onclick = async () => {
+  const email = $('email').value.trim(), senha = $('senha').value;
+  if (!email || !senha) return;
+  $('entrar').disabled = true; $('entrar').textContent = 'entrando…'; $('erroLogin').textContent = '';
+  const r = await window.tier.login(email, senha);
+  $('entrar').disabled = false; $('entrar').textContent = 'Entrar';
+  if (r.ok) { $('senha').value = ''; await carregarConfig(); abrir(); }
+  else $('erroLogin').textContent = r.erro;
+};
+$('senha').addEventListener('keydown', e => e.key === 'Enter' && $('entrar').click());
+
+async function carregarConfig() {
+  const c = await window.tier.config();
+  logado = c.logado;
+  $('formLogin').style.display = logado ? 'none' : 'flex';
+  $('menu').style.display = logado ? 'block' : 'none';
+  $('contaEmail').textContent = c.email || 'conta';
+  alterna($('swInicio'), c.comWindows);
+  $('pastaAtual').textContent = c.pasta || '—';
+}
+carregarConfig();
+</script>
+</body>
+</html>

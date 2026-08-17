@@ -23,8 +23,9 @@ const path = require('path');
 const fs = require('fs');
 const os = require('os');
 
-const LARGURA = 236;
-const ALTURA_FECHADA = 58;
+const LARGURA = 330;          // teto: a pílula aberta nunca passa disto
+const LARGURA_FECHADA = 90;   // em repouso é só o disco
+const ALTURA_FECHADA = 90;
 const API = process.env.TIER_API_URL || 'https://api.tier.finance/api';
 
 let janela = null;
@@ -82,9 +83,10 @@ function iconeTier(ativo) {
 function criarJanela() {
   const { width, height } = screen.getPrimaryDisplay().workAreaSize;
   janela = new BrowserWindow({
-    width: LARGURA,
+    // nasce fechada (só o disco). Quem abre é o mouse, via IPC `tamanho`.
+    width: LARGURA_FECHADA,
     height: ALTURA_FECHADA,
-    x: width - LARGURA - 24,
+    x: width - LARGURA_FECHADA - 24,
     y: height - ALTURA_FECHADA - 24,
     frame: false,
     transparent: false,
@@ -152,17 +154,79 @@ app.whenReady().then(() => {
 
 app.on('window-all-closed', (e) => e.preventDefault());   // vive na bandeja
 
+/**
+ * Fotografa a própria janela quando `DISCOO_DEBUG_SHOT` aponta pra uma pasta.
+ * 🔑 `capturePage` é a ÚNICA forma confiável de conferir esta UI: printar a tela
+ * por fora erra o recorte, porque o processo que printa não é DPI-aware e o
+ * `GetWindowRect` volta em coordenadas escaladas. Ficou aqui de propósito.
+ */
+if (process.env.DISCOO_DEBUG_SHOT) {
+  let n = 0;
+  setInterval(() => {
+    if (!janela || janela.isDestroyed()) return;
+    janela.webContents.capturePage().then((img) => {
+      fs.writeFileSync(process.env.DISCOO_DEBUG_SHOT + '/shot-' + String(++n).padStart(2, '0') + '.png', img.toPNG());
+    }).catch(() => {});
+  }, 1500);
+}
+
 // ── IPC ─────────────────────────────────────────────────────────────────────
 
 ipcMain.on('estado', (_e, emGravacao) => { gravando = emGravacao; atualizarBandeja(); });
 
-/** A interface mede o próprio conteúdo — altura fixa no main corta o painel. */
-ipcMain.on('altura', (_e, px) => {
-  if (!janela) return;
-  const nova = Math.max(ALTURA_FECHADA, Math.min(560, Math.ceil(px)));
+/**
+ * 🚨 O HOVER É DETECTADO AQUI, e não no renderer com mouseenter/mouseleave.
+ * A pílula inteira é `-webkit-app-region: drag` (pra poder arrastar a peça), e
+ * região de arrasto **engole os eventos de mouse do DOM** — mouseenter nunca
+ * dispara. Medido: com o listener no `body`, a janela não abria uma vez sequer.
+ * Comparar a posição do cursor com os limites da janela não depende do DOM.
+ */
+let sobrePilula = false;
+setInterval(() => {
+  if (!janela || janela.isDestroyed() || !janela.isVisible()) return;
+  const c = screen.getCursorScreenPoint();
   const b = janela.getBounds();
-  // cresce pra cima: a peça mora no canto de baixo
-  janela.setBounds({ x: b.x, y: b.y - (nova - b.height), width: LARGURA, height: nova });
+  const dentro = c.x >= b.x && c.x < b.x + b.width && c.y >= b.y && c.y < b.y + b.height;
+  if (dentro === sobrePilula) return;
+  sobrePilula = dentro;
+  janela.webContents.send('sobre', dentro);
+}, 110);
+
+/**
+ * A interface mede o próprio conteúdo e manda o tamanho — medida fixa no main
+ * corta o painel quando entra item novo, e corta o texto quando o rótulo cresce.
+ *
+ * 🔑 Ancora no canto INFERIOR DIREITO: a peça mora ali, então ela cresce pra
+ * cima e pra ESQUERDA. É isso que mantém o disco parado na tela enquanto a
+ * pílula abre e fecha — ancorar pela esquerda faria a marca escorregar a cada
+ * passada de mouse.
+ *
+ * `setBounds` no Windows não anima (o `animate:true` é só macOS), então a
+ * transição é feita à mão em ~7 quadros. Sem isso o salto de 58 pra 236px
+ * parece falha de renderização, não gesto.
+ */
+let animacao = null;
+ipcMain.on('tamanho', (_e, px, py) => {
+  if (!janela) return;
+  const alvoL = Math.max(LARGURA_FECHADA, Math.min(LARGURA, Math.ceil(px)));
+  const alvoA = Math.max(ALTURA_FECHADA, Math.min(560, Math.ceil(py)));
+  const b = janela.getBounds();
+  if (b.width === alvoL && b.height === alvoA) return;
+
+  clearInterval(animacao);
+  const direita = b.x + b.width, base = b.y + b.height;
+  const l0 = b.width, a0 = b.height;
+  const QUADROS = 7;
+  let q = 0;
+  animacao = setInterval(() => {
+    q++;
+    const t = 1 - Math.pow(1 - q / QUADROS, 3);          // ease-out
+    const l = Math.round(l0 + (alvoL - l0) * t);
+    const a = Math.round(a0 + (alvoA - a0) * t);
+    if (!janela) { clearInterval(animacao); return; }
+    janela.setBounds({ x: direita - l, y: base - a, width: l, height: a });
+    if (q >= QUADROS) { clearInterval(animacao); animacao = null; }
+  }, 16);
 });
 
 /**
