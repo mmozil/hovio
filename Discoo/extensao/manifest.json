@@ -1,0 +1,50 @@
+{
+  "manifest_version": 3,
+  "name": "Discoo — gravar reunião",
+  "version": "0.1.0",
+  "description": "Grava o áudio da reunião direto da aba, sem diálogo, e devolve a ata com as tarefas.",
+  "permissions": [
+    "tabCapture",
+    "offscreen",
+    "storage",
+    "tabs"
+  ],
+  "host_permissions": [
+    "https://meet.google.com/*",
+    "https://teams.microsoft.com/*",
+    "https://*.zoom.us/*",
+    "http://localhost/*"
+  ],
+  "background": {
+    "service_worker": "sw.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Discoo"
+  },
+  "icons": {
+    "128": "icone.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://meet.google.com/*",
+        "https://teams.microsoft.com/*",
+        "https://*.zoom.us/*",
+        "http://localhost/*"
+      ],
+      "js": [
+        "pilula.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "commands": {
+    "gravar": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+Y"
+      },
+      "description": "Gravar / parar a reunião"
+    }
+  }
+}

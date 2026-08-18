@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<title>Discoo</title>
+<style>
+/* tokens do DS do Discoo — os mesmos do app e do site */
+:root{
+  --papel:#fdfcfc; --sup-1:#f5f3f1; --linha:rgba(0,0,0,.08); --linha-forte:rgba(0,0,0,.16);
+  --tinta-1:#0a0a0a; --tinta-2:#777169; --tinta-3:#a8a29b; --laranja:#ff4704;
+  --fonte:-apple-system,'Segoe UI',Roboto,sans-serif;
+  --mono:ui-monospace,Consolas,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{width:280px;background:var(--papel);color:var(--tinta-1);font:13.5px/1.5 var(--fonte);padding:16px}
+button{border:0;cursor:pointer;font-family:inherit;color:inherit}
+.topo{display:flex;align-items:center;gap:9px;margin-bottom:14px}
+.disco{width:20px;height:20px;border-radius:50%;flex:none;position:relative;
+  background:radial-gradient(circle at 32% 26%,#34343f 0%,#17171e 42%,#0a0a0d 100%);
+  box-shadow:inset -2px -3px 6px rgba(0,0,0,.6)}
+.disco::after{content:'';position:absolute;inset:41%;border-radius:50%;background:var(--papel)}
+.nome{font-weight:500;letter-spacing:-.01em}
+.item{display:flex;align-items:center;justify-content:space-between;gap:10px;
+  background:var(--sup-1);border-radius:10px;padding:10px 12px;margin-bottom:6px}
+.sw{width:32px;height:19px;border-radius:9999px;background:#e7e3df;position:relative;flex:none;cursor:pointer}
+.sw::after{content:'';position:absolute;top:2px;left:2px;width:15px;height:15px;border-radius:50%;
+  background:var(--papel);box-shadow:0 1px 2px rgba(0,0,0,.16);transition:.2s}
+.sw.on{background:var(--tinta-1)} .sw.on::after{transform:translateX(13px)}
+.btn{width:100%;height:38px;border-radius:9999px;background:var(--tinta-1);color:var(--papel);
+  font-size:13.5px;font-weight:500;margin-top:10px}
+.btn.rec{background:var(--laranja)}
+.estado{font-size:12px;color:var(--tinta-2);margin-top:10px;min-height:16px}
+.cron{font:500 15px/1 var(--mono);font-variant-numeric:tabular-nums}
+.pt{display:inline-block;width:6px;height:6px;border-radius:50%;background:#e7e3df;margin-right:6px}
+.pt.ok{background:#22a06b}
+.fontes{display:flex;gap:14px;font-size:11.5px;color:var(--tinta-2);margin-top:10px}
+</style>
+</head>
+<body>
+  <div class="topo"><div class="disco"></div><span class="nome">Discoo</span></div>
+
+  <div class="item"><span>Meu microfone</span><div class="sw on" id="swMic"></div></div>
+  <div class="item"><span>Gravando</span><span class="cron" id="cron">00:00</span></div>
+
+  <button class="btn" id="btn">Gravar esta reunião</button>
+
+  <div class="fontes">
+    <span><i class="pt" id="ptAba"></i>reunião</span>
+    <span><i class="pt" id="ptMic"></i>microfone</span>
+  </div>
+  <div class="estado" id="estado"></div>
+
+<script src="popup.js"></script>
+</body>
+</html>

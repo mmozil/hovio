@@ -1,0 +1,6 @@
+node_modules/
+dist/
+out/
+*.log
+extensao/teste/mic.wav
+extensao/teste/perfil-*/
