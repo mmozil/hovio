@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<title>Discoo — liberar o microfone</title>
+<style>
+:root{
+  --papel:#fdfcfc; --sup-1:#f5f3f1; --linha:rgba(0,0,0,.08); --linha-forte:rgba(0,0,0,.16);
+  --tinta-1:#0a0a0a; --tinta-2:#777169; --tinta-3:#a8a29b;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--papel);color:var(--tinta-1);min-height:100vh;display:grid;place-items:center;
+  font:15px/1.6 -apple-system,'Segoe UI',Roboto,sans-serif;padding:32px}
+.cartao{max-width:460px;background:var(--papel);border:1px solid var(--linha);border-radius:20px;padding:32px}
+.disco{width:44px;height:44px;border-radius:50%;position:relative;margin-bottom:22px;
+  background:radial-gradient(circle at 32% 26%,#34343f 0%,#17171e 42%,#0a0a0d 100%);
+  box-shadow:inset -4px -6px 14px rgba(0,0,0,.7)}
+.disco::after{content:'';position:absolute;inset:41%;border-radius:50%;background:var(--papel)}
+h1{font-size:22px;font-weight:600;letter-spacing:-.02em;margin-bottom:10px}
+p{color:var(--tinta-2);font-size:14px;margin-bottom:14px}
+button{border:0;cursor:pointer;height:40px;padding:0 22px;border-radius:9999px;background:var(--tinta-1);
+  color:var(--papel);font:500 13.5px inherit;font-family:inherit}
+.nota{font-size:12.5px;color:var(--tinta-3);margin-top:16px}
+.ok{color:#22a06b}
+.erro{color:#ff4704}
+</style>
+</head>
+<body>
+  <div class="cartao">
+    <div class="disco"></div>
+    <h1>Liberar o seu microfone</h1>
+    <p>A reunião é capturada da aba, mas <b>a sua voz não passa pela saída de som</b> — ela vem do
+    microfone. Isso precisa ser liberado uma vez, aqui: na hora da gravação a extensão trabalha em
+    segundo plano e o navegador não tem onde te perguntar.</p>
+    <button id="btn">Liberar o microfone</button>
+    <p class="nota" id="estado">Sem isso, a gravação tem os outros e não tem você.</p>
+  </div>
+<script>
+document.getElementById('btn').onclick = async () => {
+  const nota = document.getElementById('estado');
+  nota.className = 'nota'; nota.textContent = 'pedindo…';
+  try {
+    const s = await navigator.mediaDevices.getUserMedia({ audio: true });
+    s.getTracks().forEach((t) => t.stop());   // era só pra conceder; não gravamos aqui
+    nota.className = 'nota ok';
+    nota.textContent = 'Liberado. Pode fechar esta aba e voltar para a reunião.';
+  } catch (e) {
+    nota.className = 'nota erro';
+    nota.textContent = 'Não foi liberado (' + e.name + '). Clique no ícone de câmera/microfone na barra de endereço e permita.';
+  }
+};
+</script>
+</body>
+</html>

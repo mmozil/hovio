@@ -108,6 +108,38 @@ h1 em{font-style:normal;font-weight:500;color:var(--tinta-3)}
 audio{width:100%;margin-top:16px;height:38px}
 footer{text-align:center;color:var(--tinta-3);font-size:12px;padding-top:34px}
 
+/* ── ajustes: fora da home, atrás de um ícone ───────────────────────── */
+/* O ícone NÃO é engrenagem: engrenagem virou "onde ficam as coisas que eu não
+   sei explicar". Aqui são três controles com valor — faders dizem isso. */
+.icone-btn{width:32px;height:32px;border-radius:var(--pill);display:grid;place-items:center;
+  color:var(--tinta-2);transition:var(--rapido)}
+.icone-btn:hover{background:var(--sup-1);color:var(--tinta-1)}
+.icone-btn.on{background:var(--tinta-1);color:var(--papel)}
+.icone-btn svg{width:16px;height:16px;display:block}
+.cabeca-dir{display:flex;align-items:center;gap:12px}
+
+.veu{position:fixed;inset:0;background:rgba(10,10,10,.10);opacity:0;pointer-events:none;
+  transition:opacity var(--medio);z-index:40}
+.veu.on{opacity:1;pointer-events:auto}
+.ajustes{position:fixed;top:66px;right:max(24px,calc(50vw - 320px));width:352px;z-index:50;
+  background:var(--papel);border:1px solid var(--linha);border-radius:var(--r-3);padding:22px;
+  box-shadow:0 18px 60px rgba(0,0,0,.16);opacity:0;transform:translateY(-8px) scale(.98);
+  pointer-events:none;transition:opacity var(--medio),transform var(--medio);
+  max-height:calc(100vh - 96px);overflow-y:auto}
+.ajustes.on{opacity:1;transform:none;pointer-events:auto}
+.ajustes-topo{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:18px}
+.ajustes-topo b{font-size:15px;font-weight:500;letter-spacing:-.01em}
+
+/* o estado dos ajustes fica visível na home, em uma linha — quem quer trocar
+   clica nela; quem não quer, não vê configuração nenhuma */
+.resumo{display:inline-flex;align-items:center;gap:9px;margin-top:22px;padding:7px 14px;
+  border-radius:var(--pill);background:var(--sup-1);color:var(--tinta-2);font-size:12px;
+  cursor:pointer;transition:var(--rapido);max-width:100%}
+.resumo:hover{background:var(--sup-2);color:var(--tinta-1)}
+.resumo i{width:5px;height:5px;border-radius:50%;background:#22a06b;flex:none}
+.resumo i.parcial{background:#e0a12a}
+.resumo span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
 /* ── pré-voo: decidir antes, pra não perguntar nada depois ──────────── */
 .pv-grupo{margin-bottom:22px}
 .item{display:flex;align-items:center;justify-content:space-between;gap:12px;
@@ -153,7 +185,7 @@ footer{text-align:center;color:var(--tinta-3);font-size:12px;padding-top:34px}
 .md li.tarefa::before{display:none}
 .md li.tarefa .cx{margin-top:2px}
 .meta{display:flex;gap:7px;flex-wrap:wrap;align-items:center;font-size:12px;color:var(--tinta-2);margin-top:3px}
-.meta .min{font:11px var(--mono);color:var(--violeta)}
+.meta .min,.md .min{font:11px var(--mono);color:var(--violeta)}
 .meta .sem{color:var(--tinta-3);font-style:italic}
 .meta .est{color:var(--laranja)}
 .md em{font-style:normal;color:var(--tinta-3)}
@@ -165,7 +197,15 @@ footer{text-align:center;color:var(--tinta-3);font-size:12px;padding-top:34px}
 <div class="wrap">
   <header>
     <div class="marca"><img class="p" src="/favicon.svg" alt="" width="20" height="20" /> Discoo</div>
-    <span class="hovio">by Hovio</span>
+    <div class="cabeca-dir">
+      <span class="hovio">by Hovio</span>
+      <button class="icone-btn" id="btnAjustes" title="Ajustes" aria-label="Ajustes">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
+          <path d="M2 4.5h4.2M10.6 4.5H14M2 11.5h2.2M8.6 11.5H14" />
+          <circle cx="8.4" cy="4.5" r="1.9" /><circle cx="6.4" cy="11.5" r="1.9" />
+        </svg>
+      </button>
+    </div>
   </header>
 
   <div class="hero">
@@ -183,18 +223,38 @@ footer{text-align:center;color:var(--tinta-3);font-size:12px;padding-top:34px}
         </svg>
       </span>
     </div>
-    <div class="tempo" id="tempo">00:00</div>
-    <div class="rot" id="rot">tudo pronto</div>
-    <div class="fontes">
+    <div class="tempo" id="tempo" style="display:none">00:00</div>
+    <div class="rot" id="rot">toque no disco para gravar</div>
+    <div class="fontes" id="fontes" style="display:none">
       <span><i class="pt" id="ptSis"></i> áudio da reunião</span>
       <span><i class="pt" id="ptMic"></i> microfone</span>
     </div>
     <div class="erro" id="erro"></div>
     <div id="saida" style="width:100%"></div>
+
+    <div class="linha" id="acaoPrincipal" style="margin-top:26px;justify-content:center">
+      <button class="btn" id="btnComecar">Gravar esta reunião</button>
+      <button class="btn fant" id="btnArquivo">Já tenho o áudio</button>
+      <input type="file" id="arquivo" accept="audio/*,video/webm,.webm,.m4a,.mp3,.wav,.ogg" hidden />
+    </div>
+
+    <button class="resumo" id="resumo" title="abrir os ajustes">
+      <i></i><span id="resumoTexto">carregando…</span>
+    </button>
   </div>
 
-  <!-- ── 01 · preparar ─────────────────────────────────────────────── -->
-  <div class="cartao" id="cartaoPrevoo">
+  <!-- ── ajustes ───────────────────────────────────────────────────── -->
+  <div class="veu" id="veu"></div>
+  <aside class="ajustes" id="painelAjustes" aria-hidden="true">
+    <div class="ajustes-topo">
+      <b>Ajustes</b>
+      <button class="icone-btn" id="fecharAjustes" title="Fechar" aria-label="Fechar">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+          <path d="M4 4l8 8M12 4l-8 8" />
+        </svg>
+      </button>
+    </div>
+
     <div class="pv-grupo">
       <div class="rotulo">Som</div>
       <div class="item"><span>Áudio da reunião</span><small>obrigatório</small></div>
@@ -221,18 +281,15 @@ footer{text-align:center;color:var(--tinta-3);font-size:12px;padding-top:34px}
       </div>
     </div>
 
-    <div class="coach">
-      <div class="t">O Chrome vai perguntar o que compartilhar. Ligue o áudio antes de confirmar:</div>
-      <div class="audio"><span>Compartilhar áudio da guia</span><div class="sw-esc"></div></div>
-      <div class="p">Escolha a <b>guia da reunião</b> — pega só o Meet, sem notificação nem música. Compartilhando janela ou tela inteira, o botão se chama “Compartilhar também o áudio do sistema”.</div>
+    <div class="pv-grupo" style="margin-bottom:0">
+      <div class="rotulo">O que o Chrome vai pedir</div>
+      <div class="coach">
+        <div class="t">Ligue o áudio antes de confirmar:</div>
+        <div class="audio"><span>Compartilhar áudio da guia</span><div class="sw-esc"></div></div>
+        <div class="p">Escolha a <b>guia da reunião</b> — pega só o Meet, sem notificação nem música. Compartilhando janela ou tela inteira, o botão se chama “Compartilhar também o áudio do sistema”.</div>
+      </div>
     </div>
-
-    <div class="linha" style="margin-top:20px;gap:8px">
-      <button class="btn" id="btnComecar" style="flex:1">Começar a gravar</button>
-      <button class="btn fant" id="btnArquivo">Já tenho o áudio</button>
-      <input type="file" id="arquivo" accept="audio/*,video/webm,.webm,.m4a,.mp3,.wav,.ogg" hidden />
-    </div>
-  </div>
+  </aside>
 
   <!-- ── 02 · gravando ─────────────────────────────────────────────── -->
   <div class="cartao" id="cartaoGravando" style="display:none">
@@ -342,6 +399,7 @@ async function lembrarPasta(){
   }catch(e){}
 }
 function pintarPasta(){
+  if(typeof pintarResumo==='function') setTimeout(pintarResumo,0);
   if(pasta){
     $('pastaNome').textContent=pasta.name;
     $('pastaAcao').textContent='Trocar';
@@ -363,23 +421,57 @@ $('itemPasta').onclick=async()=>{
   }catch(e){}  // cancelou o seletor: nada a fazer
 };
 
+// ── ajustes: um painel, um resumo ───────────────────────────────────────────
+// A home não mostra formulário. Mostra o estado numa linha e, quem quiser
+// trocar, abre o painel — é o mesmo conteúdo do pré-voo, fora do caminho.
+function abrirAjustes(abrir){
+  const p=$('painelAjustes');
+  const vai = abrir===undefined ? !p.classList.contains('on') : abrir;
+  p.classList.toggle('on',vai);
+  p.setAttribute('aria-hidden', vai?'false':'true');
+  $('veu').classList.toggle('on',vai);
+  $('btnAjustes').classList.toggle('on',vai);
+}
+$('btnAjustes').onclick=()=>abrirAjustes();
+$('fecharAjustes').onclick=()=>abrirAjustes(false);
+$('veu').onclick=()=>abrirAjustes(false);
+$('resumo').onclick=()=>abrirAjustes(true);
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') abrirAjustes(false); });
+
+const NOME_NIVEL={simples:'resumo simples',padrao:'ata',detalhado:'relatório detalhado'};
+function pintarResumo(){
+  const onde = pasta ? pasta.name : (temFSA ? 'sem pasta escolhida' : 'downloads');
+  const partes=[
+    opt.mic ? 'com microfone' : 'sem microfone',
+    opt.transcrever ? NOME_NIVEL[opt.nivel] : 'só o áudio',
+    onde,
+  ];
+  $('resumoTexto').textContent=partes.join(' · ');
+  // âmbar quando não há pasta: nesse caso a gravação fica na memória da aba, e
+  // dizer "tudo certo" em verde seria mentira
+  $('resumo').querySelector('i').classList.toggle('parcial', !pasta);
+}
+
 // ── pré-voo ─────────────────────────────────────────────────────────────────
-$('swMic').onclick=()=>{ opt.mic=!opt.mic; $('swMic').classList.toggle('on',opt.mic); };
+$('swMic').onclick=()=>{ opt.mic=!opt.mic; $('swMic').classList.toggle('on',opt.mic); pintarResumo(); };
 $('itemTranscrever').onclick=()=>{
   opt.transcrever=!opt.transcrever;
   $('cxTranscrever').classList.toggle('on',opt.transcrever);
   $('linhaNivel').style.opacity=opt.transcrever?'1':'.35';
   $('linhaNivel').style.pointerEvents=opt.transcrever?'auto':'none';
+  pintarResumo();
 };
 document.querySelectorAll('.chip[data-nivel]').forEach(c=>c.onclick=()=>{
   opt.nivel=c.dataset.nivel;
   document.querySelectorAll('.chip[data-nivel]').forEach(o=>o.classList.toggle('on',o.dataset.nivel===opt.nivel));
+  pintarResumo();
   // trocar de nível na tela da ata NÃO re-transcreve: o texto já está no servidor
   if(c.closest('#cartaoResultado') && jobId && ultimo.texto) reResumir();
 });
 
 function tela(qual){
-  $('cartaoPrevoo').style.display   = qual==='previo'   ? 'block' : 'none';
+  $('acaoPrincipal').style.display  = qual==='previo'   ? 'flex'  : 'none';
+  $('resumo').style.display         = qual==='previo'   ? 'inline-flex' : 'none';
   $('cartaoGravando').style.display = qual==='gravando' ? 'block' : 'none';
   $('cartaoGate').style.display     = qual==='gate'     ? 'block' : 'none';
   $('cartaoResultado').style.display= qual==='ata'      ? 'block' : 'none';
@@ -396,14 +488,14 @@ function carimbo(){
 // ── 02 · gravar ─────────────────────────────────────────────────────────────
 $('orbe').onclick=()=>{
   if(rec&&rec.state==='recording') parar();
-  else if($('cartaoPrevoo').style.display!=='none') iniciar();
+  else if($('acaoPrincipal').style.display!=='none') iniciar();
 };
 $('btnComecar').onclick=()=>iniciar();
 $('btnParar').onclick=()=>parar();
 $('btnTentar').onclick=()=>iniciar();
 $('btnSoMic').onclick=()=>iniciar({soMic:true});
 $('btnMarcar').onclick=()=>marcar();
-$('novaGravacao').onclick=()=>{ tela('previo'); $('saida').innerHTML=''; rot('tudo pronto'); };
+$('novaGravacao').onclick=()=>{ tela('previo'); $('saida').innerHTML=''; rot('toque no disco para gravar'); };
 document.addEventListener('keydown',e=>{
   if(e.key && e.key.toLowerCase()==='m' && rec && rec.state==='recording'
      && !/^(INPUT|TEXTAREA)$/.test(e.target.tagName)) marcar();
@@ -417,6 +509,7 @@ function marcar(){
 
 async function iniciar(cfg){
   cfg=cfg||{};
+  abrirAjustes(false);
   $('erro').textContent=''; $('saida').innerHTML='';
   pedacos=[]; marcas=[]; escritos=0; arqHandle=null; fila=Promise.resolve();
   let sis=null, mic=null;
@@ -471,6 +564,7 @@ async function iniciar(cfg){
   rec.start(5000);
 
   t0=Date.now(); tela('gravando'); $('orbe').classList.add('on');
+  $('tempo').style.display='block'; $('fontes').style.display='flex';
   rot(sis?(mic?'gravando reunião + microfone':'gravando a reunião'):'gravando só o microfone','viva');
   $('notaMarcas').innerHTML='Marque um momento importante (tecla <b>M</b>) e a ata trata aquele trecho como prioritário.';
 
@@ -524,7 +618,7 @@ async function finalizar(){
   window.onbeforeunload=null;
   escala=1; $('orbe').classList.remove('on'); $('orbe').style.transform='scale(1)';
   $('ptMic').classList.remove('ok'); $('ptSis').classList.remove('ok');
-  $('tempo').textContent='00:00';
+  $('tempo').textContent='00:00'; $('tempo').style.display='none'; $('fontes').style.display='none';
   const min=Math.max(1,Math.round((Date.now()-t0)/60000));
   await fila;                       // espera o último pedaço chegar no disco
 
@@ -744,6 +838,7 @@ $('copiarMd').onclick=async()=>{
 };
 
 pintarPasta();
+pintarResumo();
 lembrarPasta();
 </script>
 </body>

@@ -13,14 +13,14 @@
     "https://meet.google.com/*",
     "https://teams.microsoft.com/*",
     "https://*.zoom.us/*",
-    "http://localhost/*"
+    "http://localhost/*",
+    "https://api.tier.finance/*"
   ],
   "background": {
     "service_worker": "sw.js"
   },
   "action": {
-    "default_popup": "popup.html",
-    "default_title": "Discoo"
+    "default_title": "Discoo — gravar esta reunião"
   },
   "icons": {
     "128": "icone.png"
@@ -46,5 +46,18 @@
       },
       "description": "Gravar / parar a reunião"
     }
-  }
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "permissao.html"
+      ],
+      "matches": [
+        "https://meet.google.com/*",
+        "https://teams.microsoft.com/*",
+        "https://*.zoom.us/*",
+        "http://localhost/*"
+      ]
+    }
+  ]
 }
