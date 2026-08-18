@@ -122,6 +122,13 @@
   .painel--aberto { display:block; }
   .form { padding:var(--el-e-3); display:flex; flex-direction:column; gap:var(--el-e-2); }
   .erro { color:var(--el-laranja); font-size:var(--el-t-menor); }
+
+/* chips de nível — mesma família dos do site, no tamanho do painel */
+.el-chip{height:22px;padding:0 9px;border-radius:9999px;font-size:11px;background:transparent;
+  color:var(--el-tinta-2);box-shadow:inset 0 0 0 1px var(--el-linha);transition:var(--el-rapido)}
+.el-chip:hover{color:var(--el-tinta-1);background:var(--el-sup-1)}
+.el-chip--on{background:var(--el-tinta-1);color:var(--el-papel);box-shadow:none}
+.el-chips{display:flex;gap:4px}
 </style>
 </head>
 <body>
@@ -137,6 +144,9 @@
         <span class="fonte"><i class="pt" id="ptSis"></i>reunião</span>
       </div>
     </div>
+    <!-- só aparece gravando: é a única informação da ata que depende de quem
+         está na reunião, e ela não existe depois que a conversa acabou -->
+    <button class="el-icone some" id="marcar" title="Marcar este momento (M)" style="display:none">★</button>
     <button class="el-icone some" id="cfg" title="Opções">
       <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
         <circle cx="3" cy="7" r="1.3" fill="currentColor"/><circle cx="7" cy="7" r="1.3" fill="currentColor"/>
@@ -166,7 +176,20 @@
 
     <div id="menu" style="display:none">
       <div class="el-item"><span>Meu microfone</span><div class="el-sw el-sw--on" id="swMic"></div></div>
-      <div class="el-item"><span>Enviar ao parar</span><div class="el-sw el-sw--on" id="swEnviar"></div></div>
+      <div class="el-item el-item--clic" id="itemTranscrever">
+        <span>Transcrever ao parar</span><div class="el-sw el-sw--on" id="swTranscrever"></div>
+      </div>
+      <div class="el-item" id="itemNivel">
+        <span>Nível da ata</span>
+        <div class="el-chips">
+          <button class="el-chip" data-nivel="simples">simples</button>
+          <button class="el-chip el-chip--on" data-nivel="padrao">ata</button>
+          <button class="el-chip" data-nivel="detalhado">detalhado</button>
+        </div>
+      </div>
+      <div class="el-item" id="itemEnviar" style="display:none">
+        <span>Enviar também ao CRM</span><div class="el-sw el-sw--on" id="swEnviar"></div>
+      </div>
       <div class="el-item"><span>Abrir com o Windows</span><div class="el-sw" id="swInicio"></div></div>
       <div class="el-risco"></div>
       <div class="el-item el-item--clic" id="trocarPasta">
@@ -178,6 +201,9 @@
         <span id="contaEmail" style="max-width:190px;overflow:hidden;text-overflow:ellipsis">conta</span>
         <span class="el-item__nota">sair</span>
       </div>
+      <div class="el-item el-item--clic" id="entrarCrm" style="display:none">
+        <span>Entrar no Tier</span><span class="el-item__nota">pra enviar ao CRM</span>
+      </div>
       <div class="el-item el-item--clic" id="sair"><span>Fechar o app</span></div>
     </div>
   </div>
@@ -187,6 +213,7 @@
 const $ = id => document.getElementById(id);
 let rec = null, ctx = null, streams = [], t0 = 0, tid = null, caminho = null;
 let usarMic = true, enviarAoParar = true, aberto = false, logado = false, escala = 1;
+let transcreverAoParar = true, nivelAta = 'padrao', marcas = [];
 let anMic = null, anSis = null, sobre = false, ocupado = false, fechaDepois = 0;
 
 /* O visualizador vive o tempo todo (em silêncio ele fica quieto — a borda do
@@ -302,6 +329,8 @@ async function iniciar() {
     })();
 
     $('fontes').style.display = 'flex';
+    marcas = [];                       // marcas sao desta gravacao, nao da anterior
+    $('marcar').style.display = 'grid';
     $('orbe').classList.add('orbe--on');
     ocupado = false;
     // 🔑 GRAVANDO A PEÇA FECHA, e vira só o disco falando. O tempo e as fontes
@@ -342,6 +371,7 @@ async function finalizar() {
   const min = Math.max(1, Math.round((Date.now() - t0) / 60000));
   $('tempo').textContent = '';
   $('fontes').style.display = 'none';
+  $('marcar').style.display = 'none';
   ocupado = false;
 
   /* 🚨 "não sei se salvou" era queixa legítima: o rótulo antigo aparecia e a
@@ -357,16 +387,26 @@ async function finalizar() {
     fechaDepois = setTimeout(() => abrir(), 8000);   // 8s de leitura, aí recolhe
   };
 
-  if (!(enviarAoParar && logado)) {
-    confirmar(`salvo · ${min} min`, 'ok');
-    return;
+  // A ata primeiro: é o que a pessoa veio buscar. O envio ao CRM, quando
+  // ligado, vem depois — são coisas diferentes (lá roda o prompt de QA de
+  // ligação, não o de reunião).
+  let ata = null;
+  if (transcreverAoParar) {
+    const t = await window.tier.transcrever(arquivo, { nivel: nivelAta, marcas });
+    ata = t && t.ok ? t : null;
+    if (t && !t.ok) confirmar(`salvo · ${min} min · ${t.erro}`, 'alerta');
   }
-  rotulo('enviando');
-  const r = await window.tier.enviar(arquivo);
+  const abrirAta = () => window.tier.abrirPasta(ata ? ata.arquivo : arquivo);
+
+  if (enviarAoParar && logado) {
+    rotulo('enviando');
+    const r = await window.tier.enviar(arquivo);
+    if (!r.ok) { confirmar(`salvo · ${min} min · ${r.erro || 'falha no envio'}`, 'alerta'); return; }
+  }
   // 🔑 mesmo enviando, o arquivo JÁ está no disco — dizer "salvo" também é
   // verdade e é o que tira a dúvida de quem parou a gravação.
-  if (r.ok) confirmar(`salvo e enviado · ${min} min`, 'ok');
-  else      confirmar(`salvo · ${min} min · ${r.erro || 'falha no envio'}`, 'alerta');
+  if (ata) { confirmar(`ata pronta · ${min} min`, 'ok'); $('rot').onclick = abrirAta; }
+  else if (!transcreverAoParar) confirmar(`salvo · ${min} min`, 'ok');
 }
 
 /** 🚨 O renderer mede e o main obedece — nunca o contrário. Largura fixa no
@@ -411,6 +451,42 @@ $('cfg').onclick = () => {
 const alterna = (el, v) => el.classList.toggle('el-sw--on', v);
 $('swMic').onclick    = () => alterna($('swMic'), usarMic = !usarMic);
 $('swEnviar').onclick = () => alterna($('swEnviar'), enviarAoParar = !enviarAoParar);
+$('itemTranscrever').onclick = () => {
+  transcreverAoParar = !transcreverAoParar;
+  alterna($('swTranscrever'), transcreverAoParar);
+  $('itemNivel').style.display = transcreverAoParar ? 'flex' : 'none';
+  window.tier.prefs({ transcrever: transcreverAoParar });
+  ajustar();
+};
+document.querySelectorAll('.el-chip[data-nivel]').forEach(c => c.onclick = () => {
+  nivelAta = c.dataset.nivel;
+  document.querySelectorAll('.el-chip[data-nivel]').forEach(o =>
+    o.classList.toggle('el-chip--on', o.dataset.nivel === nivelAta));
+  window.tier.prefs({ nivel: nivelAta });
+});
+$('entrarCrm').onclick = () => {
+  $('menu').style.display = 'none';
+  $('formLogin').style.display = 'flex';
+  ajustar();
+};
+$('marcar').onclick = () => marcarMomento();
+
+/** Marca o instante que importa. O bloco correspondente da transcrição ganha ★
+ *  e o prompt trata como prioritário — informação que só quem está lá tem. */
+function marcarMomento() {
+  if (!gravando()) return;
+  const s = Math.floor((Date.now() - t0) / 1000);
+  marcas.push(s);
+  rotulo(`marcado ${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`, 'ok');
+  setTimeout(() => { if (gravando()) rotulo('gravando', 'viva'); }, 1600);
+}
+document.addEventListener('keydown', (e) => {
+  if (e.key && e.key.toLowerCase() === 'm' && gravando()
+      && !/^(INPUT|TEXTAREA)$/.test(e.target.tagName)) marcarMomento();
+});
+
+// o main avisa em que pé está a transcrição (ela leva minutos)
+window.tier.aoTranscricao((texto) => { rotulo(texto); abrir(true); });
 $('swInicio').onclick = async () => {
   const novo = !$('swInicio').classList.contains('el-sw--on');
   alterna($('swInicio'), await window.tier.inicioWindows(novo));
@@ -434,11 +510,22 @@ $('senha').addEventListener('keydown', e => e.key === 'Enter' && $('entrar').cli
 async function carregarConfig() {
   const c = await window.tier.config();
   logado = c.logado;
-  $('formLogin').style.display = logado ? 'none' : 'flex';
-  $('menu').style.display = logado ? 'block' : 'none';
+  // 🔑 o menu aparece SEMPRE. Gravar e gerar a ata não exigem conta — só o
+  // envio ao CRM exige, e antes disso a pasta ficava escondida atrás do login.
+  $('formLogin').style.display = 'none';
+  $('menu').style.display = 'block';
+  $('conta').style.display = logado ? 'flex' : 'none';
+  $('itemEnviar').style.display = logado ? 'flex' : 'none';
+  $('entrarCrm').style.display = logado ? 'none' : 'flex';
   $('contaEmail').textContent = c.email || 'conta';
   alterna($('swInicio'), c.comWindows);
   $('pastaAtual').textContent = c.pasta || '—';
+  transcreverAoParar = c.transcrever !== false;
+  nivelAta = c.nivel || 'padrao';
+  alterna($('swTranscrever'), transcreverAoParar);
+  $('itemNivel').style.display = transcreverAoParar ? 'flex' : 'none';
+  document.querySelectorAll('.el-chip[data-nivel]').forEach(o =>
+    o.classList.toggle('el-chip--on', o.dataset.nivel === nivelAta));
 }
 carregarConfig();
 </script>

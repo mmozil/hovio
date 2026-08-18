@@ -312,6 +312,90 @@ ipcMain.handle('escolher-pasta', async () => {
   garantirPasta();
   return pastaAtual();
 });
+// ── Transcrever aqui dentro (rota pública do Discoo, sem login) ─────────────
+/**
+ * 🔑 Por que NÃO reusar o `enviar` daqui: aquele endpoint é o do QA de Ligações
+ * (exige conta do ERP e roda o prompt de avaliação de atendimento). A ata de
+ * reunião é outro prompt e outra rota — antes disso, quem usava o app tinha de
+ * abrir o site e subir o arquivo na mão.
+ *
+ * O trabalho é assíncrono do outro lado: o POST devolve job_id na hora e a
+ * gente acompanha por GET. O Cloudflare corta resposta em ~100s e transcrever
+ * meia hora de áudio leva mais que isso.
+ */
+const DISCOO_API = process.env.DISCOO_API || 'https://api.tier.finance/api';
+
+const doisD = (n) => String(n).padStart(2, '0');
+const emMinutos = (seg) => `${doisD(Math.floor(seg / 60))}:${doisD(Math.floor(seg % 60))}`;
+
+function montarAta(dados, nomeAudio, marcas) {
+  const hoje = new Date().toISOString().slice(0, 10);
+  const minutos = Math.max(1, Math.round((dados.duracao_segundos || 0) / 60));
+  const marcadas = (marcas || []).map((s) => `- ★ ${emMinutos(s)}`).join('\n');
+  const bloco = marcadas ? `\n## Momentos marcados\n\n${marcadas}\n` : '';
+  return `---
+titulo: ${dados.titulo || 'Reunião'}
+data: ${hoje}
+duracao: ${minutos} min
+audio: ${nomeAudio}
+gerado_por: Discoo
+---
+
+${dados.resumo || '(sem ata)'}
+${bloco}
+---
+
+## Transcrição
+
+${dados.texto_tempo || dados.texto || ''}
+`;
+}
+
+ipcMain.handle('transcrever', async (evento, caminho, opcoes) => {
+  const opt = opcoes || {};
+  const avisar = (texto) => { try { evento.sender.send('transcricao', texto); } catch (e) {} };
+  try {
+    const bytes = fs.readFileSync(caminho);
+    const form = new FormData();
+    form.append('file', new Blob([bytes], { type: 'audio/webm' }), path.basename(caminho));
+    form.append('nivel', opt.nivel || 'padrao');
+    form.append('resumir', 'true');
+    if (opt.marcas && opt.marcas.length) form.append('marcas', opt.marcas.join(','));
+
+    avisar('enviando');
+    const r = await fetch(`${DISCOO_API}/discoo/transcrever`, { method: 'POST', body: form });
+    if (r.status === 429) return { ok: false, erro: 'muitas gravações seguidas' };
+    if (r.status === 413) return { ok: false, erro: 'áudio grande demais' };
+    if (!r.ok) return { ok: false, erro: `erro ${r.status}` };
+    const { job_id: job } = await r.json();
+    if (!job) return { ok: false, erro: 'sem job' };
+
+    const limite = Date.now() + 30 * 60000;
+    while (Date.now() < limite) {
+      await new Promise((ok) => setTimeout(ok, 3000));
+      let d;
+      try {
+        const g = await fetch(`${DISCOO_API}/discoo/job/${job}`);
+        if (!g.ok) continue;
+        d = await g.json();
+      } catch (e) { continue; }   // rede piscou: tenta no próximo ciclo
+
+      if (d.estado === 'transcrevendo') { avisar('transcrevendo'); continue; }
+      if (d.estado === 'resumindo') { avisar('montando a ata'); continue; }
+      if (d.estado === 'sem_fala') return { ok: false, erro: 'sem fala no áudio' };
+      if (d.estado === 'erro') return { ok: false, erro: d.erro || 'falhou' };
+
+      // a ata vai pro lado do áudio, com o mesmo nome — achar um é achar o outro
+      const destino = caminho.replace(/\.[^.]+$/, '') + '.md';
+      fs.writeFileSync(destino, montarAta(d, path.basename(caminho), opt.marcas), 'utf8');
+      return { ok: true, arquivo: destino, titulo: d.titulo || '', aviso: d.aviso || null };
+    }
+    return { ok: false, erro: 'demorou demais' };
+  } catch (e) {
+    return { ok: false, erro: 'falha ao transcrever' };
+  }
+});
+
 ipcMain.on('fechar', () => { app.isQuitting = true; app.quit(); });
 
 // ── config + início com o Windows ───────────────────────────────────────────
@@ -322,8 +406,14 @@ ipcMain.handle('config', () => {
     logado: !!c.token, email: c.email || '',
     comWindows: app.getLoginItemSettings().openAtLogin,
     pasta: pastaAtual(),
+    // decididos no painel ANTES da reunião: no fim ninguém quer responder nada
+    transcrever: c.transcrever !== false,
+    nivel: c.nivel || 'padrao',
   };
 });
+
+/** Guarda uma preferência do painel (transcrever, nível…). */
+ipcMain.handle('prefs', (_e, novas) => { gravarConfig(novas || {}); return lerConfig(); });
 
 ipcMain.handle('inicio-windows', (_e, ligar) => {
   app.setLoginItemSettings({ openAtLogin: !!ligar, args: [] });

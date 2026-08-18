@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Discoo — grave suas reuniões</title>
-<meta name="description" content="Grave reuniões do Meet, Zoom ou Teams direto do navegador e receba a transcrição. Sem instalar nada." />
+<meta name="description" content="Grave reuniões do Meet, Zoom ou Teams direto do navegador e receba a ata com as tarefas, o responsável e o minuto de cada linha." />
 <!-- o planeta. SVG primeiro (navegador moderno), .ico como reserva — ele
      carrega os 6 tamanhos embutidos e o Windows usa nos atalhos -->
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -87,18 +87,12 @@ h1 em{font-style:normal;font-weight:500;color:var(--tinta-3)}
 .pt{width:6px;height:6px;border-radius:50%;background:var(--sup-3);transition:var(--medio)}
 .pt.ok{background:#22a06b}
 .erro{margin-top:16px;font-size:13px;color:var(--laranja);text-align:center;line-height:1.45}
-/* "ou envie um arquivo": quem gravou pelo app do Windows não grava de novo aqui. */
-.ou{margin-top:26px;display:flex;flex-direction:column;align-items:center;gap:12px}
-.ou b{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--tinta-3);font-weight:400}
 
 .cartao{background:var(--papel);border:1px solid var(--linha);border-radius:var(--r-3);padding:24px;margin-bottom:14px}
 .rotulo{font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--tinta-3);margin-bottom:12px}
-.passo{display:flex;gap:12px;padding:9px 0;border-bottom:1px solid var(--linha);font-size:13.5px}
-.passo:last-child{border-bottom:0;padding-bottom:0}
-.n{flex:none;width:20px;height:20px;border-radius:var(--pill);background:var(--sup-1);color:var(--tinta-2);
-   font-size:10px;font-weight:500;display:grid;place-items:center;margin-top:3px}
 .btn{height:40px;padding:0 22px;border-radius:var(--pill);background:var(--tinta-1);color:var(--papel);
-     font-size:13.5px;font-weight:500;transition:var(--rapido);display:inline-flex;align-items:center;gap:8px}
+     font-size:13.5px;font-weight:500;transition:var(--rapido);display:inline-flex;align-items:center;
+     justify-content:center;gap:8px}
 .btn:hover{background:#2a2a2a}
 .btn.fant{background:transparent;color:var(--tinta-1);box-shadow:inset 0 0 0 1px var(--linha-forte)}
 .btn.fant:hover{background:var(--sup-1)}
@@ -107,13 +101,63 @@ h1 em{font-style:normal;font-weight:500;color:var(--tinta-3)}
       box-shadow:inset 0 0 0 1px var(--linha);transition:var(--rapido)}
 .chip:hover{background:var(--sup-1);color:var(--tinta-1)}
 .chip.on{background:var(--tinta-1);color:var(--papel);box-shadow:none}
-.opcao{display:flex;align-items:center;justify-content:space-between;font-size:13.5px;margin-bottom:20px}
 .sw{width:34px;height:20px;border-radius:var(--pill);background:var(--sup-3);position:relative;cursor:pointer;transition:var(--medio);flex:none}
 .sw::after{content:'';position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;
            background:var(--papel);box-shadow:0 1px 2px rgba(0,0,0,.16);transition:var(--medio)}
 .sw.on{background:var(--tinta-1)} .sw.on::after{transform:translateX(14px)}
 audio{width:100%;margin-top:16px;height:38px}
 footer{text-align:center;color:var(--tinta-3);font-size:12px;padding-top:34px}
+
+/* ── pré-voo: decidir antes, pra não perguntar nada depois ──────────── */
+.pv-grupo{margin-bottom:22px}
+.item{display:flex;align-items:center;justify-content:space-between;gap:12px;
+      background:var(--sup-1);border-radius:var(--r-1);padding:11px 14px;font-size:13.5px;margin-bottom:6px}
+.item:last-child{margin-bottom:0}
+.item small{color:var(--tinta-2);font-size:12px}
+.item.clic{cursor:pointer;transition:var(--rapido)}
+.item.clic:hover{background:var(--sup-2)}
+.caminho{font:11.5px var(--mono);color:var(--tinta-2);max-width:58%;overflow:hidden;
+         text-overflow:ellipsis;white-space:nowrap;direction:rtl;text-align:left}
+.cx{width:18px;height:18px;border-radius:5px;box-shadow:inset 0 0 0 1px var(--linha-forte);flex:none;
+    position:relative;cursor:pointer;transition:var(--rapido)}
+.cx.on{background:var(--tinta-1);box-shadow:none}
+.cx.on::after{content:'';position:absolute;left:6px;top:2.5px;width:4px;height:9px;
+              border:solid var(--papel);border-width:0 1.7px 1.7px 0;transform:rotate(42deg)}
+.nota{font-size:12px;color:var(--tinta-3);margin-top:8px;line-height:1.5}
+
+/* o diálogo do Chrome, reproduzido: é a mesma figura que ele vai mostrar */
+.coach{background:#2a2a2e;border-radius:var(--r-2);padding:14px;margin-top:10px;color:#e8e6e3}
+.coach .t{font-size:12px;color:#a6a2a8;margin-bottom:10px}
+.coach .audio{display:flex;align-items:center;justify-content:space-between;gap:12px;
+  background:rgba(255,92,34,.14);box-shadow:0 0 0 1.5px var(--laranja);border-radius:var(--r-1);
+  padding:9px 12px;font-size:12.5px}
+.coach .sw-esc{width:32px;height:18px;border-radius:var(--pill);background:#4a4a52;position:relative;flex:none}
+.coach .sw-esc::after{content:'';position:absolute;top:3px;left:3px;width:12px;height:12px;border-radius:50%;background:#c9c6cc}
+.coach .p{font-size:11.5px;color:#a6a2a8;margin-top:9px;line-height:1.5}
+
+/* ── a ata ──────────────────────────────────────────────────────────── */
+.arqs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.arq{font:11px var(--mono);padding:5px 10px;border-radius:var(--pill);
+     background:var(--sup-1);color:var(--tinta-2)}
+.md{font-size:14px;line-height:1.7}
+.md h1{font-family:var(--display);font-size:22px;font-weight:600;letter-spacing:-.02em;margin:0 0 4px}
+.md h2{font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--tinta-3);
+       font-weight:400;margin:24px 0 10px}
+.md h3{font-size:14.5px;font-weight:600;margin:18px 0 6px}
+.md p{margin:0 0 10px}
+.md ul{list-style:none;padding:0;margin:0 0 10px}
+.md li{padding:6px 0 6px 16px;position:relative;border-bottom:1px solid var(--linha)}
+.md li:last-child{border-bottom:0}
+.md li::before{content:'';position:absolute;left:2px;top:14px;width:4px;height:4px;border-radius:50%;background:var(--tinta-3)}
+.md li.tarefa{display:grid;grid-template-columns:auto 1fr;gap:11px;padding-left:0;align-items:start}
+.md li.tarefa::before{display:none}
+.md li.tarefa .cx{margin-top:2px}
+.meta{display:flex;gap:7px;flex-wrap:wrap;align-items:center;font-size:12px;color:var(--tinta-2);margin-top:3px}
+.meta .min{font:11px var(--mono);color:var(--violeta)}
+.meta .sem{color:var(--tinta-3);font-style:italic}
+.meta .est{color:var(--laranja)}
+.md em{font-style:normal;color:var(--tinta-3)}
+.md code{font:12.5px var(--mono);background:var(--sup-1);padding:1px 5px;border-radius:5px}
 @media(max-width:560px){h1{font-size:34px}.hero{padding:48px 0 32px}}
 </style>
 </head>
@@ -125,8 +169,8 @@ footer{text-align:center;color:var(--tinta-3);font-size:12px;padding-top:34px}
   </header>
 
   <div class="hero">
-    <h1>Suas reuniões,<br /><em>em texto.</em></h1>
-    <p class="sub">Grave Meet, Zoom ou Teams direto do navegador. Sem instalar nada, sem bot entrando na chamada.</p>
+    <h1>Suas reuniões,<br /><em>em tarefas.</em></h1>
+    <p class="sub">Grave Meet, Zoom ou Teams direto do navegador. Sai uma ata com o que ficou combinado, de quem é e em que minuto foi dito.</p>
   </div>
 
   <div class="palco">
@@ -140,58 +184,109 @@ footer{text-align:center;color:var(--tinta-3);font-size:12px;padding-top:34px}
       </span>
     </div>
     <div class="tempo" id="tempo">00:00</div>
-    <div class="rot" id="rot">toque para gravar</div>
+    <div class="rot" id="rot">tudo pronto</div>
     <div class="fontes">
-      <span><i class="pt" id="ptMic"></i> microfone</span>
       <span><i class="pt" id="ptSis"></i> áudio da reunião</span>
+      <span><i class="pt" id="ptMic"></i> microfone</span>
     </div>
     <div class="erro" id="erro"></div>
     <div id="saida" style="width:100%"></div>
-    <div class="ou">
-      <b>ou</b>
-      <button class="btn fant" id="btnArquivo">Enviar um áudio que já gravei</button>
+  </div>
+
+  <!-- ── 01 · preparar ─────────────────────────────────────────────── -->
+  <div class="cartao" id="cartaoPrevoo">
+    <div class="pv-grupo">
+      <div class="rotulo">Som</div>
+      <div class="item"><span>Áudio da reunião</span><small>obrigatório</small></div>
+      <div class="item"><span>Meu microfone</span><div class="sw on" id="swMic"></div></div>
+      <div class="nota">Sem o microfone, a gravação tem os outros e não tem você — sua voz não passa pela saída de som.</div>
+    </div>
+
+    <div class="pv-grupo">
+      <div class="rotulo">Onde salvar</div>
+      <div class="item clic" id="itemPasta">
+        <span class="caminho" id="pastaNome">o navegador escolhe</span>
+        <small id="pastaAcao">Escolher pasta</small>
+      </div>
+      <div class="nota" id="notaPasta">Escolhendo a pasta, cada pedaço de 5 segundos vai direto pro disco — se a aba cair, a reunião não se perde.</div>
+    </div>
+
+    <div class="pv-grupo">
+      <div class="rotulo">Quando eu parar</div>
+      <div class="item clic" id="itemTranscrever"><span>Transcrever e gerar a ata</span><div class="cx on" id="cxTranscrever"></div></div>
+      <div class="linha" id="linhaNivel" style="gap:6px;margin-top:10px">
+        <button class="chip" data-nivel="simples">simples</button>
+        <button class="chip on" data-nivel="padrao">ata</button>
+        <button class="chip" data-nivel="detalhado">detalhado</button>
+      </div>
+    </div>
+
+    <div class="coach">
+      <div class="t">O Chrome vai perguntar o que compartilhar. Ligue o áudio antes de confirmar:</div>
+      <div class="audio"><span>Compartilhar áudio da guia</span><div class="sw-esc"></div></div>
+      <div class="p">Escolha a <b>guia da reunião</b> — pega só o Meet, sem notificação nem música. Compartilhando janela ou tela inteira, o botão se chama “Compartilhar também o áudio do sistema”.</div>
+    </div>
+
+    <div class="linha" style="margin-top:20px;gap:8px">
+      <button class="btn" id="btnComecar" style="flex:1">Começar a gravar</button>
+      <button class="btn fant" id="btnArquivo">Já tenho o áudio</button>
       <input type="file" id="arquivo" accept="audio/*,video/webm,.webm,.m4a,.mp3,.wav,.ogg" hidden />
     </div>
   </div>
 
+  <!-- ── 02 · gravando ─────────────────────────────────────────────── -->
+  <div class="cartao" id="cartaoGravando" style="display:none">
+    <div class="item"><span id="destino">gravando</span><small id="tamanho">0 MB</small></div>
+    <div class="linha" style="margin-top:14px;gap:8px">
+      <button class="btn" id="btnParar" style="flex:1">Parar e gerar a ata</button>
+      <button class="btn fant" id="btnMarcar" title="tecla M">★ Marcar</button>
+    </div>
+    <div class="nota" id="notaMarcas">Marque um momento importante (tecla <b>M</b>) e a ata trata aquele trecho como prioritário.</div>
+  </div>
+
+  <!-- ── faltou o áudio da reunião ─────────────────────────────────── -->
+  <div class="cartao" id="cartaoGate" style="display:none">
+    <div class="rotulo" style="color:var(--laranja)">Faltou o áudio da reunião</div>
+    <p style="font-size:13.5px;color:var(--tinta-2)">Você compartilhou a tela, mas sem o som. Assim a gravação teria só a sua voz — e ninguém percebe até o fim. Por isso não comecei.</p>
+    <div class="coach" style="margin-top:14px">
+      <div class="t">No diálogo que vai abrir, ligue este botão:</div>
+      <div class="audio"><span>Compartilhar áudio da guia</span><div class="sw-esc"></div></div>
+    </div>
+    <div class="linha" style="margin-top:16px;gap:8px">
+      <button class="btn" id="btnTentar" style="flex:1">Tentar de novo</button>
+      <button class="btn fant" id="btnSoMic">Gravar só meu microfone</button>
+    </div>
+  </div>
+
+  <!-- ── 03 · a ata ────────────────────────────────────────────────── -->
   <div class="cartao" id="cartaoResultado" style="display:none">
     <div class="linha" style="justify-content:space-between;margin-bottom:16px">
-      <div class="rotulo" style="margin:0">Resultado</div>
+      <div class="rotulo" style="margin:0">A ata</div>
       <div class="linha" style="gap:6px">
         <button class="chip" data-nivel="simples">simples</button>
-        <button class="chip on" data-nivel="padrao">padrão</button>
+        <button class="chip on" data-nivel="padrao">ata</button>
         <button class="chip" data-nivel="detalhado">detalhado</button>
       </div>
     </div>
+    <div class="arqs" id="arqs"></div>
     <div id="estado" style="font-size:13px;color:var(--tinta-2)"></div>
-    <div id="resumo" style="font-size:14px;line-height:1.7;white-space:pre-wrap"></div>
+    <div id="resumo" class="md"></div>
     <details id="detTexto" style="margin-top:18px;display:none">
       <summary style="cursor:pointer;font-size:12.5px;color:var(--tinta-2)">Ver transcrição completa</summary>
       <div id="texto" style="font-size:13px;line-height:1.8;color:var(--tinta-2);white-space:pre-wrap;margin-top:12px"></div>
     </details>
-    <div class="linha" id="acoes" style="margin-top:20px;display:none">
-      <button class="btn" id="baixarMd">Baixar .md</button>
-      <button class="btn fant" id="baixarTxt">Baixar .txt</button>
+    <div class="linha" id="acoes" style="margin-top:20px;display:none;gap:8px">
+      <button class="btn" id="copiarMd">Copiar markdown</button>
+      <button class="btn fant" id="baixarMd">Baixar .md</button>
+      <button class="btn fant" id="novaGravacao">Nova gravação</button>
     </div>
-  </div>
-
-  <div class="cartao">
-    <div class="opcao">
-      <span>Gravar também o meu microfone</span>
-      <div class="sw on" id="swMic"></div>
-    </div>
-    <div class="rotulo">Como funciona</div>
-    <div class="passo"><span class="n">1</span><span>Toque no disco. O navegador pede o microfone.</span></div>
-    <div class="passo"><span class="n">2</span><span>Escolha a <b>aba da reunião</b> e marque <b>“Compartilhar áudio da guia”</b>.</span></div>
-    <div class="passo"><span class="n">3</span><span>Confira os dois pontos acima: verdes quando há som entrando.</span></div>
-    <div class="passo"><span class="n">4</span><span>Ao terminar, toque de novo. Em instantes aparece a transcrição e o resumo.</span></div>
   </div>
 
   <div class="cartao">
     <div class="rotulo">Grava todo dia?</div>
     <p style="color:var(--tinta-2);font-size:13.5px;margin-bottom:18px">
       O aplicativo do Discoo fica na bandeja do Windows, flutua sobre a reunião em tela cheia,
-      dispensa o passo de compartilhar áudio e grava direto no disco — se algo cair, você não perde a reunião.
+      grava direto no disco e <b>nunca mostra esse diálogo</b> — pega o áudio do sistema sozinho.
     </p>
     <p style="color:var(--tinta-3);font-size:12px;margin-bottom:16px">
       O instalador ainda não tem assinatura digital, então o Windows mostra um aviso de
@@ -207,219 +302,449 @@ footer{text-align:center;color:var(--tinta-3);font-size:12px;padding-top:34px}
 </div>
 
 <script>
+// 🚨 NADA de string entre aspas simples com quebra de linha de verdade: erro de
+// sintaxe mata o bloco INTEIRO e a página fica muda (aconteceu em 12/08 — nem o
+// botão de gravar funcionava). Texto de várias linhas = crase.
 const $=id=>document.getElementById(id);
-let rec=null,pedacos=[],ctx=null,streams=[],t0=0,tid=null,raf=null,usarMic=true,escala=1,anMic=null,anSis=null;
+const API='https://api.tier.finance/api';
+const MAX_MB=60;
 
-$('swMic').onclick=()=>{usarMic=!usarMic;$('swMic').classList.toggle('on',usarMic)};
+// ── o que foi decidido no pré-voo ───────────────────────────────────────────
+const opt={mic:true, transcrever:true, nivel:'padrao'};
+let pasta=null;           // FileSystemDirectoryHandle, quando o navegador deixa
+const temFSA = typeof window.showDirectoryPicker === 'function';
 
-const rot=(t,v)=>{$('rot').className='rot'+(v?' '+v:'');$('rot').textContent=t};
-const medir=(an,b)=>{if(!an)return 0;an.getByteFrequencyData(b);return b.reduce((a,v)=>a+v,0)/b.length};
+// ── estado da gravação ──────────────────────────────────────────────────────
+let rec=null, streams=[], ctx=null, t0=0, tid=null, raf=null, escala=1;
+let anMic=null, anSis=null, pedacos=[], marcas=[];
+let arqHandle=null, escritos=0, fila=Promise.resolve();
+let ultimoBlob=null, base='', jobId=null, ultimo={texto:'',tempo:'',resumo:'',titulo:''};
 
-$('orbe').onclick=async()=>{
-  if(rec&&rec.state==='recording')return rec.stop();
+// ── memória da pasta escolhida (IndexedDB: handle não cabe no localStorage) ──
+function idb(){
+  return new Promise((ok,nao)=>{
+    const r=indexedDB.open('discoo',1);
+    r.onupgradeneeded=()=>r.result.createObjectStore('cfg');
+    r.onsuccess=()=>ok(r.result); r.onerror=()=>nao(r.error);
+  });
+}
+async function guardarPasta(h){
+  try{ const db=await idb(); db.transaction('cfg','readwrite').objectStore('cfg').put(h,'pasta'); }catch(e){}
+}
+async function lembrarPasta(){
   try{
-    pedacos=[];$('erro').textContent='';$('saida').innerHTML='';
-    const sis=await navigator.mediaDevices.getDisplayMedia({video:true,audio:true});
-    streams.push(sis);
-    const temSis=sis.getAudioTracks().length>0;
-    let mic=null;
-    if(usarMic){try{mic=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false}});streams.push(mic)}catch{}}
-    if(!temSis&&!mic)throw new Error('sem áudio');
-
-    ctx=new AudioContext();
-    const dest=ctx.createMediaStreamDestination();
-    const geral=ctx.createAnalyser();geral.fftSize=256;geral.smoothingTimeConstant=.8;
-    if(temSis){const s=ctx.createMediaStreamSource(sis);s.connect(dest);s.connect(geral);anSis=ctx.createAnalyser();anSis.fftSize=128;s.connect(anSis)}
-    if(mic){const m=ctx.createMediaStreamSource(mic);m.connect(dest);m.connect(geral);anMic=ctx.createAnalyser();anMic.fftSize=128;m.connect(anMic)}
-
-    rec=new MediaRecorder(dest.stream,{mimeType:'audio/webm',audioBitsPerSecond:64000});
-    rec.ondataavailable=e=>e.data.size&&pedacos.push(e.data);
-    rec.onstop=finalizar;
-    rec.start(5000);
-
-    t0=Date.now();
-    tid=setInterval(()=>{
-      const s=Math.floor((Date.now()-t0)/1000),h=Math.floor(s/3600);
-      $('tempo').textContent=(h?String(h).padStart(2,'0')+':':'')+String(Math.floor(s/60)%60).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
-    },500);
-
-    const bg=new Uint8Array(geral.frequencyBinCount),b1=new Uint8Array(64),b2=new Uint8Array(64);
-    (function loop(){
-      if(!rec||rec.state==='inactive'){$('orbe').style.transform='scale(1)';return}
-      geral.getByteFrequencyData(bg);
-      const n=Math.min(1,(bg.reduce((a,v)=>a+v,0)/bg.length)/85);
-      const alvo=1+n*.2;
-      escala+=(alvo-escala)*(alvo>escala?.5:.12);
-      $('orbe').style.transform='scale('+escala.toFixed(3)+')';
-      $('ptMic').classList.toggle('ok',medir(anMic,b1)>4);
-      $('ptSis').classList.toggle('ok',medir(anSis,b2)>4);
-      raf=requestAnimationFrame(loop);
-    })();
-
-    $('orbe').classList.add('on');
-    rot(temSis?(mic?'gravando reunião + microfone':'gravando a reunião'):'gravando só o microfone','viva');
-    if(!temSis)$('erro').innerHTML='Você não marcou <b>“Compartilhar áudio da guia”</b> — a voz dos outros não está entrando.';
-    sis.getVideoTracks()[0].onended=()=>rec.state!=='inactive'&&rec.stop();
-    window.onbeforeunload=()=>rec&&rec.state==='recording'?'Gravação em andamento.':null;
-  }catch(e){ $('erro').textContent='Não consegui capturar. Use Chrome ou Edge no computador.'; }
+    const db=await idb();
+    const h=await new Promise(ok=>{ const q=db.transaction('cfg').objectStore('cfg').get('pasta');
+      q.onsuccess=()=>ok(q.result); q.onerror=()=>ok(null); });
+    if(!h) return;
+    // a permissão não sobrevive sozinha ao fechar a aba: só reusa se ainda vale
+    if(await h.queryPermission({mode:'readwrite'})==='granted'){ pasta=h; pintarPasta(); }
+  }catch(e){}
+}
+function pintarPasta(){
+  if(pasta){
+    $('pastaNome').textContent=pasta.name;
+    $('pastaAcao').textContent='Trocar';
+    $('notaPasta').innerHTML='Áudio e ata vão para esta pasta, com o mesmo nome. A gravação vai direto pro disco — <b>pode fechar a aba</b>.';
+  }else if(temFSA){
+    $('pastaNome').textContent='o navegador escolhe';
+    $('pastaAcao').textContent='Escolher pasta';
+  }else{
+    $('pastaNome').textContent='pasta de downloads';
+    $('pastaAcao').textContent='';
+    $('notaPasta').innerHTML='Seu navegador não deixa escolher a pasta — os arquivos caem em Downloads no fim. <b>Não feche esta aba durante a reunião.</b>';
+  }
+}
+$('itemPasta').onclick=async()=>{
+  if(!temFSA){ $('erro').textContent='Para escolher a pasta, use o Chrome ou o Edge no computador.'; return; }
+  try{
+    pasta=await window.showDirectoryPicker({mode:'readwrite', startIn:'documents'});
+    await guardarPasta(pasta); pintarPasta(); $('erro').textContent='';
+  }catch(e){}  // cancelou o seletor: nada a fazer
 };
 
-function finalizar(){
-  clearInterval(tid);cancelAnimationFrame(raf);
-  streams.forEach(s=>s.getTracks().forEach(t=>t.stop()));streams=[];
-  escala=1;$('orbe').classList.remove('on');$('orbe').style.transform='scale(1)';
-  $('ptMic').classList.remove('ok');$('ptSis').classList.remove('ok');
-  const blob=new Blob(pedacos,{type:'audio/webm'});
-  const url=URL.createObjectURL(blob);
-  const mb=(blob.size/1048576).toFixed(1);
-  const min=Math.max(1,Math.round((Date.now()-t0)/60000));
-  rot('pronto · '+min+' min');
-  $('tempo').textContent='00:00';
-  $('saida').innerHTML='<audio controls src="'+url+'"></audio>'+
-    '<div class="linha" style="margin-top:14px;justify-content:center">'+
-      '<a download="reuniao.webm" href="'+url+'"><button class="btn fant">Baixar áudio · '+mb+' MB</button></a>'+
-    '</div>';
-  ultimoBlob=blob;
-  transcrever();
-}
-
-// ── transcrição ────────────────────────────────────────────────────────────
-// O trabalho é assíncrono: o POST devolve um job_id na hora e a gente
-// acompanha por GET. Sem isso o Cloudflare corta em 100s e devolve 524 —
-// e uma reunião de 25 min já leva ~104s pra transcrever.
-const API='https://api.tier.finance/api';
-let ultimoBlob=null,jobId=null,nivel='padrao',ultimo={texto:'',resumo:''};
-
-document.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{
-  document.querySelectorAll('.chip').forEach(o=>o.classList.remove('on'));
-  c.classList.add('on'); nivel=c.dataset.nivel;
-  // trocar de nível NÃO re-transcreve: o texto já está no servidor
-  if(jobId&&ultimo.texto) reResumir();
-  else if(ultimoBlob) transcrever();
+// ── pré-voo ─────────────────────────────────────────────────────────────────
+$('swMic').onclick=()=>{ opt.mic=!opt.mic; $('swMic').classList.toggle('on',opt.mic); };
+$('itemTranscrever').onclick=()=>{
+  opt.transcrever=!opt.transcrever;
+  $('cxTranscrever').classList.toggle('on',opt.transcrever);
+  $('linhaNivel').style.opacity=opt.transcrever?'1':'.35';
+  $('linhaNivel').style.pointerEvents=opt.transcrever?'auto':'none';
+};
+document.querySelectorAll('.chip[data-nivel]').forEach(c=>c.onclick=()=>{
+  opt.nivel=c.dataset.nivel;
+  document.querySelectorAll('.chip[data-nivel]').forEach(o=>o.classList.toggle('on',o.dataset.nivel===opt.nivel));
+  // trocar de nível na tela da ata NÃO re-transcreve: o texto já está no servidor
+  if(c.closest('#cartaoResultado') && jobId && ultimo.texto) reResumir();
 });
 
-const relogio=t0=>{const s=Math.round((Date.now()-t0)/1000);
-  return s<60?s+'s':Math.floor(s/60)+'min '+String(s%60).padStart(2,'0')+'s'};
+function tela(qual){
+  $('cartaoPrevoo').style.display   = qual==='previo'   ? 'block' : 'none';
+  $('cartaoGravando').style.display = qual==='gravando' ? 'block' : 'none';
+  $('cartaoGate').style.display     = qual==='gate'     ? 'block' : 'none';
+  $('cartaoResultado').style.display= qual==='ata'      ? 'block' : 'none';
+}
+const rot=(t,v)=>{ $('rot').className='rot'+(v?' '+v:''); $('rot').textContent=t; };
+const medir=(an,b)=>{ if(!an) return 0; an.getByteFrequencyData(b); return b.reduce((a,v)=>a+v,0)/b.length; };
+const dois=n=>String(n).padStart(2,'0');
+const mmss=s=>dois(Math.floor(s/60))+':'+dois(Math.floor(s%60));
+function carimbo(){
+  const d=new Date();
+  return d.getFullYear()+'-'+dois(d.getMonth()+1)+'-'+dois(d.getDate())+' '+dois(d.getHours())+dois(d.getMinutes());
+}
 
-// ── enviar um arquivo já gravado ───────────────────────────────────────────
-// O app do Windows grava direto no disco (o navegador não faz isso). Sem esta
-// porta, quem usa o app não tem como transcrever aqui.
-const MAX_MB=60;
+// ── 02 · gravar ─────────────────────────────────────────────────────────────
+$('orbe').onclick=()=>{
+  if(rec&&rec.state==='recording') parar();
+  else if($('cartaoPrevoo').style.display!=='none') iniciar();
+};
+$('btnComecar').onclick=()=>iniciar();
+$('btnParar').onclick=()=>parar();
+$('btnTentar').onclick=()=>iniciar();
+$('btnSoMic').onclick=()=>iniciar({soMic:true});
+$('btnMarcar').onclick=()=>marcar();
+$('novaGravacao').onclick=()=>{ tela('previo'); $('saida').innerHTML=''; rot('tudo pronto'); };
+document.addEventListener('keydown',e=>{
+  if(e.key && e.key.toLowerCase()==='m' && rec && rec.state==='recording'
+     && !/^(INPUT|TEXTAREA)$/.test(e.target.tagName)) marcar();
+});
+function marcar(){
+  if(!rec||rec.state!=='recording') return;
+  const s=Math.floor((Date.now()-t0)/1000);
+  marcas.push(s);
+  $('notaMarcas').innerHTML='Marcado em <b>'+mmss(s)+'</b> · '+marcas.length+' no total. A ata trata esses trechos como prioritários.';
+}
+
+async function iniciar(cfg){
+  cfg=cfg||{};
+  $('erro').textContent=''; $('saida').innerHTML='';
+  pedacos=[]; marcas=[]; escritos=0; arqHandle=null; fila=Promise.resolve();
+  let sis=null, mic=null;
+  try{
+    if(!cfg.soMic){
+      // displaySurface:'browser' abre o diálogo já na aba "Guia do Chrome", que
+      // é onde compartilhar a reunião entrega o som mais limpo. systemAudio só
+      // pede pro Chrome OFERECER o áudio — marcar é decisão do usuário, e não
+      // existe API pra marcar por ele.
+      sis=await navigator.mediaDevices.getDisplayMedia({
+        video:{displaySurface:'browser'}, audio:true,
+        systemAudio:'include', selfBrowserSurface:'exclude', surfaceSwitching:'include'
+      });
+      if(sis.getAudioTracks().length===0){
+        // 🚨 bloquear, não avisar: gravação sem o áudio da reunião é gravação perdida
+        sis.getTracks().forEach(t=>t.stop());
+        tela('gate'); rot('faltou o áudio'); return;
+      }
+      streams.push(sis);
+    }
+    if(opt.mic||cfg.soMic){
+      try{ mic=await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false}}); streams.push(mic); }catch(e){}
+    }
+    if(!sis&&!mic) throw new Error('sem áudio');
+  }catch(e){
+    streams.forEach(s=>s.getTracks().forEach(t=>t.stop())); streams=[];
+    $('erro').textContent='Não consegui capturar. Use o Chrome ou o Edge no computador.';
+    tela('previo'); return;
+  }
+
+  ctx=new AudioContext();
+  const dest=ctx.createMediaStreamDestination();
+  const geral=ctx.createAnalyser(); geral.fftSize=256; geral.smoothingTimeConstant=.8;
+  anSis=null; anMic=null;
+  if(sis){ const s=ctx.createMediaStreamSource(sis); s.connect(dest); s.connect(geral);
+           anSis=ctx.createAnalyser(); anSis.fftSize=128; s.connect(anSis); }
+  if(mic){ const m=ctx.createMediaStreamSource(mic); m.connect(dest); m.connect(geral);
+           anMic=ctx.createAnalyser(); anMic.fftSize=128; m.connect(anMic); }
+
+  base=carimbo();
+  if(pasta){
+    try{
+      arqHandle=await pasta.getFileHandle(base+'.webm',{create:true});
+      $('destino').textContent='salvando em '+pasta.name+' / '+base+'.webm';
+    }catch(e){ arqHandle=null; }
+  }
+  if(!arqHandle) $('destino').textContent='gravando na memória do navegador';
+
+  rec=new MediaRecorder(dest.stream,{mimeType:'audio/webm',audioBitsPerSecond:64000});
+  rec.ondataavailable=e=>{ if(e.data&&e.data.size) guardar(e.data); };
+  rec.onstop=finalizar;
+  rec.start(5000);
+
+  t0=Date.now(); tela('gravando'); $('orbe').classList.add('on');
+  rot(sis?(mic?'gravando reunião + microfone':'gravando a reunião'):'gravando só o microfone','viva');
+  $('notaMarcas').innerHTML='Marque um momento importante (tecla <b>M</b>) e a ata trata aquele trecho como prioritário.';
+
+  tid=setInterval(()=>{
+    const s=Math.floor((Date.now()-t0)/1000), h=Math.floor(s/3600);
+    $('tempo').textContent=(h?dois(h)+':':'')+mmss(s%3600);
+  },500);
+
+  const bg=new Uint8Array(geral.frequencyBinCount), b1=new Uint8Array(64), b2=new Uint8Array(64);
+  (function loop(){
+    if(!rec||rec.state==='inactive'){ $('orbe').style.transform='scale(1)'; return; }
+    geral.getByteFrequencyData(bg);
+    const n=Math.min(1,(bg.reduce((a,v)=>a+v,0)/bg.length)/85);
+    const alvo=1+n*.2;
+    escala+=(alvo-escala)*(alvo>escala?.5:.12);
+    $('orbe').style.transform='scale('+escala.toFixed(3)+')';
+    $('ptMic').classList.toggle('ok',medir(anMic,b1)>4);
+    $('ptSis').classList.toggle('ok',medir(anSis,b2)>4);
+    raf=requestAnimationFrame(loop);
+  })();
+
+  if(sis) sis.getVideoTracks()[0].onended=()=>{ if(rec&&rec.state!=='inactive') parar(); };
+  window.onbeforeunload=()=>rec&&rec.state==='recording'?'Gravação em andamento.':null;
+}
+
+// Cada pedaço vai pro disco na hora. O writable é aberto e FECHADO a cada
+// escrita de propósito: só o close() materializa o arquivo — mantendo um
+// writable aberto a reunião inteira, fechar a aba perderia tudo do mesmo jeito.
+function guardar(blob){
+  if(!arqHandle){ pedacos.push(blob); mostrarTamanho(); return; }
+  fila=fila.then(async()=>{
+    try{
+      const w=await arqHandle.createWritable({keepExistingData:true});
+      await w.write({type:'write', position:escritos, data:blob});
+      await w.close();
+      escritos+=blob.size;
+    }catch(e){ pedacos.push(blob); }   // disco recusou: o pedaço não se perde
+    mostrarTamanho();
+  });
+}
+function mostrarTamanho(){
+  const b=escritos+pedacos.reduce((a,p)=>a+p.size,0);
+  $('tamanho').textContent=(b/1048576).toFixed(1)+' MB';
+}
+
+function parar(){ if(rec&&rec.state==='recording') rec.stop(); }
+
+async function finalizar(){
+  clearInterval(tid); cancelAnimationFrame(raf);
+  streams.forEach(s=>s.getTracks().forEach(t=>t.stop())); streams=[];
+  window.onbeforeunload=null;
+  escala=1; $('orbe').classList.remove('on'); $('orbe').style.transform='scale(1)';
+  $('ptMic').classList.remove('ok'); $('ptSis').classList.remove('ok');
+  $('tempo').textContent='00:00';
+  const min=Math.max(1,Math.round((Date.now()-t0)/60000));
+  await fila;                       // espera o último pedaço chegar no disco
+
+  if(arqHandle){
+    ultimoBlob=await arqHandle.getFile();
+    rot('salvo · '+min+' min');
+  }else{
+    ultimoBlob=new Blob(pedacos,{type:'audio/webm'});
+    rot('pronto · '+min+' min');
+  }
+  $('saida').innerHTML='<audio controls src="'+URL.createObjectURL(ultimoBlob)+'"></audio>';
+  if(!arqHandle) baixar(base+'.webm', ultimoBlob);
+
+  if(opt.transcrever) transcrever(); else tela('previo');
+}
+
+// ── enviar um áudio já gravado ──────────────────────────────────────────────
 $('btnArquivo').onclick=()=>$('arquivo').click();
 $('arquivo').onchange=e=>{
-  const f=e.target.files&&e.target.files[0];
-  e.target.value='';
-  if(!f)return;
-  if(f.size>MAX_MB*1048576){
-    $('erro').textContent='Arquivo grande demais — o limite é '+MAX_MB+' MB (cerca de 2 h de gravação).';
-    return;
-  }
-  $('erro').textContent='';
-  ultimoBlob=f;
+  const f=e.target.files&&e.target.files[0]; e.target.value='';
+  if(!f) return;
+  if(f.size>MAX_MB*1048576){ $('erro').textContent='Arquivo grande demais — o limite é '+MAX_MB+' MB (cerca de 2 h de gravação).'; return; }
+  $('erro').textContent=''; ultimoBlob=f; marcas=[]; base=carimbo();
   rot('arquivo pronto · '+(f.size/1048576).toFixed(1)+' MB');
   $('saida').innerHTML='<audio controls src="'+URL.createObjectURL(f)+'"></audio>';
   transcrever();
 };
 
+// ── 03 · transcrever e montar a ata ─────────────────────────────────────────
+const relogio=t=>{ const s=Math.round((Date.now()-t)/1000);
+  return s<60 ? s+'s' : Math.floor(s/60)+'min '+dois(s%60)+'s'; };
+
 async function transcrever(){
-  if(!ultimoBlob)return;
-  jobId=null; ultimo={texto:'',resumo:''};
-  $('cartaoResultado').style.display='block';
-  $('acoes').style.display='none';
-  $('resumo').textContent=''; $('texto').textContent=''; $('detTexto').style.display='none';
+  if(!ultimoBlob) return;
+  jobId=null; ultimo={texto:'',tempo:'',resumo:'',titulo:''};
+  tela('ata'); $('acoes').style.display='none'; $('arqs').innerHTML='';
+  $('resumo').innerHTML=''; $('texto').textContent=''; $('detTexto').style.display='none';
   $('estado').textContent='enviando o áudio…';
   try{
     const fd=new FormData();
     // arquivo escolhido pelo usuário vai com nome e tipo reais — o backend
-    // deriva a extensão do content-type, e mp3/m4a rotulado de webm confunde.
-    fd.append('file', ultimoBlob instanceof File
-      ? ultimoBlob
-      : new File([ultimoBlob],'reuniao.webm',{type:'audio/webm'}));
-    fd.append('nivel',nivel);
+    // deriva a extensão do content-type, e mp3 rotulado de webm confunde
+    fd.append('file', ultimoBlob instanceof File ? ultimoBlob : new File([ultimoBlob],'reuniao.webm',{type:'audio/webm'}));
+    fd.append('nivel',opt.nivel);
     fd.append('resumir','true');
+    if(marcas.length) fd.append('marcas',marcas.join(','));
     const r=await fetch(API+'/discoo/transcrever',{method:'POST',body:fd});
-    if(r.status===429){$('estado').textContent='muitas gravações seguidas — tente daqui a pouco';return}
-    if(r.status===413){$('estado').textContent='áudio grande demais (o limite é 60 MB)';return}
-    if(!r.ok){$('estado').textContent='não consegui transcrever agora ('+r.status+')';return}
+    if(r.status===429){ $('estado').textContent='muitas gravações seguidas — tente daqui a pouco'; return; }
+    if(r.status===413){ $('estado').textContent='áudio grande demais (o limite é 60 MB)'; return; }
+    if(!r.ok){ $('estado').textContent='não consegui transcrever agora ('+r.status+')'; return; }
     jobId=(await r.json()).job_id;
     acompanhar();
   }catch(e){ $('estado').textContent='falha de conexão'; }
 }
 
 async function reResumir(){
-  if(!jobId)return;
-  $('resumo').textContent=''; $('acoes').style.display='none';
-  $('estado').textContent='resumindo…';
+  if(!jobId) return;
+  $('resumo').innerHTML=''; $('acoes').style.display='none';
+  $('estado').textContent='refazendo a ata…';
   try{
-    const fd=new FormData(); fd.append('nivel',nivel);
+    const fd=new FormData(); fd.append('nivel',opt.nivel);
     const r=await fetch(API+'/discoo/job/'+jobId+'/resumir',{method:'POST',body:fd});
-    if(!r.ok){$('estado').textContent='não consegui resumir agora ('+r.status+')';return}
+    if(!r.ok){ $('estado').textContent='não consegui resumir agora ('+r.status+')'; return; }
     acompanhar();
   }catch(e){ $('estado').textContent='falha de conexão'; }
 }
 
 async function acompanhar(){
-  const t0=Date.now(), meu=jobId;
+  const inicio=Date.now(), meu=jobId;
   while(jobId===meu){
     await new Promise(s=>setTimeout(s,3000));
-    if(Date.now()-t0>30*60000){$('estado').textContent='demorou demais — tente de novo';return}
+    if(Date.now()-inicio>30*60000){ $('estado').textContent='demorou demais — tente de novo'; return; }
     let d;
     try{
       const r=await fetch(API+'/discoo/job/'+meu);
-      if(!r.ok){$('estado').textContent='perdi o acompanhamento ('+r.status+')';return}
+      if(!r.ok){ $('estado').textContent='perdi o acompanhamento ('+r.status+')'; return; }
       d=await r.json();
-    }catch(e){ continue; }  // rede piscou: tenta de novo no próximo ciclo
+    }catch(e){ continue; }   // rede piscou: tenta no próximo ciclo
 
     if(d.estado==='transcrevendo'){
-      $('estado').textContent='transcrevendo… '+relogio(t0)+' · pode fechar nada, já está no servidor';
+      $('estado').textContent='transcrevendo… '+relogio(inicio)+' · já está no servidor, pode fechar';
       continue;
     }
     if(d.estado==='resumindo'){
-      // o texto já veio: mostra antes do resumo ficar pronto
       if(d.texto&&!ultimo.texto){
-        ultimo.texto=d.texto;
-        $('texto').textContent=d.texto;
-        $('detTexto').style.display='block';
+        ultimo.texto=d.texto; ultimo.tempo=d.texto_tempo||'';
+        $('texto').textContent=ultimo.tempo||d.texto; $('detTexto').style.display='block';
       }
-      $('estado').textContent='transcrição pronta · resumindo… '+relogio(t0);
+      $('estado').textContent='transcrição pronta · montando a ata… '+relogio(inicio);
       continue;
     }
-    if(d.estado==='sem_fala'){$('estado').textContent='não identifiquei fala no áudio';return}
-    if(d.estado==='erro'){$('estado').textContent=d.erro||'não consegui transcrever agora';return}
+    if(d.estado==='sem_fala'){ $('estado').textContent='não identifiquei fala no áudio'; return; }
+    if(d.estado==='erro'){ $('estado').textContent=d.erro||'não consegui transcrever agora'; return; }
 
-    ultimo={texto:d.texto||'',resumo:d.resumo||''};
+    ultimo={texto:d.texto||'', tempo:d.texto_tempo||'', resumo:d.resumo||'', titulo:d.titulo||''};
     $('estado').textContent='';
-    $('resumo').textContent=d.resumo||
-      (d.aviso==='resumo_falhou'
-        ? 'o resumo não ficou pronto desta vez — a transcrição completa está logo abaixo'
-        : '(sem resumo — a transcrição está abaixo)');
-    $('texto').textContent=d.texto||'';
+    if(d.resumo){
+      $('resumo').innerHTML=renderAta(d.resumo);
+    }else{
+      $('resumo').innerHTML='<p>'+(d.aviso==='resumo_falhou'
+        ? 'A ata não ficou pronta desta vez — a transcrição completa está logo abaixo.'
+        : 'Sem ata — a transcrição está abaixo.')+'</p>';
+    }
+    $('texto').textContent=ultimo.tempo||ultimo.texto;
     $('detTexto').style.display='block';
     $('acoes').style.display='flex';
+    salvarAta(d.duracao_segundos||0);
     return;
   }
 }
 
-const baixar=(nome,conteudo,tipo)=>{
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(new Blob([conteudo],{type:tipo}));
-  a.download=nome; a.click();
-};
-// 🚨 template literal (crase), não aspas simples: string entre aspas simples
-// NÃO aceita quebra de linha de verdade, e o erro de sintaxe mata o bloco de
-// script INTEIRO — a página fica muda, nem o botão de gravar funciona.
-// Foi exatamente o que aconteceu aqui.
-$('baixarMd').onclick=()=>baixar('reuniao.md',
-`# Reunião
+// ── markdown mínimo, com as tarefas em destaque ─────────────────────────────
+const esc=t=>String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+const inline=t=>esc(t).replace(/\*\*(.+?)\*\*/g,'<b>$1</b>')
+                      .replace(/_(.+?)_/g,'<em>$1</em>')
+                      .replace(/`(.+?)`/g,'<code>$1</code>');
+const comMinuto=t=>inline(t).replace(/\[(\d{1,2}:\d{2}(?::\d{2})?)\]/g,'<span class="min">[$1]</span>');
 
-${ultimo.resumo||''}
+function renderAta(md){
+  const linhas=String(md||'').split(/\r?\n/);
+  let html='', lista=false;
+  const fecha=()=>{ if(lista){ html+='</ul>'; lista=false; } };
+  for(const bruta of linhas){
+    const l=bruta.trim();
+    if(!l){ fecha(); continue; }
+    if(l.startsWith('### ')){ fecha(); html+='<h3>'+inline(l.slice(4))+'</h3>'; continue; }
+    if(l.startsWith('## ')){ fecha(); html+='<h2>'+inline(l.slice(3))+'</h2>'; continue; }
+    if(l.startsWith('# ')){ fecha(); html+='<h1>'+inline(l.slice(2))+'</h1>'; continue; }
+    const tarefa=l.match(/^-\s*\[( |x|X)\]\s*(.+)$/);
+    if(tarefa){
+      if(!lista){ html+='<ul>'; lista=true; }
+      html+='<li class="tarefa"><div class="cx'+(tarefa[1].toLowerCase()==='x'?' on':'')+'"></div><div>'+linhaTarefa(tarefa[2])+'</div></li>';
+      continue;
+    }
+    if(l.startsWith('- ')||l.startsWith('* ')){
+      if(!lista){ html+='<ul>'; lista=true; }
+      html+='<li>'+comMinuto(l.slice(2))+'</li>';
+      continue;
+    }
+    fecha(); html+='<p>'+comMinuto(l)+'</p>';
+  }
+  fecha();
+  return html;
+}
 
+// "Fazer X — Fulano · até 22/08 · [12:04]" vira texto + linha de meta
+function linhaTarefa(t){
+  const partes=String(t).split(/\s+—\s+|\s+--\s+/);
+  const oque=partes.shift();
+  const resto=partes.join(' — ');
+  if(!resto) return '<div>'+comMinuto(oque)+'</div>';
+  const metas=resto.split(/\s*·\s*/).filter(Boolean).map(m=>{
+    const min=m.match(/^\[(\d{1,2}:\d{2}(?::\d{2})?)\]$/);
+    if(min) return '<span class="min">['+min[1]+']</span>';
+    if(m.indexOf('★')>=0) return '<span class="est">'+esc(m)+'</span>';
+    if(/^n[ãa]o atribu/i.test(m)) return '<span class="sem">'+esc(m)+'</span>';
+    return '<span>'+esc(m)+'</span>';
+  });
+  return '<div>'+inline(oque)+'</div><div class="meta">'+metas.join('<span>·</span>')+'</div>';
+}
+
+// ── o arquivo que sai ───────────────────────────────────────────────────────
+function montarMd(duracao){
+  const d=new Date();
+  const titulo=ultimo.titulo||'Reunião';
+  const marcadas=marcas.length ? marcas.map(s=>'- ★ '+mmss(s)).join(String.fromCharCode(10)) : '';
+  const bloco=marcadas ? `
+## Momentos marcados
+
+${marcadas}
+` : '';
+  return `---
+titulo: ${titulo}
+data: ${d.toISOString().slice(0,10)}
+duracao: ${Math.max(1,Math.round((duracao||0)/60))} min
+audio: ${base}.webm
+gerado_por: Discoo
+---
+
+${ultimo.resumo||'(sem ata)'}
+${bloco}
 ---
 
 ## Transcrição
 
-${ultimo.texto}`,'text/markdown');
-$('baixarTxt').onclick=()=>baixar('reuniao.txt',ultimo.texto,'text/plain');
+${ultimo.tempo||ultimo.texto}
+`;
+}
+
+async function salvarAta(duracao){
+  const md=montarMd(duracao);
+  const chips=[];
+  if(pasta&&arqHandle) chips.push(base+'.webm');
+  if(pasta){
+    try{
+      const h=await pasta.getFileHandle(base+'.md',{create:true});
+      const w=await h.createWritable(); await w.write(md); await w.close();
+      chips.push(base+'.md');
+      chips.push('em '+pasta.name);
+    }catch(e){ chips.push('não consegui gravar o .md na pasta'); }
+  }
+  $('arqs').innerHTML=chips.map(c=>'<span class="arq">'+esc(c)+'</span>').join('');
+}
+
+function baixar(nome,conteudo,tipo){
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(conteudo instanceof Blob?conteudo:new Blob([conteudo],{type:tipo||'text/plain'}));
+  a.download=nome; a.click();
+}
+$('baixarMd').onclick=()=>baixar((base||'reuniao')+'.md', montarMd(0), 'text/markdown');
+$('copiarMd').onclick=async()=>{
+  try{
+    await navigator.clipboard.writeText(montarMd(0));
+    $('copiarMd').textContent='Copiado';
+    setTimeout(()=>{ $('copiarMd').textContent='Copiar markdown'; },1600);
+  }catch(e){ baixar((base||'reuniao')+'.md', montarMd(0), 'text/markdown'); }
+};
+
+pintarPasta();
+lembrarPasta();
 </script>
 </body>
 </html>

@@ -18,5 +18,9 @@ contextBridge.exposeInMainWorld('tier', {
   login: (email, senha) => ipcRenderer.invoke('login', email, senha),
   sairConta: () => ipcRenderer.invoke('sair-conta'),
   enviar: (caminho) => ipcRenderer.invoke('enviar', caminho),
+  // ata: rota publica do Discoo, sem login (o `enviar` acima e o QA de Ligacoes)
+  transcrever: (caminho, opcoes) => ipcRenderer.invoke('transcrever', caminho, opcoes),
+  aoTranscricao: (fn) => ipcRenderer.on('transcricao', (_e, texto) => fn(texto)),
+  prefs: (novas) => ipcRenderer.invoke('prefs', novas),
   inicioWindows: (ligar) => ipcRenderer.invoke('inicio-windows', ligar),
 });
