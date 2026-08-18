@@ -121,12 +121,21 @@ footer{text-align:center;color:var(--tinta-3);font-size:12px;padding-top:34px}
 .veu{position:fixed;inset:0;background:rgba(10,10,10,.10);opacity:0;pointer-events:none;
   transition:opacity var(--medio);z-index:40}
 .veu.on{opacity:1;pointer-events:auto}
-.ajustes{position:fixed;top:66px;right:max(24px,calc(50vw - 320px));width:352px;z-index:50;
-  background:var(--papel);border:1px solid var(--linha);border-radius:var(--r-3);padding:22px;
-  box-shadow:0 18px 60px rgba(0,0,0,.16);opacity:0;transform:translateY(-8px) scale(.98);
-  pointer-events:none;transition:opacity var(--medio),transform var(--medio);
-  max-height:calc(100vh - 96px);overflow-y:auto}
-.ajustes.on{opacity:1;transform:none;pointer-events:auto}
+/* Sai do botão: a origem da transformação é o canto de cima à direita, que é
+   onde o ícone está — o painel cresce de lá em vez de aparecer do nada.
+   `right` fica preso à borda do conteúdo (640/2 = 320), então mudar a largura
+   do painel não desalinha ele do ícone. */
+.ajustes{position:fixed;top:64px;right:max(20px,calc(50vw - 320px));width:min(408px,calc(100vw - 40px));
+  z-index:50;background:var(--papel);border:1px solid var(--linha);border-radius:var(--r-3);padding:24px;
+  box-shadow:0 18px 60px rgba(0,0,0,.16);opacity:0;
+  transform-origin:top right;transform:translate(18px,-20px) scale(.72);
+  pointer-events:none;transition:opacity .18s ease,transform .38s cubic-bezier(.2,.85,.25,1);
+  max-height:calc(100vh - 92px);overflow-y:auto}
+.ajustes.on{opacity:1;transform:none;pointer-events:auto;transition:opacity .16s ease,transform .38s cubic-bezier(.2,.85,.25,1)}
+@media(prefers-reduced-motion:reduce){
+  .ajustes{transition:opacity .12s ease;transform:none}
+  .ajustes.on{transition:opacity .12s ease}
+}
 .ajustes-topo{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:18px}
 .ajustes-topo b{font-size:15px;font-weight:500;letter-spacing:-.01em}
 
