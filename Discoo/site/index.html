@@ -300,9 +300,10 @@ footer{text-align:center;color:var(--tinta-3);font-size:12px;padding-top:34px}
       <div class="rotulo">Nota do Obsidian</div>
       <div class="item"><span>Quem ensinou</span><input class="campo" id="vAutor" placeholder="nome do preletor" /></div>
       <div class="item"><span>Tags</span><input class="campo" id="vTags" placeholder="#huios #escola-de-lideres" /></div>
-      <div class="item"><span>Coleção</span><input class="campo" id="vColecao" placeholder="Escola de Líderes" /></div>
-      <div class="item clic" id="itemNumerar"><span>Numerar na pasta (01, 02, 03…)</span><div class="cx on" id="cxNumerar"></div></div>
-      <div class="nota">O arquivo sai com o nome do título da aula. Escolhendo a pasta do vault, a nota nasce dentro do Obsidian — não há nada pra sincronizar depois.</div>
+      <div class="item"><span>Curso</span><input class="campo" id="vColecao" placeholder="Escola de Líderes" /></div>
+      <div class="item"><span>Canal / escola</span><input class="campo" id="vCanal" placeholder="Escola Huios" /></div>
+      <div class="item clic" id="itemId"><span>ID do vault no nome</span><div class="cx on" id="cxId"></div></div>
+      <div class="nota">O arquivo sai como <b>202608182005 - Lucas - O Padrão do Líder.md</b>, o padrão de nota de fonte do vault. Escolhendo a pasta do Obsidian em “Onde salvar”, a nota nasce lá dentro — não há nada pra sincronizar depois.</div>
     </div>
 
     <div class="pv-grupo" style="margin-bottom:0">
@@ -395,7 +396,7 @@ const MAX_MB=60;
 const opt={mic:true, transcrever:true, nivel:'padrao'};
 // o que a nota do vault precisa e o áudio não conta: quem ensinou, como
 // etiquetar e onde ela mora. Fica no navegador — é preferência, não segredo.
-const vault={autor:'', tags:'', colecao:'', numerar:true};
+const vault={autor:'', tags:'', colecao:'', canal:'', id:true};
 try{ Object.assign(vault, JSON.parse(localStorage.getItem('discoo_vault')||'{}')); }catch(e){}
 const salvarVault=()=>{ try{ localStorage.setItem('discoo_vault',JSON.stringify(vault)); }catch(e){} };
 let pasta=null;           // FileSystemDirectoryHandle, quando o navegador deixa
@@ -468,13 +469,13 @@ $('veu').onclick=()=>abrirAjustes(false);
 $('resumo').onclick=()=>abrirAjustes(true);
 document.addEventListener('keydown',e=>{ if(e.key==='Escape') abrirAjustes(false); });
 
-['autor','tags','colecao'].forEach(k=>{
+['autor','tags','colecao','canal'].forEach(k=>{
   const el=$('v'+k[0].toUpperCase()+k.slice(1));
   el.value=vault[k]||'';
   el.oninput=()=>{ vault[k]=el.value.trim(); salvarVault(); };
 });
-$('itemNumerar').onclick=()=>{ vault.numerar=!vault.numerar; $('cxNumerar').classList.toggle('on',vault.numerar); salvarVault(); };
-$('cxNumerar').classList.toggle('on',vault.numerar);
+$('itemId').onclick=()=>{ vault.id=!vault.id; $('cxId').classList.toggle('on',vault.id); salvarVault(); };
+$('cxId').classList.toggle('on',vault.id!==false);
 const pintarVault=()=>{ $('grupoVault').style.display = opt.nivel==='aula' ? 'block' : 'none'; };
 
 const NOME_NIVEL={simples:'resumo simples',padrao:'ata',detalhado:'relatório detalhado',aula:'nota de aula'};
@@ -752,7 +753,8 @@ async function acompanhar(){
     if(d.estado==='sem_fala'){ $('estado').textContent='não identifiquei fala no áudio'; return; }
     if(d.estado==='erro'){ $('estado').textContent=d.erro||'não consegui transcrever agora'; return; }
 
-    ultimo={texto:d.texto||'', tempo:d.texto_tempo||'', resumo:d.resumo||'', titulo:d.titulo||''};
+    ultimo={texto:d.texto||'', tempo:d.texto_tempo||'', resumo:d.resumo||'', titulo:d.titulo||'',
+            duracaoSeg:d.duracao_segundos||0};
     $('estado').textContent='';
     if(d.resumo){
       $('resumo').innerHTML=renderAta(d.resumo);
@@ -820,41 +822,72 @@ function linhaTarefa(t){
 }
 
 // ── o arquivo que sai ───────────────────────────────────────────────────────
-/** Nome do arquivo no padrão do vault: "03 - O Padrão do Líder.md".
- *  O número sai da própria pasta — ler o que já está lá é mais confiável do que
- *  pedir pra pessoa lembrar em que aula parou. */
-async function nomeDaNota(titulo){
-  const limpo=(titulo||'Reunião').replace(/[\\/:*?"<>|]/g,'').trim().slice(0,70);
-  if(opt.nivel!=='aula'||!vault.numerar||!pasta) return limpo;
-  let maior=0;
-  try{
-    for await (const [nome] of pasta.entries()){
-      const m=nome.match(/^(\d{1,3})\s*-\s*/);
-      if(m) maior=Math.max(maior,parseInt(m[1],10));
-    }
-  }catch(e){ return limpo; }
-  return String(maior+1).padStart(2,'0')+' - '+limpo;
+/** Nome no padrão zettel do vault: "202608182005 - Lucas - O Padrão do Líder".
+ *  O ID de 12 dígitos é o horário REAL da gravação, não o de agora: é ele que dá
+ *  ordem cronológica estável na pasta e nunca colide com outra nota. */
+function nomeDaNota(titulo){
+  const limpo=(titulo||'Aula').replace(/[\\/:*?"<>|]/g,'').trim().slice(0,70);
+  if(opt.nivel!=='aula') return limpo;
+  const partes=[];
+  if(vault.id!==false) partes.push((base||'').replace(/[^0-9]/g,'').slice(0,12));
+  if(vault.autor) partes.push(vault.autor);
+  partes.push(limpo);
+  return partes.filter(Boolean).join(' - ');
 }
 
 function frontmatterAula(duracao){
-  const hoje=new Date().toISOString().slice(0,10);
+  // a data e a da GRAVACAO, tirada do carimbo do arquivo — transcrever no dia
+  // seguinte (que e o caso comum de aula a noite) nao pode datar a nota errado
+  const hoje=(base&&base.slice(0,10).match(/^\d{4}-\d{2}-\d{2}$/)) ? base.slice(0,10)
+             : new Date().toISOString().slice(0,10);
+  // no vault as tags vão sem "#" e entre colchetes — o "#" é como se digita,
+  // não como se guarda
   const tags=(vault.tags||'').split(/[\s,]+/).filter(Boolean)
-    .map(t=>'  - "'+(t.startsWith('#')?t:'#'+t)+'"').join('\n');
+    .map(t=>t.replace(/^#/,'')).join(', ');
+  const min=Math.max(1,Math.round((duracao||0)/60))+' min';
   const linhas=[
     '---',
-    'title: '+(ultimo.titulo||'Aula'),
-    vault.autor?('author: '+vault.autor):'',
-    'data: '+hoje,
-    'duracao: '+Math.max(1,Math.round((duracao||0)/60))+' min',
     'type: literature',
     'status: evergreen',
-    tags?('tags:\n'+tags):'',
-    vault.colecao?('colecao: '+vault.colecao):'',
+    'title: '+(ultimo.titulo||'Aula'),
+    vault.autor?('author: '+vault.autor):'',
+    vault.colecao?('source: "'+vault.colecao+' — '+(ultimo.titulo||'Aula')+' ('+dataBr()+')"'):'',
+    vault.canal?('channel: "'+vault.canal+'"'):'',
+    tags?('tags: ['+tags+']'):'',
+    'data: '+hoje,
+    'duracao: '+min,
     'audio: '+base+'.webm',
     'created: '+hoje,
     '---',
   ];
   return linhas.filter(Boolean).join('\n');
+}
+
+const dataBr=()=>{
+  if(base&&/^\d{4}-\d{2}-\d{2}/.test(base)){ const [a,m,d]=base.slice(0,10).split('-'); return d+'/'+m+'/'+a; }
+  const d=new Date();
+  return String(d.getDate()).padStart(2,'0')+'/'+String(d.getMonth()+1).padStart(2,'0')+'/'+d.getFullYear();
+};
+
+/** O backend não sabe quem ensinou nem em que curso — ele só ouviu o áudio.
+ *  Então o cabeçalho da nota (H1 no padrão "Autor - Título" e o bloco de Fonte)
+ *  é montado aqui, onde essa informação existe. */
+function corpoAula(){
+  let md=ultimo.resumo||'(sem nota)';
+  const titulo=ultimo.titulo||'Aula';
+  if(vault.autor) md=md.replace(/^#\s+.*$/m, '# '+vault.autor+' - '+titulo);
+  md=md.replace('> [!INFO] Resumo','> [!SUMMARY] Resumo');
+  const fonte=['> [!INFO] Fonte',
+    '> '+[vault.autor?('**Preletor:** '+vault.autor):'',
+          vault.colecao?('**Curso:** '+vault.colecao):'',
+          '**Data:** '+dataBr(),
+          '**Duração:** '+Math.max(1,Math.round((ultimo.duracaoSeg||0)/60))+' min'
+         ].filter(Boolean).join(' | ')].join('\n');
+  // a Fonte entra depois do Resumo: quem abre a nota quer saber do que se trata
+  // antes de saber de onde veio
+  const corte=md.indexOf('> [!TIP]');
+  if(corte>0) return md.slice(0,corte)+fonte+'\n\n'+md.slice(corte);
+  return md+'\n\n'+fonte+'\n';
 }
 
 function montarMd(duracao){
@@ -871,7 +904,7 @@ ${marcadas}
     // material de conferência, não o corpo da nota
     return `${frontmatterAula(duracao)}
 
-${ultimo.resumo||'(sem nota)'}
+${corpoAula()}
 ${bloco}
 ---
 
@@ -908,7 +941,7 @@ async function salvarAta(duracao){
   if(pasta&&arqHandle) chips.push(base+'.webm');
   if(pasta){
     try{
-      const nome=(opt.nivel==='aula' ? await nomeDaNota(ultimo.titulo) : base)+'.md';
+      const nome=(opt.nivel==='aula' ? nomeDaNota(ultimo.titulo) : base)+'.md';
       const h=await pasta.getFileHandle(nome,{create:true});
       const w=await h.createWritable(); await w.write(md); await w.close();
       chips.push(nome);
@@ -923,8 +956,8 @@ function baixar(nome,conteudo,tipo){
   a.href=URL.createObjectURL(conteudo instanceof Blob?conteudo:new Blob([conteudo],{type:tipo||'text/plain'}));
   a.download=nome; a.click();
 }
-$('baixarMd').onclick=async()=>baixar(
-  (opt.nivel==='aula' ? await nomeDaNota(ultimo.titulo) : (base||'reuniao'))+'.md',
+$('baixarMd').onclick=()=>baixar(
+  (opt.nivel==='aula' ? nomeDaNota(ultimo.titulo) : (base||'reuniao'))+'.md',
   montarMd(0), 'text/markdown');
 $('copiarMd').onclick=async()=>{
   try{
