@@ -15,6 +15,8 @@ COPY fonts/ /usr/share/nginx/html/fonts/
 COPY img/ /usr/share/nginx/html/img/
 # Design System em rota dedicada — labellescens.hovio.com.br/design-system/
 COPY design-system/ /usr/share/nginx/html/design-system/
+# Planejamento tecnico — labellescens.hovio.com.br/planning/
+COPY planning/ /usr/share/nginx/html/planning/
 
 EXPOSE 80
 # Healthcheck rápido (wget existe no nginx:alpine via busybox) — fica saudável em ~3-8s,
