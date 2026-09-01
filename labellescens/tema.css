@@ -35,3 +35,5 @@ html[data-theme="light"]{color-scheme:light}
 
 /* Dentro da casca (/painel/): sem botão de tema próprio e sem «Voltar» — a barra lateral é a navegação. */
 html.lbs-embutido [data-tema-toggle],html.lbs-embutido .lbs-tema--flutuante,html.lbs-embutido .back-home{display:none!important}
+/* …nem o cabeçalho próprio das páginas de fluxo (marca + links) — a casca já tem a marca e a navegação. */
+html.lbs-embutido .masthead{display:none!important}
