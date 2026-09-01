@@ -369,11 +369,12 @@ section h2 em{font-style:italic;color:var(--accent-ink)}
 .mleg{margin-top:0}
 @media(max-width:640px){.mtab table{min-width:560px}}
 
-.sumario{display:flex;flex-wrap:wrap;gap:9px 20px;margin-top:26px;padding-top:22px;border-top:1px solid var(--line);font-size:13px}
-.sumario a{color:var(--soft);white-space:nowrap}
-.sumario a:hover{color:var(--ink-strong);text-decoration:none}
-.sumario a b{font-family:var(--serif);font-variation-settings:var(--serif-axes);font-weight:300;font-size:12px;letter-spacing:.2em;color:var(--accent-ink);margin-right:7px}
-@media(max-width:640px){.sumario{gap:8px 14px;font-size:12.5px}}
+.sumario-t{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--soft-2);margin:26px 0 0;padding-top:22px;border-top:1px solid var(--line)}
+.sumario{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-flow:column;grid-template-rows:repeat(6,auto);column-gap:44px;margin-top:6px;font-size:13.5px}
+.sumario a{display:grid;grid-template-columns:36px 1fr;align-items:baseline;column-gap:8px;padding:10px 0;border-bottom:1px solid var(--line);color:var(--ink);line-height:1.35;transition:color .2s}
+.sumario a:hover{color:var(--accent-ink);text-decoration:none}
+.sumario a b{font-family:var(--serif);font-variation-settings:var(--serif-axes);font-weight:300;font-size:13px;letter-spacing:.2em;color:var(--accent-ink);margin:0}
+@media(max-width:640px){.sumario{grid-template-columns:1fr;grid-auto-flow:row;grid-template-rows:none;font-size:13px}.sumario a{padding:9px 0}}
 </style>
 </head>
 <body>
@@ -393,6 +394,7 @@ section h2 em{font-style:italic;color:var(--accent-ink)}
       <div><dt>Escopo</dt><dd>Operação Total</dd></div>
       <div><dt>Estado</dt><dd>Pré-kickoff</dd></div>
     </dl>
+    <p class="sumario-t">Sumário</p>
     <nav class="sumario" aria-label="Sumário"><a href="#problema"><b>01</b>O que este documento resolve</a><a href="#jornada"><b>02</b>A jornada – da chegada do cliente à recorrência</a><a href="#modulos"><b>03</b>Os módulos, um a um – e onde as planilhas entram</a><a href="#agente"><b>04</b>O agente que analisa, e não decide</a><a href="#arquitetura"><b>05</b>Arquitetura</a><a href="#integracoes"><b>06</b>Integrações</a><a href="#fases"><b>07</b>Fases</a><a href="#app"><b>08</b>O aplicativo – iOS e Android</a><a href="#design"><b>09</b>Design system e telas</a><a href="#riscos"><b>10</b>O que pode dar errado</a><a href="#site-loja"><b>11</b>O site e a loja – o que muda</a></nav>
   </div>
 </header>
