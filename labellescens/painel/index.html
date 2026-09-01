@@ -424,29 +424,18 @@ a{color:inherit;text-decoration:none}
     <div class="brand-sub">Gestão de Aromatização</div>
   </div>
   <nav class="nav">
-    <div class="nav-h">Visão geral</div>
+    <div class="nav-h">Planejamento</div>
     <a data-s="cenario" class="active">Cenário</a>
     <a data-s="materiais">Materiais</a>
-    <a href="/fluxo/a.html">Planejamento</a>
+    <a href="/planning/">Planejamento técnico</a>
+    <a href="/fluxo/a.html#modulos">Módulos e jornada</a>
     <a href="/fluxo/comparativo.html">Comparativo</a>
     <a href="/fluxo/investimento.html">Investimento</a>
-    <div class="nav-h">Operação</div>
-    <a data-s="dashboard">Início</a>
-    <a data-s="maquinas">Máquinas</a>
-    <a data-s="logistica">Logística &amp; Rotas</a>
-    <a data-s="estoque">Estoque &amp; Produção</a>
-    <div class="nav-h">Comercial</div>
-    <a data-s="financeiro">Financeiro &amp; Contratos</a>
-    <a data-s="crm">CRM &amp; Clientes</a>
-    <div class="nav-h">Inteligência</div>
-    <a data-s="bi">Indicadores</a>
-    <a data-s="agente">Agente IA</a>
-    <div class="nav-h">Sistema</div>
-    <a data-s="config">Configurações</a>
+    <a href="/design-system/">Design System</a>
   </nav>
   <div class="side-foot">
     <span class="avatar"><img src="/img/favicon.png" alt="" style="width:22px;height:22px;object-fit:contain" /></span>
-    <span class="who">La Belle Scens<small>Conta demonstração</small></span>
+    <span class="who">La Belle Scens<small>Planejamento do sistema</small></span>
   </div>
 </aside>
 <div class="side-backdrop" id="sideBackdrop"></div>
@@ -454,10 +443,10 @@ a{color:inherit;text-decoration:none}
 <main class="main">
   <div class="top">
     <button class="menu-btn" id="menuBtn" aria-label="Abrir menu"><svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
-    <span class="crumb" id="crumb">Visão geral</span>
+    <span class="crumb" id="crumb">Planejamento</span>
     <h1 id="scrTitle">Cenário</h1>
     <div class="top-r">
-      <span class="pill pill-accent">Protótipo</span>
+      <span class="pill pill-accent">Planejamento</span>
       <button class="theme-toggle" id="themeBtn" title="Tema claro/escuro">
         <svg class="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg>
         <svg class="moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>
@@ -501,12 +490,24 @@ a{color:inherit;text-decoration:none}
       <div class="screen-head">
         <div class="eyebrow">Materiais · entregáveis</div>
         <h2>Tudo do projeto, num <em style="font-style:italic;color:var(--accent-ink)">só lugar</em></h2>
-        <p class="lead">Os artefatos que produzimos para a La Belle Scens — planejamento, design e a proposta de investimento. Cada cartão abre o material em uma nova aba.</p>
+        <p class="lead">Os artefatos do planejamento da La Belle Scens — o planejamento técnico, os módulos, a jornada, o design system, o comparativo e a proposta. Cada cartão abre o material em uma nova aba.</p>
       </div>
 
       <div class="mat-group">
         <div class="mat-gh">Planejamento &amp; fluxos</div>
         <div class="mat-grid">
+          <a class="mat-card" href="/planning/" target="_blank" rel="noopener">
+            <div class="mt">Planejamento</div>
+            <div class="mn">Planejamento técnico</div>
+            <div class="md">O documento de construção: o problema, o agente, a arquitetura, as integrações, as fases (com a fase 2), o aplicativo iOS e Android e o design system.</div>
+            <span class="mo">Abrir <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></span>
+          </a>
+          <a class="mat-card" href="/fluxo/a.html#modulos" target="_blank" rel="noopener">
+            <div class="mt">Módulos</div>
+            <div class="mn">Os módulos, um a um</div>
+            <div class="md">O quadro de 24 módulos — construídos, Tier Empresas, integrações e fase 2 — com o que cada um é, por que existe e em qual deles cada planilha entra.</div>
+            <span class="mo">Abrir <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></span>
+          </a>
           <a class="mat-card" href="/fluxo/a.html" target="_blank" rel="noopener">
             <div class="mt">Jornada</div>
             <div class="mn">Jornada do cliente</div>
@@ -522,7 +523,7 @@ a{color:inherit;text-decoration:none}
           <a class="mat-card" href="/design-system/" target="_blank" rel="noopener">
             <div class="mt">Linguagem</div>
             <div class="mn">Catálogo do Design System</div>
-            <div class="md">Tokens, tipografia, cores e componentes da identidade Dior da marca — a base visual de tudo.</div>
+            <div class="md">Tokens, tipografia, cores e componentes da identidade da marca — a base visual do sistema e do app, agora com cantos mais arredondados.</div>
             <span class="mo">Abrir <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></span>
           </a>
         </div>
@@ -547,242 +548,7 @@ a{color:inherit;text-decoration:none}
       </div>
     </section>
 
-    <!-- ============ INÍCIO (dashboard) ============ -->
-    <section class="screen" id="dashboard">
-      <div class="grid g4">
-        <div class="kpi"><div class="lbl">Trocas hoje</div><div class="val">14</div><div class="dl">3 em rota</div></div>
-        <div class="kpi"><div class="lbl">Perda nos próx. 7d</div><div class="val">31</div><div class="dl down">▲ atenção</div></div>
-        <div class="kpi"><div class="lbl">A receber (mês)</div><div class="val"><small>R$</small> 38,2<small>k</small></div><div class="dl">12 em aberto</div></div>
-        <div class="kpi"><div class="lbl">Máquinas off</div><div class="val">2</div><div class="dl down">sem retorno</div></div>
-      </div>
-      <div class="grid g2" style="margin-top:16px">
-        <div class="card">
-          <div class="card-kicker">Trocas a vencer · por zona</div>
-          <div class="legend"><span class="dot dot-warn"></span><span class="grow">Jardins</span><span class="status">8 trocas · em 3 dias</span></div>
-          <div class="legend"><span class="dot dot-warn"></span><span class="grow">Itaim Bibi</span><span class="status">6 trocas · em 4 dias</span></div>
-          <div class="legend"><span class="dot dot-success"></span><span class="grow">Pinheiros</span><span class="status">5 trocas · em 6 dias</span></div>
-          <div class="legend"><span class="dot dot-error"></span><span class="grow">Faria Lima</span><span class="status">4 trocas · atrasadas</span></div>
-        </div>
-        <div class="card">
-          <div class="card-kicker">Atividade recente</div>
-          <div class="legend"><span class="dot dot-success"></span><span class="grow">Troca concluída · Hotel Fasano</span></div>
-          <div class="legend"><span class="dot dot-info"></span><span class="grow">Contrato assinado · NK Store</span></div>
-          <div class="legend"><span class="dot dot-warn"></span><span class="grow">Boleto vencendo · Spa L'Occitane</span></div>
-          <div class="legend"><span class="dot dot-soft"></span><span class="grow">Máquina sem retorno · Iguatemi</span></div>
-        </div>
-      </div>
-      <div class="card" style="margin-top:16px">
-        <div class="card-kicker">Trocas por mês</div>
-        <div class="bars">
-          <i style="height:48%"><span>Jan</span></i><i style="height:60%"><span>Fev</span></i><i style="height:54%"><span>Mar</span></i>
-          <i style="height:72%"><span>Abr</span></i><i style="height:80%"><span>Mai</span></i><i class="hl" style="height:95%"><span>Jun</span></i>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ MÁQUINAS ============ -->
-    <section class="screen" id="maquinas">
-      <div class="grid g4">
-        <div class="kpi"><div class="lbl">Total instaladas</div><div class="val">128</div></div>
-        <div class="kpi"><div class="lbl">Operando</div><div class="val">119</div><div class="dl up">93%</div></div>
-        <div class="kpi"><div class="lbl">Refil baixo</div><div class="val">7</div><div class="dl down">trocar</div></div>
-        <div class="kpi"><div class="lbl">Offline</div><div class="val">2</div></div>
-      </div>
-      <div class="tbl-wrap" style="margin-top:16px">
-        <table class="tbl">
-          <thead><tr><th>Máquina</th><th>Cliente · local</th><th>Zona</th><th>Essência</th><th>Status</th><th class="num">Refil</th></tr></thead>
-          <tbody>
-            <tr><td>LBS-014</td><td class="nm">Hotel Fasano · Lobby</td><td>Jardins</td><td>Bois de Lumière</td><td><span class="status"><span class="dot dot-success"></span>Operando</span></td><td class="num">78%</td></tr>
-            <tr><td>LBS-027</td><td class="nm">Spa L'Occitane</td><td>Itaim</td><td>Néroli Doré</td><td><span class="status"><span class="dot dot-warn"></span>Refil baixo</span></td><td class="num">12%</td></tr>
-            <tr><td>LBS-033</td><td class="nm">NK Store · Vitrine</td><td>Jardins</td><td>Thé Blanc</td><td><span class="status"><span class="dot dot-success"></span>Operando</span></td><td class="num">64%</td></tr>
-            <tr><td>LBS-041</td><td class="nm">Restaurante D.O.M.</td><td>Pinheiros</td><td>Ambre Nuit</td><td><span class="status"><span class="dot dot-error"></span>Offline</span></td><td class="num">—</td></tr>
-            <tr><td>LBS-052</td><td class="nm">Shopping Iguatemi</td><td>Faria Lima</td><td>Fleur de Sel</td><td><span class="status"><span class="dot dot-warn"></span>Refil baixo</span></td><td class="num">9%</td></tr>
-            <tr><td>LBS-068</td><td class="nm">Clínica Vitalité</td><td>Itaim</td><td>Néroli Doré</td><td><span class="status"><span class="dot dot-success"></span>Operando</span></td><td class="num">88%</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- ============ LOGÍSTICA ============ -->
-    <section class="screen" id="logistica">
-      <div class="grid" style="grid-template-columns:1fr 340px;gap:16px">
-        <div class="card">
-          <div class="card-kicker">Rota do dia · 12 paradas</div>
-          <div class="map">
-            <span class="pin" style="left:24%;top:30%"></span><span class="pin" style="left:42%;top:52%"></span>
-            <span class="pin" style="left:60%;top:38%"></span><span class="pin" style="left:72%;top:64%"></span>
-            <span class="pin" style="left:34%;top:72%"></span>
-          </div>
-          <p class="muted" style="font-size:12.5px;margin-top:12px">Roteirização por zona · técnico em campo via Auvo (GPS, checklist, foto, assinatura).</p>
-        </div>
-        <div class="card">
-          <div class="card-kicker">Próximas trocas</div>
-          <div class="legend"><span class="dot dot-error"></span><div class="grow">Spa L'Occitane<small style="display:block;color:var(--soft)">Itaim · refil 12%</small></div><span class="pill pill-outline">Hoje</span></div>
-          <div class="legend"><span class="dot dot-warn"></span><div class="grow">Iguatemi<small style="display:block;color:var(--soft)">Faria Lima · refil 9%</small></div><span class="pill pill-outline">Amanhã</span></div>
-          <div class="legend"><span class="dot dot-warn"></span><div class="grow">Hotel Unique<small style="display:block;color:var(--soft)">Jardins · refil 18%</small></div><span class="pill pill-outline">2 dias</span></div>
-          <div class="legend"><span class="dot dot-success"></span><div class="grow">NK Store<small style="display:block;color:var(--soft)">Jardins · refil 31%</small></div><span class="pill pill-outline">5 dias</span></div>
-        </div>
-      </div>
-      <div class="tbl-wrap" style="margin-top:16px">
-        <table class="tbl">
-          <thead><tr><th>OS</th><th>Cliente</th><th>Zona</th><th>Técnico</th><th>Janela</th><th>Status</th></tr></thead>
-          <tbody>
-            <tr><td>#3120</td><td class="nm">Spa L'Occitane</td><td>Itaim</td><td>Bruno</td><td>09:00–11:00</td><td><span class="status"><span class="dot dot-info"></span>Em rota</span></td></tr>
-            <tr><td>#3121</td><td class="nm">Hotel Fasano</td><td>Jardins</td><td>Bruno</td><td>11:30–12:30</td><td><span class="status"><span class="dot dot-soft"></span>Agendada</span></td></tr>
-            <tr><td>#3122</td><td class="nm">Iguatemi</td><td>Faria Lima</td><td>Carla</td><td>14:00–16:00</td><td><span class="status"><span class="dot dot-soft"></span>Agendada</span></td></tr>
-            <tr><td>#3118</td><td class="nm">Clínica Vitalité</td><td>Itaim</td><td>Bruno</td><td>—</td><td><span class="status"><span class="dot dot-success"></span>Concluída</span></td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- ============ ESTOQUE ============ -->
-    <section class="screen" id="estoque">
-      <div class="grid g3">
-        <div class="kpi"><div class="lbl">Essências em estoque</div><div class="val">23</div></div>
-        <div class="kpi"><div class="lbl">Abaixo do mínimo</div><div class="val">4</div><div class="dl down">comprar</div></div>
-        <div class="kpi"><div class="lbl">Validade &lt; 60d</div><div class="val">3</div><div class="dl down">priorizar</div></div>
-      </div>
-      <div class="tbl-wrap" style="margin-top:16px">
-        <table class="tbl">
-          <thead><tr><th>Essência</th><th>SKU</th><th>Status</th><th class="num">Em estoque</th><th class="num">Mínimo</th><th class="num">Validade</th></tr></thead>
-          <tbody>
-            <tr><td class="nm">Bois de Lumière</td><td>ESS-BDL-500</td><td><span class="status"><span class="dot dot-success"></span>OK</span></td><td class="num">42</td><td class="num">15</td><td class="num">mar/27</td></tr>
-            <tr><td class="nm">Néroli Doré</td><td>ESS-NRD-500</td><td><span class="status"><span class="dot dot-warn"></span>Baixo</span></td><td class="num">9</td><td class="num">15</td><td class="num">jan/27</td></tr>
-            <tr><td class="nm">Ambre Nuit</td><td>ESS-AMB-500</td><td><span class="status"><span class="dot dot-error"></span>Crítico</span></td><td class="num">3</td><td class="num">12</td><td class="num">ago/26</td></tr>
-            <tr><td class="nm">Thé Blanc</td><td>ESS-THB-500</td><td><span class="status"><span class="dot dot-success"></span>OK</span></td><td class="num">28</td><td class="num">10</td><td class="num">mai/27</td></tr>
-            <tr><td class="nm">Fleur de Sel</td><td>ESS-FDS-500</td><td><span class="status"><span class="dot dot-warn"></span>Baixo</span></td><td class="num">11</td><td class="num">15</td><td class="num">set/26</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="grid g2" style="margin-top:16px">
-        <div class="alert alert-warn">
-          <svg class="ai" viewBox="0 0 24 24"><path d="M12 9v4M12 17h.01M10.3 3.9l-8 14A2 2 0 004 21h16a2 2 0 001.7-3l-8-14a2 2 0 00-3.4 0z"/></svg>
-          <div><b>Comprar Ambre Nuit</b><p>Última compra R$ 86/un (fev). Cotação atual R$ 91/un. Sugerido: 24 un.</p></div>
-        </div>
-        <div class="card">
-          <div class="card-kicker">Ordens de produção · Bling</div>
-          <div class="legend"><span class="dot dot-info"></span><span class="grow">OP-219 · Néroli Doré ×40</span><span class="pill pill-outline">Em separação</span></div>
-          <div class="legend"><span class="dot dot-success"></span><span class="grow">OP-217 · Thé Blanc ×30</span><span class="pill pill-outline">Concluída</span></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ FINANCEIRO (kanban) ============ -->
-    <section class="screen" id="financeiro">
-      <div class="kan">
-        <div class="kcol"><div class="kh">Proposta <span class="ct">3</span></div>
-          <div class="kcard"><div class="kt">Hotel Unique</div><div class="km">Comodato · 4 máquinas</div><div class="kf"><span class="pill pill-outline">Jardins</span><span class="val">R$ 1.960</span></div></div>
-          <div class="kcard"><div class="kt">Café Suplicy</div><div class="km">Comodato · 1 máquina</div><div class="kf"><span class="pill pill-outline">Itaim</span><span class="val">R$ 490</span></div></div>
-        </div>
-        <div class="kcol"><div class="kh">Contrato <span class="ct">2</span></div>
-          <div class="kcard"><div class="kt">NK Store</div><div class="km">Aguardando Clicksign</div><div class="kf"><span class="status"><span class="dot dot-warn"></span>Pendente</span><span class="val">R$ 1.470</span></div></div>
-        </div>
-        <div class="kcol"><div class="kh">Boleto <span class="ct">4</span></div>
-          <div class="kcard"><div class="kt">Spa L'Occitane</div><div class="km">Vence em 2 dias</div><div class="kf"><span class="status"><span class="dot dot-warn"></span>Aberto</span><span class="val">R$ 980</span></div></div>
-          <div class="kcard"><div class="kt">Clínica Vitalité</div><div class="km">Vence hoje</div><div class="kf"><span class="status"><span class="dot dot-error"></span>Vencendo</span><span class="val">R$ 490</span></div></div>
-        </div>
-        <div class="kcol"><div class="kh">Pago <span class="ct">9</span></div>
-          <div class="kcard"><div class="kt">Hotel Fasano</div><div class="km">Recorrência · jun</div><div class="kf"><span class="status"><span class="dot dot-success"></span>Pago</span><span class="val">R$ 1.470</span></div></div>
-          <div class="kcard"><div class="kt">Iguatemi</div><div class="km">Recorrência · jun</div><div class="kf"><span class="status"><span class="dot dot-success"></span>Pago</span><span class="val">R$ 2.450</span></div></div>
-        </div>
-        <div class="kcol"><div class="kh">Atrasado <span class="ct">2</span></div>
-          <div class="kcard"><div class="kt">Restaurante D.O.M.</div><div class="km">7 dias em atraso</div><div class="kf"><span class="status"><span class="dot dot-error"></span>Cobrar</span><span class="val">R$ 980</span></div></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ CRM ============ -->
-    <section class="screen" id="crm">
-      <div class="grid g4">
-        <div class="kpi"><div class="lbl">Clientes ativos</div><div class="val">86</div></div>
-        <div class="kpi"><div class="lbl">Em risco (churn)</div><div class="val">5</div><div class="dl down">atenção</div></div>
-        <div class="kpi"><div class="lbl">Novos no mês</div><div class="val">4</div><div class="dl up">▲</div></div>
-        <div class="kpi"><div class="lbl">Ticket médio</div><div class="val"><small>R$</small> 1,1<small>k</small></div></div>
-      </div>
-      <div class="tbl-wrap" style="margin-top:16px">
-        <table class="tbl">
-          <thead><tr><th>Cliente</th><th>Máquinas</th><th>Zona</th><th>Desde</th><th>Estado</th><th class="num">MRR</th></tr></thead>
-          <tbody>
-            <tr><td class="nm">Hotel Fasano</td><td>3</td><td>Jardins</td><td>2024</td><td><span class="status"><span class="dot dot-success"></span>Saudável</span></td><td class="num">R$ 1.470</td></tr>
-            <tr><td class="nm">Shopping Iguatemi</td><td>5</td><td>Faria Lima</td><td>2023</td><td><span class="status"><span class="dot dot-success"></span>Saudável</span></td><td class="num">R$ 2.450</td></tr>
-            <tr><td class="nm">Restaurante D.O.M.</td><td>2</td><td>Pinheiros</td><td>2025</td><td><span class="status"><span class="dot dot-error"></span>Em risco</span></td><td class="num">R$ 980</td></tr>
-            <tr><td class="nm">Spa L'Occitane</td><td>2</td><td>Itaim</td><td>2025</td><td><span class="status"><span class="dot dot-warn"></span>Atenção</span></td><td class="num">R$ 980</td></tr>
-            <tr><td class="nm">NK Store</td><td>3</td><td>Jardins</td><td>2026</td><td><span class="status"><span class="dot dot-info"></span>Onboarding</span></td><td class="num">R$ 1.470</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- ============ INDICADORES (BI) ============ -->
-    <section class="screen" id="bi">
-      <div class="grid g4">
-        <div class="kpi"><div class="lbl">MRR</div><div class="val"><small>R$</small> 92,4<small>k</small></div><div class="dl up">▲ 6,1%</div></div>
-        <div class="kpi"><div class="lbl">Churn (mês)</div><div class="val">2,1<small>%</small></div><div class="dl up">▼ melhor</div></div>
-        <div class="kpi"><div class="lbl">LTV médio</div><div class="val"><small>R$</small> 28<small>k</small></div></div>
-        <div class="kpi"><div class="lbl">Ocupação rota</div><div class="val">81<small>%</small></div></div>
-      </div>
-      <div class="grid" style="grid-template-columns:1.6fr 1fr;margin-top:16px">
-        <div class="card">
-          <div class="card-kicker">Receita recorrente · 7 meses</div>
-          <div class="bars">
-            <i style="height:52%"><span>Dez</span></i><i style="height:58%"><span>Jan</span></i><i style="height:55%"><span>Fev</span></i>
-            <i style="height:68%"><span>Mar</span></i><i style="height:74%"><span>Abr</span></i><i style="height:82%"><span>Mai</span></i><i class="hl" style="height:92%"><span>Jun</span></i>
-          </div>
-        </div>
-        <div class="card">
-          <div class="card-kicker">Receita por linha</div>
-          <div class="donut" style="background:conic-gradient(var(--accent) 0 64%,var(--success) 64% 84%,var(--surface-3) 84% 100%)">
-            <div class="c"><b>R$92k</b><small>recorrente</small></div>
-          </div>
-          <div class="legend"><span class="dot dot-soft" style="background:var(--accent)"></span><span class="grow">Refil (recorrente)</span><span>64%</span></div>
-          <div class="legend"><span class="dot dot-success"></span><span class="grow">Serviço / calibragem</span><span>20%</span></div>
-          <div class="legend"><span class="dot dot-soft"></span><span class="grow">Avulso</span><span>16%</span></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ AGENTE IA ============ -->
-    <section class="screen" id="agente">
-      <div class="chatwrap">
-        <div class="clist">
-          <div class="citem sel"><div class="cn">Spa L'Occitane <small>09:12</small></div><div class="cp">Pode trocar quinta de manhã?</div></div>
-          <div class="citem"><div class="cn">Hotel Fasano <small>ontem</small></div><div class="cp">Boleto pago, obrigado!</div></div>
-          <div class="citem"><div class="cn">NK Store <small>ontem</small></div><div class="cp">Contrato assinado ✓</div></div>
-          <div class="citem"><div class="cn">Clínica Vitalité <small>seg</small></div><div class="cp">Aroma está fraco hoje</div></div>
-        </div>
-        <div class="cthread">
-          <div class="cmsgs">
-            <div class="bub in">Oi! O refil do difusor do lobby está em 12% — o aroma deve enfraquecer essa semana.</div>
-            <div class="bub out">Ah sim, pode trocar quinta de manhã?</div>
-            <div class="bub in">Perfeito. Agendei a troca para <b>quinta, 09h–11h</b>, na zona Itaim. Vou confirmar 1 dia antes. 🌿</div>
-            <div class="bub out">Combinado!</div>
-            <div class="bub in">Aproveitando: a fatura de junho (R$ 980) vence em 2 dias. Quer o link do boleto por aqui?</div>
-          </div>
-          <div class="cbar"><span class="fake-inp">Escreva uma mensagem…</span><button class="btn btn-primary btn-sm">Enviar</button></div>
-        </div>
-        <div class="crules">
-          <h4>O que o agente faz</h4>
-          <div class="crule"><span class="dot dot-success" style="margin-top:5px"></span> Lembra a troca antes da "perda"</div>
-          <div class="crule"><span class="dot dot-success" style="margin-top:5px"></span> Agenda no Auvo e confirma</div>
-          <div class="crule"><span class="dot dot-success" style="margin-top:5px"></span> Cobra boleto/assinatura</div>
-          <div class="crule"><span class="dot dot-warn" style="margin-top:5px"></span> Escala dor ao humano</div>
-          <div class="crule"><span class="dot dot-info" style="margin-top:5px"></span> WhatsApp + e-mail</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ CONFIGURAÇÕES ============ -->
-    <section class="screen" id="config">
-      <div class="grid g3">
-        <div class="card"><div class="card-kicker">Integrações</div><h4 class="serif" style="font-size:18px;margin-bottom:6px">Bling, Auvo, Clicksign</h4><p class="muted" style="font-size:13px">Conecte ERP, campo e assinatura.</p><button class="btn btn-secondary btn-sm" style="margin-top:14px">Gerenciar</button></div>
-        <div class="card"><div class="card-kicker">Máquinas &amp; IoT</div><h4 class="serif" style="font-size:18px;margin-bottom:6px">Telemetria &amp; calibragem</h4><p class="muted" style="font-size:13px">Parâmetros, Wi-Fi e níveis.</p><button class="btn btn-secondary btn-sm" style="margin-top:14px">Configurar</button></div>
-        <div class="card"><div class="card-kicker">Zonas &amp; rotas</div><h4 class="serif" style="font-size:18px;margin-bottom:6px">Roteirização</h4><p class="muted" style="font-size:13px">Agrupe clientes por região.</p><button class="btn btn-secondary btn-sm" style="margin-top:14px">Editar zonas</button></div>
-        <div class="card"><div class="card-kicker">Agente de IA</div><h4 class="serif" style="font-size:18px;margin-bottom:6px">Regras &amp; cadência</h4><p class="muted" style="font-size:13px">Tom, follow-up e escalonamento.</p><button class="btn btn-secondary btn-sm" style="margin-top:14px">Ajustar</button></div>
-        <div class="card"><div class="card-kicker">Faturamento</div><h4 class="serif" style="font-size:18px;margin-bottom:6px">Boletos &amp; assinaturas</h4><p class="muted" style="font-size:13px">Recorrência e cobrança.</p><button class="btn btn-secondary btn-sm" style="margin-top:14px">Configurar</button></div>
-        <div class="card"><div class="card-kicker">Equipe</div><h4 class="serif" style="font-size:18px;margin-bottom:6px">Usuários &amp; acessos</h4><p class="muted" style="font-size:13px">Técnicos, comercial e operação.</p><button class="btn btn-secondary btn-sm" style="margin-top:14px">Gerenciar</button></div>
-      </div>
-    </section>
+    
 
   </div></div>
 </main>
@@ -790,12 +556,7 @@ a{color:inherit;text-decoration:none}
 <div class="badge">Protótipo · estrutura do sistema (não a versão final)</div>
 
 <script>
-  var titles={
-    cenario:['Visão geral','Cenário'], materiais:['Visão geral','Materiais'], dashboard:['Operação','Início'], maquinas:['Operação','Máquinas'],
-    logistica:['Operação','Logística & Rotas'], estoque:['Operação','Estoque & Produção'],
-    financeiro:['Comercial','Financeiro & Contratos'], crm:['Comercial','CRM & Clientes'],
-    bi:['Inteligência','Indicadores'], agente:['Inteligência','Agente IA'], config:['Sistema','Configurações']
-  };
+  var titles={ cenario:['Planejamento','Cenário'], materiais:['Planejamento','Materiais'] };
   document.querySelectorAll('.nav a').forEach(function(a){
     a.addEventListener('click',function(){
       var s=a.dataset.s;
@@ -881,78 +642,6 @@ function activate(i,hover){
 }
 mod.addEventListener('pointerleave',function(){activate(0,false);});
 activate(0,false);
-})();
-</script>
-<script>
-/* Skeleton — telas operacionais em construção (sem dados fake) */
-(function(){
-  function rep(h,n){var s='';for(var i=0;i<n;i++)s+=h;return s;}
-  function lines(ws){return ws.map(function(w){return '<span class="sk sk-l" style="width:'+w+'%;display:block;margin-bottom:9px"></span>';}).join('');}
-  function kpis(n){var w=[46,54,40,50,44,58];var s='';for(var i=0;i<n;i++)s+='<div class="sk-c"><span class="sk sk-l" style="width:'+w[i%6]+'%"></span><span class="sk sk-b"></span></div>';return '<div class="sk-kpis">'+s+'</div>';}
-  function bars(hs){return '<div class="sk-bars">'+hs.map(function(h){return '<span class="sk" style="height:'+h+'%"></span>';}).join('')+'</div>';}
-  function head(eb,t,d){return '<div class="sk-head"><div class="eb">'+eb+'</div><h2>'+t+'</h2><p>'+d+'</p></div>';}
-  var NOTE='<div class="sk-note"><i></i> Estrutura ilustrativa do módulo — pronta para receber os dados reais.</div>';
-  var S={};
-
-  S.dashboard=head('Operação · visão geral','Painel inicial','Os números do dia — máquinas ativas, trocas previstas, receita recorrente e alertas — num só relance.')
-    +kpis(4)
-    +'<div class="sk-2col">'
-      +'<div class="sk-card"><div class="sk-ct"><span class="sk sk-l" style="width:170px"></span><span class="sk sk-pill"></span></div>'+bars([52,70,46,82,60,90,68,86,58,94])+'</div>'
-      +'<div class="sk-card"><div class="sk-ct"><span class="sk sk-l" style="width:120px"></span></div>'
-        +rep('<div class="sk-li"><span class="sk" style="width:34px;height:34px;border-radius:50%;flex:none"></span><span class="sk-mb">'+lines([70,40])+'</span></div>',5)
-      +'</div>'
-    +'</div>'+NOTE;
-
-  S.maquinas=head('Operação · frota','Máquinas & telemetria','Cada máquina instalada — nível do refil, cliente, zona e status — pronta para leitura em tempo real.')
-    +'<div class="sk-grid sk-g3">'+rep('<div class="sk-mcard"><span class="sk-gauge"></span><span class="sk-mb">'+lines([72,46])+'<span class="sk sk-pill"></span></span></div>',6)+'</div>'+NOTE;
-
-  S.logistica=head('Operação · rotas','Logística & roteirização','A rota do dia por zona — o mapa dos pontos e a lista ordenada de paradas do técnico.')
-    +'<div class="sk-2col">'
-      +'<div class="sk-map">'+[['18','24'],['40','40'],['62','28'],['52','62'],['78','54'],['30','72'],['68','76']].map(function(p){return '<span class="sk-pin" style="left:'+p[0]+'%;top:'+p[1]+'%"></span>';}).join('')+'</div>'
-      +'<div class="sk-list"><div class="sk-ct"><span class="sk sk-l" style="width:130px"></span></div>'
-        +rep('<div class="sk-li"><span class="sk" style="width:26px;height:26px;border-radius:6px;flex:none"></span><span class="sk-mb">'+lines([66,38])+'</span><span class="sk sk-pill" style="flex:none"></span></div>',6)
-      +'</div>'
-    +'</div>'+NOTE;
-
-  S.estoque=head('Operação · estoque','Estoque & produção','Itens com mínimo/máximo, validade e produção — o agente avisa antes de faltar.')
-    +kpis(3)
-    +'<div class="sk-tbl"><div class="sk-tr h"><span class="sk sk-l" style="width:80px"></span><span class="sk sk-l" style="width:60px"></span><span class="sk sk-l" style="width:70px"></span><span class="sk sk-l" style="width:50px"></span></div>'
-      +rep('<div class="sk-tr"><span class="sk sk-l" style="width:80%"></span><span class="sk" style="height:8px;border-radius:5px"></span><span class="sk sk-l" style="width:55%"></span><span class="sk sk-pill"></span></div>',6)
-    +'</div>'+NOTE;
-
-  S.financeiro=head('Comercial · financeiro','Financeiro & contratos','Receita recorrente, a receber, recebido e inadimplência — boletos e contratos num só lugar.')
-    +kpis(4)
-    +'<div class="sk-tbl"><div class="sk-tr h"><span class="sk sk-l" style="width:90px"></span><span class="sk sk-l" style="width:50px"></span><span class="sk sk-l" style="width:70px"></span><span class="sk sk-l" style="width:50px"></span></div>'
-      +rep('<div class="sk-tr"><span class="sk sk-l" style="width:78%"></span><span class="sk sk-l" style="width:60%"></span><span class="sk sk-l" style="width:65%"></span><span class="sk sk-pill"></span></div>',6)
-    +'</div>'+NOTE;
-
-  S.crm=head('Comercial · CRM','CRM & ciclo de vida','O funil do cliente — nasce, ativa, entra em risco, perde — com alertas de churn.')
-    +'<div class="sk-kan">'+['Lead','Ativo','Em risco','Perdido'].map(function(t){return '<div class="sk-kcol"><div class="sk-ct" style="margin-bottom:11px;padding:2px 4px"><span class="sk sk-l" style="width:58px"></span><span class="sk sk-l" style="width:18px"></span></div>'+rep('<div class="sk-kc">'+lines([80,55])+'</div>',3)+'</div>';}).join('')+'</div>'+NOTE;
-
-  S.bi=head('Inteligência · indicadores','Indicadores','Os gráficos do negócio — receita, churn, consumo por zona e desempenho das trocas.')
-    +'<div class="sk-grid sk-g2">'
-      +'<div class="sk-card"><div class="sk-ct"><span class="sk sk-l" style="width:150px"></span></div>'+bars([60,80,52,90,70,86])+'</div>'
-      +'<div class="sk-card"><div class="sk-ct"><span class="sk sk-l" style="width:120px"></span></div><div style="display:flex;justify-content:center;padding:16px 0"><span class="sk" style="width:150px;height:150px;border-radius:50%"></span></div></div>'
-      +'<div class="sk-card"><div class="sk-ct"><span class="sk sk-l" style="width:140px"></span></div>'+bars([72,54,88,66,92,60,80])+'</div>'
-      +'<div class="sk-card"><div class="sk-ct"><span class="sk sk-l" style="width:110px"></span></div>'+rep('<div class="sk-li"><span class="sk-mb">'+lines([60])+'</span><span class="sk sk-l" style="width:40px;flex:none"></span></div>',4)+'</div>'
-    +'</div>'+NOTE;
-
-  S.agente=head('Inteligência · agente','Agente de IA','O copiloto que atende, cobra e avisa — conversas à esquerda, diálogo e ações à direita.')
-    +'<div class="sk-chat">'
-      +'<div class="sk-conv">'+rep('<div class="sk-li"><span class="sk" style="width:32px;height:32px;border-radius:50%;flex:none"></span><span class="sk-mb">'+lines([70,45])+'</span></div>',6)+'</div>'
-      +'<div class="sk-thread">'
-        +'<div class="sk-bub" style="width:58%">'+lines([90,70])+'</div>'
-        +'<div class="sk-bub me" style="width:50%">'+lines([80,55])+'</div>'
-        +'<div class="sk-bub" style="width:64%">'+lines([95,72,50])+'</div>'
-        +'<div class="sk-bub me" style="width:44%">'+lines([75])+'</div>'
-        +'<span class="sk sk-inp"></span>'
-      +'</div>'
-    +'</div>'+NOTE;
-
-  S.config=head('Sistema · configurações','Configurações','Integrações, máquinas, zonas, agente, faturamento e equipe — tudo num só lugar.')
-    +'<div class="sk-grid sk-g3">'+rep('<div class="sk-card"><div class="sk-ct"><span class="sk sk-l" style="width:120px"></span></div>'+lines([85,58])+'<span class="sk" style="display:block;width:108px;height:30px;border-radius:6px;margin-top:18px"></span></div>',6)+'</div>'+NOTE;
-
-  Object.keys(S).forEach(function(id){var el=document.getElementById(id);if(el)el.innerHTML=S[id];});
 })();
 </script>
 <script>

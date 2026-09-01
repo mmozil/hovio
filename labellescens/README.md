@@ -1,43 +1,55 @@
-# La Belle Scens — Design System
+# La Belle Scens — protótipos (site estático, nginx)
 
-Catálogo de design system da venture **La Belle Scens** (marketing olfativo, Hovio).
-HTML único auto-contido (`index.html`) — tokens + componentes com todos os estados,
-na linguagem visual da Maison Dior (off-white / grafite / serifa elegante / grotesca neutra).
+Venture **La Belle Scens** (marketing olfativo, hub Hovio). Esta é a **pasta única** do
+projeto: deploy LIVE em `https://labellescens.hovio.com.br` + o material de trabalho.
 
-Estrutura: catálogo navegável por categorias (Fundamentos · Componentes · Efeitos),
-estilo `animate-ui.com`. Tema claro/escuro, scroll-spy, copy de tokens.
+> ℹ️ **Consolidação (jul/2026):** antes existiam duas pastas (`La Belle Scens/` +
+> `labellescens/`) com o site **duplicado**. Foram unificadas numa só. Agora o site vive
+> **uma vez** (aqui, versionado no git) e o material-fonte não servido foi pra `_source/`
+> (gitignorado). Não há mais espelho/cópia do projeto.
+
+## Estrutura
+
+```
+labellescens/                 ← pasta única (repo mmozil/hovio · base dir /labellescens)
+├── index.html                ← redirect para /painel/ (31/08)    → servido em /
+├── hero.html                 ← hero morph                        → /hero.html
+├── design-system/            ← DS em rota dedicada               → /design-system/
+├── painel/                   ← hub de PLANEJAMENTO (carrossel + materiais) → /painel/
+├── planning/                 ← planejamento técnico              → /planning/
+├── fluxo/                    ← jornada + proposta                → /fluxo/*
+├── img/                      ← imagens servidas (carrossel recortado, cards, etc.)
+├── fonts/                    ← .woff2 Dior (gitignorados — proprietários)
+├── Dockerfile · nginx.conf   ← deploy (nginx:alpine)
+└── _source/                  ← 🔒 material de trabalho NÃO servido (gitignorado)
+    ├── dior/                 ← scrapes de referência da Maison Dior (base do DS)
+    ├── produtos-raw/         ← fotos de produto originais (raw1–5.png) → recortadas pro carrossel
+    ├── design-assets/        ← SVGs de card (design; não referenciados no site)
+    ├── wireframe/            ← wireframes
+    ├── squad-app/            ← protótipo squad
+    └── *.pdf                 ← doc de design
+```
 
 ## Stack
 
-Estático puro — sem build, sem dependências. Fontes via Google Fonts (fallback livre).
-
-## Tipografia
-
-- **Serif (títulos/marca):** Atacama (Newglyph) — fallback `Cormorant Garamond`
-- **Sans (UI/corpo):** Hellix (Displaay) — fallback `Manrope`
-
-> ⚠️ **Atacama e Hellix são PROPRIETÁRIAS** (fontes reais da Dior). Estão `gitignore`das
-> (`fonts/*.woff2`) — não são versionadas nem distribuídas. O deploy público usa o
-> fallback livre. Para a demo pixel-exata, copie os `.woff2` em `fonts/` localmente.
-> **Licenciar (Newglyph / Displaay) antes de qualquer uso de produção.**
+Estático puro — sem build, sem dependências. Fontes Dior (**Atacama**/Newglyph +
+**Hellix**/Displaay) são **proprietárias** e gitignoradas (`fonts/*.woff2`); o deploy
+público usa o fallback livre (**Cormorant Garamond** + **Hanken Grotesk**).
+Licenciar antes de qualquer uso de produção.
 
 ## Deploy (Hovio · Coolify)
 
-Padrão Hovio (nginx:alpine + Dockerfile), igual ao hub `hovio.com.br`.
-
-1. Commit no monorepo `github.com/mmozil/hovio`.
-2. Nova app Coolify no projeto Hovio (`s88c48s0kg884ck8s0gow440`):
-   - Build pack: **Dockerfile**
-   - Base directory: `/La Belle Scens/design-system`
-   - FQDN: `https://labellescens.hovio.com.br`
-3. DNS (zona CF Tier `cfb5bdd17e99fa38aa877aac99f8be29`): A `labellescens` → `46.224.220.223` (proxied).
+- Repo `github.com/mmozil/hovio` · **base directory `/labellescens`** · build pack **Dockerfile**.
+- Coolify app **`qk08cc8s4kss08cso0kgkgco`** (projeto Hovio `s88c48s0kg884ck8s0gow440`), nginx.
+- FQDN `https://labellescens.hovio.com.br` · DNS via wildcard `*.hovio.com.br` (zona CF Tier).
+- Deploy: `git push` (webhook) ou
+  `curl -H "Authorization: Bearer 5|claude-deploy-token-2026" "https://coolify.tier.finance/api/v1/deploy?uuid=qk08cc8s4kss08cso0kgkgco&force=true"`.
+- ⚠️ O Dockerfile copia **pasta por pasta** (`index.html hero.html painel/ fluxo/ fonts/ img/ design-system/`);
+  rota/pasta nova precisa de `COPY` próprio, senão cai no fallback `try_files → /index.html`.
+  `_source/` é **dockerignorado** — não entra na imagem.
 
 ## Preview local
 
 ```bash
 python -m http.server 8901   # http://127.0.0.1:8901
 ```
-
-Espelhado também em `tier-finance` (preview): `/lab/labellescens-ds`.
-
-Fonte canônica deste arquivo: `D:\Project\Hovio\La Belle Scens\design-system\`.
