@@ -13,173 +13,160 @@
 <script src="/tema.js?v=20260901j"></script>
 <style>
 :root{
-  --bg:#f8f8f8; --surface:#fff; --surface-2:#f1f1ef; --surface-3:#ece9e3;
-  --ink:#33383c; --ink-strong:#1f2326; --soft:#7b8487; --soft-2:#9aa1a3;
-  --line:rgba(51,56,60,.14); --line-strong:#acb2b4; --on-dark:#f6f4ef;
-  --accent:#9c8458; --accent-ink:#6f5c37; --accent-soft:#f3eee2;
-  --success:#5a7d63; --success-soft:#eaf1ec;
-  --warn:#9a7d3c; --warn-soft:#f5efe1;
-  --error:#9a5a5a; --error-soft:#f4eaea;
-  --info:#5a6f8a; --info-soft:#e9eef4;
-  --serif:'Atacama','Cormorant Garamond',Georgia,'Times New Roman',serif;
-  --sans:'Hellix','Hanken Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-  --serif-axes:"wght" 300,"wdth" 100,"CNTR" 20,"XHGT" 0;
-  --r-xs:4px; --r-sm:6px; --r-md:8px; --r-lg:12px; --r-pill:999px;
-  --ease:cubic-bezier(.23,1,.32,1); --t:.4s;
-  --manual:#9a5a5a; --parcial:#9a7d3c; --bloqueado:#5a6f8a; --pronto:#5a7d63;
-  --disp:"wght" 300,"wdth" 100,"CNTR" 20,"XHGT" 0; --nm:"wght" 400,"wdth" 100,"CNTR" 20,"XHGT" 0;
-
+  --bg:#f8f8f8;--surface:#fff;--ink:#33383c;--ink-strong:#1f2326;--soft:#7b8487;--soft-2:#9aa1a3;
+  --line:rgba(51,56,60,.14);--line-strong:#acb2b4;--accent:#9c8458;--accent-ink:#6f5c37;--accent-soft:#f3eee2;
+  --success:#5a7d63;--warn:#9a7d3c;--error:#9a5a5a;--info:#5a6f8a;
+  --manual:#9a5a5a;--parcial:#9a7d3c;--bloqueado:#5a6f8a;--pronto:#5a7d63;
+  --serif:'Atacama','Cormorant Garamond',Georgia,serif;--sans:'Hellix','Hanken Grotesk',-apple-system,'Segoe UI',sans-serif;
+  --disp:"wght" 300,"wdth" 100,"CNTR" 20,"XHGT" 0;--nm:"wght" 400,"wdth" 100,"CNTR" 20,"XHGT" 0;--serif-axes:"wght" 300,"wdth" 100,"CNTR" 20,"XHGT" 0;--ease:cubic-bezier(.22,1,.36,1);
 }
-@media(prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){
-    --bg:#16181a; --surface:#1d2022; --surface-2:#24282b; --surface-3:#2c3033;
-    --ink:#ece9e3; --ink-strong:#fff; --soft:#9aa1a3; --soft-2:#7e8486;
-    --line:rgba(236,233,227,.12); --line-strong:#3a4044; --on-dark:#16181a;
-    --accent:#c4ac79; --accent-ink:#d8c498; --accent-soft:#2a2620;
-    --success-soft:#1e2620; --warn-soft:#2a2418; --error-soft:#2a1d1d; --info-soft:#1d2330;
-  }
-}
-[data-theme="dark"]{
-  --bg:#16181a; --surface:#1d2022; --surface-2:#24282b; --surface-3:#2c3033;
-  --ink:#ece9e3; --ink-strong:#fff; --soft:#9aa1a3; --soft-2:#7e8486;
-  --line:rgba(236,233,227,.12); --line-strong:#3a4044; --on-dark:#16181a;
-  --accent:#c4ac79; --accent-ink:#d8c498; --accent-soft:#2a2620;
-  --success-soft:#1e2620; --warn-soft:#2a2418; --error-soft:#2a1d1d; --info-soft:#1d2330;
-}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background-color:var(--bg);background-image:url('/img/cannage-background.png');background-size:1200px auto;color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+@media(hover:hover){body{cursor:none}}
+a{color:inherit;text-decoration:none}
+b,strong{font-weight:600;color:var(--ink-strong)}
 
-*{box-sizing:border-box}
-body{margin:0;font-family:var(--sans);background:var(--bg);color:var(--ink);
-  font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
-h1,h2,h3,h4{font-family:var(--serif);font-weight:300;font-variation-settings:var(--serif-axes);
-  color:var(--ink-strong);letter-spacing:-.015em;line-height:1.15;margin:0;text-wrap:balance}
-a{color:var(--accent-ink);text-decoration:none}
-a:hover{text-decoration:underline}
-:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.masthead{display:flex;align-items:center;justify-content:space-between;padding:22px 64px 18px;border-bottom:1px solid var(--line)}
+.logo{display:inline-flex;align-items:baseline;gap:8px}
+.logo .lb{font-family:var(--serif);font-size:26px;font-variation-settings:var(--nm);color:var(--ink-strong);letter-spacing:.02em}
+.logo .bdot{width:6px;height:6px;border-radius:50%;background:var(--accent);transform:translateY(-4px)}
+.crumb{display:flex;gap:18px;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--soft-2)}
+.crumb{padding-right:44px}
+.crumb a{transition:color .3s var(--ease)}.crumb a:hover{color:var(--accent-ink)}
+.crumb a.ativo{color:var(--ink-strong)}
+.back-home{display:inline-flex;align-items:center;gap:10px;padding:0 0 6px;border-bottom:1px solid var(--ink);color:var(--ink-strong);font-family:var(--sans);font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:500;transition:color .3s var(--ease),border-color .3s var(--ease)}
+.back-home svg{width:13px;height:13px;transition:transform .3s var(--ease)}
+.back-home:hover{color:var(--accent-ink);border-color:var(--accent)}.back-home:hover svg{transform:translateX(-4px)}
 
-.wrap{max-width:960px;margin:0 auto;padding:0 28px}
+.hero{padding:40px 64px 6px;max-width:1340px;margin:0 auto}
+.kick{font-size:10px;letter-spacing:.34em;text-transform:uppercase;color:var(--accent-ink);margin-bottom:14px}
+.hero h1{font-family:var(--serif);font-weight:300;font-variation-settings:var(--disp);font-size:clamp(30px,4vw,50px);line-height:1.02;letter-spacing:-.022em;color:var(--ink-strong)}
+.hero h1 em{font-style:italic;color:var(--accent-ink)}
+.hero p{margin-top:14px;font-size:14px;line-height:1.6;color:var(--soft);max-width:660px}
+.meta{display:flex;flex-wrap:wrap;gap:14px 34px;margin-top:26px;padding-top:18px;border-top:1px solid var(--line)}
+.meta dt{font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--soft-2);margin-bottom:5px}
+.meta dd{font-size:13.5px;color:var(--ink-strong)}
+.sumario-t{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--soft-2);margin:22px 0 0;padding-top:18px;border-top:1px solid var(--line)}
+.sumario{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-flow:column;grid-template-rows:repeat(6,auto);column-gap:44px;margin-top:4px;font-size:13px}
+.sumario a{display:grid;grid-template-columns:36px 1fr;align-items:baseline;column-gap:8px;padding:9px 0;border-bottom:1px solid var(--line);color:var(--ink);line-height:1.35;transition:color .3s var(--ease)}
+.sumario a:hover{color:var(--accent-ink)}
+.sumario a b{font-family:var(--serif);font-variation-settings:var(--serif-axes);font-weight:300;font-size:13px;letter-spacing:.2em;color:var(--accent-ink)}
 
-/* ── capa ─────────────────────────────────────────────── */
-.capa{padding:88px 0 56px;border-bottom:1px solid var(--line)}
-.marca{font-family:var(--serif);font-variation-settings:var(--serif-axes);
-  font-size:13px;letter-spacing:.34em;text-transform:uppercase;color:var(--soft);margin-bottom:34px}
-.capa h1{font-size:clamp(38px,6vw,64px);margin-bottom:20px}
-.capa .lede{font-size:17px;color:var(--soft);max-width:60ch;line-height:1.65}
-.meta{display:flex;flex-wrap:wrap;gap:26px;margin-top:38px;padding-top:26px;border-top:1px solid var(--line)}
-.meta div{min-width:110px}
-.meta dt{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--soft-2);margin-bottom:5px}
-.meta dd{margin:0;font-size:14px;color:var(--ink-strong)}
+.wrap{max-width:1340px;margin:0 auto;padding:0 64px}
+.sec{padding:46px 0 8px}
+.shead{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:12px 20px;border-bottom:1px solid var(--line);padding-bottom:16px}
+.shead .stt{display:flex;flex-wrap:wrap;align-items:baseline;gap:14px}
+.shead .stag{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--soft-2);white-space:nowrap}
+.shead .sname{font-family:var(--serif);font-weight:320;font-variation-settings:var(--disp);font-size:clamp(22px,2.4vw,30px);color:var(--ink-strong);letter-spacing:-.015em}
+.shead .sname em{font-style:italic;color:var(--accent-ink)}
+.shead .sdesc{font-size:12.5px;line-height:1.5;color:var(--soft);max-width:440px;text-align:right}
+.lead,p.intro{margin-top:18px;font-size:14px;line-height:1.6;color:var(--soft);max-width:660px}
+.lead b,.lead strong,p.intro b,p.intro strong{color:var(--ink-strong)}
+p.intro{margin-top:0;margin-bottom:18px}
+h3.sub{font-family:var(--serif);font-weight:320;font-variation-settings:var(--disp);font-size:22px;color:var(--ink-strong);letter-spacing:-.01em;margin:38px 0 14px}
 
-/* ── seções ───────────────────────────────────────────── */
-section{padding:60px 0;border-bottom:1px solid var(--line)}
-.num{font-family:var(--serif);font-variation-settings:var(--serif-axes);
-  font-size:12px;letter-spacing:.28em;color:var(--accent-ink);margin-bottom:14px}
-section h2{font-size:clamp(26px,3.4vw,36px);margin-bottom:14px}
-section .intro{font-size:15.5px;color:var(--soft);max-width:64ch;margin-bottom:34px}
-
-.grid{display:grid;gap:16px}
-.g2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
-.g3{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
-
-.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:22px 24px}
-.card h3{font-size:19px;margin-bottom:9px}
-.card h4{font-size:15px;margin-bottom:7px}
-.card p{margin:0;color:var(--soft);font-size:13.5px}
+/* cartões — o .pccol do comparativo */
+.grid{display:grid;gap:16px;margin-top:22px}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:26px 28px 28px;display:flex;flex-direction:column;box-shadow:0 1px 2px rgba(31,35,38,.05)}
+.card h3{font-family:var(--serif);font-variation-settings:var(--nm);font-size:19px;color:var(--ink-strong);margin-bottom:8px;letter-spacing:.01em}
+.card h4{font-size:15.5px;font-weight:600;color:var(--ink-strong);margin-bottom:8px;letter-spacing:.01em}
+.card p{font-size:13px;line-height:1.6;color:var(--soft)}
 .card p + p{margin-top:9px}
-.card.accent{background:var(--accent-soft);border-color:transparent}
-.card.warn{background:var(--warn-soft);border-color:transparent}
-.card.info{background:var(--info-soft);border-color:transparent}
+.card.accent{background:linear-gradient(180deg,#fcfaf6,var(--surface) 150px);border-color:color-mix(in srgb,var(--accent) 34%,var(--line))}
+.card.warn{background:var(--surface);border-left:2px solid var(--warn)}
+.card.info{background:var(--surface);border-left:2px solid var(--info)}
+.tag{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--soft-2);background:var(--surface-2,#f2f2f0);border-radius:20px;padding:3px 10px;align-self:flex-start;margin-bottom:14px;font-weight:500}
+.t-novo{color:var(--accent-ink);background:var(--accent-soft)}
+.t-reuso{color:var(--success);background:color-mix(in srgb,var(--success) 12%,var(--surface))}
+.t-fase2{color:var(--soft);background:var(--surface-2,#f2f2f0)}
+.t-risco{color:var(--error);background:color-mix(in srgb,var(--error) 10%,var(--surface))}
+ul.lista{list-style:none;display:flex;flex-direction:column;gap:9px;margin-top:6px}
+ul.lista li{font-size:12.8px;line-height:1.5;color:var(--soft);padding-left:18px;position:relative}
+ul.lista li::before{content:'';position:absolute;left:0;top:8px;width:5px;height:5px;border-radius:50%;background:var(--accent)}
+ul.lista li strong{color:var(--ink-strong)}
+.perfis{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.perfis span{font-size:9px;letter-spacing:.16em;text-transform:uppercase;padding:3px 10px;border-radius:20px;background:var(--surface-2,#f2f2f0);color:var(--soft)}
+.perfis span.t{background:var(--accent-soft);color:var(--accent-ink)}
+.perfis span.a{background:color-mix(in srgb,var(--info) 12%,var(--surface));color:var(--info)}
+.perfis span.g{background:color-mix(in srgb,var(--success) 12%,var(--surface));color:var(--success)}
 
-.tag{display:inline-block;font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;
-  padding:3px 9px;border-radius:var(--r-pill);margin-bottom:11px;font-weight:500}
-.t-novo{background:var(--accent-soft);color:var(--accent-ink)}
-.t-reuso{background:var(--success-soft);color:var(--success)}
-.t-fase2{background:var(--surface-2);color:var(--soft)}
-.t-risco{background:var(--error-soft);color:var(--error)}
-
-table{width:100%;border-collapse:collapse;font-size:13.5px}
-.tabela-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r-lg);background:var(--surface)}
-th{text-align:left;font-weight:500;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;
-  color:var(--soft-2);padding:14px 18px;border-bottom:1px solid var(--line);white-space:nowrap}
-td{padding:14px 18px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink)}
-tr:last-child td{border-bottom:0}
-td strong{color:var(--ink-strong);font-weight:500}
-td .sub{display:block;color:var(--soft);font-size:12.5px;margin-top:3px}
+/* tabelas — o .cmp do comparativo */
+.tabela-wrap{margin-top:22px;background:var(--surface);border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.tabela-wrap table{width:100%;border-collapse:collapse}
+.tabela-wrap th,.tabela-wrap td{text-align:left;padding:13px 22px;font-size:12.8px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.45}
+.tabela-wrap thead th{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--soft-2);font-weight:500;background:var(--surface-2,#fcfbf9)}
+.tabela-wrap td{color:var(--ink)}
+.tabela-wrap td strong{color:var(--ink-strong)}
+.tabela-wrap td .sub{display:block;color:var(--soft);font-size:11.5px;margin-top:3px}
+.tabela-wrap tr:last-child td{border-bottom:0}
+.tabela-wrap .tag{margin:0}
 
 /* diálogo do agente */
-.dialogo{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);
-  padding:24px;display:flex;flex-direction:column;gap:16px}
+.dialogo{margin-top:22px;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:24px 28px;display:flex;flex-direction:column;gap:16px}
 .fala{max-width:82%}
-.fala .quem{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--soft-2);margin-bottom:6px}
-.fala .bolha{padding:13px 17px;border-radius:var(--r-lg);font-size:14px;line-height:1.55}
+.fala .quem{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--soft-2);margin-bottom:6px}
+.fala .bolha{padding:13px 17px;border-radius:6px;font-size:13.5px;line-height:1.55}
 .fala.eu{align-self:flex-end;text-align:right}
-.fala.eu .bolha{background:var(--surface-3);color:var(--ink-strong)}
+.fala.eu .bolha{background:var(--surface-2,#f2f2f0);color:var(--ink-strong)}
 .fala.ag .bolha{background:var(--accent-soft);color:var(--accent-ink)}
-.fala.ag .bolha em{font-style:normal;color:var(--ink-strong);font-weight:500}
+.fala.ag .bolha em{font-style:normal;color:var(--ink-strong);font-weight:600}
 
 /* fases */
 .fase{display:grid;grid-template-columns:124px 1fr;gap:22px;padding:22px 0;border-bottom:1px solid var(--line)}
-.fase:last-child{border-bottom:0}
-.fase .quando{font-family:var(--serif);font-variation-settings:var(--serif-axes);
-  font-size:15px;color:var(--accent-ink);padding-top:2px;white-space:nowrap}
-.fase h4{font-size:17px;margin-bottom:7px}
-.fase p{margin:0;color:var(--soft);font-size:13.5px}
+.fase:last-of-type{border-bottom:0}
+.fase .quando{font-family:var(--serif);font-variation-settings:var(--serif-axes);font-size:15px;color:var(--accent-ink);padding-top:2px;white-space:nowrap}
+.fase h4{font-size:15.5px;font-weight:600;color:var(--ink-strong);margin-bottom:6px}
+.fase p{font-size:13px;line-height:1.6;color:var(--soft)}
 
-ul.lista{margin:12px 0 0;padding:0;list-style:none}
-ul.lista li{position:relative;padding-left:18px;margin-bottom:8px;color:var(--soft);font-size:13.5px}
-ul.lista li::before{content:'';position:absolute;left:0;top:9px;width:5px;height:5px;
-  border-radius:50%;background:var(--line-strong)}
-ul.lista li strong{color:var(--ink-strong);font-weight:500}
+/* nota — o .callout do comparativo */
+.nota{margin-top:22px;background:var(--surface);border:1px solid var(--line);border-left:2px solid var(--accent);border-radius:6px;padding:22px 28px;box-shadow:0 1px 2px rgba(31,35,38,.05);font-size:13.5px;line-height:1.6;color:var(--soft)}
+.nota strong{color:var(--ink-strong)}
 
-.nota{border-left:2px solid var(--accent);padding:4px 0 4px 20px;margin:26px 0;color:var(--soft);font-size:14px}
-.nota strong{color:var(--ink-strong);font-weight:500}
-
-footer{padding:52px 0 80px;color:var(--soft-2);font-size:12.5px}
-footer a{color:var(--soft)}
-
-@media(prefers-reduced-motion:no-preference){
-  section,.capa{animation:sobe .6s var(--ease) both}
-  @keyframes sobe{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-}
-@media(max-width:640px){
-  .fase{grid-template-columns:1fr;gap:8px}
-  .capa{padding:56px 0 40px}
-  section{padding:44px 0}
-}
-
-/* ── app / design system ─────────────────────────────── */
-h3.sub{font-size:22px;margin:40px 0 16px}
-.perfis{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
-.perfis span{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:var(--r-pill);
-  background:var(--surface-2);color:var(--soft)}
-.perfis span.t{background:var(--accent-soft);color:var(--accent-ink)}
-.perfis span.a{background:var(--info-soft);color:var(--info)}
-.perfis span.g{background:var(--success-soft);color:var(--success)}
-.tokens dt{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--soft-2);margin-bottom:4px}
-.tokens dd{margin:0 0 14px;color:var(--ink-strong);font-size:14px}
+/* tokens (design system) */
+.tokens{margin-top:22px}
+.tokens dt{font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--soft-2);margin-bottom:4px}
+.tokens dd{color:var(--ink-strong);font-size:13.5px;margin-bottom:14px}
 .tokens dd .ex{display:inline-block;vertical-align:middle;margin-left:10px;border:1px solid var(--line-strong);background:var(--surface)}
 
-/* ── telas pequenas ──────────────────────────────────── */
-@media(max-width:640px){
-  .wrap{padding:0 20px}
-  .capa{padding:56px 0 40px}
-  .capa h1{font-size:34px}
-  .meta{gap:16px 26px}
-  section{padding:44px 0}
-  section h2{font-size:26px}
-  .fase{grid-template-columns:1fr;gap:6px;padding:18px 0}
+/* rodapé */
+.foot{max-width:1340px;margin:0 auto;padding:40px 64px 70px;font-size:11px;line-height:1.7;color:var(--soft-2);border-top:1px solid var(--line)}
+.foot a{color:var(--soft);border-bottom:1px solid var(--line);transition:color .3s var(--ease)}
+.foot a:hover{color:var(--accent-ink);border-color:var(--accent)}
+
+/* cursor e revelações — como no comparativo */
+.cur{position:fixed;top:0;left:0;width:30px;height:30px;border:1px solid var(--accent);border-radius:50%;transform:translate(-50%,-50%);pointer-events:none;z-index:90;opacity:0;transition:opacity .3s,width .3s var(--ease),height .3s var(--ease),background .3s}
+.cur.on{opacity:1}
+.cur.hot{width:13px;height:13px;background:var(--accent);border-color:var(--accent)}
+.rev{opacity:0;transform:translateY(14px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+.rev.in{opacity:1;transform:none}
+
+@media(max-width:1080px){
+  .masthead,.hero,.wrap,.foot{padding-left:24px;padding-right:24px}
+  .g3{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .shead{flex-direction:column;align-items:flex-start}.shead .sdesc{text-align:left;max-width:none}
   .fala{max-width:100%}
-  .tabela-wrap table{min-width:0}
+}
+@media(max-width:640px){
+  .masthead{padding:16px 20px}.crumb{display:none}
+  .hero{padding:26px 20px 6px}.wrap{padding:0 20px}.foot{padding:30px 20px 60px}
+  .g2,.g3{grid-template-columns:1fr}
+  .sumario{grid-template-columns:1fr;grid-auto-flow:row;grid-template-rows:none}
+  .fase{grid-template-columns:1fr;gap:6px;padding:18px 0}
+  .tabela-wrap{overflow:visible}.tabela-wrap table{min-width:0}
   .tabela-wrap thead{display:none}
   .tabela-wrap tr{display:block;border-bottom:1px solid var(--line);padding:6px 0}
   .tabela-wrap tr:last-child{border-bottom:0}
   .tabela-wrap td{display:block;border-bottom:0;padding:5px 16px}
-  .tabela-wrap td:first-child{padding-top:12px}
-  .tabela-wrap td:last-child{padding-bottom:12px}
+  .tabela-wrap td:first-child{padding-top:12px}.tabela-wrap td:last-child{padding-bottom:12px}
   h3.sub{margin-top:30px}
 }
 
-
 0,400;0,500;0,600;1,300;1,400&family=Hanken+Grotesk:wght@300;400;500;600&display=swap');
+@font-face{font-family:'Atacama';src:url('/fonts/Atacama-VF.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap}
+
 .jintro .kick{font-size:10px;letter-spacing:.34em;text-transform:uppercase;color:var(--accent-ink);margin-bottom:13px}
 
 .jintro h1{font-family:var(--serif);font-weight:300;font-variation-settings:var(--disp);font-size:clamp(30px,4vw,50px);line-height:1;letter-spacing:-.022em;color:var(--ink-strong)}
@@ -361,56 +348,51 @@ h3.sub{font-size:22px;margin:40px 0 16px}
 .mnota strong{color:var(--ink-strong);font-weight:500}
 
 @media(max-width:1080px){.mods{padding:44px 24px 60px}}
-/* ── jornada e módulos dentro do documento ── */
-.wrap.largo{max-width:1240px}
-.jornada .module{margin-top:0}
-section h2 em{font-style:italic;color:var(--accent-ink)}
+/* jornada e módulos dentro do documento */
+.jornada{margin-top:22px}.jornada .module{margin-top:0}
+.mleg{margin-top:22px}
 .dica{background:#1f2326;color:#f6f4ef}
-.mleg{margin-top:0}
 @media(max-width:640px){.mtab table{min-width:560px}}
-
-.sumario-t{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--soft-2);margin:26px 0 0;padding-top:22px;border-top:1px solid var(--line)}
-.sumario{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-flow:column;grid-template-rows:repeat(6,auto);column-gap:44px;margin-top:6px;font-size:13.5px}
-.sumario a{display:grid;grid-template-columns:36px 1fr;align-items:baseline;column-gap:8px;padding:10px 0;border-bottom:1px solid var(--line);color:var(--ink);line-height:1.35;transition:color .2s}
-.sumario a:hover{color:var(--accent-ink);text-decoration:none}
-.sumario a b{font-family:var(--serif);font-variation-settings:var(--serif-axes);font-weight:300;font-size:13px;letter-spacing:.2em;color:var(--accent-ink);margin:0}
-@media(max-width:640px){.sumario{grid-template-columns:1fr;grid-auto-flow:row;grid-template-rows:none;font-size:13px}.sumario a{padding:9px 0}}
+@media(max-width:640px){/* botão do tema */.masthead{padding-right:72px}}
 </style>
 </head>
 <body>
 
-<header class="capa">
-  <div class="wrap">
-    <p class="marca">La Belle Scens</p>
-    <h1>Planejamento técnico</h1>
-    <p class="lede">
-      O sistema que substitui as planilhas, orquestra o que já roda e coloca um analista
-      disponível a qualquer hora — para que a decisão não dependa mais de descer no nível
-      do dado.
-    </p>
-    <dl class="meta">
-      <div><dt>Documento</dt><dd>Planejamento de construção</dd></div>
-      <div><dt>Versão</dt><dd>1 de setembro de 2026 — site e loja incorporados</dd></div>
-      <div><dt>Escopo</dt><dd>Operação Total</dd></div>
-      <div><dt>Estado</dt><dd>Pré-kickoff</dd></div>
-    </dl>
-    <p class="sumario-t">Sumário</p>
-    <nav class="sumario" aria-label="Sumário"><a href="#problema"><b>01</b>O que este documento resolve</a><a href="#jornada"><b>02</b>A jornada – da chegada do cliente à recorrência</a><a href="#modulos"><b>03</b>Os módulos, um a um – e onde as planilhas entram</a><a href="#agente"><b>04</b>O agente que analisa, e não decide</a><a href="#arquitetura"><b>05</b>Arquitetura</a><a href="#integracoes"><b>06</b>Integrações</a><a href="#fases"><b>07</b>Fases</a><a href="#app"><b>08</b>O aplicativo – iOS e Android</a><a href="#design"><b>09</b>Design system e telas</a><a href="#riscos"><b>10</b>O que pode dar errado</a><a href="#site-loja"><b>11</b>O site e a loja – o que muda</a></nav>
+<div class="masthead">
+  <div style="display:flex;align-items:center;gap:16px">
+    <a href="/painel/" class="back-home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>Voltar</a>
+    <div class="logo"><span class="lb">La Belle Scens</span><span class="bdot"></span></div>
   </div>
-</header>
+  <nav class="crumb">
+    <a class="ativo">Planejamento</a>
+    <a href="/fluxo/comparativo.html">Comparativo</a>
+    <a href="/fluxo/investimento.html">Investimento</a>
+  </nav>
+</div>
 
-<section id="problema">
-  <div class="wrap">
-    <p class="num">01</p>
-    <h2>O que este documento resolve</h2>
-    <p class="intro">
-      A operação hoje funciona — mas funciona em seis lugares ao mesmo tempo. O estoque vive
-      numa planilha, o volume vive em outra, a cobrança vive no e-mail e no WhatsApp, a rota
-      sai de uma terceira planilha, e a decisão depende de alguém abrir tudo isso e cruzar na
-      cabeça.
-    </p>
+<div class="hero">
+  <div class="kick">Planejamento · construção do sistema</div>
+  <h1 class="rev">Planejamento <em>técnico</em></h1>
+  <p class="rev">O sistema que substitui as planilhas, orquestra o que já roda e coloca um analista disponível a qualquer hora — para que a decisão não dependa mais de descer no nível do dado.</p>
+  <dl class="meta rev">
+    <div><dt>Documento</dt><dd>Planejamento de construção</dd></div>
+    <div><dt>Versão</dt><dd>1 de setembro de 2026 — site e loja incorporados</dd></div>
+    <div><dt>Escopo</dt><dd>Operação Total</dd></div>
+    <div><dt>Estado</dt><dd>Pré-kickoff</dd></div>
+  </dl>
+  <p class="sumario-t rev">Sumário</p>
+  <nav class="sumario rev" aria-label="Sumário"><a href="#problema"><b>01</b>O que este documento resolve</a><a href="#jornada"><b>02</b>A jornada – da chegada do cliente à recorrência</a><a href="#modulos"><b>03</b>Os módulos, um a um – e onde as planilhas entram</a><a href="#agente"><b>04</b>O agente que analisa, e não decide</a><a href="#arquitetura"><b>05</b>Arquitetura</a><a href="#integracoes"><b>06</b>Integrações</a><a href="#fases"><b>07</b>Fases</a><a href="#app"><b>08</b>O aplicativo – iOS e Android</a><a href="#design"><b>09</b>Design system e telas</a><a href="#riscos"><b>10</b>O que pode dar errado</a><a href="#site-loja"><b>11</b>O site e a loja – o que muda</a></nav>
+</div>
 
-    <div class="grid g2">
+
+<div class="wrap">
+<section class="sec" id="problema">
+  <div class="shead rev">
+    <div class="stt"><span class="stag">01 · O problema</span><span class="sname">O que este documento <em>resolve</em></span></div>
+  </div>
+  <p class="lead rev">A operação hoje funciona — mas funciona em seis lugares ao mesmo tempo. O estoque vive numa planilha, o volume vive em outra, a cobrança vive no e-mail e no WhatsApp, a rota sai de uma terceira planilha, e a decisão depende de alguém abrir tudo isso e cruzar na cabeça.</p>
+
+    <div class="grid g2 rev">
       <div class="card">
         <h3>O problema não é falta de dado</h3>
         <p>
@@ -432,18 +414,15 @@ section h2 em{font-style:italic;color:var(--accent-ink)}
         </ul>
       </div>
     </div>
-  </div>
 </section>
+</div>
 
-<section id="jornada">
-  <div class="wrap largo">
-    <p class="num">02</p>
-    <h2>A jornada — da chegada do cliente à <em>recorrência</em></h2>
-    <p class="intro">
-      A jornada em três tempos: aquisição, recorrência e relacionamento. Passe o mouse em cada
-      etapa para ver o que acontece hoje, a ferramenta atual, onde dói e o que o sistema
-      automatiza.
-    </p>
+<div class="wrap">
+<section class="sec" id="jornada">
+  <div class="shead rev">
+    <div class="stt"><span class="stag">02 · A jornada</span><span class="sname">Da chegada do cliente à <em>recorrência</em></span></div>
+  </div>
+  <p class="lead rev">A jornada em três tempos: aquisição, recorrência e relacionamento. Passe o mouse em cada etapa para ver o que acontece hoje, a ferramenta atual, onde dói e o que o sistema automatiza.</p>
     <div class="jornada">
       <div class="module" id="module"></div>
 
@@ -478,14 +457,15 @@ section h2 em{font-style:italic;color:var(--accent-ink)}
     </div>
   </div>
     </div>
-  </div>
 </section>
+</div>
 
-<section id="modulos">
-  <div class="wrap largo">
-    <p class="num">03</p>
-    <h2>Os módulos, um a um — e <em>onde as planilhas entram</em></h2>
-    <p class="intro">Tudo o que o sistema vai ter, agrupado pelo que é construído, pelo que já vem pronto na Tier Empresas, pelo que fica integrado e pelo que entra na fase 2 — tudo parte da entrega. Passe o mouse (ou toque) em cada módulo para ler o que ele é e por que existe. Em cada um, o item do Anexo I do contrato.</p>
+<div class="wrap">
+<section class="sec" id="modulos">
+  <div class="shead rev">
+    <div class="stt"><span class="stag">03 · Os módulos</span><span class="sname">Um a um — e <em>onde as planilhas entram</em></span></div>
+  </div>
+  <p class="lead rev">Tudo o que o sistema vai ter, agrupado pelo que é construído, pelo que já vem pronto na Tier Empresas, pelo que fica integrado e pelo que entra na fase 2 — tudo parte da entrega. Passe o mouse (ou toque) em cada módulo para ler o que ele é e por que existe. Em cada um, o item do Anexo I do contrato.</p>
     <div class="mleg">
     <span><i style="background:var(--accent)"></i>Construído — Sistema La Belle Scens</span>
     <span><i style="background:var(--pronto)"></i>Tier Empresas — licença incluída</span>
@@ -493,33 +473,29 @@ section h2 em{font-style:italic;color:var(--accent-ink)}
     <span><i style="background:var(--soft-2)"></i>Fase 2 — depois do go-live</span>
     <span><i class="core"></i>onde o projeto se decide</span>
   </div>
-  <div class="mblk"><div class="mblk-h"><span class="mblk-t">O Sistema La Belle Scens</span><span class="mblk-s">12 módulos · construídos · fase 1</span></div><div class="mtiles"><div class="mtile" data-blk="A" data-oq="Clientes, pontos de atendimento, contatos, essências e SKUs, colaboradores e equipes de campo — cada um cadastrado uma vez, com um só nome." data-pq="Hoje o mesmo cliente aparece em três planilhas com três grafias. Sem cadastro único, nada do resto cruza."><span class="id">A1</span><span class="nm">Cadastro central</span><span class="ct">Anexo I · 1.1</span></div><div class="mtile core" data-blk="A" data-oq="Cada máquina como unidade: número de série, modelo, cor, em que ponto está, desde quando, com que programa — e o histórico de trocas e manutenções." data-pq="Máquina é patrimônio que sai e volta, não estoque de consumo. O SAC pede o número de série; o sistema precisa conhecê-lo."><span class="id">A2</span><span class="nm">Máquinas em comodato</span><span class="ct">Anexo I · 1.1</span></div><div class="mtile" data-blk="A" data-oq="O contrato de locação nasce do cadastro — máquinas por modelo, essência, endereços, valor, vencimento, modalidade — e vai para assinatura eletrônica. Assinado, ativa a recorrência." data-pq="As trinta variáveis do modelo hoje são preenchidas à mão. O contrato é a origem da cobrança e da agenda: tem de nascer do dado, não do Word."><span class="id">A3</span><span class="nm">Contrato e assinatura</span><span class="ct">Anexo I · 1.1 + Clicksign</span></div><div class="mtile core" data-blk="A" data-oq="Dois estoques. Máquinas: entram por compra e por devolução, saem por instalação. Consumíveis — refil, aerossol, pilha, insumo: saem pela troca e pela remessa. Mínimo e máximo, validade, item parado, trilha de cada movimento." data-pq="Hoje há três painéis com três saldos para o mesmo dia. A baixa sai da ordem de serviço e o saldo passa a ser um só."><span class="id">A4</span><span class="nm">Estoque</span><span class="ct">Anexo I · 1.2</span></div><div class="mtile core" data-blk="A" data-oq="A calculadora de consumo vira motor: modelo, programa (trabalho e pausa), horário, dias ativos e volume do refil dão a data da próxima troca — e o histórico real das trocas corrige a conta." data-pq="É a «perda». Sem previsão, a troca acontece quando o cliente avisa que o aroma sumiu."><span class="id">A5</span><span class="nm">Previsão de consumo</span><span class="ct">Anexo I · 1.3</span></div><div class="mtile" data-blk="A" data-oq="Trocas organizadas por zona e sub-zona, técnico e dia, janela de atendimento; a rota do dia calculada e desenhada no mapa." data-pq="Os endereços já têm coordenadas na planilha. A rota que hoje sai da cabeça passa a sair do sistema — no mínimo tão boa quanto a manual, que é o critério de aceite."><span class="id">A6</span><span class="nm">Agenda e roteirização</span><span class="ct">Anexo I · 1.4</span></div><div class="mtile" data-blk="A" data-oq="Ordem de serviço no celular do técnico: checklist da troca, foto, assinatura do cliente na tela, baixa automática do refil. iOS e Android, com a marca La Belle Scens." data-pq="O abastecimento adicional só é cobrável com OS assinada — está no contrato de locação de vocês. O app é a prova."><span class="id">A7</span><span class="nm">App de campo</span><span class="ct">Anexo I · 1.5</span></div><div class="mtile core" data-blk="A" data-oq="Para o cliente a mais de 50 km: remessa periódica de refis pelos Correios, instalação remota assistida, chamado com foto e número de série, devolução no encerramento." data-pq="São 146 pontos — quase 40% da base — que não estão em rota nenhuma. O fluxo é outro: envio, não visita."><span class="id">A8</span><span class="nm">Atendimento à distância</span><span class="ct">Anexo I · 1.2 e 1.6</span></div><div class="mtile" data-blk="A" data-oq="Cobrança por contrato e por ciclo; régua de lembrete e de atraso (multa, juros, suspensão aos 30 dias, rescisão aos 60); reajuste anual; adicionais por OS; painel de inadimplência." data-pq="A régua já existe — está escrita no contrato de locação. Hoje ela é cumprida à mão, pelo WhatsApp."><span class="id">A9</span><span class="nm">Cobrança recorrente</span><span class="ct">Anexo I · 1.6</span></div><div class="mtile" data-blk="A" data-oq="O «tem que ter» sai da demanda prevista, o «temos» sai do estoque; a diferença vira ordem de produção, com a essência e o fornecedor de cada fragrância." data-pq="A planilha de produção já faz essa conta, uma vez por mês, no braço. No sistema ela roda todo dia."><span class="id">A10</span><span class="nm">Produção e reposição</span><span class="ct">Anexo I · 1.2</span></div><div class="mtile" data-blk="A" data-oq="Indicadores da operação; relatórios de consumo, estoque, campo e financeiro; exportação em formato aberto; perfis e permissões por pessoa." data-pq="Os dashboards das planilhas viram telas vivas — e ninguém fica preso: tudo exporta."><span class="id">A11</span><span class="nm">Painel e relatórios</span><span class="ct">Anexo I · 1.8</span></div><div class="mtile" data-blk="A" data-oq="Ambiente web responsivo, login com sessão, registro de atividades, notificações." data-pq="É o chão. Quem fez o quê, e quando — para que a trilha exista desde o primeiro dia."><span class="id">A12</span><span class="nm">Plataforma</span><span class="ct">Anexo I · 1.9</span></div></div></div>
-  <div class="mblk"><div class="mblk-h"><span class="mblk-t">Tier Empresas</span><span class="mblk-s">2 módulos · licença incluída · desde a assinatura</span></div><div class="mtiles"><div class="mtile core" data-blk="B" data-oq="Um agente por pessoa, com o acesso de cada uma: reúne, cruza e apresenta — com a fonte e a data de cada número. Não executa sem confirmação. Vigia e avisa no WhatsApp antes de você perguntar." data-pq="«Não quero que ele tome a decisão por mim, mas ter esse poder de analisar.» A regra de projeto é essa frase."><span class="id">B1</span><span class="nm">Agente de IA</span><span class="ct">Anexo I · 3.1 · licença</span></div><div class="mtile" data-blk="B" data-oq="Funil, cadastro com histórico consolidado, tarefas por etapa, segmentação, risco de cancelamento, caixa única de WhatsApp e e-mail." data-pq="Há 908 cancelamentos na planilha e nenhum motivo registrado. O ciclo de vida do cliente passa a ter dono."><span class="id">B2</span><span class="nm">CRM</span><span class="ct">Anexo I · 3.2 · licença</span></div></div></div>
-  <div class="mblk"><div class="mblk-h"><span class="mblk-t">Integrações</span><span class="mblk-s">5 · o que fica, o que é absorvido</span></div><div class="mtiles"><div class="mtile" data-blk="C" data-oq="Produtos, estoque fiscal, ordem de produção e nota fiscal. O sistema lê e escreve por API; o «em separação» deixa de ser manual." data-pq="Já roda e faz bem o que faz. Onde vive o estoque — no sistema ou no Bling — é escolha de vocês, no kickoff."><span class="id">C1</span><span class="nm">Bling</span><span class="ct">fica</span></div><div class="mtile" data-blk="C" data-oq="Assinatura do contrato de locação, disparada pelo próprio fluxo comercial." data-pq="Já é a ferramenta do contrato de vocês."><span class="id">C2</span><span class="nm">Clicksign</span><span class="ct">fica</span></div><div class="mtile" data-blk="C" data-oq="Canais do agente e da régua: lembrete de troca, fatura, cobrança e atendimento." data-pq="É onde o cliente já está."><span class="id">C3</span><span class="nm">WhatsApp e e-mail</span><span class="ct">fica</span></div><div class="mtile" data-blk="C" data-oq="Fica lado a lado com a rota própria até o app de campo provar em campo — inclusive no dia sem sinal." data-pq="Ninguém troca ferramenta de campo no meio da semana. Substituído por etapas."><span class="id">C4</span><span class="nm">Roteirizador atual</span><span class="ct">transição</span></div><div class="mtile" data-blk="C" data-oq="Consumo, comodatos, estoque, produção e calculadora migram para o sistema — e continuam exportáveis." data-pq="São a base do modelo. Nada se perde; deixa de ser digitado duas vezes."><span class="id">C5</span><span class="nm">Planilhas</span><span class="ct">absorvidas</span></div></div></div>
-  <div class="mblk"><div class="mblk-h"><span class="mblk-t">Fase 2 — depois do go-live</span><span class="mblk-s">5 · entram quando a base estiver povoada e o sistema rodando</span></div><div class="mtiles"><div class="mtile" data-blk="D" data-oq="Nível real do refil por sensor e calibragem remota." data-pq="Substitui a previsão sem mexer no resto do sistema."><span class="id">D1</span><span class="nm">Telemetria das máquinas</span><span class="ct">fase 2</span></div><div class="mtile" data-blk="D" data-oq="O agente lê o que chega, resume o que exige resposta e prepara o rascunho para aprovação." data-pq="Precisa da base povoada para ter contexto."><span class="id">D2</span><span class="nm">Triagem de e-mail</span><span class="ct">fase 2</span></div><div class="mtile" data-blk="D" data-oq="Chamado técnico aberto pelo QR Code do equipamento, com série, fotos e histórico." data-pq="O contrato de locação já promete o QR; a gestão completa de chamados entra junto, na fase 2."><span class="id">D3</span><span class="nm">SAC por QR na máquina</span><span class="ct">fase 2</span></div><div class="mtile" data-blk="D" data-oq="Fila local, sincronização diferida e resolução de conflitos." data-pq="Na fase 1 o app opera conectado; o modo sem conexão entra na fase 2, depois que o app provar em campo."><span class="id">D4</span><span class="nm">App sem sinal</span><span class="ct">fase 2</span></div><div class="mtile" data-blk="D" data-oq="Comparação de fornecedores, pedido de compra, contas a pagar." data-pq="Entra na fase 2, quando estoque e produção já estiverem rodando no sistema."><span class="id">D5</span><span class="nm">Compras e cotação</span><span class="ct">fase 2</span></div></div></div>
+  <div class="mblk rev"><div class="mblk-h"><span class="mblk-t">O Sistema La Belle Scens</span><span class="mblk-s">12 módulos · construídos · fase 1</span></div><div class="mtiles"><div class="mtile" data-blk="A" data-oq="Clientes, pontos de atendimento, contatos, essências e SKUs, colaboradores e equipes de campo — cada um cadastrado uma vez, com um só nome." data-pq="Hoje o mesmo cliente aparece em três planilhas com três grafias. Sem cadastro único, nada do resto cruza."><span class="id">A1</span><span class="nm">Cadastro central</span><span class="ct">Anexo I · 1.1</span></div><div class="mtile core" data-blk="A" data-oq="Cada máquina como unidade: número de série, modelo, cor, em que ponto está, desde quando, com que programa — e o histórico de trocas e manutenções." data-pq="Máquina é patrimônio que sai e volta, não estoque de consumo. O SAC pede o número de série; o sistema precisa conhecê-lo."><span class="id">A2</span><span class="nm">Máquinas em comodato</span><span class="ct">Anexo I · 1.1</span></div><div class="mtile" data-blk="A" data-oq="O contrato de locação nasce do cadastro — máquinas por modelo, essência, endereços, valor, vencimento, modalidade — e vai para assinatura eletrônica. Assinado, ativa a recorrência." data-pq="As trinta variáveis do modelo hoje são preenchidas à mão. O contrato é a origem da cobrança e da agenda: tem de nascer do dado, não do Word."><span class="id">A3</span><span class="nm">Contrato e assinatura</span><span class="ct">Anexo I · 1.1 + Clicksign</span></div><div class="mtile core" data-blk="A" data-oq="Dois estoques. Máquinas: entram por compra e por devolução, saem por instalação. Consumíveis — refil, aerossol, pilha, insumo: saem pela troca e pela remessa. Mínimo e máximo, validade, item parado, trilha de cada movimento." data-pq="Hoje há três painéis com três saldos para o mesmo dia. A baixa sai da ordem de serviço e o saldo passa a ser um só."><span class="id">A4</span><span class="nm">Estoque</span><span class="ct">Anexo I · 1.2</span></div><div class="mtile core" data-blk="A" data-oq="A calculadora de consumo vira motor: modelo, programa (trabalho e pausa), horário, dias ativos e volume do refil dão a data da próxima troca — e o histórico real das trocas corrige a conta." data-pq="É a «perda». Sem previsão, a troca acontece quando o cliente avisa que o aroma sumiu."><span class="id">A5</span><span class="nm">Previsão de consumo</span><span class="ct">Anexo I · 1.3</span></div><div class="mtile" data-blk="A" data-oq="Trocas organizadas por zona e sub-zona, técnico e dia, janela de atendimento; a rota do dia calculada e desenhada no mapa." data-pq="Os endereços já têm coordenadas na planilha. A rota que hoje sai da cabeça passa a sair do sistema — no mínimo tão boa quanto a manual, que é o critério de aceite."><span class="id">A6</span><span class="nm">Agenda e roteirização</span><span class="ct">Anexo I · 1.4</span></div><div class="mtile" data-blk="A" data-oq="Ordem de serviço no celular do técnico: checklist da troca, foto, assinatura do cliente na tela, baixa automática do refil. iOS e Android, com a marca La Belle Scens." data-pq="O abastecimento adicional só é cobrável com OS assinada — está no contrato de locação de vocês. O app é a prova."><span class="id">A7</span><span class="nm">App de campo</span><span class="ct">Anexo I · 1.5</span></div><div class="mtile core" data-blk="A" data-oq="Para o cliente a mais de 50 km: remessa periódica de refis pelos Correios, instalação remota assistida, chamado com foto e número de série, devolução no encerramento." data-pq="São 146 pontos — quase 40% da base — que não estão em rota nenhuma. O fluxo é outro: envio, não visita."><span class="id">A8</span><span class="nm">Atendimento à distância</span><span class="ct">Anexo I · 1.2 e 1.6</span></div><div class="mtile" data-blk="A" data-oq="Cobrança por contrato e por ciclo; régua de lembrete e de atraso (multa, juros, suspensão aos 30 dias, rescisão aos 60); reajuste anual; adicionais por OS; painel de inadimplência." data-pq="A régua já existe — está escrita no contrato de locação. Hoje ela é cumprida à mão, pelo WhatsApp."><span class="id">A9</span><span class="nm">Cobrança recorrente</span><span class="ct">Anexo I · 1.6</span></div><div class="mtile" data-blk="A" data-oq="O «tem que ter» sai da demanda prevista, o «temos» sai do estoque; a diferença vira ordem de produção, com a essência e o fornecedor de cada fragrância." data-pq="A planilha de produção já faz essa conta, uma vez por mês, no braço. No sistema ela roda todo dia."><span class="id">A10</span><span class="nm">Produção e reposição</span><span class="ct">Anexo I · 1.2</span></div><div class="mtile" data-blk="A" data-oq="Indicadores da operação; relatórios de consumo, estoque, campo e financeiro; exportação em formato aberto; perfis e permissões por pessoa." data-pq="Os dashboards das planilhas viram telas vivas — e ninguém fica preso: tudo exporta."><span class="id">A11</span><span class="nm">Painel e relatórios</span><span class="ct">Anexo I · 1.8</span></div><div class="mtile" data-blk="A" data-oq="Ambiente web responsivo, login com sessão, registro de atividades, notificações." data-pq="É o chão. Quem fez o quê, e quando — para que a trilha exista desde o primeiro dia."><span class="id">A12</span><span class="nm">Plataforma</span><span class="ct">Anexo I · 1.9</span></div></div></div>
+  <div class="mblk rev"><div class="mblk-h"><span class="mblk-t">Tier Empresas</span><span class="mblk-s">2 módulos · licença incluída · desde a assinatura</span></div><div class="mtiles"><div class="mtile core" data-blk="B" data-oq="Um agente por pessoa, com o acesso de cada uma: reúne, cruza e apresenta — com a fonte e a data de cada número. Não executa sem confirmação. Vigia e avisa no WhatsApp antes de você perguntar." data-pq="«Não quero que ele tome a decisão por mim, mas ter esse poder de analisar.» A regra de projeto é essa frase."><span class="id">B1</span><span class="nm">Agente de IA</span><span class="ct">Anexo I · 3.1 · licença</span></div><div class="mtile" data-blk="B" data-oq="Funil, cadastro com histórico consolidado, tarefas por etapa, segmentação, risco de cancelamento, caixa única de WhatsApp e e-mail." data-pq="Há 908 cancelamentos na planilha e nenhum motivo registrado. O ciclo de vida do cliente passa a ter dono."><span class="id">B2</span><span class="nm">CRM</span><span class="ct">Anexo I · 3.2 · licença</span></div></div></div>
+  <div class="mblk rev"><div class="mblk-h"><span class="mblk-t">Integrações</span><span class="mblk-s">5 · o que fica, o que é absorvido</span></div><div class="mtiles"><div class="mtile" data-blk="C" data-oq="Produtos, estoque fiscal, ordem de produção e nota fiscal. O sistema lê e escreve por API; o «em separação» deixa de ser manual." data-pq="Já roda e faz bem o que faz. Onde vive o estoque — no sistema ou no Bling — é escolha de vocês, no kickoff."><span class="id">C1</span><span class="nm">Bling</span><span class="ct">fica</span></div><div class="mtile" data-blk="C" data-oq="Assinatura do contrato de locação, disparada pelo próprio fluxo comercial." data-pq="Já é a ferramenta do contrato de vocês."><span class="id">C2</span><span class="nm">Clicksign</span><span class="ct">fica</span></div><div class="mtile" data-blk="C" data-oq="Canais do agente e da régua: lembrete de troca, fatura, cobrança e atendimento." data-pq="É onde o cliente já está."><span class="id">C3</span><span class="nm">WhatsApp e e-mail</span><span class="ct">fica</span></div><div class="mtile" data-blk="C" data-oq="Fica lado a lado com a rota própria até o app de campo provar em campo — inclusive no dia sem sinal." data-pq="Ninguém troca ferramenta de campo no meio da semana. Substituído por etapas."><span class="id">C4</span><span class="nm">Roteirizador atual</span><span class="ct">transição</span></div><div class="mtile" data-blk="C" data-oq="Consumo, comodatos, estoque, produção e calculadora migram para o sistema — e continuam exportáveis." data-pq="São a base do modelo. Nada se perde; deixa de ser digitado duas vezes."><span class="id">C5</span><span class="nm">Planilhas</span><span class="ct">absorvidas</span></div></div></div>
+  <div class="mblk rev"><div class="mblk-h"><span class="mblk-t">Fase 2 — depois do go-live</span><span class="mblk-s">5 · entram quando a base estiver povoada e o sistema rodando</span></div><div class="mtiles"><div class="mtile" data-blk="D" data-oq="Nível real do refil por sensor e calibragem remota." data-pq="Substitui a previsão sem mexer no resto do sistema."><span class="id">D1</span><span class="nm">Telemetria das máquinas</span><span class="ct">fase 2</span></div><div class="mtile" data-blk="D" data-oq="O agente lê o que chega, resume o que exige resposta e prepara o rascunho para aprovação." data-pq="Precisa da base povoada para ter contexto."><span class="id">D2</span><span class="nm">Triagem de e-mail</span><span class="ct">fase 2</span></div><div class="mtile" data-blk="D" data-oq="Chamado técnico aberto pelo QR Code do equipamento, com série, fotos e histórico." data-pq="O contrato de locação já promete o QR; a gestão completa de chamados entra junto, na fase 2."><span class="id">D3</span><span class="nm">SAC por QR na máquina</span><span class="ct">fase 2</span></div><div class="mtile" data-blk="D" data-oq="Fila local, sincronização diferida e resolução de conflitos." data-pq="Na fase 1 o app opera conectado; o modo sem conexão entra na fase 2, depois que o app provar em campo."><span class="id">D4</span><span class="nm">App sem sinal</span><span class="ct">fase 2</span></div><div class="mtile" data-blk="D" data-oq="Comparação de fornecedores, pedido de compra, contas a pagar." data-pq="Entra na fase 2, quando estoque e produção já estiverem rodando no sistema."><span class="id">D5</span><span class="nm">Compras e cotação</span><span class="ct">fase 2</span></div></div></div>
 
-  <div class="mblk"><div class="mblk-h"><span class="mblk-t">As planilhas de 27 de agosto, e em qual módulo cada uma entra</span><span class="mblk-s">12 arquivos · 9 origens</span></div>
+  <div class="mblk rev"><div class="mblk-h"><span class="mblk-t">As planilhas de 27 de agosto, e em qual módulo cada uma entra</span><span class="mblk-s">12 arquivos · 9 origens</span></div>
   <div class="mtab"><table><thead><tr><th>Planilha</th><th>O que guarda</th><th>Entra em</th></tr></thead><tbody><tr><td><strong>ESTOQUE MÁQUINAS NEW · VISÃO ESTOQUE · MÁQUINAS SAÍDAS</strong></td><td>Doze modelos de máquina, entradas e saídas no período, saldo, «dias até acabar» com os limites de 60 e 120 dias.</td><td><span class="m">A4</span><span class="m">A11</span></td></tr><tr><td><strong>CONSUMO GERAL — REFIL E AERO</strong></td><td>Por cliente: essência, máquinas por modelo, plano mensal de aerossol (meses alternados) e duração da programação. As tabelas dinâmicas somam a demanda por essência.</td><td><span class="m">A5</span><span class="m">A10</span></td></tr><tr><td><strong>CALCULADORA UNIVERSAL LBSC</strong></td><td>Grades por modelo (trabalho e pausa), consumo calibrado em g/h, horário, dias ativos → data do próximo abastecimento; aerossol por jatos e intervalo.</td><td><span class="m">A5</span></td></tr><tr><td><strong>COMODATO 2026 › COMODATOS</strong></td><td>239 pontos em rota: técnico e dia da semana, essências e aerossóis por modelo, zona e sub-zona, endereço com coordenadas, próximas trocas de refil e de pilha.</td><td><span class="m">A1</span><span class="m">A2</span><span class="m">A6</span><span class="m">A7</span></td></tr><tr><td><strong>COMODATO 2026 › À DISTÂNCIA</strong></td><td>146 clientes atendidos por remessa de refil.</td><td><span class="m">A8</span></td></tr><tr><td><strong>COMODATO 2026 › CANCELADOS</strong></td><td>908 encerramentos: data, modalidade, retorno do equipamento.</td><td><span class="m">B2</span><span class="m">A4</span></td></tr><tr><td><strong>PRODUÇÃO AEROSSOL</strong></td><td>«Tem que ter» − «temos» = produzir, por fragrância, com a essência e o fornecedor.</td><td><span class="m">A10</span><span class="m">C1</span></td></tr><tr><td><strong>COMPARAÇÃO DE FORNECEDORES</strong></td><td>Cotação de insumos (frasco, tampa, vareta).</td><td><span class="m">D5</span></td></tr><tr><td><strong>CONTRATO DE LOCAÇÃO + FICHA DE VARIÁVEIS</strong></td><td>Trinta variáveis, tabela de preço por modelo (mensal, refil adicional, reposição), régua de atraso, modalidades presencial e à distância.</td><td><span class="m">A3</span><span class="m">A9</span><span class="m">A8</span></td></tr></tbody></table></div>
   </div>
 
   <div class="mnota"><strong>O estoque é onde o projeto se decide primeiro.</strong> Máquina é patrimônio em comodato — sai instalada, volta no cancelamento, tem número de série. Refil, aerossol e pilha são consumo. São dois estoques com regras diferentes, e a pergunta do kickoff é uma só: o consumível vive no próprio sistema ou continua no Bling, integrado. As duas respostas estão previstas no contrato; a escolha é de vocês.</div>
-  </div>
 </section>
+</div>
 <div class="dica" id="dica" aria-hidden="true"></div>
 
 
-<section id="agente">
-  <div class="wrap">
-    <p class="num">04</p>
-    <h2>O agente que analisa, e não decide</h2>
-    <p class="intro">
-      Esta seção nasce do áudio de 27 de agosto. O pedido foi específico e a distinção
-      importa: <strong>“não quero que ele tome a decisão por mim, mas ter esse poder de
-      analisar o que eu tenho colocado”</strong>. O agente reúne, cruza e apresenta. Quem decide
-      é você.
-    </p>
+<div class="wrap">
+<section class="sec" id="agente">
+  <div class="shead rev">
+    <div class="stt"><span class="stag">04 · O agente</span><span class="sname">Analisa, <em>não decide</em></span></div>
+  </div>
+  <p class="lead rev">Esta seção nasce do áudio de 27 de agosto. O pedido foi específico e a distinção importa: <strong>“não quero que ele tome a decisão por mim, mas ter esse poder de analisar o que eu tenho colocado”</strong>. O agente reúne, cruza e apresenta. Quem decide é você.</p>
 
-    <div class="dialogo">
+    <div class="dialogo rev">
       <div class="fala eu">
         <p class="quem">Você</p>
         <div class="bolha">Como está meu fluxo de caixa nos próximos 30 dias?</div>
@@ -599,26 +575,23 @@ section h2 em{font-style:italic;color:var(--accent-ink)}
       </div>
     </div>
 
-    <p class="nota">
+    <p class="nota rev">
       <strong>Sobre a rotina e o e-mail.</strong> Foi mencionado no áudio e entra como quarta
       frente do agente: triagem do que chega, resumo do que exige resposta e rascunho pronto
       para você aprovar. Fica na fase 2 — depois que os dados da operação estiverem dentro do
       sistema, porque é deles que o agente tira contexto para responder bem.
     </p>
-  </div>
 </section>
+</div>
 
-<section id="arquitetura">
-  <div class="wrap">
-    <p class="num">05</p>
-    <h2>Arquitetura</h2>
-    <p class="intro">
-      Um sistema próprio no centro, orquestrando o que já funciona. Nada é trocado só por ser
-      novo: o que a Tier Empresas já resolve entra como reúso e barateia o projeto; o que é do
-      mundo do aroma é construído do zero.
-    </p>
+<div class="wrap">
+<section class="sec" id="arquitetura">
+  <div class="shead rev">
+    <div class="stt"><span class="stag">05 · A base</span><span class="sname">Arquitetura — <em>uma base só</em></span></div>
+  </div>
+  <p class="lead rev">Um sistema próprio no centro, orquestrando o que já funciona. Nada é trocado só por ser novo: o que a Tier Empresas já resolve entra como reúso e barateia o projeto; o que é do mundo do aroma é construído do zero.</p>
 
-    <div class="tabela-wrap">
+    <div class="tabela-wrap rev">
       <table>
         <thead>
           <tr><th>Camada</th><th>O que faz</th><th>Origem</th></tr>
@@ -658,25 +631,23 @@ section h2 em{font-style:italic;color:var(--accent-ink)}
       </table>
     </div>
 
-    <p class="nota">
+    <p class="nota rev">
       <strong>Enquanto não há sensor, há histórico.</strong> A previsão da “perda” no primeiro
       ano sai do consumo observado — máquina, ambiente e frequência — alimentada pela base de
       volume que hoje vive na planilha. Quando a telemetria existir, ela substitui a previsão
       sem mexer no resto do sistema.
     </p>
-  </div>
 </section>
+</div>
 
-<section id="integracoes">
-  <div class="wrap">
-    <p class="num">06</p>
-    <h2>Integrações</h2>
-    <p class="intro">
-      Cada integração precisa justificar por que existe. As que ficam, ficam porque fazem algo
-      que não vale reconstruir; as que saem, saem porque o sistema passa a fazer melhor.
-    </p>
+<div class="wrap">
+<section class="sec" id="integracoes">
+  <div class="shead rev">
+    <div class="stt"><span class="stag">06 · O que se liga</span><span class="sname">Integrações — <em>o que fica ligado</em></span></div>
+  </div>
+  <p class="lead rev">Cada integração precisa justificar por que existe. As que ficam, ficam porque fazem algo que não vale reconstruir; as que saem, saem porque o sistema passa a fazer melhor.</p>
 
-    <div class="tabela-wrap">
+    <div class="tabela-wrap rev">
       <table>
         <thead>
           <tr><th>Sistema</th><th>Papel</th><th>Situação</th></tr>
@@ -715,17 +686,15 @@ section h2 em{font-style:italic;color:var(--accent-ink)}
         </tbody>
       </table>
     </div>
-  </div>
 </section>
+</div>
 
-<section id="fases">
-  <div class="wrap">
-    <p class="num">07</p>
-    <h2>Fases</h2>
-    <p class="intro">
-      Cerca de dez semanas até o go-live, na ordem que reduz risco: primeiro o que sustenta
-      tudo, por último o que depende de tudo.
-    </p>
+<div class="wrap">
+<section class="sec" id="fases">
+  <div class="shead rev">
+    <div class="stt"><span class="stag">07 · O caminho</span><span class="sname">Fases — <em>dez semanas até o go-live</em></span></div>
+    <div class="sdesc">Cerca de dez semanas até o go-live, na ordem que reduz risco: primeiro o que sustenta tudo, por último o que depende de tudo.</div>
+  </div>
 
     <div class="fase">
       <div class="quando">Semana 1</div>
@@ -787,7 +756,7 @@ section h2 em{font-style:italic;color:var(--accent-ink)}
       Faz parte do que vamos construir. Entra depois porque depende da base povoada e do sistema
       rodando — não porque fique de fora.
     </p>
-    <div class="grid g3">
+    <div class="grid g3 rev">
       <div class="card">
         <span class="tag t-fase2">Fase 2</span>
         <h4>Telemetria das máquinas</h4>
@@ -814,22 +783,19 @@ section h2 em{font-style:italic;color:var(--accent-ink)}
         <p>Comparação de fornecedores, pedido de compra e contas a pagar, quando estoque e produção já estiverem rodando no sistema.</p>
       </div>
     </div>
-  </div>
 </section>
+</div>
 
 
 
-<section id="app">
-  <div class="wrap">
-    <p class="num">08</p>
-    <h2>O aplicativo — iOS e Android</h2>
-    <p class="intro">
-      Um aplicativo próprio, com a marca La Belle Scens, na mesma base do painel. Três perfis
-      entram nele — e cada um vê só o que é seu. Nasce funcionando pelo navegador do celular e é
-      publicado nas duas lojas em contas da própria La Belle Scens.
-    </p>
+<div class="wrap">
+<section class="sec" id="app">
+  <div class="shead rev">
+    <div class="stt"><span class="stag">08 · O aplicativo</span><span class="sname">iOS e <em>Android</em></span></div>
+  </div>
+  <p class="lead rev">Um aplicativo próprio, com a marca La Belle Scens, na mesma base do painel. Três perfis entram nele — e cada um vê só o que é seu. Nasce funcionando pelo navegador do celular e é publicado nas duas lojas em contas da própria La Belle Scens.</p>
 
-    <div class="grid g3">
+    <div class="grid g3 rev">
       <div class="card">
         <span class="tag t-novo">Técnico</span>
         <h4>Quem está na rua</h4>
@@ -848,7 +814,7 @@ section h2 em{font-style:italic;color:var(--accent-ink)}
     </div>
 
     <h3 class="sub">O que o app precisa ter</h3>
-    <div class="grid g2">
+    <div class="grid g2 rev">
       <div class="card"><h4>Acompanhamento das rotas</h4><p>O mapa com a posição de cada técnico, o ponto atual, as próximas paradas e o atraso — o que hoje o roteirizador mostra, dentro do nosso sistema. O técnico vê a própria rota; gestor e atendente veem todas.</p><div class="perfis"><span class="g">Gestor</span><span class="a">Atendente</span><span class="t">Técnico · a própria</span></div></div>
       <div class="card"><h4>Ordem de serviço</h4><p>Cada ponto da rota vira uma OS: checklist da troca, foto, o que foi trocado, observação. Fechou, deu baixa no estoque e atualizou a previsão da próxima troca.</p><div class="perfis"><span class="t">Técnico</span></div></div>
       <div class="card"><h4>Assinatura na tela</h4><p>O cliente assina no celular do técnico e recebe o recibo por WhatsApp ou e-mail. Sem assinatura não existe abastecimento adicional cobrável — é o contrato de locação quem diz.</p><div class="perfis"><span class="t">Técnico</span></div></div>
@@ -863,25 +829,22 @@ section h2 em{font-style:italic;color:var(--accent-ink)}
       <div class="card"><h4>Notificações</h4><p>OS nova, remarcação, atraso na rota, estoque abaixo do mínimo, aviso do agente — no celular, sem abrir nada.</p><div class="perfis"><span class="t">Técnico</span><span class="a">Atendente</span><span class="g">Gestor</span></div></div>
     </div>
 
-    <p class="nota">
+    <p class="nota rev">
       <strong>Sem sinal.</strong> Nesta fase o aplicativo opera conectado; o trabalho em subsolo e
       pátio sem rede — fila local, sincronização depois, resolução de conflito — entra na fase 2 do
       app, depois que ele provar em campo. Até lá, o roteirizador atual fica ao lado.
     </p>
-  </div>
 </section>
+</div>
 
-<section id="design">
-  <div class="wrap">
-    <p class="num">09</p>
-    <h2>Design system e telas</h2>
-    <p class="intro">
-      O sistema herda a linguagem que a La Belle Scens já tem nas páginas de apresentação — as
-      mesmas fontes, a mesma paleta — e ganha o que um sistema de operação precisa: componentes
-      prontos, acessíveis e consistentes, cantos mais suaves, e tela que se adapta ao aparelho.
-    </p>
+<div class="wrap">
+<section class="sec" id="design">
+  <div class="shead rev">
+    <div class="stt"><span class="stag">09 · A forma</span><span class="sname">Design system <em>e telas</em></span></div>
+  </div>
+  <p class="lead rev">O sistema herda a linguagem que a La Belle Scens já tem nas páginas de apresentação — as mesmas fontes, a mesma paleta — e ganha o que um sistema de operação precisa: componentes prontos, acessíveis e consistentes, cantos mais suaves, e tela que se adapta ao aparelho.</p>
 
-    <div class="grid g2">
+    <div class="grid g2 rev">
       <div class="card">
         <h4>As fontes continuam as mesmas</h4>
         <p><strong>Atacama</strong> nos títulos e <strong>Hellix</strong> na interface — as que já
@@ -919,7 +882,7 @@ section h2 em{font-style:italic;color:var(--accent-ink)}
     </dl>
 
     <h3 class="sub">Responsivo à tela</h3>
-    <div class="grid g3">
+    <div class="grid g3 rev">
       <div class="card">
         <h4>Mesa</h4>
         <p>Painel completo com barra lateral, tabelas largas e mapa lado a lado com a lista.</p>
@@ -936,22 +899,21 @@ section h2 em{font-style:italic;color:var(--accent-ink)}
       </div>
     </div>
 
-    <p class="nota">
+    <p class="nota rev">
       <strong>Este documento já segue a regra:</strong> é a mesma página em qualquer largura, sem
       rolagem lateral — as tabelas viram cartões abaixo de 640 px.
     </p>
-  </div>
 </section>
+</div>
 
-<section id="riscos">
-  <div class="wrap">
-    <p class="num">10</p>
-    <h2>O que pode dar errado</h2>
-    <p class="intro">
-      Listado agora porque risco declarado cedo é barato, e risco descoberto na semana 7 é caro.
-    </p>
+<div class="wrap">
+<section class="sec" id="riscos">
+  <div class="shead rev">
+    <div class="stt"><span class="stag">10 · Riscos</span><span class="sname">O que pode <em>dar errado</em></span></div>
+    <div class="sdesc">Listado agora porque risco declarado cedo é barato, e risco descoberto na semana 7 é caro.</div>
+  </div>
 
-    <div class="grid g2">
+    <div class="grid g2 rev">
       <div class="card warn">
         <span class="tag t-risco">Trava o cronograma</span>
         <h4>Os dados chegaram — mas não batem entre si</h4>
@@ -990,22 +952,18 @@ section h2 em{font-style:italic;color:var(--accent-ink)}
         </p>
       </div>
     </div>
-  </div>
 </section>
+</div>
 
-<section id="site-loja">
-  <div class="wrap">
-    <p class="num">11</p>
-    <h2>O site e a loja — o que muda</h2>
-    <p class="intro">
-      O site institucional e a loja virtual foram olhados como parte do mesmo sistema: a marca que
-      está nestas páginas, o cadastro de produto que vai viver no estoque e a recorrência que o
-      sistema vai prever. Abaixo, o que encontramos e o que mudaria — em desenho, fotos, texto,
-      estrutura, jornada de compra e rotina.
-    </p>
+<div class="wrap">
+<section class="sec" id="site-loja">
+  <div class="shead rev">
+    <div class="stt"><span class="stag">11 · Site e loja</span><span class="sname">O site e a loja — <em>o que muda</em></span></div>
+  </div>
+  <p class="lead rev">O site institucional e a loja virtual foram olhados como parte do mesmo sistema: a marca que está nestas páginas, o cadastro de produto que vai viver no estoque e a recorrência que o sistema vai prever. Abaixo, o que encontramos e o que mudaria — em desenho, fotos, texto, estrutura, jornada de compra e rotina.</p>
 
-    <h3 class="sub">O que vimos, sem maquiar</h3>
-    <div class="grid g2">
+    <h3 class="sub">O estudo: site institucional, loja virtual, blog e canais</h3>
+    <div class="grid g2 rev">
       <div class="card">
         <span class="tag t-risco">Site institucional</span>
         <h4>labellescens.com.br</h4>
@@ -1028,6 +986,28 @@ section h2 em{font-style:italic;color:var(--accent-ink)}
           <li><strong>O que é bom e fica:</strong> catálogo já cadastrado (limpar, não recriar), depoimentos, fotos da linha decorativa.</li>
         </ul>
       </div>
+      <div class="card">
+        <span class="tag t-risco">Blog</span>
+        <h4>labellescens.com.br/blog</h4>
+        <ul class="lista">
+          <li><strong>Quase uma centena de artigos indexados</strong> (o site anuncia 165) — é o maior ativo de busca da marca, e vive no sistema fechado da agência.</li>
+          <li>Capas quebradas na home, sem categorias nem tempo de leitura, sem chamada para ação no fim do texto; títulos escritos para o termo de busca, não para quem lê.</li>
+          <li>Nenhum processo: pauta, escrita, revisão e publicação dependem de alguém lembrar.</li>
+          <li><strong>O que entra — a automação do blog:</strong> os artigos migram com o endereço preservado e capa em todos; <strong>o agente rascunha</strong> a partir das perguntas reais do WhatsApp e do SAC (pauta mensal), com fonte obrigatória e sem inventar número; revisão humana em dois passos; publicação agendada; capa gerada no padrão; distribuição para Instagram, newsletter e WhatsApp; leitura mensal do que rendeu.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <span class="tag t-risco">Canais e medição</span>
+        <h4>Instagram · Google · newsletter · WhatsApp</h4>
+        <ul class="lista">
+          <li><strong>Instagram</strong> aparece na loja e não no site; não está ligado ao catálogo.</li>
+          <li><strong>Google Perfil da Empresa</strong> é de onde vêm os depoimentos — sem fotos novas nem horário revisado.</li>
+          <li><strong>Newsletter</strong> existe na loja, sem régua: quem cadastra não recebe nada.</li>
+          <li><strong>WhatsApp</strong>: um botão por cartão na loja, nenhum com contexto; ninguém sabe de que página a pessoa veio.</li>
+          <li>Nenhuma medição: cliques, conversão da loja e recompra de refil não são olhados.</li>
+          <li><strong>O que entra:</strong> perfil do Google com fotos e horário; Instagram ligado ao catálogo; newsletter mensal automática (o mesmo rascunho do blog vira e-mail); WhatsApp com mensagem pré-escrita por página e produto; painel mensal de cliques, conversão e recompra.</li>
+        </ul>
+      </div>
     </div>
 
     <h3 class="sub">A direção</h3>
@@ -1035,7 +1015,7 @@ section h2 em{font-style:italic;color:var(--accent-ink)}
       Uma marca só, nos três lugares: a linguagem que já está nestas páginas. Luxo se lê no espaço e na
       foto; e-commerce se lê na comparação e na ficha. Nada de gradiente, brilho ou movimento por moda.
     </p>
-    <div class="grid g2">
+    <div class="grid g2 rev">
       <div class="card"><h4>Uma marca só</h4><p>Atacama nos títulos, Hellix no resto; grafite e fundo claro; dourado só em detalhe — nunca em botão. Verde-petróleo e rosa saem dos dois.</p></div>
       <div class="card"><h4>A foto é a protagonista</h4><p>Sessão de produto (cinco fotos por item: frente, lado, escala, ambiente, detalhe) sobre fundo neutro com luz lateral — sem frutas, sem madeira rústica. E uma sessão de campo: a máquina na recepção da clínica, no salão da academia, no provador da loja.</p></div>
       <div class="card"><h4>Texto que responde</h4><p>Cada página de segmento escrita para aquele lugar, com um caso e um número. Cada produto com a ficha que a Cibele hoje responde no WhatsApp: área, consumo, duração do refil, refil compatível, garantia, o que vem na caixa.</p></div>
@@ -1043,7 +1023,7 @@ section h2 em{font-style:italic;color:var(--accent-ink)}
     </div>
 
     <h3 class="sub">O que muda, frente a frente</h3>
-    <div class="tabela-wrap">
+    <div class="tabela-wrap rev">
       <table>
         <thead><tr><th>Frente</th><th>Hoje</th><th>Depois</th></tr></thead>
         <tbody>
@@ -1054,6 +1034,8 @@ section h2 em{font-style:italic;color:var(--accent-ink)}
           <tr><td><strong>Jornada de compra</strong></td><td>Site e loja misturam quem quer contrato e quem quer comprar um difusor</td><td>Duas portas na home: <em>para o meu negócio</em> (avaliação → WhatsApp) e <em>para mim</em> (loja); frete e prazo antes do carrinho</td></tr>
           <tr><td><strong>Recorrência</strong></td><td>Refil avulso depende de o cliente lembrar</td><td>Lembrete na data prevista pela calculadora, com link direto ao refil certo — a loja vira braço da troca</td></tr>
           <tr><td><strong>Rotina</strong></td><td>Cadastro à mão na loja, foto quando dá, post pela agência</td><td>Cadastro no sistema publica no site e na loja; padrão de fotos; blog no próprio site, com capa obrigatória</td></tr>
+          <tr><td><strong>Blog</strong></td><td>Artigos pela agência, sem capa em parte, sem categoria, sem processo</td><td>Blog no próprio site; capa obrigatória; categorias; <strong>o agente rascunha a partir das dúvidas reais</strong>, revisão humana, publicação agendada, distribuição e medição</td></tr>
+          <tr><td><strong>Canais</strong></td><td>Instagram só na loja; Google sem foto nova; newsletter sem régua; WhatsApp sem contexto</td><td>Perfil do Google atualizado; Instagram ligado ao catálogo; newsletter mensal automática; WhatsApp com mensagem por página</td></tr>
           <tr><td><strong>Busca (SEO)</strong></td><td>Depende das 122 páginas</td><td>Redirecionamento página a página (nada de tráfego perdido), sitemap, títulos humanos; Search Console olhado todo mês</td></tr>
           <tr><td><strong>Cookies</strong></td><td>Janela que cobre o conteúdo</td><td>Faixa discreta no rodapé, com escolha</td></tr>
         </tbody>
@@ -1061,7 +1043,7 @@ section h2 em{font-style:italic;color:var(--accent-ink)}
     </div>
 
     <h3 class="sub">As páginas</h3>
-    <div class="grid g2">
+    <div class="grid g2 rev">
       <div class="card">
         <h4>Site</h4>
         <ul class="lista">
@@ -1087,33 +1069,25 @@ section h2 em{font-style:italic;color:var(--accent-ink)}
 
     <h3 class="sub">A ordem de execução</h3>
     <div class="fase"><div class="quando">1</div><div><h4>Fotos e cadastro</h4><p>Sessão de produto e de campo; limpeza do catálogo (duplicados, grafias, fichas). É o item que trava os outros — vem primeiro.</p></div></div>
-    <div class="fase"><div class="quando">2</div><div><h4>Site novo</h4><p>Home, como funciona, oito segmentos, essências, linhas, sobre, contato; blog migrado; formulário e WhatsApp com contexto.</p></div></div>
+    <div class="fase"><div class="quando">2</div><div><h4>Site novo</h4><p>Home, como funciona, oito segmentos, essências, linhas, sobre, contato; blog migrado com a automação de pauta, rascunho e publicação; canais ligados; formulário e WhatsApp com contexto.</p></div></div>
     <div class="fase"><div class="quando">3</div><div><h4>Loja</h4><p>Tema na marca na plataforma atual — ou a loja dentro do sistema, no mesmo estoque, se essa for a decisão do kickoff. Fichas, filtros por m², refil pela máquina.</p></div></div>
     <div class="fase"><div class="quando">4</div><div><h4>Busca e redirecionamentos</h4><p>Mapa das 122 páginas antigas para as novas, sitemap, títulos, medição.</p></div></div>
     <div class="fase"><div class="quando">5</div><div><h4>Virada e acompanhamento</h4><p>Publicação, checagem em três larguras e dois temas, e um mês olhando cliques no WhatsApp, conversão da loja e recompra de refil.</p></div></div>
 
-    <p class="nota">
+    <p class="nota rev">
       <strong>Decisões que ficam com vocês:</strong> a loja continua na plataforma atual ou entra no
       sistema (segue a escolha do estoque); quem fotografa e quando; os casos e números de cada
       segmento (a Cibele e o Gustavo dão, nós escrevemos); e o que fazer com as páginas antigas de
       busca — redirecionar todas ou manter as dez com mais tráfego.
     </p>
-  </div>
 </section>
+</div>
 
-<footer>
-  <div class="wrap">
-    <p>
-      La Belle Scens · Planejamento técnico · 31 de agosto de 2026 ·
-      <a href="/painel/">painel</a> ·
-      <a href="/fluxo/investimento.html">proposta</a> ·
-      <a href="/fluxo/comparativo.html">comparativo</a>
-    </p>
-    <p style="margin-top:8px">
-      Documento de trabalho — muda conforme as decisões do kickoff.
-    </p>
-  </div>
-</footer>
+<div class="foot">
+  La Belle Scens · Planejamento técnico · <a href="/painel/">painel</a> · <a href="/fluxo/comparativo.html">comparativo</a> · <a href="/fluxo/investimento.html">investimento</a><br>
+  Documento de trabalho — muda conforme as decisões do kickoff.
+</div>
+<div class="cur" id="cur"></div>
 
 <script>
 const STEPS=[
@@ -1204,6 +1178,17 @@ activate(0,false);
     });
   }
 })();
+</script>
+<script>
+const cur=document.getElementById('cur');
+let mx=innerWidth/2,my=innerHeight/2,cx=mx,cy=my,on=false;
+if(matchMedia('(hover:hover) and (pointer:fine)').matches){
+  addEventListener('pointermove',e=>{mx=e.clientX;my=e.clientY;if(!on){on=true;cur.classList.add('on');}});
+  addEventListener('pointerover',e=>cur.classList.toggle('hot',!!e.target.closest('a,.card,.mtile,.step,button')));
+  (function loop(){cx+=(mx-cx)*.2;cy+=(my-cy)*.2;cur.style.transform='translate('+cx+'px,'+cy+'px) translate(-50%,-50%)';requestAnimationFrame(loop);})();
+}
+const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}})},{threshold:.08});
+document.querySelectorAll('.rev').forEach(el=>io.observe(el));
 </script>
 </body>
 </html>

@@ -30,8 +30,9 @@ a{color:inherit;text-decoration:none}
 .logo .lb{font-family:var(--serif);font-size:26px;font-variation-settings:var(--nm);color:var(--ink-strong);letter-spacing:.02em}
 .logo .bdot{width:6px;height:6px;border-radius:50%;background:var(--accent);transform:translateY(-4px)}
 .crumb{display:flex;gap:18px;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--soft-2)}
+.crumb{padding-right:44px}
 .crumb a{transition:color .3s var(--ease)}.crumb a:hover{color:var(--accent-ink)}
-.crumb a.cur{color:var(--ink-strong)}
+.crumb a.ativo{color:var(--ink-strong)}
 .back-home{display:inline-flex;align-items:center;gap:10px;padding:0 0 6px;border-bottom:1px solid var(--ink);color:var(--ink-strong);font-family:var(--sans);font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:500;transition:color .3s var(--ease),border-color .3s var(--ease)}
 .back-home svg{width:13px;height:13px;transition:transform .3s var(--ease)}
 .back-home:hover{color:var(--accent-ink);border-color:var(--accent)}.back-home:hover svg{transform:translateX(-4px)}
@@ -152,6 +153,7 @@ a{color:inherit;text-decoration:none}
   .shead{flex-direction:column}.shead .sdesc{text-align:left}
 }
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}.rev{opacity:1;transform:none}}
+@media(max-width:640px){/* botão do tema */.masthead{padding-right:72px}}
 </style>
 </head>
 <body>
@@ -163,7 +165,7 @@ a{color:inherit;text-decoration:none}
   </div>
   <nav class="crumb">
     <a href="/fluxo/a.html">Jornada</a>
-    <a class="cur">Comparativo</a>
+    <a class="ativo">Comparativo</a>
     <a href="/fluxo/investimento.html">Investimento</a>
   </nav>
 </div>
