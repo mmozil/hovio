@@ -9,8 +9,8 @@
 <link rel="preload" href="/fonts/HellixVAR.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="preload" href="/fonts/Atacama-Italic-VF.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="stylesheet" href="/fonts/fontes.css?v=20260901" />
-<link rel="stylesheet" href="/tema.css?v=20260901h" />
-<script src="/tema.js?v=20260901h"></script>
+<link rel="stylesheet" href="/tema.css?v=20260901i" />
+<script src="/tema.js?v=20260901i"></script>
 <style>
 /* ====== Fontes ====== */
 /* Fontes REAIS Dior — Atacama (serif) + Hellix (sans), variáveis. TESTE/DEMO (proprietárias: Newglyph + Displaay). Licenciar p/ produção. */
@@ -415,6 +415,12 @@ a{color:inherit;text-decoration:none}
 .sk-bub.me{align-self:flex-end;background:var(--accent-soft);border-color:transparent}
 .sk-inp{height:42px;border-radius:9px;margin-top:auto}
 @media(max-width:1080px){.sk-2col,.sk-chat{grid-template-columns:1fr}.sk-g3,.sk-g4,.sk-kan{grid-template-columns:repeat(2,1fr)}}
+
+/* ── páginas dentro da casca ── */
+/* iframe como filho flex não estica (fica nos 150 px padrão) — preenchimento absoluto é o que funciona */
+.content.embed{padding:0;overflow:hidden;position:relative;background-image:none}
+.screen--embed.active{display:block;position:absolute;inset:0;animation:none}
+.embed{width:100%;height:100%;border:0;display:block;background:var(--bg)}
 </style>
 </head>
 <body>
@@ -428,10 +434,10 @@ a{color:inherit;text-decoration:none}
     <div class="nav-h">Planejamento</div>
     <a data-s="cenario" class="active">Cenário</a>
     <a data-s="materiais">Materiais</a>
-    <a href="/planning/">Planejamento técnico</a>
-    <a href="/fluxo/comparativo.html">Comparativo</a>
-    <a href="/fluxo/investimento.html">Investimento</a>
-    <a href="/design-system/">Design System</a>
+    <a data-s="planning">Planejamento técnico</a>
+    <a data-s="comparativo">Comparativo</a>
+    <a data-s="investimento">Investimento</a>
+    <a data-s="design">Design System</a>
   </nav>
   <div class="side-foot">
     <span class="avatar"><img src="/img/favicon.png" alt="" style="width:22px;height:22px;object-fit:contain" /></span>
@@ -465,10 +471,10 @@ a{color:inherit;text-decoration:none}
             <div class="dh-track">
               <a class="dh-card" data-nav="cenario"><span class="img"><span class="img-z" style="background-image:url('/img/cenario.webp')"></span></span><span class="dh-cap"><span class="dh-eb">La Belle Scens</span><span class="t">Cenário</span><span class="l">Abrir</span></span></a>
               <a class="dh-card" data-nav="materiais"><span class="img"><span class="img-z" style="background-image:url('/img/materiais.webp')"></span></span><span class="dh-cap"><span class="dh-eb">La Belle Scens</span><span class="t">Materiais</span><span class="l">Abrir</span></span></a>
-              <a class="dh-card" href="/planning/#jornada"><span class="img"><span class="img-z" style="background-image:url('/img/planejamento.webp')"></span></span><span class="dh-cap"><span class="dh-eb">La Belle Scens</span><span class="t">Planejamento</span><span class="l">Abrir</span></span></a>
-              <a class="dh-card" href="/fluxo/comparativo.html"><span class="img"><span class="img-z" style="background-image:url('/img/comparativo.webp')"></span></span><span class="dh-cap"><span class="dh-eb">La Belle Scens</span><span class="t">Comparativo · Auvo</span><span class="l">Abrir</span></span></a>
-              <a class="dh-card" href="/planning/"><span class="img"><span class="img-z" style="background-image:url('/img/operacao.webp')"></span></span><span class="dh-cap"><span class="dh-eb">La Belle Scens</span><span class="t">Planejamento técnico</span><span class="l">Abrir</span></span></a>
-              <a class="dh-card" href="/fluxo/investimento.html"><span class="img"><span class="img-z" style="background-image:url('/img/investimento.webp')"></span></span><span class="dh-cap"><span class="dh-eb">La Belle Scens</span><span class="t">Investimento</span><span class="l">Abrir</span></span></a>
+              <a class="dh-card" href="#planning/jornada"><span class="img"><span class="img-z" style="background-image:url('/img/planejamento.webp')"></span></span><span class="dh-cap"><span class="dh-eb">La Belle Scens</span><span class="t">Planejamento</span><span class="l">Abrir</span></span></a>
+              <a class="dh-card" href="#comparativo"><span class="img"><span class="img-z" style="background-image:url('/img/comparativo.webp')"></span></span><span class="dh-cap"><span class="dh-eb">La Belle Scens</span><span class="t">Comparativo · Auvo</span><span class="l">Abrir</span></span></a>
+              <a class="dh-card" href="#planning"><span class="img"><span class="img-z" style="background-image:url('/img/operacao.webp')"></span></span><span class="dh-cap"><span class="dh-eb">La Belle Scens</span><span class="t">Planejamento técnico</span><span class="l">Abrir</span></span></a>
+              <a class="dh-card" href="#investimento"><span class="img"><span class="img-z" style="background-image:url('/img/investimento.webp')"></span></span><span class="dh-cap"><span class="dh-eb">La Belle Scens</span><span class="t">Investimento</span><span class="l">Abrir</span></span></a>
             </div>
           </div>
           <div class="dh-nav">
@@ -492,19 +498,19 @@ a{color:inherit;text-decoration:none}
       <div class="mat-group">
         <div class="mat-gh">Planejamento &amp; fluxos</div>
         <div class="mat-grid">
-          <a class="mat-card" href="/planning/" target="_blank" rel="noopener">
+          <a class="mat-card" href="#planning">
             <div class="mt">Planejamento</div>
             <div class="mn">Planejamento técnico</div>
             <div class="md">O documento de construção, num só lugar: a jornada, os 24 módulos, o agente, a arquitetura, as integrações, as fases (com a fase 2), o aplicativo iOS e Android e o design system.</div>
             <span class="mo">Abrir <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></span>
           </a>
-          <a class="mat-card" href="/planning/#modulos" target="_blank" rel="noopener">
+          <a class="mat-card" href="#planning/modulos">
             <div class="mt">Módulos</div>
             <div class="mn">Os módulos, um a um</div>
             <div class="md">O quadro de 24 módulos — construídos, Tier Empresas, integrações e fase 2 — com o que cada um é, por que existe e em qual deles cada planilha entra.</div>
             <span class="mo">Abrir <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></span>
           </a>
-          <a class="mat-card" href="/planning/#jornada" target="_blank" rel="noopener">
+          <a class="mat-card" href="#planning/jornada">
             <div class="mt">Jornada</div>
             <div class="mn">Jornada do cliente</div>
             <div class="md">As 11 etapas em três tempos (aquisição · recorrência · relacionamento), com o que automatizar em cada uma.</div>
@@ -516,7 +522,7 @@ a{color:inherit;text-decoration:none}
       <div class="mat-group">
         <div class="mat-gh">Design System</div>
         <div class="mat-grid">
-          <a class="mat-card" href="/design-system/" target="_blank" rel="noopener">
+          <a class="mat-card" href="#design">
             <div class="mt">Linguagem</div>
             <div class="mn">Catálogo do Design System</div>
             <div class="md">Tokens, tipografia, cores e componentes da identidade da marca — a base visual do sistema e do app, agora com cantos mais arredondados.</div>
@@ -528,13 +534,13 @@ a{color:inherit;text-decoration:none}
       <div class="mat-group">
         <div class="mat-gh">Comercial</div>
         <div class="mat-grid">
-          <a class="mat-card" href="/fluxo/comparativo.html" target="_blank" rel="noopener">
+          <a class="mat-card" href="#comparativo">
             <div class="mt">Análise</div>
             <div class="mn">Comparativo · nosso sistema × Auvo</div>
             <div class="md">Módulo a módulo, sem maquiar: prós e contras, o que o Auvo não faz, a IA e o que vamos construir para vocês.</div>
             <span class="mo">Abrir <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></span>
           </a>
-          <a class="mat-card" href="/fluxo/investimento.html" target="_blank" rel="noopener">
+          <a class="mat-card" href="#investimento">
             <div class="mt">Proposta</div>
             <div class="mn">Investimento</div>
             <div class="md">A proposta de automação da operação — escopo, horas, planos e cronograma de go-live.</div>
@@ -544,6 +550,12 @@ a{color:inherit;text-decoration:none}
       </div>
     </section>
 
+    <!-- ============ PÁGINAS DENTRO DA CASCA (iframe sob demanda) ============ -->
+    <section class="screen screen--embed" id="planning" data-src="/planning/"><iframe class="embed" title="Planejamento técnico"></iframe></section>
+    <section class="screen screen--embed" id="comparativo" data-src="/fluxo/comparativo.html"><iframe class="embed" title="Comparativo"></iframe></section>
+    <section class="screen screen--embed" id="investimento" data-src="/fluxo/investimento.html"><iframe class="embed" title="Investimento"></iframe></section>
+    <section class="screen screen--embed" id="design" data-src="/design-system/"><iframe class="embed" title="Design System"></iframe></section>
+
     
 
   </div></div>
@@ -552,19 +564,36 @@ a{color:inherit;text-decoration:none}
 <div class="badge">Planejamento · material de trabalho (não a versão final do sistema)</div>
 
 <script>
-  var titles={ cenario:['Planejamento','Cenário'], materiais:['Planejamento','Materiais'] };
+  var titles={ cenario:['Planejamento','Cenário'], materiais:['Planejamento','Materiais'],
+    planning:['Planejamento','Planejamento técnico'], comparativo:['Planejamento','Comparativo'],
+    investimento:['Planejamento','Investimento'], design:['Planejamento','Design System'] };
+  var content=document.querySelector('.content');
+  function ativar(s,anchor,fromHash){
+    if(!titles[s])s='cenario';
+    document.querySelectorAll('.nav a').forEach(function(x){x.classList.toggle('active',x.dataset.s===s)});
+    document.querySelectorAll('.screen').forEach(function(x){x.classList.toggle('active',x.id===s)});
+    var sec=document.getElementById(s), emb=sec.classList.contains('screen--embed');
+    content.classList.toggle('embed',emb);
+    document.getElementById('crumb').textContent=titles[s][0];
+    document.getElementById('scrTitle').textContent=titles[s][1];
+    if(emb){
+      var f=sec.querySelector('iframe'), base=sec.getAttribute('data-src'), alvo=base+(anchor?'#'+anchor:'');
+      /* carrega sob demanda; com âncora nova numa página já aberta, só muda o fragmento */
+      if(!f.getAttribute('src')) f.setAttribute('src',alvo);
+      else if(anchor) { try{ f.contentWindow.location.hash=anchor; }catch(e){ f.setAttribute('src',alvo); } }
+    } else { content.scrollTop=0; }
+    var h='#'+s+(anchor?'/'+anchor:'');
+    if(!fromHash && location.hash!==h) history.replaceState(null,'',h);
+  }
+  function porHash(){
+    var m=(location.hash||'').replace(/^#/,'').split('/');
+    ativar(m[0]||'cenario', m[1]||'', true);
+  }
   document.querySelectorAll('.nav a').forEach(function(a){
-    a.addEventListener('click',function(){
-      var s=a.dataset.s;
-      if(!s)return; // links externos (ex: Planejamento) navegam normalmente
-      document.querySelectorAll('.nav a').forEach(function(x){x.classList.remove('active')});a.classList.add('active');
-      document.querySelectorAll('.screen').forEach(function(x){x.classList.remove('active')});
-      document.getElementById(s).classList.add('active');
-      document.getElementById('crumb').textContent=titles[s][0];
-      document.getElementById('scrTitle').textContent=titles[s][1];
-      document.querySelector('.content').scrollTop=0;
-    });
+    a.addEventListener('click',function(){ if(a.dataset.s) ativar(a.dataset.s,'',false); });
   });
+  window.addEventListener('hashchange',porHash);
+  porHash();
   // tema claro/escuro
   // chat: selecionar conversa
   document.querySelectorAll('.citem').forEach(function(c){

@@ -15,12 +15,12 @@ labellescens/                 ← pasta única (repo mmozil/hovio · base dir /l
 ├── index.html                ← redirect para /painel/ (31/08)    → servido em /
 ├── hero.html                 ← hero morph                        → /hero.html
 ├── design-system/            ← DS em rota dedicada               → /design-system/
-├── painel/                   ← hub de PLANEJAMENTO (carrossel + materiais) → /painel/
+├── painel/                   ← a CASCA: barra lateral fixa; planning/comparativo/investimento/DS abrem em iframe (#planning, #comparativo…) → /painel/
 ├── planning/                 ← planejamento técnico              → /planning/
 ├── fluxo/                    ← jornada + proposta                → /fluxo/*
 ├── img/                      ← imagens servidas (carrossel recortado, cards, etc.)
 ├── fonts/                    ← .woff2 Dior (gitignorados — proprietários)
-├── tema.css · tema.js        ← tema claro/escuro + link «Voltar» (→ /painel/) de todo o site (botão = SVG fornecido pelo dono, icon_shadelight.svg, em currentColor; localStorage «lbs-tema»)
+├── tema.css · tema.js        ← tema claro/escuro de todo o site (modo embutido dentro do painel: sem botão próprio, links roteiam pela casca) (botão = SVG fornecido pelo dono, icon_shadelight.svg, em currentColor; localStorage «lbs-tema»)
 ├── fonts/fontes.css          ← @font-face único (Atacama/Hellix block+preload; reservas em fonts/livres/)
 ├── Dockerfile · nginx.conf   ← deploy (nginx:alpine) — ⚠️ arquivo novo na raiz precisa de COPY
 └── _source/                  ← 🔒 material de trabalho NÃO servido (gitignorado)

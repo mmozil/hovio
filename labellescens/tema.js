@@ -16,6 +16,24 @@
     }
   }
   aplicar(ler() || sistema());
+
+  /* Dentro da casca (/painel/): a página esconde o próprio botão de tema e o «Voltar», e os links para
+     outras páginas passam a rotear pela casca. O tema chega pelo evento storage (mesma origem). */
+  var embutido = false; try { embutido = window.self !== window.top; } catch (e) { embutido = true; }
+  if (embutido) h.classList.add('lbs-embutido');
+  window.addEventListener('storage', function (e) { if (e.key === KEY) aplicar(e.newValue === 'dark' || e.newValue === 'light' ? e.newValue : sistema()); });
+  function rotearNaCasca() {
+    if (!embutido) return;
+    var mapa = { '/planning/': 'planning', '/fluxo/comparativo.html': 'comparativo', '/fluxo/investimento.html': 'investimento', '/design-system/': 'design', '/fluxo/a.html': 'planning' };
+    var links = document.querySelectorAll('a[href]');
+    for (var i = 0; i < links.length; i++) {
+      var l = links[i], href = l.getAttribute('href') || '';
+      if (href.indexOf('/painel/') === 0) { l.setAttribute('href', '/painel/' + (href.indexOf('#') > -1 ? href.slice(href.indexOf('#')) : '')); l.setAttribute('target', '_top'); continue; }
+      var caminho = href.split('#')[0], frag = href.indexOf('#') > -1 ? href.slice(href.indexOf('#') + 1) : '';
+      if (mapa[caminho]) { l.setAttribute('href', '/painel/#' + mapa[caminho] + (frag ? '/' + frag : '')); l.setAttribute('target', '_top'); }
+    }
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', rotearNaCasca); else rotearNaCasca();
   if (mq && mq.addEventListener) mq.addEventListener('change', function (e) { if (!ler()) aplicar(e.matches ? 'dark' : 'light'); });
 
   /* Ícone: o SVG fornecido pelo dono (icon_shadelight.svg — anel + hachura diagonal na metade inferior direita),
@@ -24,7 +42,7 @@
 
   function montar() {
     var bts = document.querySelectorAll('[data-tema-toggle]');
-    if (!bts.length) {
+    if (!bts.length && !embutido) {
       var b = document.createElement('button');
       b.type = 'button'; b.className = 'lbs-tema lbs-tema--flutuante'; b.setAttribute('data-tema-toggle', '');
       document.body.appendChild(b); bts = [b];
@@ -41,20 +59,5 @@
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', montar); else montar();
 
-  /* «Voltar» em toda página. O painel é a casa (não recebe). Página que já tem o seu (.back-home)
-     não ganha outro. Se houver [data-voltar-slot] o link entra ali (DS, hero); senão, flutua no
-     canto superior esquerdo, par do botão de tema. */
-  function voltar() {
-    var path = location.pathname.replace(/index\.html$/, '');
-    if (path === '/painel/' || path === '/') return;
-    if (document.querySelector('.back-home, [data-voltar]')) return;
-    var slot = document.querySelector('[data-voltar-slot]');
-    var a = document.createElement('a');
-    a.href = '/painel/'; a.setAttribute('data-voltar', ''); a.setAttribute('aria-label', 'Voltar ao painel');
-    a.className = 'lbs-voltar' + (slot ? ' lbs-voltar--slot' : ' lbs-voltar--flutuante');
-    a.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>Voltar';
-    if (slot) slot.insertBefore(a, slot.firstChild); else document.body.appendChild(a);
-  }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', voltar); else voltar();
 
 })();
