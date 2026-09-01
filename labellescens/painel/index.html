@@ -5,14 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>La Belle Scens — Painel</title>
 <link rel="icon" type="image/png" href="/img/favicon.png" />
+<link rel="preload" href="/fonts/Atacama-VF.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="preload" href="/fonts/HellixVAR.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="preload" href="/fonts/Atacama-Italic-VF.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="stylesheet" href="/fonts/fontes.css?v=20260901" />
 <style>
 /* ====== Fontes ====== */
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap');
 /* Fontes REAIS Dior — Atacama (serif) + Hellix (sans), variáveis. TESTE/DEMO (proprietárias: Newglyph + Displaay). Licenciar p/ produção. */
-@font-face{font-family:'Atacama';src:url('/fonts/Atacama-VF.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap}
-@font-face{font-family:'Atacama';src:url('/fonts/Atacama-Italic-VF.woff2') format('woff2');font-weight:100 900;font-style:italic;font-display:swap}
-@font-face{font-family:'Hellix';src:url('/fonts/HellixVAR.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap}
-
 /* ====== Tokens (Design System La Belle Scens — linguagem Dior) ====== */
 :root{
   --bg:#f8f8f8; --surface:#fff; --surface-2:#f1f1ef; --surface-3:#ece9e3;
@@ -428,7 +427,6 @@ a{color:inherit;text-decoration:none}
     <a data-s="cenario" class="active">Cenário</a>
     <a data-s="materiais">Materiais</a>
     <a href="/planning/">Planejamento técnico</a>
-    <a href="/fluxo/a.html#modulos">Módulos e jornada</a>
     <a href="/fluxo/comparativo.html">Comparativo</a>
     <a href="/fluxo/investimento.html">Investimento</a>
     <a href="/design-system/">Design System</a>
@@ -469,7 +467,7 @@ a{color:inherit;text-decoration:none}
             <div class="dh-track">
               <a class="dh-card" data-nav="cenario"><span class="img"><span class="img-z" style="background-image:url('/img/cenario.webp')"></span></span><span class="dh-cap"><span class="dh-eb">La Belle Scens</span><span class="t">Cenário</span><span class="l">Abrir</span></span></a>
               <a class="dh-card" data-nav="materiais"><span class="img"><span class="img-z" style="background-image:url('/img/materiais.webp')"></span></span><span class="dh-cap"><span class="dh-eb">La Belle Scens</span><span class="t">Materiais</span><span class="l">Abrir</span></span></a>
-              <a class="dh-card" href="/fluxo/a.html"><span class="img"><span class="img-z" style="background-image:url('/img/planejamento.webp')"></span></span><span class="dh-cap"><span class="dh-eb">La Belle Scens</span><span class="t">Planejamento</span><span class="l">Abrir</span></span></a>
+              <a class="dh-card" href="/planning/#jornada"><span class="img"><span class="img-z" style="background-image:url('/img/planejamento.webp')"></span></span><span class="dh-cap"><span class="dh-eb">La Belle Scens</span><span class="t">Planejamento</span><span class="l">Abrir</span></span></a>
               <a class="dh-card" href="/fluxo/comparativo.html"><span class="img"><span class="img-z" style="background-image:url('/img/comparativo.webp')"></span></span><span class="dh-cap"><span class="dh-eb">La Belle Scens</span><span class="t">Comparativo · Auvo</span><span class="l">Abrir</span></span></a>
               <a class="dh-card" href="/planning/"><span class="img"><span class="img-z" style="background-image:url('/img/operacao.webp')"></span></span><span class="dh-cap"><span class="dh-eb">La Belle Scens</span><span class="t">Planejamento técnico</span><span class="l">Abrir</span></span></a>
               <a class="dh-card" href="/fluxo/investimento.html"><span class="img"><span class="img-z" style="background-image:url('/img/investimento.webp')"></span></span><span class="dh-cap"><span class="dh-eb">La Belle Scens</span><span class="t">Investimento</span><span class="l">Abrir</span></span></a>
@@ -499,16 +497,16 @@ a{color:inherit;text-decoration:none}
           <a class="mat-card" href="/planning/" target="_blank" rel="noopener">
             <div class="mt">Planejamento</div>
             <div class="mn">Planejamento técnico</div>
-            <div class="md">O documento de construção: o problema, o agente, a arquitetura, as integrações, as fases (com a fase 2), o aplicativo iOS e Android e o design system.</div>
+            <div class="md">O documento de construção, num só lugar: a jornada, os 24 módulos, o agente, a arquitetura, as integrações, as fases (com a fase 2), o aplicativo iOS e Android e o design system.</div>
             <span class="mo">Abrir <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></span>
           </a>
-          <a class="mat-card" href="/fluxo/a.html#modulos" target="_blank" rel="noopener">
+          <a class="mat-card" href="/planning/#modulos" target="_blank" rel="noopener">
             <div class="mt">Módulos</div>
             <div class="mn">Os módulos, um a um</div>
             <div class="md">O quadro de 24 módulos — construídos, Tier Empresas, integrações e fase 2 — com o que cada um é, por que existe e em qual deles cada planilha entra.</div>
             <span class="mo">Abrir <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></span>
           </a>
-          <a class="mat-card" href="/fluxo/a.html" target="_blank" rel="noopener">
+          <a class="mat-card" href="/planning/#jornada" target="_blank" rel="noopener">
             <div class="mt">Jornada</div>
             <div class="mn">Jornada do cliente</div>
             <div class="md">As 11 etapas em três tempos (aquisição · recorrência · relacionamento), com o que automatizar em cada uma.</div>
