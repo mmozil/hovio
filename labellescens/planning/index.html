@@ -139,6 +139,38 @@ footer a{color:var(--soft)}
   .capa{padding:56px 0 40px}
   section{padding:44px 0}
 }
+
+/* ── app / design system ─────────────────────────────── */
+h3.sub{font-size:22px;margin:40px 0 16px}
+.perfis{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.perfis span{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border-radius:var(--r-pill);
+  background:var(--surface-2);color:var(--soft)}
+.perfis span.t{background:var(--accent-soft);color:var(--accent-ink)}
+.perfis span.a{background:var(--info-soft);color:var(--info)}
+.perfis span.g{background:var(--success-soft);color:var(--success)}
+.tokens dt{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--soft-2);margin-bottom:4px}
+.tokens dd{margin:0 0 14px;color:var(--ink-strong);font-size:14px}
+.tokens dd .ex{display:inline-block;vertical-align:middle;margin-left:10px;border:1px solid var(--line-strong);background:var(--surface)}
+
+/* ── telas pequenas ──────────────────────────────────── */
+@media(max-width:640px){
+  .wrap{padding:0 20px}
+  .capa{padding:56px 0 40px}
+  .capa h1{font-size:34px}
+  .meta{gap:16px 26px}
+  section{padding:44px 0}
+  section h2{font-size:26px}
+  .fase{grid-template-columns:1fr;gap:6px;padding:18px 0}
+  .fala{max-width:100%}
+  .tabela-wrap table{min-width:0}
+  .tabela-wrap thead{display:none}
+  .tabela-wrap tr{display:block;border-bottom:1px solid var(--line);padding:6px 0}
+  .tabela-wrap tr:last-child{border-bottom:0}
+  .tabela-wrap td{display:block;border-bottom:0;padding:5px 16px}
+  .tabela-wrap td:first-child{padding-top:12px}
+  .tabela-wrap td:last-child{padding-bottom:12px}
+  h3.sub{margin-top:30px}
+}
 </style>
 </head>
 <body>
@@ -154,7 +186,7 @@ footer a{color:var(--soft)}
     </p>
     <dl class="meta">
       <div><dt>Documento</dt><dd>Planejamento de construção</dd></div>
-      <div><dt>Versão</dt><dd>28 de agosto de 2026</dd></div>
+      <div><dt>Versão</dt><dd>31 de agosto de 2026</dd></div>
       <div><dt>Escopo</dt><dd>Operação Total</dd></div>
       <div><dt>Estado</dt><dd>Pré-kickoff</dd></div>
     </dl>
@@ -303,7 +335,7 @@ footer a{color:var(--soft)}
     <h2>Arquitetura</h2>
     <p class="intro">
       Um sistema próprio no centro, orquestrando o que já funciona. Nada é trocado só por ser
-      novo: o que a Base Hovio já resolve entra como reúso e barateia o projeto; o que é do
+      novo: o que a Tier Empresas já resolve entra como reúso e barateia o projeto; o que é do
       mundo do aroma é construído do zero.
     </p>
 
@@ -320,23 +352,23 @@ footer a{color:var(--soft)}
           </tr>
           <tr>
             <td><strong>Financeiro</strong><span class="sub">recorrência e cobrança</span></td>
-            <td>Assinatura mensal, boleto registrado no banco da própria La Belle Scens, Pix e cartão, régua de cobrança</td>
-            <td><span class="tag t-reuso" style="margin:0">Base Hovio</span></td>
+            <td>Assinatura mensal, cobrança por boleto, Pix ou cartão pelo meio de pagamento definido no kickoff, régua de cobrança</td>
+            <td><span class="tag t-reuso" style="margin:0">Tier Empresas</span></td>
           </tr>
           <tr>
             <td><strong>CRM</strong><span class="sub">ciclo de vida do cliente</span></td>
             <td>Funil, histórico, previsão de recompra, alerta de churn, caixa de entrada única de WhatsApp e e-mail</td>
-            <td><span class="tag t-reuso" style="margin:0">Base Hovio</span></td>
+            <td><span class="tag t-reuso" style="margin:0">Tier Empresas</span></td>
           </tr>
           <tr>
             <td><strong>Estoque e fiscal</strong></td>
             <td>Saldo, mínimo e máximo, validade, movimentação, nota fiscal</td>
-            <td><span class="tag t-reuso" style="margin:0">Base Hovio + Bling</span></td>
+            <td><span class="tag t-reuso" style="margin:0">Tier Empresas + Bling</span></td>
           </tr>
           <tr>
             <td><strong>Agente</strong></td>
             <td>Análise sob demanda, vigias proativos, atendimento no WhatsApp</td>
-            <td><span class="tag t-reuso" style="margin:0">Base Hovio</span></td>
+            <td><span class="tag t-reuso" style="margin:0">Tier Empresas</span></td>
           </tr>
           <tr>
             <td><strong>Telemetria das máquinas</strong></td>
@@ -393,7 +425,7 @@ footer a{color:var(--soft)}
           </tr>
           <tr>
             <td><strong>Boleto e fatura por fora</strong></td>
-            <td>Passa a ser emitido pelo próprio sistema, registrado no banco da La Belle Scens — sem taxa de intermediário por boleto.</td>
+            <td>Passa a ser emitido pelo próprio sistema, pelo meio de pagamento definido no kickoff — sem digitação e sem retrabalho.</td>
             <td>Absorvido</td>
           </tr>
           <tr>
@@ -501,8 +533,8 @@ footer a{color:var(--soft)}
         <span class="tag t-risco">Depende do banco</span>
         <h4>Homologação do boleto</h4>
         <p>
-          Boleto registrado exige homologação com o banco da La Belle Scens, e cada banco tem
-          seu ritmo. Enquanto não conclui, a cobrança sai por Pix e cartão — o fluxo não para.
+          Se a escolha do kickoff for boleto registrado no banco, a homologação é do banco e cada
+          um tem seu ritmo. Enquanto não conclui, a cobrança sai pelo meio já ativo — o fluxo não para.
         </p>
       </div>
       <div class="card warn">
@@ -518,10 +550,135 @@ footer a{color:var(--soft)}
   </div>
 </section>
 
+<section id="app">
+  <div class="wrap">
+    <p class="num">07</p>
+    <h2>O aplicativo — iOS e Android</h2>
+    <p class="intro">
+      Um aplicativo próprio, com a marca La Belle Scens, na mesma base do painel. Três perfis
+      entram nele — e cada um vê só o que é seu. Nasce funcionando pelo navegador do celular e é
+      publicado nas duas lojas em contas da própria La Belle Scens.
+    </p>
+
+    <div class="grid g3">
+      <div class="card">
+        <span class="tag t-novo">Técnico</span>
+        <h4>Quem está na rua</h4>
+        <p>A rota do dia no mapa, a ordem de serviço de cada ponto, o checklist da troca, a foto, a assinatura do cliente — e a retirada do estoque antes de sair.</p>
+      </div>
+      <div class="card">
+        <span class="tag t-novo">Atendente</span>
+        <h4>Quem fala com o cliente</h4>
+        <p>Agenda e remarcação, chamados, a conversa do WhatsApp com o histórico do ponto ao lado, as remessas de quem é atendido à distância.</p>
+      </div>
+      <div class="card">
+        <span class="tag t-novo">Gestor</span>
+        <h4>Quem decide</h4>
+        <p>As rotas acontecendo em tempo real, os painéis, o estoque, as aprovações — e a conversa com o agente, para perguntar e para receber os avisos.</p>
+      </div>
+    </div>
+
+    <h3 class="sub">O que o app precisa ter</h3>
+    <div class="grid g2">
+      <div class="card"><h4>Acompanhamento das rotas</h4><p>O mapa com a posição de cada técnico, o ponto atual, as próximas paradas e o atraso — o que hoje o roteirizador mostra, dentro do nosso sistema. O técnico vê a própria rota; gestor e atendente veem todas.</p><div class="perfis"><span class="g">Gestor</span><span class="a">Atendente</span><span class="t">Técnico · a própria</span></div></div>
+      <div class="card"><h4>Ordem de serviço</h4><p>Cada ponto da rota vira uma OS: checklist da troca, foto, o que foi trocado, observação. Fechou, deu baixa no estoque e atualizou a previsão da próxima troca.</p><div class="perfis"><span class="t">Técnico</span></div></div>
+      <div class="card"><h4>Assinatura na tela</h4><p>O cliente assina no celular do técnico e recebe o recibo por WhatsApp ou e-mail. Sem assinatura não existe abastecimento adicional cobrável — é o contrato de locação quem diz.</p><div class="perfis"><span class="t">Técnico</span></div></div>
+      <div class="card"><h4>Retirada de estoque</h4><p>Antes de sair, o técnico monta o kit da rota do dia — refis, aerossóis, pilhas —, bipa na saída e devolve o que sobrou na volta. O sistema sabe o que está com cada um, em trânsito.</p><div class="perfis"><span class="t">Técnico</span><span class="g">Gestor · aprova</span></div></div>
+      <div class="card"><h4>Produtos</h4><p>O catálogo de essências e máquinas com foto, código e ficha, para identificar no ponto e para o atendente responder ao cliente sem abrir outro sistema.</p><div class="perfis"><span class="t">Técnico</span><span class="a">Atendente</span><span class="g">Gestor</span></div></div>
+      <div class="card"><h4>Estoque</h4><p>Saldo por item, mínimo e máximo, alerta de ruptura e o que está em trânsito com os técnicos — o mesmo estoque do painel, no bolso.</p><div class="perfis"><span class="g">Gestor</span><span class="a">Atendente</span></div></div>
+      <div class="card"><h4>Dashboards</h4><p>Os painéis do sistema no celular: trocas do dia, atrasos por zona, estoque crítico, inadimplência, recorrência — para decidir sem esperar chegar na mesa.</p><div class="perfis"><span class="g">Gestor</span></div></div>
+      <div class="card"><h4>Conversa com o agente</h4><p>O gestor pergunta em linguagem natural — fluxo de caixa, atrasos, ociosidade da semana — e recebe os avisos dos vigias. E os gestores falam entre si num canal interno, com o dado na mesma tela.</p><div class="perfis"><span class="g">Gestor</span><span class="a">Atendente · limitado</span></div></div>
+      <div class="card"><h4>Agenda</h4><p>Hoje e semana do técnico; a agenda geral do atendente, com remarcação e confirmação do cliente pelo WhatsApp.</p><div class="perfis"><span class="t">Técnico</span><span class="a">Atendente</span></div></div>
+      <div class="card"><h4>Instalação e máquina</h4><p>Na instalação o técnico cadastra a máquina no ponto — número de série, modelo, programa (grade, horário, dias ativos). É esse dado que alimenta a previsão da troca.</p><div class="perfis"><span class="t">Técnico</span></div></div>
+      <div class="card"><h4>Chamados</h4><p>Abrir e acompanhar chamado técnico e SAC; para o cliente à distância, com fotos e número de série. O gestor vê o que está aberto e há quanto tempo.</p><div class="perfis"><span class="a">Atendente</span><span class="t">Técnico</span><span class="g">Gestor</span></div></div>
+      <div class="card"><h4>Notificações</h4><p>OS nova, remarcação, atraso na rota, estoque abaixo do mínimo, aviso do agente — no celular, sem abrir nada.</p><div class="perfis"><span class="t">Técnico</span><span class="a">Atendente</span><span class="g">Gestor</span></div></div>
+    </div>
+
+    <p class="nota">
+      <strong>Sem sinal.</strong> Nesta fase o aplicativo opera conectado; o trabalho em subsolo e
+      pátio sem rede — fila local, sincronização depois, resolução de conflito — é a fase 2 do app,
+      declarada agora para não virar surpresa. Até lá, o roteirizador atual fica ao lado.
+    </p>
+  </div>
+</section>
+
+<section id="design">
+  <div class="wrap">
+    <p class="num">08</p>
+    <h2>Design system e telas</h2>
+    <p class="intro">
+      O sistema herda a linguagem que a La Belle Scens já tem nas páginas de apresentação — as
+      mesmas fontes, a mesma paleta — e ganha o que um sistema de operação precisa: componentes
+      prontos, acessíveis e consistentes, cantos mais suaves, e tela que se adapta ao aparelho.
+    </p>
+
+    <div class="grid g2">
+      <div class="card">
+        <h4>As fontes continuam as mesmas</h4>
+        <p><strong>Atacama</strong> nos títulos e <strong>Hellix</strong> na interface — as que já
+        estão no design system e nestas páginas. No sistema e no app elas passam a ser
+        licenciadas para produção; até lá, as substitutas livres já definidas.</p>
+      </div>
+      <div class="card">
+        <h4>Cantos mais arredondados</h4>
+        <p>Cartões, campos e botões com raio maior do que o das páginas de apresentação; estados
+        (ativo, atenção, crítico) em pílulas. É o que torna a tela de operação mais macia de usar o
+        dia inteiro.</p>
+      </div>
+      <div class="card">
+        <h4>Componentes de base: shadcn/ui</h4>
+        <p>Botões, campos, seleção, tabelas, diálogos, painéis laterais, abas, avisos — uma
+        biblioteca aberta, acessível por padrão, que evita desenhar cada controle do zero e
+        garante que todos se comportem igual.</p>
+      </div>
+      <div class="card">
+        <h4>Movimento: animate-ui</h4>
+        <p>Transições curtas e com propósito — a barra lateral que desliza o destaque, listas que
+        entram em sequência, contadores que sobem — da biblioteca animate-ui, sobre a mesma base.
+        Quem pede menos movimento no aparelho, recebe menos.</p>
+      </div>
+    </div>
+
+    <h3 class="sub">Os tokens que fecham o desenho</h3>
+    <dl class="tokens grid g3">
+      <div><dt>Títulos</dt><dd>Atacama (Cormorant Garamond como reserva)</dd></div>
+      <div><dt>Interface e números</dt><dd>Hellix (Hanken Grotesk como reserva), números tabulares</dd></div>
+      <div><dt>Paleta</dt><dd>Tinta grafite, fundo claro, dourado só em destaque — e tema escuro</dd></div>
+      <div><dt>Raio dos cartões</dt><dd>16 px <span class="ex" style="width:22px;height:22px;border-radius:8px"></span></dd></div>
+      <div><dt>Raio dos controles</dt><dd>12 px <span class="ex" style="width:22px;height:22px;border-radius:6px"></span></dd></div>
+      <div><dt>Estados</dt><dd>Pílula, com cor semântica: sucesso · atenção · erro · informação</dd></div>
+    </dl>
+
+    <h3 class="sub">Responsivo à tela</h3>
+    <div class="grid g3">
+      <div class="card">
+        <h4>Mesa</h4>
+        <p>Painel completo com barra lateral, tabelas largas e mapa lado a lado com a lista.</p>
+      </div>
+      <div class="card">
+        <h4>Tablet</h4>
+        <p>Barra lateral recolhe, os cartões reorganizam em duas colunas, tabela rola dentro do
+        próprio quadro — a página nunca rola de lado.</p>
+      </div>
+      <div class="card">
+        <h4>Celular</h4>
+        <p>Uma coluna, menu no rodapé, cada linha de tabela vira um cartão. O app nativo usa os
+        mesmos componentes e a mesma paleta — quem aprende um, aprende o outro.</p>
+      </div>
+    </div>
+
+    <p class="nota">
+      <strong>Este documento já segue a regra:</strong> é a mesma página em qualquer largura, sem
+      rolagem lateral — as tabelas viram cartões abaixo de 640 px.
+    </p>
+  </div>
+</section>
+
 <footer>
   <div class="wrap">
     <p>
-      La Belle Scens · Planejamento técnico · 28 de agosto de 2026 ·
+      La Belle Scens · Planejamento técnico · 31 de agosto de 2026 ·
+      <a href="/fluxo/a.html#modulos">módulos</a> ·
       <a href="/painel/">painel</a> ·
       <a href="/fluxo/investimento.html">proposta</a> ·
       <a href="/fluxo/comparativo.html">comparativo</a>
