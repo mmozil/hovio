@@ -40,4 +40,21 @@
     aplicar(h.getAttribute('data-theme') || sistema());
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', montar); else montar();
+
+  /* «Voltar» em toda página. O painel é a casa (não recebe). Página que já tem o seu (.back-home)
+     não ganha outro. Se houver [data-voltar-slot] o link entra ali (DS, hero); senão, flutua no
+     canto superior esquerdo, par do botão de tema. */
+  function voltar() {
+    var path = location.pathname.replace(/index\.html$/, '');
+    if (path === '/painel/' || path === '/') return;
+    if (document.querySelector('.back-home, [data-voltar]')) return;
+    var slot = document.querySelector('[data-voltar-slot]');
+    var a = document.createElement('a');
+    a.href = '/painel/'; a.setAttribute('data-voltar', ''); a.setAttribute('aria-label', 'Voltar ao painel');
+    a.className = 'lbs-voltar' + (slot ? ' lbs-voltar--slot' : ' lbs-voltar--flutuante');
+    a.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>Voltar';
+    if (slot) slot.insertBefore(a, slot.firstChild); else document.body.appendChild(a);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', voltar); else voltar();
+
 })();
