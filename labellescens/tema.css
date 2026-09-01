@@ -14,7 +14,7 @@ html[data-theme="dark"]{
 html[data-theme="light"]{color-scheme:light}
 [data-theme="dark"] body{background-image:none}
 
-/* O botão — o mesmo do Tier Empresas: Lua no claro, Sol no escuro, 14 px, canto 12 px, cor discreta. */
+/* O botão — o mesmo do Tier Empresas: ícone «Half 2» (Radix), 14 px, canto 12 px, cor discreta; espelha no escuro. */
 .lbs-tema{display:inline-grid;place-items:center;width:34px;height:34px;padding:0;border:1px solid var(--line);
   border-radius:12px;background:var(--surface);color:var(--soft-2);cursor:pointer;
   transition:color .2s,background .2s,border-color .2s;-webkit-tap-highlight-color:transparent}
@@ -22,14 +22,12 @@ html[data-theme="light"]{color-scheme:light}
 .lbs-tema:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .lbs-tema--flutuante{position:fixed;top:14px;right:14px;z-index:99;box-shadow:0 4px 16px -8px rgba(0,0,0,.25)}
 .lbs-tema-ico{display:inline-grid;place-items:center;width:14px;height:14px;line-height:0}
-.lbs-tema-ico svg{width:14px;height:14px;display:none}
-[data-theme="light"] .lbs-tema-ico .lua{display:block}
-[data-theme="dark"] .lbs-tema-ico .sol{display:block}
-html:not([data-theme]) .lbs-tema-ico .lua{display:block}
+.lbs-tema-ico svg{width:14px;height:14px;display:block;transition:transform .35s cubic-bezier(.23,1,.32,1)}
+[data-theme="dark"] .lbs-tema-ico svg{transform:scaleX(-1)}
 @media(max-width:640px){.lbs-tema--flutuante{top:10px;right:10px}}
 
 /* overrides */
-.theme-toggle .lbs-tema-ico svg{width:14px;height:14px;stroke-width:2}
+.theme-toggle .lbs-tema-ico svg{width:14px;height:14px}
 [data-theme="dark"] .pccol.us{background:linear-gradient(180deg,var(--accent-soft),var(--surface) 150px)}
 [data-theme="dark"] .opt.eng{background:linear-gradient(180deg,var(--accent-soft),var(--surface) 120px)}
 [data-theme="dark"] .reco{background:var(--surface-3)}

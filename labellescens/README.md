@@ -20,7 +20,7 @@ labellescens/                 ← pasta única (repo mmozil/hovio · base dir /l
 ├── fluxo/                    ← jornada + proposta                → /fluxo/*
 ├── img/                      ← imagens servidas (carrossel recortado, cards, etc.)
 ├── fonts/                    ← .woff2 Dior (gitignorados — proprietários)
-├── tema.css · tema.js        ← tema claro/escuro de todo o site (botão = Lucide Moon/Sun do Tier; localStorage «lbs-tema»)
+├── tema.css · tema.js        ← tema claro/escuro de todo o site (botão = ícone Half 2 dos Radix Icons; localStorage «lbs-tema»)
 ├── fonts/fontes.css          ← @font-face único (Atacama/Hellix block+preload; reservas em fonts/livres/)
 ├── Dockerfile · nginx.conf   ← deploy (nginx:alpine) — ⚠️ arquivo novo na raiz precisa de COPY
 └── _source/                  ← 🔒 material de trabalho NÃO servido (gitignorado)
