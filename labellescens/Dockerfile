@@ -17,6 +17,8 @@ COPY img/ /usr/share/nginx/html/img/
 COPY design-system/ /usr/share/nginx/html/design-system/
 # Planejamento tecnico — labellescens.hovio.com.br/planning/
 COPY planning/ /usr/share/nginx/html/planning/
+# Pesquisa de mercado — labellescens.hovio.com.br/pesquisa/
+COPY pesquisa/ /usr/share/nginx/html/pesquisa/
 
 EXPOSE 80
 # Healthcheck rápido (wget existe no nginx:alpine via busybox) — fica saudável em ~3-8s,

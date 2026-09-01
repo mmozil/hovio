@@ -434,6 +434,7 @@ a{color:inherit;text-decoration:none}
     <div class="nav-h">Planejamento</div>
     <a data-s="cenario" class="active">Cenário</a>
     <a data-s="materiais">Materiais</a>
+    <a data-s="pesquisa">Pesquisa de Mercado</a>
     <a data-s="planning">Planejamento técnico</a>
     <a data-s="comparativo">Comparativo</a>
     <a data-s="investimento">Investimento</a>
@@ -534,6 +535,12 @@ a{color:inherit;text-decoration:none}
       <div class="mat-group">
         <div class="mat-gh">Comercial</div>
         <div class="mat-grid">
+          <a class="mat-card" href="#pesquisa">
+            <div class="mt">Mercado</div>
+            <div class="mn">Pesquisa de mercado</div>
+            <div class="md">O ramo de marketing olfativo por dentro: tamanho, concorrentes, canais, custo por cliente, voz do cliente e o que se automatiza — com fonte em cada número.</div>
+            <span class="mo">Abrir <svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></span>
+          </a>
           <a class="mat-card" href="#comparativo">
             <div class="mt">Análise</div>
             <div class="mn">Comparativo · nosso sistema × Auvo</div>
@@ -551,6 +558,7 @@ a{color:inherit;text-decoration:none}
     </section>
 
     <!-- ============ PÁGINAS DENTRO DA CASCA (iframe sob demanda) ============ -->
+    <section class="screen screen--embed" id="pesquisa" data-src="/pesquisa/"><iframe class="embed" title="Pesquisa de Mercado"></iframe></section>
     <section class="screen screen--embed" id="planning" data-src="/planning/"><iframe class="embed" title="Planejamento técnico"></iframe></section>
     <section class="screen screen--embed" id="comparativo" data-src="/fluxo/comparativo.html"><iframe class="embed" title="Comparativo"></iframe></section>
     <section class="screen screen--embed" id="investimento" data-src="/fluxo/investimento.html"><iframe class="embed" title="Investimento"></iframe></section>
@@ -564,7 +572,7 @@ a{color:inherit;text-decoration:none}
 <div class="badge">Planejamento · material de trabalho (não a versão final do sistema)</div>
 
 <script>
-  var titles={ cenario:['Planejamento','Cenário'], materiais:['Planejamento','Materiais'],
+  var titles={ cenario:['Planejamento','Cenário'], materiais:['Planejamento','Materiais'], pesquisa:['Planejamento','Pesquisa de Mercado'],
     planning:['Planejamento','Planejamento técnico'], comparativo:['Planejamento','Comparativo'],
     investimento:['Planejamento','Investimento'], design:['Planejamento','Design System'] };
   var content=document.querySelector('.content');

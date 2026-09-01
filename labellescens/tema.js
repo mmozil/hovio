@@ -24,7 +24,7 @@
   window.addEventListener('storage', function (e) { if (e.key === KEY) aplicar(e.newValue === 'dark' || e.newValue === 'light' ? e.newValue : sistema()); });
   function rotearNaCasca() {
     if (!embutido) return;
-    var mapa = { '/planning/': 'planning', '/fluxo/comparativo.html': 'comparativo', '/fluxo/investimento.html': 'investimento', '/design-system/': 'design', '/fluxo/a.html': 'planning' };
+    var mapa = { '/planning/': 'planning', '/pesquisa/': 'pesquisa', '/fluxo/comparativo.html': 'comparativo', '/fluxo/investimento.html': 'investimento', '/design-system/': 'design', '/fluxo/a.html': 'planning' };
     var links = document.querySelectorAll('a[href]');
     for (var i = 0; i < links.length; i++) {
       var l = links[i], href = l.getAttribute('href') || '';
