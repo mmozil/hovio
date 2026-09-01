@@ -3,7 +3,7 @@
 FROM nginx:1.27-alpine
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY index.html hero.html /usr/share/nginx/html/
+COPY index.html hero.html tema.css tema.js /usr/share/nginx/html/
 # Painel demo (overview/cenário + 9 módulos) — labellescens.hovio.com.br/painel/
 COPY painel/ /usr/share/nginx/html/painel/
 # Jornada — 3 direções visuais (a/b/c + índice) — labellescens.hovio.com.br/fluxo/

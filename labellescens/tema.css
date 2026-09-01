@@ -1,0 +1,37 @@
+/* La Belle Scens — tema claro/escuro (todo o site).
+   Os tokens escuros abaixo são os mesmos do /planning e do /painel; entram aqui para as páginas
+   que só declaravam o tema claro (comparativo, investimento, estudos, hero). O tema é decidido
+   por /tema.js (escolha guardada em localStorage «lbs-tema»; sem escolha, segue o sistema).
+   `html[data-theme]` e não `[data-theme]`: o :root de cada página vem DEPOIS deste arquivo e empataria. */
+html[data-theme="dark"]{
+  --bg:#16181a; --surface:#1d2022; --surface-2:#24282b; --surface-3:#2c3033;
+  --ink:#ece9e3; --ink-strong:#fff; --soft:#9aa1a3; --soft-2:#7e8486;
+  --line:rgba(236,233,227,.12); --line-strong:#3a4044; --on-dark:#16181a;
+  --accent:#c4ac79; --accent-ink:#d8c498; --accent-soft:#2a2620;
+  --success-soft:#1e2620; --warn-soft:#2a2418; --error-soft:#2a1d1d; --info-soft:#1d2330;
+  color-scheme:dark;
+}
+html[data-theme="light"]{color-scheme:light}
+[data-theme="dark"] body{background-image:none}
+
+/* O botão — o mesmo do Tier Empresas: Lua no claro, Sol no escuro, 14 px, canto 12 px, cor discreta. */
+.lbs-tema{display:inline-grid;place-items:center;width:34px;height:34px;padding:0;border:1px solid var(--line);
+  border-radius:12px;background:var(--surface);color:var(--soft-2);cursor:pointer;
+  transition:color .2s,background .2s,border-color .2s;-webkit-tap-highlight-color:transparent}
+.lbs-tema:hover{color:var(--ink-strong);background:var(--surface-2,var(--accent-soft));border-color:var(--line-strong)}
+.lbs-tema:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.lbs-tema--flutuante{position:fixed;top:14px;right:14px;z-index:99;box-shadow:0 4px 16px -8px rgba(0,0,0,.25)}
+.lbs-tema-ico{display:inline-grid;place-items:center;width:14px;height:14px;line-height:0}
+.lbs-tema-ico svg{width:14px;height:14px;display:none}
+[data-theme="light"] .lbs-tema-ico .lua{display:block}
+[data-theme="dark"] .lbs-tema-ico .sol{display:block}
+html:not([data-theme]) .lbs-tema-ico .lua{display:block}
+@media(max-width:640px){.lbs-tema--flutuante{top:10px;right:10px}}
+
+/* overrides */
+.theme-toggle .lbs-tema-ico svg{width:14px;height:14px;stroke-width:2}
+[data-theme="dark"] .pccol.us{background:linear-gradient(180deg,var(--accent-soft),var(--surface) 150px)}
+[data-theme="dark"] .opt.eng{background:linear-gradient(180deg,var(--accent-soft),var(--surface) 120px)}
+[data-theme="dark"] .reco{background:var(--surface-3)}
+[data-theme="dark"] .reco .rt{color:var(--ink-strong)}
+[data-theme="dark"] img.cannage,[data-theme="dark"] .cannage{opacity:.25}

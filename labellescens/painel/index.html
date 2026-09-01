@@ -9,6 +9,8 @@
 <link rel="preload" href="/fonts/HellixVAR.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="preload" href="/fonts/Atacama-Italic-VF.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="stylesheet" href="/fonts/fontes.css?v=20260901" />
+<link rel="stylesheet" href="/tema.css?v=20260901b" />
+<script src="/tema.js?v=20260901b"></script>
 <style>
 /* ====== Fontes ====== */
 /* Fontes REAIS Dior — Atacama (serif) + Hellix (sans), variáveis. TESTE/DEMO (proprietárias: Newglyph + Displaay). Licenciar p/ produção. */
@@ -445,10 +447,7 @@ a{color:inherit;text-decoration:none}
     <h1 id="scrTitle">Cenário</h1>
     <div class="top-r">
       <span class="pill pill-accent">Planejamento</span>
-      <button class="theme-toggle" id="themeBtn" title="Tema claro/escuro">
-        <svg class="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5L19 19M19 5l-1.5 1.5M6.5 17.5L5 19"/></svg>
-        <svg class="moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>
-      </button>
+      <button class="theme-toggle" id="themeBtn" type="button" data-tema-toggle></button>
     </div>
   </div>
 
@@ -568,10 +567,6 @@ a{color:inherit;text-decoration:none}
     });
   });
   // tema claro/escuro
-  document.getElementById('themeBtn').addEventListener('click',function(){
-    var h=document.documentElement;
-    h.setAttribute('data-theme', h.getAttribute('data-theme')==='dark'?'light':'dark');
-  });
   // chat: selecionar conversa
   document.querySelectorAll('.citem').forEach(function(c){
     c.addEventListener('click',function(){
