@@ -19,6 +19,8 @@ COPY design-system/ /usr/share/nginx/html/design-system/
 COPY planning/ /usr/share/nginx/html/planning/
 # Pesquisa de mercado — labellescens.hovio.com.br/pesquisa/
 COPY pesquisa/ /usr/share/nginx/html/pesquisa/
+# Callback da integração Bling — labellescens.hovio.com.br/bling/
+COPY bling/ /usr/share/nginx/html/bling/
 
 EXPOSE 80
 # Healthcheck rápido (wget existe no nginx:alpine via busybox) — fica saudável em ~3-8s,

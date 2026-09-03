@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Conectar o Bling — La Belle Scens</title>
+<link rel="preload" href="/fonts/Atacama-VF.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/fonts/fontes.css?v=20260901">
+<link rel="stylesheet" href="/tema.css?v=20260901i">
+<script src="/tema.js?v=20260901i"></script>
+<style>
+:root{
+  --bg:#f8f8f8;--surface:#fff;--ink:#33383c;--ink-strong:#1f2326;--soft:#7b8487;--soft-2:#9aa1a3;
+  --line:rgba(51,56,60,.14);--line-strong:#acb2b4;--accent:#9c8458;--accent-ink:#6f5c37;--accent-soft:#f3eee2;
+  --success:#5a7d63;--error:#9a5a5a;
+  --serif:'Atacama','Cormorant Garamond',Georgia,serif;--sans:'Hellix','Hanken Grotesk',-apple-system,'Segoe UI',sans-serif;
+  --disp:"wght" 300,"wdth" 100,"CNTR" 20,"XHGT" 0;--ease:cubic-bezier(.22,1,.36,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:var(--sans);background-color:var(--bg);background-image:url('/img/cannage-background.png');background-size:1200px auto;color:var(--ink);-webkit-font-smoothing:antialiased;min-height:100vh}
+a{color:inherit}
+.masthead{display:flex;align-items:center;justify-content:space-between;padding:22px 40px 18px;border-bottom:1px solid var(--line)}
+.logo{display:inline-flex;align-items:baseline;gap:8px}
+.logo .lb{font-family:var(--serif);font-size:24px;font-variation-settings:"wght" 400,"wdth" 100,"CNTR" 20,"XHGT" 0;color:var(--ink-strong);letter-spacing:.02em}
+.logo .bdot{width:6px;height:6px;border-radius:50%;background:var(--accent);transform:translateY(-4px)}
+.crumb{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--soft-2)}
+.wrap{max-width:760px;margin:0 auto;padding:44px 24px 80px}
+.kick{font-size:10px;letter-spacing:.34em;text-transform:uppercase;color:var(--accent-ink);margin-bottom:14px}
+h1{font-family:var(--serif);font-weight:300;font-variation-settings:var(--disp);font-size:clamp(28px,4vw,42px);line-height:1.05;letter-spacing:-.022em;color:var(--ink-strong)}
+h1 em{font-style:italic;color:var(--accent-ink)}
+.lead{margin-top:14px;font-size:14px;line-height:1.6;color:var(--soft)}
+.card{margin-top:26px;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:26px 28px;box-shadow:0 1px 2px rgba(31,35,38,.05)}
+.card.ok{border-left:2px solid var(--success)}
+.card.err{border-left:2px solid var(--error)}
+.card h2{font-size:15.5px;font-weight:600;color:var(--ink-strong);margin-bottom:10px}
+.card p{font-size:13px;line-height:1.6;color:var(--soft)}
+.card p+p{margin-top:9px}
+.codigo{margin-top:16px;display:flex;gap:10px;align-items:stretch;flex-wrap:wrap}
+.codigo input{flex:1;min-width:240px;font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace;font-size:13px;letter-spacing:.02em;color:var(--ink-strong);background:var(--accent-soft);border:1px solid var(--line);border-radius:6px;padding:13px 14px}
+button{font-family:var(--sans);font-size:12px;letter-spacing:.06em;text-transform:uppercase;font-weight:600;color:var(--surface);background:var(--ink-strong);border:0;border-radius:6px;padding:0 20px;cursor:pointer;transition:opacity .2s var(--ease)}
+button:hover{opacity:.85}
+button.copiado{background:var(--success)}
+.relogio{margin-top:14px;font-size:12px;color:var(--soft)}
+.relogio b{font-family:ui-monospace,Menlo,Consolas,monospace;color:var(--ink-strong)}
+.relogio.tarde b{color:var(--error)}
+pre{margin-top:14px;background:#1f2326;color:#f6f4ef;border-radius:6px;padding:16px 18px;font-family:ui-monospace,'SF Mono',Menlo,Consolas,monospace;font-size:12.5px;line-height:1.6;overflow-x:auto;white-space:pre-wrap;word-break:break-all}
+ol{margin:12px 0 0 18px;font-size:13px;line-height:1.7;color:var(--soft)}
+ol b{color:var(--ink-strong)}
+.rodape{margin-top:26px;font-size:11px;line-height:1.6;color:var(--soft-2)}
+@media(max-width:640px){.masthead{padding:16px 20px}.wrap{padding:28px 20px 60px}}
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <div class="logo"><span class="lb">La Belle Scens</span><span class="bdot"></span></div>
+  <div class="crumb">Conexão com o Bling</div>
+</div>
+
+<div class="wrap">
+  <div class="kick">Integração · Bling API v3</div>
+  <h1 id="titulo">Conectar o <em>Bling</em></h1>
+  <p class="lead" id="lead">Esta página recebe a autorização do Bling e mostra o código de acesso.</p>
+
+  <div id="conteudo"></div>
+
+  <div class="rodape">
+    Página de uso interno da integração. Nenhum dado é armazenado aqui: o código aparece apenas na sua tela e é trocado por um token fora do navegador.
+  </div>
+</div>
+
+<script>
+(function(){
+  var q = new URLSearchParams(location.search);
+  var code = q.get('code');
+  var erro = q.get('error_description') || q.get('error');
+  var alvo = document.getElementById('conteudo');
+  var titulo = document.getElementById('titulo');
+  var lead = document.getElementById('lead');
+
+  function esc(s){ return String(s).replace(/[&<>"']/g, function(c){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]; }); }
+
+  if (erro) {
+    titulo.innerHTML = 'O Bling <em>recusou</em>';
+    lead.textContent = 'A autorização não foi concluída.';
+    alvo.innerHTML = '<div class="card err"><h2>Detalhe do erro</h2><p>' + esc(erro) + '</p>'
+      + '<p>Confira se o endereço desta página está cadastrado, letra por letra, como URL de redirecionamento no aplicativo do Bling.</p></div>';
+    return;
+  }
+
+  if (!code) {
+    alvo.innerHTML = '<div class="card"><h2>Como usar</h2>'
+      + '<p>Cadastre o endereço abaixo como <b>URL de redirecionamento</b> no aplicativo criado no Bling:</p>'
+      + '<pre>' + esc(location.origin + location.pathname) + '</pre>'
+      + '<ol><li>Salve a URL no aplicativo do Bling.</li>'
+      + '<li>Abra a autorização, <b>logado na conta Bling da La Belle</b>, e autorize.</li>'
+      + '<li>O Bling volta para esta página com o código — ele aparece aqui, com botão de copiar.</li>'
+      + '<li><b>O código vale cerca de 60 segundos</b>: copie e envie na hora.</li></ol></div>';
+    return;
+  }
+
+  titulo.innerHTML = 'Autorização <em>concluída</em>';
+  lead.textContent = 'Copie o código abaixo e envie agora — ele expira em cerca de um minuto.';
+  alvo.innerHTML = '<div class="card ok"><h2>Código de autorização</h2>'
+    + '<div class="codigo"><input id="cod" readonly value="' + esc(code) + '"><button id="btn">Copiar</button></div>'
+    + '<div class="relogio" id="relogio">Validade estimada: <b>60</b> s</div>'
+    + '<p style="margin-top:16px">Ou rode direto, na pasta do projeto:</p>'
+    + '<pre>python scripts/bling_labelle.py token ' + esc(code) + '</pre></div>';
+
+  var btn = document.getElementById('btn');
+  var campo = document.getElementById('cod');
+  btn.addEventListener('click', function(){
+    campo.select();
+    var feito = false;
+    if (navigator.clipboard) { navigator.clipboard.writeText(code).then(function(){}, function(){}); feito = true; }
+    if (!feito) { try { document.execCommand('copy'); } catch(e){} }
+    btn.textContent = 'Copiado';
+    btn.classList.add('copiado');
+    setTimeout(function(){ btn.textContent = 'Copiar'; btn.classList.remove('copiado'); }, 2200);
+  });
+
+  var resta = 60, rel = document.getElementById('relogio');
+  var t = setInterval(function(){
+    resta--;
+    if (resta <= 0) {
+      clearInterval(t);
+      rel.classList.add('tarde');
+      rel.innerHTML = 'O código provavelmente <b>expirou</b> — refaça a autorização.';
+      return;
+    }
+    rel.classList.toggle('tarde', resta <= 20);
+    rel.innerHTML = 'Validade estimada: <b>' + resta + '</b> s';
+  }, 1000);
+})();
+</script>
+</body>
+</html>
